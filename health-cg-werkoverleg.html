@@ -192,15 +192,6 @@ header.kop p{margin-top:8px; color:#C9E4E0; font-size:.98rem; max-width:44em}
   .agenda .tijd,.agenda ol li .chip{grid-column:2}
 }
 
-/* Vragen aan Lisa */
-.sponsorvraag{
-  margin-top:16px; border-left:4px solid var(--amber); background:var(--amber-soft);
-  border-radius:0 12px 12px 0; padding:14px 18px;
-}
-.sponsorvraag h4{font-size:.95rem; color:var(--amber); text-transform:uppercase; letter-spacing:.08em; margin-bottom:6px}
-.sponsorvraag ul{margin:0; padding-left:18px}
-.sponsorvraag li{margin:4px 0}
-
 /* ============ TOPICS: kolom met alle topics + detail van het geselecteerde ============ */
 .topics-toggle{
   display:inline-flex; align-items:center; gap:7px; margin-top:14px; margin-bottom:2px;
@@ -332,8 +323,8 @@ footer{padding:28px 0 40px; color:var(--muted); font-size:.85rem; border-top:1px
 <script>
 const MASTER_HASH = '750db0f147fb55c6755f5b3bb2606a35623b43d03c80056c48587dfa2df45c04';
 async function sha256(s){const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s));return Array.from(new Uint8Array(b)).map(x=>x.toString(16).padStart(2,'0')).join('');}
-async function checkPw(){const h=await sha256(document.getElementById('pwInput').value);if(h===MASTER_HASH){sessionStorage.setItem('auth','1');document.getElementById('gate').style.display='none';document.getElementById('app').style.display='block';window.dispatchEvent(new Event('resize'));}else{const i=document.getElementById('pwInput');i.style.borderColor='#ef4444';i.value='';setTimeout(()=>i.style.borderColor='#333',600);}}
-window.addEventListener('DOMContentLoaded',()=>{if(sessionStorage.getItem('auth')==='1'){document.getElementById('gate').style.display='none';document.getElementById('app').style.display='block';window.dispatchEvent(new Event('resize'));}});
+async function checkPw(){const h=await sha256(document.getElementById('pwInput').value);if(h===MASTER_HASH){localStorage.setItem('auth','1');document.getElementById('gate').style.display='none';document.getElementById('app').style.display='block';window.dispatchEvent(new Event('resize'));}else{const i=document.getElementById('pwInput');i.style.borderColor='#ef4444';i.value='';setTimeout(()=>i.style.borderColor='#333',600);}}
+window.addEventListener('DOMContentLoaded',()=>{if(localStorage.getItem('auth')==='1'){document.getElementById('gate').style.display='none';document.getElementById('app').style.display='block';window.dispatchEvent(new Event('resize'));}});
 </script>
 
 <!-- APP -->
@@ -430,7 +421,7 @@ window.addEventListener('DOMContentLoaded',()=>{if(sessionStorage.getItem('auth'
       <div class="overlegtype-kop">
         <span class="chip meeting-sturing">Health Sturing</span>
       </div>
-      <p class="leegstand">Nog geen overleg gepland. Toegewezen agendapunten (met datum en doel) verschijnen hier zodra er een datum vastligt.</p>
+      <p class="leegstand">Nog geen overleg gepland. Al wel klaar om te agenderen zodra er een datum is: <a class="topic-link" data-topic="topic-sri-sri" href="#topic-sri-sri">Sri Sri — samenwerking</a>.</p>
     </div>
 
     <!-- OVERLEGTYPE: WO LISA -->
@@ -502,14 +493,6 @@ window.addEventListener('DOMContentLoaded',()=>{if(sessionStorage.getItem('auth'
           </li>
         </ol>
       </div>
-
-      <!-- VRAGEN AAN LISA: wat je van haar als sponsor nodig hebt -->
-      <div class="sponsorvraag">
-        <h4>Vragen aan Lisa</h4>
-        <ul>
-          <li><em>Nog geen vragen genoteerd.</em> Hier komt wat je van haar als sponsor nodig hebt: knopen doorhakken, escalaties, rugdekking.</li>
-        </ul>
-      </div>
     </div>
 
     </div>
@@ -551,6 +534,10 @@ window.addEventListener('DOMContentLoaded',()=>{if(sessionStorage.getItem('auth'
         <a href="#topic-health-box" data-topic="topic-health-box" class="topics-list-item">
           <span class="tli-title">Health box</span>
           <span class="tli-tags"><span class="chip beslissen">beslissen</span><span class="chip meeting-wolisa">WO Lisa</span></span>
+        </a>
+        <a href="#topic-sri-sri" data-topic="topic-sri-sri" class="topics-list-item">
+          <span class="tli-title">Sri Sri — samenwerking</span>
+          <span class="tli-tags"><span class="chip bespreken">bespreken</span><span class="chip meeting-sturing">Health Sturing</span></span>
         </a>
       </nav>
       <div class="topics-detail">
@@ -718,6 +705,22 @@ window.addEventListener('DOMContentLoaded',()=>{if(sessionStorage.getItem('auth'
         <h4>Verloop</h4>
         <ul>
           <li><span class="chip meeting-wolisa">WO Lisa</span><span class="datum">20 jul</span> gepland — eerste keer op de agenda, nog niet besproken.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="topic" id="topic-sri-sri">
+      <div class="tags">
+        <span class="chip bespreken">bespreken</span>
+        <span class="chip meeting-sturing">Health Sturing</span>
+      </div>
+      <h3>Sri Sri — samenwerking</h3>
+      <p>Hoe zetten we de samenwerking met Sri Sri verder? Dat vraagt om samen na te denken over het vervolg.</p>
+
+      <div class="verloop">
+        <h4>Verloop</h4>
+        <ul>
+          <li><span class="chip meeting-onbepaald">nog niet gepland</span> toegevoegd — te agenderen zodra Health Sturing een datum heeft.</li>
         </ul>
       </div>
     </div>
