@@ -141,11 +141,12 @@ header.kop p{margin-top:8px; color:#C9E4E0; font-size:.98rem; max-width:44em}
 .inbox li .chip{margin-left:auto}
 .inbox .leeg{color:var(--muted); font-size:.95rem; padding:4px 0}
 
-/* ============ OVERLEGTYPE-GROEPEN (in de agenda) ============ */
-.overlegtype{margin-top:32px}
-.overlegtype:first-of-type{margin-top:18px}
-.overlegtype-kop{display:flex; align-items:center; gap:10px; margin-bottom:6px}
-.overlegtype-kop .ot-desc{color:var(--muted); font-size:.88rem}
+/* ============ OVERLEGTYPE-GROEPEN (in de agenda), 3 naast elkaar ============ */
+.overlegtypes-row{display:grid; grid-template-columns:repeat(3,1fr); gap:22px; align-items:start; margin-top:18px; counter-reset:punt}
+.overlegtype{margin-top:0}
+.overlegtype-kop{display:flex; align-items:center; gap:10px; margin-bottom:6px; flex-wrap:wrap}
+.overlegtype-kop .ot-desc{color:var(--muted); font-size:.82rem}
+@media (max-width:900px){ .overlegtypes-row{grid-template-columns:1fr} }
 
 /* ============ AGENDA ============ */
 .agenda{margin-top:18px; border:1px solid var(--hair); border-radius:14px; overflow:hidden; box-shadow:var(--shadow)}
@@ -155,7 +156,7 @@ header.kop p{margin-top:8px; color:#C9E4E0; font-size:.98rem; max-width:44em}
 }
 .agenda-kop h3{font-size:1.05rem}
 .agenda-kop .meta{color:var(--muted); font-size:.88rem; margin-left:auto}
-.agenda ol{list-style:none; margin:0; padding:0; counter-reset:punt}
+.agenda ol{list-style:none; margin:0; padding:0}
 .agenda ol li{
   display:grid; grid-template-columns:34px 1fr auto auto; gap:12px; align-items:baseline;
   padding:13px 20px; counter-increment:punt;
@@ -183,11 +184,30 @@ header.kop p{margin-top:8px; color:#C9E4E0; font-size:.98rem; max-width:44em}
 .sponsorvraag ul{margin:0; padding-left:18px}
 .sponsorvraag li{margin:4px 0}
 
-/* ============ TOPICS ============ */
+/* ============ TOPICS: kolom met alle topics + detail van het geselecteerde ============ */
+.topics-layout{display:grid; grid-template-columns:250px 1fr; gap:22px; align-items:start; margin-top:20px}
+.topics-list{display:flex; flex-direction:column; gap:6px; position:sticky; top:70px}
+.topics-list-item{
+  display:block; background:var(--card); border:1px solid var(--hair); border-radius:10px;
+  padding:11px 13px; text-decoration:none; color:var(--ink); transition:.15s;
+}
+.topics-list-item:hover{border-color:var(--accent)}
+.topics-list-item.act{border-color:var(--accent); background:var(--accent-soft)}
+.topics-list-item .tli-title{display:block; font-size:.9rem; font-weight:600; margin-bottom:6px}
+.topics-list-item .tli-tags{display:flex; gap:4px; flex-wrap:wrap}
+.topics-detail{min-width:0}
+@media (max-width:820px){
+  .topics-layout{grid-template-columns:1fr}
+  .topics-list{position:static; flex-direction:row; flex-wrap:wrap}
+  .topics-list-item{flex:1 1 200px}
+}
+
 .topic{
-  margin-top:18px; background:var(--card); border:1px solid var(--hair);
+  display:none;
+  background:var(--card); border:1px solid var(--hair);
   border-radius:14px; padding:22px 24px; box-shadow:var(--shadow);
 }
+.topic.act{display:block}
 .topic h3{font-size:1.12rem; margin-bottom:8px}
 .topic .tags{display:flex; align-items:center; gap:6px; margin-bottom:10px}
 .topic .tags .datum-inline{color:var(--muted); font-size:.85rem}
@@ -342,6 +362,27 @@ window.addEventListener('DOMContentLoaded',()=>{if(sessionStorage.getItem('auth'
     <h2 class="sec-title">Agenda</h2>
     <p class="sec-note">Elk punt hieronder is een verwijzing naar een uitgewerkt agendapunt (zie Topics) — klik de titel om de volledige onderbouw te openen. Openstaande acties uit het vorige overleg van hetzelfde type staan er automatisch op. Doel per punt (kan per meeting verschillen, bv. eerst <span class="chip informeren">informeren</span>, later <span class="chip beslissen">beslissen</span>): <span class="chip informeren">informeren</span> <span class="chip bespreken">bespreken</span> <span class="chip beslissen">beslissen</span></p>
 
+    <!-- OVERLEGTYPES NAAST ELKAAR: eerst Coördinatie, dan Sturing, dan WO Lisa. Nummering (agendapunten) loopt door over de 3 kolommen (counter-reset staat op .overlegtypes-row, niet per <ol>). -->
+    <div class="overlegtypes-row">
+
+    <!-- OVERLEGTYPE: HEALTH COÖRDINATIE -->
+    <div class="overlegtype">
+      <div class="overlegtype-kop">
+        <span class="chip meeting-coordinatie">Health Coördinatie</span>
+        <span class="ot-desc">Afstemming — coördinator, Vakmanschap, EBA, marketing, Yoboo &amp; Fysieke Health</span>
+      </div>
+      <p class="leegstand">Nog geen overleg gepland. Toegewezen agendapunten (met datum en doel) verschijnen hier zodra er een datum vastligt.</p>
+    </div>
+
+    <!-- OVERLEGTYPE: HEALTH STURING -->
+    <div class="overlegtype">
+      <div class="overlegtype-kop">
+        <span class="chip meeting-sturing">Health Sturing</span>
+        <span class="ot-desc">Besluitvorming — met Lisa &amp; Gilles</span>
+      </div>
+      <p class="leegstand">Nog geen overleg gepland. Toegewezen agendapunten (met datum en doel) verschijnen hier zodra er een datum vastligt.</p>
+    </div>
+
     <!-- OVERLEGTYPE: WO LISA -->
     <div class="overlegtype">
       <div class="overlegtype-kop">
@@ -417,22 +458,6 @@ window.addEventListener('DOMContentLoaded',()=>{if(sessionStorage.getItem('auth'
       </div>
     </div>
 
-    <!-- OVERLEGTYPE: HEALTH STURING -->
-    <div class="overlegtype">
-      <div class="overlegtype-kop">
-        <span class="chip meeting-sturing">Health Sturing</span>
-        <span class="ot-desc">Besluitvorming — met Lisa &amp; Gilles</span>
-      </div>
-      <p class="leegstand">Nog geen overleg gepland. Toegewezen agendapunten (met datum en doel) verschijnen hier zodra er een datum vastligt.</p>
-    </div>
-
-    <!-- OVERLEGTYPE: HEALTH COÖRDINATIE -->
-    <div class="overlegtype">
-      <div class="overlegtype-kop">
-        <span class="chip meeting-coordinatie">Health Coördinatie</span>
-        <span class="ot-desc">Afstemming — coördinator, Vakmanschap, EBA, marketing, Yoboo &amp; Fysieke Health</span>
-      </div>
-      <p class="leegstand">Nog geen overleg gepland. Toegewezen agendapunten (met datum en doel) verschijnen hier zodra er een datum vastligt.</p>
     </div>
   </div>
 </section>
@@ -446,10 +471,36 @@ window.addEventListener('DOMContentLoaded',()=>{if(sessionStorage.getItem('auth'
     <h2 class="sec-title">Topics</h2>
     <p class="sec-note">Elk agendapunt staat hier als eigen kaart: context, uitwerking en — onderaan — het <b>verloop</b>: bij welke meetings het al langskwam of nog langskomt, en wat daar telkens uitkwam. Zo kan een punt voorbereid, besproken, bijgewerkt en op een volgende meeting opnieuw geagendeerd worden, tot het is afgerond (dan verhuist het naar Archief).</p>
 
-    <!-- TOPICS: één .topic-kaart per agendapunt, met eigen id (voor de link vanuit Agenda), .tags (doel + huidige/eerstvolgende meeting + datum) en een .verloop-blok onderaan.
+    <!-- TOPICS: links kolom = 1 link per agendapunt (.topics-list-item, data-topic = id van de kaart);
+         rechts = alle .topic-kaarten, maar enkel de kaart met class="act" is zichtbaar (showTopic() in de JS onderaan regelt dat).
+         Nieuw agendapunt toevoegen = zowel een .topics-list-item als een .topic-kaart toevoegen, met hetzelfde id.
          Nieuw verloop-item toevoegen zodra het punt op een meeting is besproken; chip-klasse = meeting-wolisa / meeting-sturing / meeting-coordinatie. -->
+    <div class="topics-layout">
+      <nav class="topics-list">
+        <a href="#topic-yoboo" data-topic="topic-yoboo" class="topics-list-item act">
+          <span class="tli-title">Yoboo — eerste bevindingen</span>
+          <span class="tli-tags"><span class="chip informeren">informeren</span><span class="chip meeting-wolisa">WO Lisa</span></span>
+        </a>
+        <a href="#topic-advisory-track" data-topic="topic-advisory-track" class="topics-list-item">
+          <span class="tli-title">Strategic track Health Advisory</span>
+          <span class="tli-tags"><span class="chip bespreken">bespreken</span><span class="chip meeting-wolisa">WO Lisa</span></span>
+        </a>
+        <a href="#topic-private-label" data-topic="topic-private-label" class="topics-list-item">
+          <span class="tli-title">Strategic track Health Private Label</span>
+          <span class="tli-tags"><span class="chip bespreken">bespreken</span><span class="chip meeting-wolisa">WO Lisa</span></span>
+        </a>
+        <a href="#topic-franchise-event" data-topic="topic-franchise-event" class="topics-list-item">
+          <span class="tli-title">Apothekers/franchise-event</span>
+          <span class="tli-tags"><span class="chip bespreken">bespreken</span><span class="chip meeting-wolisa">WO Lisa</span></span>
+        </a>
+        <a href="#topic-health-box" data-topic="topic-health-box" class="topics-list-item">
+          <span class="tli-title">Health box</span>
+          <span class="tli-tags"><span class="chip beslissen">beslissen</span><span class="chip meeting-wolisa">WO Lisa</span></span>
+        </a>
+      </nav>
+      <div class="topics-detail">
 
-    <div class="topic" id="topic-yoboo">
+    <div class="topic act" id="topic-yoboo">
       <div class="tags">
         <span class="chip informeren">informeren</span>
         <span class="chip meeting-wolisa">WO Lisa</span>
@@ -616,6 +667,9 @@ window.addEventListener('DOMContentLoaded',()=>{if(sessionStorage.getItem('auth'
       </div>
     </div>
 
+      </div>
+    </div>
+
     <p class="leegstand">De donderdag-punten van WO Lisa (Roadmap/storyboard, Organisatie Health — way forward, Health AI-sprint) hebben nog geen eigen topic-kaart — die werken we hier samen uit vóór 23 juli.</p>
 
     <h4>Gedeeld materiaal</h4>
@@ -686,12 +740,26 @@ function showTab(id){
 tabs.forEach(b=>b.addEventListener('click',()=>{showTab(b.dataset.tab); scrollTo({top:0});}));
 if(location.hash) showTab(location.hash.slice(1));
 
-// Links vanuit de agenda naar de uitgewerkte topic-kaart: wissel naar Topics en scroll ernaartoe
+// Topics: kolom met alle agendapunten links, telkens maar 1 kaart zichtbaar rechts
+const topicListItems=[...document.querySelectorAll('.topics-list-item')];
+const topicCards=[...document.querySelectorAll('.topics-detail .topic')];
+function showTopic(id){
+  if(!document.getElementById(id)) return;
+  topicListItems.forEach(a=>a.classList.toggle('act', a.dataset.topic===id));
+  topicCards.forEach(t=>t.classList.toggle('act', t.id===id));
+}
+topicListItems.forEach(a=>a.addEventListener('click',e=>{
+  e.preventDefault();
+  showTopic(a.dataset.topic);
+  document.querySelector('.topics-detail').scrollIntoView({behavior:'smooth', block:'start'});
+}));
+
+// Links vanuit de agenda naar de uitgewerkte topic-kaart: wissel naar Topics, toon enkel die kaart
 document.querySelectorAll('a.topic-link').forEach(a=>a.addEventListener('click',e=>{
   e.preventDefault();
   showTab('topics');
-  const t=document.getElementById(a.dataset.topic);
-  if(t) t.scrollIntoView({behavior:'smooth', block:'start'});
+  showTopic(a.dataset.topic);
+  document.querySelector('.topics-detail').scrollIntoView({behavior:'smooth', block:'start'});
 }));
 
 // Archief: exclusief accordeon voor overlegverslagen — één tegelijk open
