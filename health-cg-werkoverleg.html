@@ -201,7 +201,7 @@ header.kop p{margin-top:8px; color:#C9E4E0; font-size:.98rem; max-width:44em}
 .topics-toggle .ttog-car{transition:transform .2s}
 .topics-layout.collapsed .topics-toggle .ttog-car{transform:rotate(180deg)}
 .topics-layout{display:grid; grid-template-columns:220px 1fr; gap:22px; align-items:start; margin-top:10px; transition:grid-template-columns .15s}
-.topics-layout.collapsed{grid-template-columns:0px 1fr}
+.topics-layout.collapsed{grid-template-columns:1fr}
 .topics-list{display:flex; flex-direction:column; gap:6px; position:sticky; top:70px; min-width:220px; overflow:hidden; transition:opacity .15s}
 .topics-layout.collapsed .topics-list{display:none}
 .topics-list-item{
@@ -373,9 +373,9 @@ window.addEventListener('DOMContentLoaded',()=>{if(localStorage.getItem('auth')=
   <div class="wrap">
     <span class="eyebrow">Colruyt Group · Health</span>
     <h1>Werkoverleg Health</h1>
-    <p>Lopend werkdocument voor de drie vaste Health-overleggen — <span class="chip meeting-wolisa">WO Lisa</span> <span class="chip meeting-sturing">Health Sturing</span> <span class="chip meeting-coordinatie">Health Coördinatie</span>. Agendapunten staan los van een meeting: ze krijgen hun eigen uitwerking (Topics), worden toegewezen aan een meeting op een datum (Agenda), en houden doorheen meerdere meetings hun verloop bij — tot ze afgerond zijn (Archief).</p>
+    <p><span class="chip meeting-wolisa">WO Lisa</span> <span class="chip meeting-sturing">Health Sturing</span> <span class="chip meeting-coordinatie">Health Coördinatie</span></p>
     <!-- VOLGEND OVERLEG: datum hier bijwerken -->
-    <div class="volgend"><span class="dot"></span> WO Lisa — vandaag ma 20 juli (kort) &nbsp;·&nbsp; donderdag 23 juli (langer)</div>
+    <div class="volgend"><span class="dot"></span> WO Lisa — ma 20 juli &amp; do 23 juli &nbsp;·&nbsp; Health Sturing — wo 22 juli</div>
   </div>
 </header>
 
@@ -386,7 +386,7 @@ window.addEventListener('DOMContentLoaded',()=>{if(localStorage.getItem('auth')=
   <div class="wrap">
     <span class="eyebrow">Doorheen de week</span>
     <h2 class="sec-title">Te agenderen</h2>
-    <p class="sec-note">Punten die Stijn doorheen de week dropt, staan hier los van een meeting — pas als ze uitgewerkt zijn (als topic-kaart, zie Topics) en aan een overleg + datum toegewezen, verdwijnen ze hier en verschijnen ze in de agenda hieronder. Nog niet toegewezen: <span class="chip meeting-onbepaald">niet toegewezen</span>; eenmaal gepland: <span class="chip meeting-wolisa">WO Lisa</span> <span class="chip meeting-sturing">Health Sturing</span> <span class="chip meeting-coordinatie">Health Coördinatie</span>.</p>
+    <p class="sec-note">Nog niet uitgewerkt of toegewezen.</p>
     <div class="inbox">
       <!-- INBOX: nieuw item bovenaan toevoegen, formaat:
            <li><span class="datum">20 jul</span><span class="tekst">het punt</span><span class="chip meeting-onbepaald">niet toegewezen</span></li>
@@ -403,7 +403,7 @@ window.addEventListener('DOMContentLoaded',()=>{if(localStorage.getItem('auth')=
   <div class="wrap">
     <span class="eyebrow">Eerstvolgend per overleg</span>
     <h2 class="sec-title">Agenda</h2>
-    <p class="sec-note">Elk punt hieronder is een verwijzing naar een uitgewerkt agendapunt (zie Topics) — klik de titel om de volledige onderbouw te openen. Openstaande acties uit het vorige overleg van hetzelfde type staan er automatisch op. Doel per punt (kan per meeting verschillen, bv. eerst <span class="chip informeren">informeren</span>, later <span class="chip beslissen">beslissen</span>): <span class="chip informeren">informeren</span> <span class="chip bespreken">bespreken</span> <span class="chip beslissen">beslissen</span></p>
+    <p class="sec-note">Klik een titel voor de volledige uitwerking.</p>
 
     <!-- OVERLEGTYPES NAAST ELKAAR: eerst Coördinatie, dan Sturing, dan WO Lisa. Nummering (agendapunten) loopt door over de 3 kolommen (counter-reset staat op .overlegtypes-row, niet per <ol>). -->
     <div class="overlegtypes-row">
@@ -413,7 +413,7 @@ window.addEventListener('DOMContentLoaded',()=>{if(localStorage.getItem('auth')=
       <div class="overlegtype-kop">
         <span class="chip meeting-coordinatie">Health Coördinatie</span>
       </div>
-      <p class="leegstand">Nog geen overleg gepland. Toegewezen agendapunten (met datum en doel) verschijnen hier zodra er een datum vastligt.</p>
+      <p class="leegstand">Nog geen overleg gepland.</p>
     </div>
 
     <!-- OVERLEGTYPE: HEALTH STURING -->
@@ -421,7 +421,20 @@ window.addEventListener('DOMContentLoaded',()=>{if(localStorage.getItem('auth')=
       <div class="overlegtype-kop">
         <span class="chip meeting-sturing">Health Sturing</span>
       </div>
-      <p class="leegstand">Nog geen overleg gepland. Al wel klaar om te agenderen zodra er een datum is: <a class="topic-link" data-topic="topic-sri-sri" href="#topic-sri-sri">Sri Sri — samenwerking</a>.</p>
+
+      <div class="agenda act" id="ag-sturing-1">
+        <div class="agenda-kop">
+          <h3>Overleg</h3>
+          <span class="meta">wo 22 juli</span>
+        </div>
+        <ol>
+          <li>
+            <div class="punt"><b><a class="topic-link" data-topic="topic-sri-sri" href="#topic-sri-sri">Sri Sri — samenwerking</a></b><span>Hoe gaan we hiermee verder, en wanneer?</span></div>
+            <span class="chip bespreken">bespreken</span>
+            <span class="tijd">15 min</span>
+          </li>
+        </ol>
+      </div>
     </div>
 
     <!-- OVERLEGTYPE: WO LISA -->
@@ -506,7 +519,6 @@ window.addEventListener('DOMContentLoaded',()=>{if(localStorage.getItem('auth')=
   <div class="wrap">
     <span class="eyebrow">Agendapunten, los van een meeting</span>
     <h2 class="sec-title">Topics</h2>
-    <p class="sec-note">Elk agendapunt staat hier als eigen kaart: context, uitwerking en — onderaan — het <b>verloop</b>: bij welke meetings het al langskwam of nog langskomt, en wat daar telkens uitkwam. Zo kan een punt voorbereid, besproken, bijgewerkt en op een volgende meeting opnieuw geagendeerd worden, tot het is afgerond (dan verhuist het naar Archief).</p>
 
     <!-- TOPICS: links kolom = 1 link per agendapunt (.topics-list-item, data-topic = id van de kaart);
          rechts = alle .topic-kaarten, maar enkel de kaart met class="act" is zichtbaar (showTopic() in de JS onderaan regelt dat).
@@ -713,14 +725,38 @@ window.addEventListener('DOMContentLoaded',()=>{if(localStorage.getItem('auth')=
       <div class="tags">
         <span class="chip bespreken">bespreken</span>
         <span class="chip meeting-sturing">Health Sturing</span>
+        <span class="datum-inline">22 jul</span>
       </div>
       <h3>Sri Sri — samenwerking</h3>
-      <p>Hoe zetten we de samenwerking met Sri Sri verder? Dat vraagt om samen na te denken over het vervolg.</p>
+      <p>Sri Sri kwam zich voorstellen als mogelijke partner; de voorzitter van onze raad van bestuur was erbij en is enthousiast.</p>
+
+      <div class="minigrid">
+        <div class="mini blauw">
+          <b>Historiek: "Moments" (2022)</b>
+          <p>Toekomstraad keurde toen een nieuw CG health-retailconcept goed met Sri Sri Tattva als eerste partner — POC voorzien vanaf 2023, nooit opgestart.</p>
+        </div>
+        <div class="mini groen">
+          <b>Gilles (Newpharma)</b>
+          <p>Foodsupplementen interessant voor Newpharma/Benefralux; ook coachingdiensten (Yoboo, in-person voor CGA/YB/NP).</p>
+        </div>
+        <div class="mini amber">
+          <b>Caroline</b>
+          <p>Wil eerst garanties op regulatory, kwaliteit en veiligheid; ziet kansen in workshops en een Ayurveda health box.</p>
+        </div>
+      </div>
+
+      <div class="voorstel"><b>Mijn inschatting:</b> nog niet matuur genoeg (positionering, winkels, digitaal) om al partners toe te laten — eerst de basis leggen, ten vroegste volgend jaar iets toevoegen.</div>
+
+      <p style="margin-top:10px"><b>Vraag:</b> wat doen we hiermee verder, en vooral: wanneer?</p>
+
+      <div class="materiaal" style="margin-top:14px">
+        <a href="https://colruytgroupcom.sharepoint.com/sites/col-buo-BusinessOrchestrationHealth/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2Fcol%2Dbuo%2DBusinessOrchestrationHealth%2FShared%20Documents%2FTactische%20werking%2FBusiness%20development%2FMoments&sortField=Modified&isAscending=false&viewid=91611887%2De7df%2D4f79%2Da55f%2D423e4fab8f54&p=true&ct=1784564467419&or=Teams%2DHL&ga=1&LOF=1" target="_blank" rel="noopener"><b>Sri Sri-documentatie</b><span>Historiek op Teams.</span></a>
+      </div>
 
       <div class="verloop">
         <h4>Verloop</h4>
         <ul>
-          <li><span class="chip meeting-onbepaald">nog niet gepland</span> toegevoegd — te agenderen zodra Health Sturing een datum heeft.</li>
+          <li><span class="chip meeting-sturing">Health Sturing</span><span class="datum">22 jul</span> gepland — eerste keer op de agenda, nog niet besproken.</li>
         </ul>
       </div>
     </div>
@@ -747,7 +783,6 @@ window.addEventListener('DOMContentLoaded',()=>{if(localStorage.getItem('auth')=
   <div class="wrap">
     <span class="eyebrow">Opvolging</span>
     <h2 class="sec-title">Acties</h2>
-    <p class="sec-note">Alles wat in de overleggen naar boven kwam. Open en lopende acties komen automatisch terug op de volgende agenda; afgeronde acties blijven staan als logboek.</p>
 
     <div class="tabel-scroll">
       <table class="acties">
@@ -770,7 +805,6 @@ window.addEventListener('DOMContentLoaded',()=>{if(localStorage.getItem('auth')=
   <div class="wrap">
     <span class="eyebrow">Historiek</span>
     <h2 class="sec-title">Afgeronde agendapunten &amp; vorige overleggen</h2>
-    <p class="sec-note">Zodra een agendapunt volledig is afgehandeld, verhuist zijn topic-kaart hierheen — met het volledige verloop (alle meetings waarop het langskwam) als geheugen. Losstaand daarvan: per overleg-datum ook een kort verslag (beslissingen, acties eruit).</p>
 
     <!-- ARCHIEF:
          - afgeronde agendapunten: dezelfde .topic-kaart (incl. .verloop) hierheen verplaatsen vanuit Topics, geen inhoud wijzigen.
