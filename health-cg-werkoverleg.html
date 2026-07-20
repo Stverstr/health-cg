@@ -1,0 +1,604 @@
+<!doctype html>
+<html lang="nl">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Werkoverleg Health — Stijn × Lisa</title>
+<style>
+/* ============ COLRUYT GROUP TOKENS (zelfde als hoofddocument) ============ */
+:root{
+  --teal:#00887B; --teal-dark:#1B746B; --teal-deep:#0C332F;
+  --blue:#224396; --green:#009A3E; --yellow:#FFCD0D; --red:#E62C32;
+  --ink:#1C2422; --muted:#5A6663; --hair:#D9E2E0;
+  --bg:#FFFFFF; --band:#F2F6F5; --card:#FFFFFF;
+  --accent:var(--teal); --accent-soft:rgba(0,136,123,.10);
+  --on-dark:#F2F7F6;
+  --shadow:0 10px 30px rgba(12,51,47,.08);
+  --amber:#C29200; --amber-soft:rgba(194,146,0,.12);
+  --blue-soft:rgba(34,67,150,.10);
+  --green-soft:rgba(0,154,62,.12);
+  --red-soft:rgba(230,44,50,.10);
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --ink:#E8EFED; --muted:#9AA8A4; --hair:#283533;
+    --bg:#0E1514; --band:#131C1A; --card:#17211F;
+    --accent:#2BB3A3; --accent-soft:rgba(43,179,163,.14);
+    --shadow:0 10px 30px rgba(0,0,0,.35);
+    --amber:#E5C558; --amber-soft:rgba(229,197,88,.14);
+    --blue:#7E9BEB; --blue-soft:rgba(126,155,235,.14);
+    --green:#3BC878; --green-soft:rgba(59,200,120,.14);
+    --red:#F0666B; --red-soft:rgba(240,102,107,.14);
+  }
+}
+:root[data-theme="light"]{
+  --ink:#1C2422; --muted:#5A6663; --hair:#D9E2E0;
+  --bg:#FFFFFF; --band:#F2F6F5; --card:#FFFFFF;
+  --accent:#00887B; --accent-soft:rgba(0,136,123,.10);
+  --shadow:0 10px 30px rgba(12,51,47,.08);
+  --amber:#C29200; --amber-soft:rgba(194,146,0,.12);
+  --blue:#224396; --blue-soft:rgba(34,67,150,.10);
+  --green:#009A3E; --green-soft:rgba(0,154,62,.12);
+  --red:#E62C32; --red-soft:rgba(230,44,50,.10);
+}
+:root[data-theme="dark"]{
+  --ink:#E8EFED; --muted:#9AA8A4; --hair:#283533;
+  --bg:#0E1514; --band:#131C1A; --card:#17211F;
+  --accent:#2BB3A3; --accent-soft:rgba(43,179,163,.14);
+  --shadow:0 10px 30px rgba(0,0,0,.35);
+  --amber:#E5C558; --amber-soft:rgba(229,197,88,.14);
+  --blue:#7E9BEB; --blue-soft:rgba(126,155,235,.14);
+  --green:#3BC878; --green-soft:rgba(59,200,120,.14);
+  --red:#F0666B; --red-soft:rgba(240,102,107,.14);
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font-family:"Calibri","Trebuchet MS","Segoe UI",-apple-system,"Helvetica Neue",Arial,sans-serif;
+  font-size:16px; line-height:1.5;
+}
+h1,h2,h3,h4{line-height:1.15; text-wrap:balance; margin:0}
+p{margin:0}
+a{color:var(--accent)}
+.wrap{max-width:920px; margin:0 auto; padding:0 24px}
+section{padding:44px 0}
+section+section{border-top:1px solid var(--hair)}
+.eyebrow{
+  display:inline-block; font-size:.72rem; font-weight:700; letter-spacing:.18em;
+  text-transform:uppercase; color:var(--accent); margin-bottom:8px;
+}
+.sec-title{font-size:1.55rem; font-weight:700; letter-spacing:-.01em}
+.sec-note{color:var(--muted); font-size:.95rem; margin-top:6px; max-width:44em}
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto}
+  *{animation-duration:.01ms!important; transition-duration:.01ms!important}
+}
+
+/* ============ NAV ============ */
+nav.top{
+  position:sticky; top:0; z-index:50; backdrop-filter:blur(12px);
+  background:color-mix(in srgb, var(--bg) 85%, transparent);
+  border-bottom:1px solid var(--hair);
+}
+nav.top .wrap{display:flex; align-items:center; gap:16px; height:52px}
+.brand{font-weight:700; font-size:.92rem; white-space:nowrap}
+.brand b{color:var(--accent)}
+.navlinks{display:flex; gap:2px; margin-left:auto; overflow-x:auto; scrollbar-width:none}
+.navlinks::-webkit-scrollbar{display:none}
+.navlinks a,.navlinks button{
+  color:var(--muted); text-decoration:none; font-size:.84rem; font-weight:600;
+  padding:6px 12px; border-radius:99px; white-space:nowrap; transition:.2s;
+}
+.navlinks a:hover,.navlinks button:hover,.navlinks .act{color:var(--accent); background:var(--accent-soft)}
+.navlinks a.doclink{margin-left:6px; border:1.5px solid var(--hair)}
+
+/* Tabs */
+.panel{display:none}
+.panel.act{display:block}
+
+/* ============ KOP ============ */
+header.kop{
+  background:linear-gradient(160deg,var(--teal-deep) 0%, #14554E 60%, var(--teal-dark) 100%);
+  color:var(--on-dark); padding:40px 0 36px;
+}
+header.kop .eyebrow{color:#8FD8CE}
+header.kop h1{font-size:clamp(1.7rem,4vw,2.3rem); font-weight:700; letter-spacing:-.015em}
+header.kop p{margin-top:8px; color:#C9E4E0; font-size:.98rem; max-width:44em}
+.volgend{
+  display:inline-flex; align-items:center; gap:10px; margin-top:18px;
+  background:rgba(255,255,255,.10); border:1px solid rgba(255,255,255,.22);
+  border-radius:10px; padding:9px 16px; font-size:.92rem; font-weight:600;
+}
+.volgend .dot{width:8px; height:8px; border-radius:50%; background:#7EE0D2}
+
+/* ============ CHIPS ============ */
+.chip{
+  display:inline-block; font-size:.72rem; font-weight:700; letter-spacing:.04em;
+  text-transform:uppercase; padding:2px 9px; border-radius:99px; white-space:nowrap;
+}
+.chip.informeren{color:var(--blue); background:var(--blue-soft)}
+.chip.bespreken{color:var(--accent); background:var(--accent-soft)}
+.chip.beslissen{color:var(--amber); background:var(--amber-soft)}
+.chip.open{color:var(--red); background:var(--red-soft)}
+.chip.bezig{color:var(--blue); background:var(--blue-soft)}
+.chip.klaar{color:var(--green); background:var(--green-soft)}
+.chip.voorbeeld{color:var(--muted); background:var(--band); border:1px dashed var(--hair)}
+
+/* ============ INBOX ============ */
+.inbox{background:var(--band); border:1px solid var(--hair); border-radius:14px; padding:20px 22px; margin-top:18px}
+.inbox ul{list-style:none; margin:0; padding:0}
+.inbox li{display:flex; gap:12px; align-items:baseline; padding:8px 0}
+.inbox li+li{border-top:1px dashed var(--hair)}
+.inbox .datum{font-size:.8rem; font-weight:700; color:var(--muted); white-space:nowrap; min-width:64px}
+.inbox .leeg{color:var(--muted); font-size:.95rem; padding:4px 0}
+
+/* ============ AGENDA ============ */
+.agenda{margin-top:18px; border:1px solid var(--hair); border-radius:14px; overflow:hidden; box-shadow:var(--shadow)}
+.agenda-kop{
+  display:flex; align-items:center; gap:14px; flex-wrap:wrap;
+  background:var(--band); padding:14px 20px; border-bottom:1px solid var(--hair);
+}
+.agenda-kop h3{font-size:1.05rem}
+.agenda-kop .meta{color:var(--muted); font-size:.88rem; margin-left:auto}
+.agenda ol{list-style:none; margin:0; padding:0; counter-reset:punt}
+.agenda ol li{
+  display:grid; grid-template-columns:34px 1fr auto auto; gap:12px; align-items:baseline;
+  padding:13px 20px; counter-increment:punt;
+}
+.agenda ol li+li{border-top:1px solid var(--hair)}
+.agenda ol li::before{
+  content:counter(punt); font-weight:700; color:var(--accent);
+  background:var(--accent-soft); border-radius:8px; text-align:center;
+  font-size:.85rem; padding:2px 0; align-self:start;
+}
+.agenda .punt b{display:block}
+.agenda .punt span{color:var(--muted); font-size:.9rem}
+.agenda .tijd{font-size:.85rem; font-weight:700; color:var(--muted); white-space:nowrap}
+@media (max-width:640px){
+  .agenda ol li{grid-template-columns:30px 1fr; }
+  .agenda .tijd,.agenda ol li .chip{grid-column:2}
+}
+
+/* Vragen aan Lisa */
+.sponsorvraag{
+  margin-top:16px; border-left:4px solid var(--amber); background:var(--amber-soft);
+  border-radius:0 12px 12px 0; padding:14px 18px;
+}
+.sponsorvraag h4{font-size:.95rem; color:var(--amber); text-transform:uppercase; letter-spacing:.08em; margin-bottom:6px}
+.sponsorvraag ul{margin:0; padding-left:18px}
+.sponsorvraag li{margin:4px 0}
+
+/* ============ TOPICS ============ */
+.topic{
+  margin-top:18px; background:var(--card); border:1px solid var(--hair);
+  border-radius:14px; padding:22px 24px; box-shadow:var(--shadow);
+}
+.topic h3{font-size:1.12rem; margin-bottom:8px}
+.topic .tags{display:flex; gap:6px; margin-bottom:10px}
+.topic p+p{margin-top:8px}
+.topic h4,.overleg .topic h4{font-size:.8rem; text-transform:uppercase; letter-spacing:.08em; color:var(--accent); margin:18px 0 4px}
+.topic ul,.overleg .topic ul{margin:0; padding-left:18px}
+.topic li{margin:4px 0}
+
+/* mini-kaartjes in een topic (visuele samenvatting) */
+.minigrid{display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:12px; margin-top:14px}
+.mini{background:var(--bg); border:1px solid var(--hair); border-top:4px solid var(--accent); border-radius:12px; padding:12px 14px}
+.mini.rood{border-top-color:var(--red)} .mini.amber{border-top-color:var(--amber)}
+.mini.blauw{border-top-color:var(--blue)} .mini.groen{border-top-color:var(--green)}
+.mini b{display:block; font-size:.92rem; margin-bottom:4px}
+.mini p{font-size:.87rem; color:var(--muted); line-height:1.45}
+.mini .cijfer{font-size:1.35rem; font-weight:700; color:var(--ink); letter-spacing:-.01em}
+.mini .cijfer small{font-size:.8rem; font-weight:600; color:var(--muted)}
+.topic .voorstel{
+  margin-top:12px; border-left:4px solid var(--accent); background:var(--accent-soft);
+  border-radius:0 10px 10px 0; padding:10px 14px; font-size:.95rem;
+}
+.topic .voorstel b{color:var(--accent)}
+
+/* Gedeeld materiaal */
+.materiaal{display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:14px; margin-top:18px}
+.materiaal a{
+  display:block; text-decoration:none; color:var(--ink);
+  background:var(--card); border:1px solid var(--hair); border-radius:12px;
+  padding:16px 18px; transition:border-color .2s, transform .2s;
+}
+.materiaal a:hover{border-color:var(--accent); transform:translateY(-2px)}
+.materiaal b{display:block; color:var(--accent); margin-bottom:4px}
+.materiaal span{color:var(--muted); font-size:.88rem}
+
+/* ============ ACTIES ============ */
+table.acties{width:100%; border-collapse:collapse; margin-top:18px; font-size:.94rem}
+table.acties th{
+  text-align:left; font-size:.74rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--muted); padding:8px 12px; border-bottom:2px solid var(--hair);
+}
+table.acties td{padding:11px 12px; border-bottom:1px solid var(--hair); vertical-align:top}
+table.acties td.wie,table.acties td.wanneer{white-space:nowrap; color:var(--muted)}
+table.acties tr.klaar td{opacity:.55}
+table.acties tr.klaar td:first-child{text-decoration:line-through}
+.tabel-scroll{overflow-x:auto}
+
+/* ============ ARCHIEF ============ */
+details.overleg{border:1px solid var(--hair); border-radius:12px; margin-top:12px; background:var(--card)}
+details.overleg summary{
+  cursor:pointer; list-style:none; display:flex; align-items:center; gap:12px;
+  padding:14px 18px; font-weight:700;
+}
+details.overleg summary::-webkit-details-marker{display:none}
+details.overleg summary::before{content:"›"; color:var(--accent); font-size:1.2rem; transition:transform .2s}
+details.overleg[open] summary::before{transform:rotate(90deg)}
+details.overleg summary .meta{margin-left:auto; color:var(--muted); font-weight:400; font-size:.86rem}
+details.overleg .inhoud{padding:4px 18px 18px; border-top:1px solid var(--hair)}
+details.overleg h4{font-size:.82rem; text-transform:uppercase; letter-spacing:.1em; color:var(--muted); margin:14px 0 6px}
+details.overleg ul{margin:0; padding-left:18px}
+.leegstand{color:var(--muted); font-size:.95rem; margin-top:14px}
+
+footer{padding:28px 0 40px; color:var(--muted); font-size:.85rem; border-top:1px solid var(--hair)}
+</style>
+<body>
+<!-- PASSWORD GATE -->
+<div id="gate" style="position:fixed;inset:0;z-index:99999;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#0f0f11;font-family:system-ui">
+  <div style="font-size:1.8rem;font-weight:800;color:#fff;margin-bottom:2rem">💚 Health CG · Werkoverleg</div>
+  <div style="background:#1a1a1f;border:1px solid #2a2a32;border-radius:16px;padding:2.5rem;width:360px;max-width:90vw;text-align:center;box-sizing:border-box">
+    <h2 style="color:#fff;margin:0 0 1rem;font-size:1.15rem">Beveiligde applicatie</h2>
+    <input type="password" id="pwInput" placeholder="Wachtwoord..."
+      style="width:100%;padding:.85rem;border:1px solid #333;border-radius:10px;background:#111;color:#fff;font-size:1rem;margin-bottom:1rem;outline:none;box-sizing:border-box"
+      onkeydown="if(event.key==='Enter')checkPw()"/>
+    <button onclick="checkPw()"
+      style="width:100%;padding:.85rem;background:#00887B;color:#fff;border:none;border-radius:10px;font-size:1rem;font-weight:600;cursor:pointer">
+      Toegang
+    </button>
+    <div style="margin-top:1rem;font-size:.8rem;color:#444">
+      <a href="https://stverstr.github.io" style="color:#2BB3A3">&larr; Portfolio</a>
+    </div>
+  </div>
+</div>
+<script>
+const MASTER_HASH='750db0f147fb55c6755f5b3bb2606a35623b43d03c80056c48587dfa2df45c04';
+async function sha256(s){const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s));return Array.from(new Uint8Array(b)).map(x=>x.toString(16).padStart(2,'0')).join('');}
+function unlockGate(){document.getElementById('gate').style.display='none';document.documentElement.style.overflow='';}
+async function checkPw(){const h=await sha256(document.getElementById('pwInput').value);if(h===MASTER_HASH){sessionStorage.setItem('auth','1');unlockGate();}else{const i=document.getElementById('pwInput');i.style.borderColor='#ef4444';i.value='';setTimeout(()=>i.style.borderColor='#333',600);}}
+if(sessionStorage.getItem('auth')==='1'){document.addEventListener('DOMContentLoaded',unlockGate);}else{document.documentElement.style.overflow='hidden';}
+</script>
+
+
+<nav class="top">
+  <div class="wrap">
+    <div class="brand">Health <b>×</b> Werkoverleg</div>
+    <div class="navlinks">
+      <button data-tab="agenda" class="act">Agenda</button>
+      <button data-tab="topics">Topics</button>
+      <button data-tab="acties">Acties</button>
+      <button data-tab="archief">Archief</button>
+      <a class="doclink" href="health-cg-organisatie.html">Hoofddocument</a>
+    </div>
+  </div>
+</nav>
+
+<header class="kop">
+  <div class="wrap">
+    <span class="eyebrow">Colruyt Group · Health</span>
+    <h1>Werkoverleg Stijn × Lisa</h1>
+    <p>Lopend werkdocument voor het sponsoroverleg: agenda, uitgewerkte topics, en opvolging van acties — telkens over de Health-ambitie.</p>
+    <!-- VOLGEND OVERLEG: datum hier bijwerken -->
+    <div class="volgend"><span class="dot"></span> Vandaag ma 20 juli: kort overleg &nbsp;·&nbsp; Donderdag 23 juli: langer overleg</div>
+  </div>
+</header>
+
+<main>
+<div class="panel act" id="p-agenda">
+<!-- ============ TE AGENDEREN (inbox, gedropt doorheen de week) ============ -->
+<section id="inbox">
+  <div class="wrap">
+    <span class="eyebrow">Doorheen de week</span>
+    <h2 class="sec-title">Te agenderen</h2>
+    <p class="sec-note">Punten die Stijn doorheen de week dropt. Vóór het overleg worden ze samengevoegd tot één agenda hieronder — gebundeld, geordend en met een doel per punt.</p>
+    <div class="inbox">
+      <!-- INBOX: nieuwe items bovenaan toevoegen, formaat: <li><span class="datum">20 jul</span><span>het punt</span></li> -->
+      <ul>
+        <li class="leeg">Alles verwerkt — de gedropte punten (20 jul) staan in de agenda hieronder.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============ AGENDA VOLGEND OVERLEG ============ -->
+<section id="agenda">
+  <div class="wrap">
+    <span class="eyebrow">Eerstvolgend overleg</span>
+    <h2 class="sec-title">Agenda</h2>
+    <p class="sec-note">Openstaande acties uit vorig overleg staan er telkens automatisch op. Doel per punt: <span class="chip informeren">informeren</span> <span class="chip bespreken">bespreken</span> <span class="chip beslissen">beslissen</span></p>
+
+    <div class="agenda">
+      <div class="agenda-kop">
+        <h3>Overleg #1 — vandaag</h3>
+        <span class="meta">ma 20 juli · kort overleg · ± 35 min</span>
+      </div>
+      <!-- AGENDA: per punt een <li> met .punt (b = titel, span = toelichting), chip en .tijd -->
+      <ol>
+        <li>
+          <div class="punt"><b>Yoboo — eerste bevindingen</b><span>Wat leren we tot nu toe uit Yoboo, en wat betekent dat voor de advisory-rol?</span></div>
+          <span class="chip informeren">informeren</span>
+          <span class="tijd">10 min</span>
+        </li>
+        <li>
+          <div class="punt"><b>Strategic tracks: Health Advisory &amp; Health Private Label</b><span>Stand van beide strategische trajecten en hoe ze zich tot elkaar en de organisatie verhouden.</span></div>
+          <span class="chip bespreken">bespreken</span>
+          <span class="tijd">10 min</span>
+        </li>
+        <li>
+          <div class="punt"><b>Apothekers/franchise-event</b><span>Stand van zaken en aanpak van het event.</span></div>
+          <span class="chip bespreken">bespreken</span>
+          <span class="tijd">10 min</span>
+        </li>
+        <li>
+          <div class="punt"><b>Health box</b><span>Beslissing: verdergaan met de pre-op/post-op boxen? En hoe ondersteunen we Caroline — met AI of anders?</span></div>
+          <span class="chip beslissen">beslissen</span>
+          <span class="tijd">5 min</span>
+        </li>
+      </ol>
+    </div>
+
+    <div class="agenda">
+      <div class="agenda-kop">
+        <h3>Overleg #2 — donderdag</h3>
+        <span class="meta">do 23 juli · langer overleg</span>
+      </div>
+      <ol>
+        <li>
+          <div class="punt"><b>Organisatie Health — voorstel way forward</b><span>Het voorstel uit het hoofddocument: variant 2 (corporate regie) op platformprincipes, met de opschaaltriggers. Wat is er nodig om dit richting beslissing te brengen?</span></div>
+          <span class="chip bespreken">bespreken</span>
+          <span class="tijd">30 min</span>
+        </li>
+        <li>
+          <div class="punt"><b>Health AI-sprint</b><span>Het 4-weken AI-first sprintplan: opzet, deelnemers en wat er nodig is om te starten.</span></div>
+          <span class="chip bespreken">bespreken</span>
+          <span class="tijd">15 min</span>
+        </li>
+        <li>
+          <div class="punt"><b>Roadmap / storyboard opgebouwd</b><span>Toelichting bij de opgebouwde roadmap en het storyboard richting lancering — <a href="https://stverstr.github.io/Roadmap-Tool/" target="_blank" rel="noopener">open de roadmap-tool</a>.</span></div>
+          <span class="chip informeren">informeren</span>
+          <span class="tijd">10 min</span>
+        </li>
+      </ol>
+    </div>
+
+    <!-- VRAGEN AAN LISA: wat je van haar als sponsor nodig hebt -->
+    <div class="sponsorvraag">
+      <h4>Vragen aan Lisa</h4>
+      <ul>
+        <li><em>Nog geen vragen genoteerd.</em> Hier komt wat je van haar als sponsor nodig hebt: knopen doorhakken, escalaties, rugdekking.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+</div>
+
+<div class="panel" id="p-topics">
+<!-- ============ TOPICS ============ -->
+<section id="topics">
+  <div class="wrap">
+    <span class="eyebrow">Per overleg</span>
+    <h2 class="sec-title">Topics</h2>
+    <p class="sec-note">Klik een overleg open om te zien wat erin komt: de agendapunten, de uitgewerkte topics en het gedeelde materiaal. Er staat telkens maar één overleg open.</p>
+
+    <!-- TOPICS: per overleg een <details class="overleg">; uitgewerkte .topic-kaarten en .materiaal-links horen in de .inhoud van het juiste overleg -->
+    <details class="overleg" open>
+      <summary>Overleg #1 — vandaag <span class="meta">ma 20 juli · kort overleg</span></summary>
+      <div class="inhoud">
+        <h4>Op de agenda</h4>
+        <ul>
+          <li>Yoboo — eerste bevindingen</li>
+          <li>Strategic tracks: Health Advisory &amp; Health Private Label</li>
+          <li>Apothekers/franchise-event</li>
+          <li>Health box</li>
+        </ul>
+        <h4>Uitgewerkte topics</h4>
+
+        <div class="topic">
+          <div class="tags"><span class="chip informeren">informeren</span></div>
+          <h3>Yoboo — eerste bevindingen</h3>
+          <p>Twee voormiddagen ter plaatse in Antwerpen (met Olivier, de originele founder, en Lare); donderdagmiddag volgt een derde bezoek. Zes observaties:</p>
+
+          <div class="minigrid">
+            <div class="mini rood">
+              <b>Misalignment met corporate</b>
+              <p>Yoboo stopte in januari met B2pharmacy; corporate zet Noorderlaan &amp; Sint-Gillis gewoon verder. Wederzijds weinig zicht, ruis tussen Joris (CEO) en Olivier.</p>
+            </div>
+            <div class="mini rood">
+              <b>Apotheek-piste verlaten</b>
+              <p>Olivier gelooft niet meer in de apotheker als servicekanaal (te weinig tijd, te weinig commercieel). De apotheektesten draaien enkel nog op Joris.</p>
+            </div>
+            <div class="mini blauw">
+              <b>B2B = acquisitiekanaal</b>
+              <p>Snel omzet én eindgebruikers binnenhalen; medewerkers beheerd als individuen. Vroeger apothekers, straks sportclubs, diëtisten…</p>
+            </div>
+            <div class="mini amber">
+              <b>Start-up zonder market fit</b>
+              <p><span class="cijfer">€65k <small>omzet</small> / €600k <small>kosten</small></span><br>Resources van een geschaald team; professionalisering (testing, DevOps, demo's, stakeholders) pas gestart.</p>
+            </div>
+            <div class="mini amber">
+              <b>Rewrite op til</b>
+              <p>Roadmap zit goed in elkaar, maar de refactoring van het informatiemodel is de facto een rewrite. Is dit het moment, nu we de aanpak herbekijken?</p>
+            </div>
+            <div class="mini amber">
+              <b>Aan de rand van het ecosysteem</b>
+              <p>Wil het health-ecosysteem onderbouwen maar staat er amper mee in contact; vakmanschap niet gealigneerd met de groep.</p>
+            </div>
+          </div>
+
+          <p style="margin-top:14px"><b>Mijn inschatting:</b> ik geloof wél in het verhaal en de richting — de vragen gaan over alignment, timing en organisatie.</p>
+
+          <div class="voorstel"><b>Te bespreken met Lisa:</b> (1) hoe herstellen we de alignment tussen corporate en Yoboo — strategie, apotheek-experimenten en de lijn Joris/Olivier; (2) laten we de rewrite van het informatiemodel nu doorgaan, of eerst de beslissing over de bredere aanpak; (3) hoe brengen we Yoboo van de rand naar het hart van het ecosysteem, incl. alignering van het vakmanschap.</div>
+        </div>
+
+        <div class="topic">
+          <div class="tags"><span class="chip bespreken">bespreken</span></div>
+          <h3>Strategic track Health Advisory — hoe verder?</h3>
+          <p>Het traject loopt al een tijd en is voorzien tot einde dit jaar. De bottleneck vandaag: een workshop geboekt krijgen met de belangrijkste stakeholders. Vóór die workshop er is, moeten we kiezen wat we ermee willen — er liggen drie routes op tafel.</p>
+
+          <h4>Route A · Wit blad</h4>
+          <ul>
+            <li>Met de stakeholders vanaf nul vertrekken. Maximaal draagvlak, maar traag — en het risico dat we uitkomen waar we al staan.</li>
+          </ul>
+
+          <h4>Route B · Visie ter validatie</h4>
+          <ul>
+            <li>Zelf een visie neerleggen en die door de stakeholders laten valideren. Sneller en sturender; de workshop wordt een toetsing in plaats van een zoektocht.</li>
+          </ul>
+
+          <h4>Route C · Vervangen door de sprint</h4>
+          <ul>
+            <li>Het strategische traject vervangen door de AI-first sprint (zie sprintvoorstel), die veel verder gaat dan principes: één gedeelde applicatie en concrete uitwerking in vier weken.</li>
+          </ul>
+
+          <p style="margin-top:14px"><b>Mijn weging:</b> het strategische werk zal hoe dan ook enkel tot een set principes leiden — daarna moet het echte werk nog starten. Dat pleit ervoor om minstens met een visie te vertrekken (B), of de stap naar de sprint te zetten (C).</p>
+
+          <div class="voorstel"><b>Vraag aan Lisa:</b> welke route kiezen we vóór we de stakeholderworkshop vastleggen — wit blad, visie ter validatie, of de sprint als vervanger van het strategische traject?</div>
+        </div>
+
+        <div class="topic">
+          <div class="tags"><span class="chip bespreken">bespreken</span></div>
+          <h3>Strategic track Health Private Label — wie trekt dit?</h3>
+          <p>Na overleg is mijn inschatting dat deze track <b>niet door Ilka en haar team getrokken zal worden</b>:</p>
+          <ul>
+            <li>Er ligt bij hen wel een strategisch-planoefening, maar die spitst zich <b>niet specifiek op gezondheid</b> toe.</li>
+            <li>Ze zal al zeker niet beantwoorden <b>wie welke private labels mag oprichten</b> (Newpharma / Yoboo / Jims).</li>
+            <li>Ilka verwacht die oefening eerder bij <b>corporate marketing</b>.</li>
+          </ul>
+          <div class="voorstel"><b>Vraag aan Lisa:</b> moeten we deze track niet eerst beter onderbouwen — scope, vraagstelling en eigenaar scherp krijgen (Ilka's team, corporate marketing, of binnen het Health-traject zelf) — vóór we hem als strategic track verder laten lopen?</div>
+        </div>
+
+        <div class="topic">
+          <div class="tags"><span class="chip bespreken">bespreken</span></div>
+          <h3>Apothekers/franchise-event — wat gaan we vertellen?</h3>
+          <p>Er is een event gepland in <b>september</b>, maar de basis eronder is wankel:</p>
+          <ul>
+            <li>Het wordt <b>enkel door Joris getrokken</b>; Olivier is niet echt op de hoogte.</li>
+            <li>Er ligt weinig rond franchising op tafel <b>waar iedereen achter staat</b>.</li>
+            <li>We hebben vandaag <b>geen werkend, duurzaam en profitabel franchisemodel</b> om te verkopen.</li>
+          </ul>
+
+          <h4>Optie 1 · Doorgaan en model uitwerken</h4>
+          <ul>
+            <li>Het event laten doorgaan en tegen september alsnog een volledig franchisemodel uitwerken. Ambitieus op deze termijn, zonder gedragen basis.</li>
+          </ul>
+
+          <h4>Optie 2 · Informatief/inspirerend event</h4>
+          <ul>
+            <li>Het event ombuigen naar informeren en inspireren, zonder al diep op franchising in te gaan. De relatie opbouwen, de belofte klein houden.</li>
+          </ul>
+
+          <h4>Optie 3 · Annuleren</h4>
+          <ul>
+            <li>Het event schrappen tot er een verhaal én een model ligt.</li>
+          </ul>
+
+          <div class="voorstel"><b>Vraag aan Lisa:</b> welke optie kiezen we — en wie moet er naast Joris mee aan boord om het verhaal gedragen te krijgen?</div>
+        </div>
+
+        <div class="topic">
+          <div class="tags"><span class="chip beslissen">beslissen</span></div>
+          <h3>Health box — verdergaan met pre-op/post-op?</h3>
+          <p>Caroline heeft de health box intussen verder uitgewerkt: in een proces gegoten en aangevuld met een set principes. <b>Dat ziet er goed uit.</b></p>
+          <ul>
+            <li>Mijn idee daarbij: dit geheel <b>door AI laten ondersteunen</b> — om het overzicht niet te verliezen, en vooral om <b>zoveel mogelijk differentiatie en personalisatie</b> in de boxen toe te laten.</li>
+          </ul>
+          <div class="voorstel"><b>Beslissing vandaag:</b> gaan we verder met de pre-op/post-op boxen? En hoe ondersteunen we Caroline verder — vanuit AI of anders?</div>
+        </div>
+
+        <h4>Gedeeld materiaal</h4>
+        <div class="materiaal" style="margin-top:8px">
+          <a href="health-cg-sprint.html"><b>AI-first sprint</b><span>Het sprintvoorstel waarnaar route C van het advisory-topic verwijst.</span></a>
+        </div>
+      </div>
+    </details>
+
+    <details class="overleg">
+      <summary>Overleg #2 — donderdag <span class="meta">do 23 juli · langer overleg</span></summary>
+      <div class="inhoud">
+        <h4>Op de agenda</h4>
+        <ul>
+          <li>Organisatie Health — voorstel way forward</li>
+          <li>Health AI-sprint</li>
+          <li>Roadmap / storyboard opgebouwd</li>
+        </ul>
+        <h4>Uitgewerkte topics</h4>
+        <p class="leegstand" style="margin-top:0">Nog geen topics uitgewerkt voor dit overleg.</p>
+        <h4>Gedeeld materiaal</h4>
+        <!-- MATERIAAL: links naar documenten die elders gemaakt zijn (zelfde map = relatieve link) -->
+        <div class="materiaal" style="margin-top:8px">
+          <a href="health-cg-organisatie.html"><b>Organisatie &amp; Advisory</b><span>Het hoofddocument: varianten, aanbeveling, roadmap en debat.</span></a>
+          <a href="health-cg-sprint.html"><b>AI-first sprint</b><span>Het 4-weken sprintplan om de aanpak te concretiseren.</span></a>
+          <a href="https://stverstr.github.io/Roadmap-Tool/" target="_blank" rel="noopener"><b>Roadmap-tool</b><span>De opgebouwde roadmap en het storyboard richting lancering.</span></a>
+        </div>
+      </div>
+    </details>
+  </div>
+</section>
+</div>
+
+<div class="panel" id="p-acties">
+<!-- ============ ACTIES ============ -->
+<section id="acties">
+  <div class="wrap">
+    <span class="eyebrow">Opvolging</span>
+    <h2 class="sec-title">Acties</h2>
+    <p class="sec-note">Alles wat in de overleggen naar boven kwam. Open en lopende acties komen automatisch terug op de volgende agenda; afgeronde acties blijven staan als logboek.</p>
+
+    <div class="tabel-scroll">
+      <table class="acties">
+        <thead>
+          <tr><th>Actie</th><th>Wie</th><th>Tegen</th><th>Uit</th><th>Status</th></tr>
+        </thead>
+        <!-- ACTIES: nieuwe rijen bovenaan; status = chip open/bezig/klaar; rij klaar => class="klaar" op de <tr> -->
+        <tbody>
+          <tr><td colspan="5" style="color:var(--muted)">Nog geen acties — die komen hier na het eerste overleg.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+</div>
+
+<div class="panel" id="p-archief">
+<!-- ============ ARCHIEF ============ -->
+<section id="archief">
+  <div class="wrap">
+    <span class="eyebrow">Historiek</span>
+    <h2 class="sec-title">Vorige overleggen</h2>
+    <p class="sec-note">Na elk overleg verhuist de agenda hierheen, samen met de beslissingen en de acties die eruit kwamen. Zo bouwt dit document het geheugen van het traject op.</p>
+
+    <!-- ARCHIEF: per afgerond overleg een <details class="overleg">, nieuwste bovenaan.
+         Structuur: summary (Overleg #N + datum) > .inhoud met h4-blokken: Agenda / Beslissingen / Acties eruit -->
+    <p class="leegstand">Nog geen afgeronde overleggen.</p>
+  </div>
+</section>
+</div>
+</main>
+
+<footer>
+  <div class="wrap">Werkdocument Health · Colruyt Group — wordt vóór elk overleg bijgewerkt.</div>
+</footer>
+
+<script>
+// Tabs: agenda / topics / acties / archief (hash onthoudt de actieve tab)
+const tabs=[...document.querySelectorAll('.navlinks [data-tab]')];
+function showTab(id){
+  if(!document.getElementById('p-'+id)) id='agenda';
+  tabs.forEach(b=>b.classList.toggle('act',b.dataset.tab===id));
+  document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('act',p.id==='p-'+id));
+  history.replaceState(null,'','#'+id);
+}
+tabs.forEach(b=>b.addEventListener('click',()=>{showTab(b.dataset.tab); scrollTo({top:0});}));
+if(location.hash) showTab(location.hash.slice(1));
+
+// Topics: exclusief accordeon — één overleg tegelijk open
+const topicDetails=[...document.querySelectorAll('#topics details.overleg')];
+topicDetails.forEach(d=>d.addEventListener('toggle',()=>{
+  if(d.open) topicDetails.forEach(o=>{if(o!==d) o.open=false;});
+}));
+</script>
+</body>
+</html>

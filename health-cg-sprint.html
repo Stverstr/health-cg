@@ -1,0 +1,851 @@
+<!doctype html>
+<html lang="nl">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Health AI-first Sprint — 4 weken naar een afgewerkt concept</title>
+<style>
+/* ============ COLRUYT GROUP TOKENS ============ */
+:root{
+  --teal:#00887B; --teal-dark:#1B746B; --teal-deep:#0C332F;
+  --blue:#224396; --green:#009A3E; --yellow:#FFCD0D; --red:#E62C32;
+  --ink:#1C2422; --muted:#5A6663; --hair:#D9E2E0;
+  --bg:#FFFFFF; --band:#F2F6F5; --card:#FFFFFF;
+  --accent:var(--teal); --accent-soft:rgba(0,136,123,.10);
+  --on-dark:#F2F7F6; --mint:#7FE0D4;
+  --shadow:0 10px 30px rgba(12,51,47,.08);
+  --p1:#009A3E; --p2:#224396; --p3:#1B746B; --p4:#414348; --p5:#C29200; --p6:#00887B;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --ink:#E8EFED; --muted:#9AA8A4; --hair:#283533;
+    --bg:#0E1514; --band:#131C1A; --card:#17211F;
+    --accent:#2BB3A3; --accent-soft:rgba(43,179,163,.14);
+    --shadow:0 10px 30px rgba(0,0,0,.35);
+    --p1:#3BC878; --p2:#7E9BEB; --p3:#3FB3A5; --p4:#A9B6B2; --p5:#E5C558; --p6:#2BB3A3;
+  }
+}
+:root[data-theme="light"]{
+  --ink:#1C2422; --muted:#5A6663; --hair:#D9E2E0;
+  --bg:#FFFFFF; --band:#F2F6F5; --card:#FFFFFF;
+  --accent:#00887B; --accent-soft:rgba(0,136,123,.10);
+  --shadow:0 10px 30px rgba(12,51,47,.08);
+  --p1:#009A3E; --p2:#224396; --p3:#1B746B; --p4:#414348; --p5:#C29200; --p6:#00887B;
+}
+:root[data-theme="dark"]{
+  --ink:#E8EFED; --muted:#9AA8A4; --hair:#283533;
+  --bg:#0E1514; --band:#131C1A; --card:#17211F;
+  --accent:#2BB3A3; --accent-soft:rgba(43,179,163,.14);
+  --shadow:0 10px 30px rgba(0,0,0,.35);
+  --p1:#3BC878; --p2:#7E9BEB; --p3:#3FB3A5; --p4:#A9B6B2; --p5:#E5C558; --p6:#2BB3A3;
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font-family:"Calibri","Trebuchet MS","Segoe UI",-apple-system,"Helvetica Neue",Arial,sans-serif;
+  font-size:17px; line-height:1.55; overflow-x:hidden;
+}
+h1,h2,h3,h4{line-height:1.1; text-wrap:balance; margin:0}
+p{margin:0}
+a{color:inherit}
+button{font:inherit; color:inherit; background:none; border:none; cursor:pointer}
+.wrap{max-width:1080px; margin:0 auto; padding:0 24px}
+section{padding:96px 0}
+.band{background:var(--band)}
+.eyebrow{display:inline-block; font-size:.74rem; font-weight:700; letter-spacing:.18em; text-transform:uppercase; color:var(--accent); margin-bottom:14px}
+.sec-title{font-size:clamp(2rem,4.6vw,3.2rem); font-weight:700; letter-spacing:-.015em}
+.sec-lead{max-width:36em; color:var(--muted); font-size:1.1rem; margin-top:14px}
+
+/* reveal */
+.rv{opacity:0; transform:translateY(28px); transition:opacity .7s ease, transform .7s ease}
+.rv.in{opacity:1; transform:none}
+.stagger>*{opacity:0; transform:translateY(24px); transition:opacity .6s ease, transform .6s ease}
+.stagger.in>*{opacity:1; transform:none}
+.stagger.in>*:nth-child(1){transition-delay:.05s}.stagger.in>*:nth-child(2){transition-delay:.13s}
+.stagger.in>*:nth-child(3){transition-delay:.21s}.stagger.in>*:nth-child(4){transition-delay:.29s}
+.stagger.in>*:nth-child(5){transition-delay:.37s}.stagger.in>*:nth-child(6){transition-delay:.45s}
+.stagger.in>*:nth-child(7){transition-delay:.53s}.stagger.in>*:nth-child(8){transition-delay:.61s}
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto}
+  .rv,.stagger>*{opacity:1!important; transform:none!important; transition:none!important}
+  *{animation-duration:.01ms!important; transition-duration:.01ms!important}
+}
+
+/* ============ NAV ============ */
+nav.top{position:sticky; top:0; z-index:50; backdrop-filter:blur(12px); background:color-mix(in srgb, var(--bg) 82%, transparent); border-bottom:1px solid var(--hair)}
+nav.top .wrap{display:flex; align-items:center; gap:18px; height:58px}
+.brand{display:flex; align-items:center; gap:10px; font-weight:700; font-size:.95rem; letter-spacing:.02em; white-space:nowrap}
+.brand span b{color:var(--accent)}
+.cglogo{height:28px; display:block; background:#fff; border-radius:6px; padding:2px 6px}
+.navlinks{display:flex; gap:4px; margin-left:auto; overflow-x:auto; scrollbar-width:none}
+.navlinks::-webkit-scrollbar{display:none}
+.navlinks a{padding:7px 13px; border-radius:99px; font-size:.9rem; font-weight:600; color:var(--muted); text-decoration:none; white-space:nowrap}
+.navlinks a:hover,.navlinks a.act{color:var(--accent); background:var(--accent-soft)}
+.navlinks a.back{border:1px solid var(--hair); color:var(--ink)}
+
+/* ============ HERO ============ */
+header.hero{
+  position:relative; min-height:92vh; display:flex; align-items:center; overflow:hidden;
+  background:linear-gradient(160deg,#0C332F 0%, #11453F 45%, #1B746B 100%); color:var(--on-dark);
+}
+.hero .orb{position:absolute; border-radius:50%; filter:blur(60px); opacity:.5; animation:float 14s ease-in-out infinite}
+.hero .orb.o1{width:520px; height:520px; background:radial-gradient(circle,#2BB3A3,transparent 65%); top:-160px; right:-120px}
+.hero .orb.o2{width:420px; height:420px; background:radial-gradient(circle,#FFCD0D,transparent 68%); bottom:-190px; left:-110px; opacity:.22; animation-delay:-5s}
+.hero .orb.o3{width:300px; height:300px; background:radial-gradient(circle,#7E9BEB,transparent 65%); top:32%; left:56%; opacity:.20; animation-delay:-9s}
+@keyframes float{0%,100%{transform:translate(0,0)}50%{transform:translate(-30px,26px)}}
+.hero .wrap{position:relative; z-index:2; padding-top:70px; padding-bottom:80px}
+.hero .kick{font-size:.78rem; font-weight:700; letter-spacing:.22em; text-transform:uppercase; color:var(--mint)}
+.hero h1{font-size:clamp(2.8rem,8vw,5.4rem); font-weight:700; letter-spacing:-.02em; margin-top:18px}
+.hero h1 em{font-style:normal; color:var(--mint)}
+.hero h1 .yr{color:var(--yellow)}
+.hero .sub{max-width:34em; margin-top:22px; font-size:clamp(1.05rem,2vw,1.3rem); color:rgba(242,247,246,.88)}
+.herostats{display:flex; flex-wrap:wrap; gap:12px; margin-top:38px}
+.hstat{background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.16); border-radius:16px; padding:14px 22px; backdrop-filter:blur(4px)}
+.hstat b{display:block; font-size:clamp(1.5rem,3vw,2.1rem); line-height:1; color:var(--mint)}
+.hstat.gold b{color:var(--yellow)}
+.hstat small{font-size:.8rem; letter-spacing:.08em; text-transform:uppercase; color:rgba(242,247,246,.75); font-weight:700}
+.hero .scrolldn{position:absolute; left:50%; bottom:26px; transform:translateX(-50%); font-size:.72rem; letter-spacing:.2em; text-transform:uppercase; color:rgba(242,247,246,.6)}
+.hero .scrolldn::after{content:""; display:block; width:1px; height:34px; background:linear-gradient(rgba(242,247,246,.7),transparent); margin:8px auto 0; animation:drop 1.8s ease-in-out infinite}
+@keyframes drop{0%{transform:scaleY(.2); transform-origin:top}60%{transform:scaleY(1)}100%{opacity:0}}
+
+/* ============ MISSIE ============ */
+.doelkop{margin-top:44px}
+.doelkop .dk1{display:block; font-size:.74rem; font-weight:700; letter-spacing:.22em; text-transform:uppercase; color:var(--accent); margin-bottom:6px}
+.doelkop b{font-size:clamp(1.2rem,2.5vw,1.6rem); line-height:1.25}
+.missie{display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:22px}
+@media(max-width:900px){.missie{grid-template-columns:1fr 1fr}}
+@media(max-width:620px){.missie{grid-template-columns:1fr}}
+.mcard{position:relative; overflow:hidden; border:1px solid var(--hair); border-top:5px solid var(--mc,var(--accent)); border-radius:16px; background:var(--card); padding:22px 20px 20px; box-shadow:var(--shadow); transition:transform .2s ease, box-shadow .2s ease}
+.mcard:hover{transform:translateY(-5px) rotate(-.5deg); box-shadow:0 18px 40px rgba(12,51,47,.14)}
+.mcard::after{content:""; position:absolute; inset:0; background:linear-gradient(115deg,transparent 42%,rgba(255,255,255,.4) 50%,transparent 58%); transform:translateX(-130%); transition:transform .65s ease; pointer-events:none}
+.mcard:hover::after{transform:translateX(130%)}
+.mcard .chk{position:absolute; top:12px; right:12px; width:28px; height:28px; border-radius:50%; background:var(--mc,var(--accent)); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:.85rem; box-shadow:var(--shadow)}
+.mcard b{padding-right:34px}
+.mcard b{font-size:1.06rem; display:block}
+.mcard p{font-size:.88rem; color:var(--muted); margin-top:6px; line-height:1.5}
+
+/* ============ AI-FIRST ============ */
+.principes{display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-top:44px}
+@media(max-width:900px){.principes{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.principes{grid-template-columns:1fr}}
+.pcard{border:1px solid var(--hair); border-radius:16px; background:var(--card); padding:20px 18px; box-shadow:var(--shadow); transition:transform .2s ease}
+.pcard:hover{transform:translateY(-4px)}
+.pcard .pnum{display:inline-flex; width:30px; height:30px; border-radius:50%; background:var(--accent); color:#fff; align-items:center; justify-content:center; font-weight:700; margin-bottom:10px}
+.pcard b{display:block; font-size:1rem}
+.pcard p{font-size:.85rem; color:var(--muted); margin-top:5px; line-height:1.5}
+.appmap{margin-top:26px; border:2px solid var(--accent); border-radius:20px; background:var(--card); padding:24px; box-shadow:var(--shadow)}
+.appmap .apphead{text-align:center}
+.appmap .applbl{display:block; font-size:.7rem; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:var(--accent)}
+.appmap .apphead b{font-size:1.15rem}
+.modules{display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-top:18px}
+@media(max-width:820px){.modules{grid-template-columns:1fr 1fr}}
+@media(max-width:540px){.modules{grid-template-columns:1fr}}
+.mod{border:1px solid var(--hair); border-top:4px solid var(--mc,var(--accent)); border-radius:12px; background:var(--bg); padding:12px 14px; transition:transform .2s ease}
+.mod:hover{transform:translateY(-3px)}
+.mod b{font-size:.92rem; display:block}
+.mod small{font-size:.72rem; color:var(--muted)}
+.agentbar{margin-top:14px; border-radius:12px; background:linear-gradient(90deg,var(--teal-deep),var(--teal-dark)); color:var(--on-dark); padding:13px 18px; font-size:.88rem; font-weight:600; text-align:center}
+.agentbar i{font-style:normal; color:var(--yellow); margin-right:8px}
+.agentbar.crit{background:linear-gradient(90deg,#5E1F23,#8A2E33)}
+.dualdoel{margin-top:26px; border-radius:20px; background:linear-gradient(140deg,var(--teal-deep),var(--teal-dark)); color:var(--on-dark); padding:30px clamp(22px,4vw,40px); box-shadow:var(--shadow)}
+.dualdoel .dk{display:block; font-size:.74rem; font-weight:700; letter-spacing:.22em; text-transform:uppercase; color:var(--yellow); margin-bottom:8px}
+.dualdoel b{font-size:clamp(1.2rem,2.5vw,1.6rem); line-height:1.25; display:block}
+.dualdoel p{margin-top:10px; max-width:52em; color:rgba(242,247,246,.88); font-size:.98rem}
+
+/* ============ TEAMS ============ */
+.teams{display:grid; grid-template-columns:1fr 64px 1fr; gap:14px; margin-top:48px; align-items:stretch}
+@media(max-width:860px){.teams{grid-template-columns:1fr} .teams .mid{transform:rotate(90deg); margin:-6px auto}}
+.team{border-radius:20px; padding:30px 28px; position:relative; overflow:hidden; box-shadow:var(--shadow); transition:transform .2s ease}
+.team:hover{transform:translateY(-4px)}
+.team.sprint{background:linear-gradient(150deg,var(--teal-deep),var(--teal-dark)); color:var(--on-dark)}
+.team.valid{background:var(--card); border:2px solid var(--accent)}
+.team .tk{font-size:.72rem; font-weight:700; letter-spacing:.18em; text-transform:uppercase; opacity:.8}
+.team h3{font-size:clamp(1.5rem,3vw,2rem); margin-top:6px}
+.team.sprint h3 em{font-style:normal; color:var(--mint)}
+.team.valid h3 em{font-style:normal; color:var(--accent)}
+.team p{margin-top:10px; font-size:.95rem; opacity:.9}
+.team .roles{display:flex; flex-wrap:wrap; gap:7px; margin-top:18px}
+.team .roles span{font-size:.8rem; font-weight:600; border-radius:99px; padding:5px 13px}
+.team.sprint .roles span{background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.2)}
+.team.valid .roles span{background:var(--accent-soft); border:1px solid var(--accent); color:var(--accent)}
+.teams .mid{align-self:center; text-align:center; font-weight:700; color:var(--accent); font-size:1.5rem}
+.spelregels{margin-top:26px; border-radius:18px; background:linear-gradient(90deg,var(--teal-deep),var(--teal-dark)); color:var(--on-dark); padding:22px 26px; display:flex; flex-wrap:wrap; gap:10px 26px; align-items:center; justify-content:center; box-shadow:var(--shadow)}
+.spelregels b{font-size:.95rem; white-space:nowrap}
+.spelregels b::before{content:"●"; color:var(--yellow); margin-right:8px; font-size:.7rem; vertical-align:2px}
+
+/* ============ RITME ============ */
+.ritme{display:grid; grid-template-columns:repeat(5,1fr); gap:12px; margin-top:48px}
+@media(max-width:820px){.ritme{grid-template-columns:1fr}}
+.dag{border:1px solid var(--hair); border-radius:16px; background:var(--card); padding:18px 16px; text-align:center; box-shadow:var(--shadow); transition:transform .2s ease}
+.dag:hover{transform:translateY(-4px)}
+.dag .d{font-size:.72rem; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:var(--muted)}
+.dag b{display:block; font-size:1.02rem; margin-top:6px}
+.dag p{font-size:.8rem; color:var(--muted); margin-top:4px; line-height:1.45}
+.dag.demo{background:linear-gradient(150deg,var(--teal-deep),var(--teal-dark)); color:var(--on-dark); border:none; transform:scale(1.04)}
+.dag.demo:hover{transform:scale(1.04) translateY(-4px)}
+.dag.demo .d{color:var(--yellow)}
+.dag.demo p{color:rgba(242,247,246,.85)}
+.dag .combo{display:inline-block; margin-top:10px; background:var(--yellow); color:#1C2422; font-weight:700; font-size:.72rem; border-radius:99px; padding:3px 12px; letter-spacing:.08em; animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+button.dag{cursor:pointer; width:100%}
+.dag .meer{display:inline-block; margin-top:10px; font-size:.74rem; font-weight:700; color:var(--accent); border-bottom:1.5px dashed var(--accent)}
+.dag.demo .meer{color:var(--yellow); border-color:var(--yellow)}
+.ritmenote{text-align:center; font-size:.85rem; color:var(--muted); margin-top:18px; font-style:italic}
+
+/* ============ MODALS ============ */
+@keyframes fadeup{from{opacity:0; transform:translateY(14px)}to{opacity:1; transform:none}}
+.modal{position:fixed; inset:0; z-index:80; background:rgba(8,18,16,.55); backdrop-filter:blur(3px); display:none; align-items:center; justify-content:center; padding:20px}
+.modal.open{display:flex}
+.modal .dlg{background:var(--card); color:var(--ink); border-radius:20px; max-width:620px; width:100%; max-height:85vh; overflow-y:auto; padding:34px; position:relative; box-shadow:0 30px 80px rgba(0,0,0,.35); animation:fadeup .35s ease}
+.modal .dlg .k{font-size:.72rem; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:var(--accent)}
+.modal .dlg h3{font-size:1.45rem; margin-top:8px}
+.modal .dlg>p{color:var(--muted); font-size:.95rem; margin-top:12px}
+.modal .close{position:absolute; top:14px; right:16px; font-size:1.5rem; line-height:1; color:var(--muted); padding:6px}
+.sched{margin-top:18px}
+.sched .slot{display:grid; grid-template-columns:74px 1fr; gap:14px; padding:12px 0; border-bottom:1px solid var(--hair); align-items:baseline}
+.sched .slot:last-child{border-bottom:none}
+.sched .t{font-weight:700; color:var(--accent); font-variant-numeric:tabular-nums; font-size:.9rem}
+.sched b{display:block; font-size:.97rem}
+.sched small{display:block; font-size:.8rem; color:var(--muted); font-weight:400; margin-top:1px}
+.sched p{font-size:.86rem; color:var(--muted); margin-top:4px; line-height:1.5}
+.dagpunch{margin-top:18px; padding:12px 16px; border-left:4px solid var(--accent); background:var(--accent-soft); border-radius:0 10px 10px 0; font-size:.9rem; font-weight:600}
+.sched.mobj .slot{grid-template-columns:160px 1fr}
+.sched.mobj .m{font-weight:700; font-size:.86rem}
+.wcard .wobj{display:inline-block; margin-top:12px; font-size:.8rem; font-weight:700; color:var(--wc,var(--accent)); border-bottom:1.5px dashed var(--wc,var(--accent)); cursor:pointer; padding:0 0 1px}
+.dualdoel .sbk{display:block; margin-top:24px; font-size:.7rem; font-weight:700; letter-spacing:.18em; text-transform:uppercase; color:var(--mint)}
+.dualdoel .sbgrid{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:12px}
+@media(max-width:560px){.dualdoel .sbgrid{grid-template-columns:1fr}}
+.dualdoel .sb{background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.16); border-radius:14px; padding:14px 16px}
+.dualdoel .sb.hoofd{border-color:var(--yellow); background:rgba(255,205,13,.1)}
+.dualdoel .sb b{font-size:.92rem; display:block; color:var(--mint)}
+.dualdoel .sb.hoofd b{color:var(--yellow)}
+.dualdoel .sb p{font-size:.78rem; margin-top:4px; color:rgba(242,247,246,.82); line-height:1.5; max-width:none}
+.dualdoel .sb p b{display:inline; font-size:inherit; color:inherit}
+
+/* ============ WEKEN ============ */
+.weektrack{position:relative; margin-top:64px; padding-left:0}
+.weektrack::before{content:""; position:absolute; left:50%; top:0; bottom:0; width:4px; transform:translateX(-50%); background:var(--hair); border-radius:4px}
+.weektrack .wprog{position:absolute; left:50%; top:0; width:4px; transform:translateX(-50%); height:0; border-radius:4px; background:linear-gradient(var(--teal-dark),var(--accent)); transition:height .2s linear}
+@media(max-width:900px){
+  .weektrack::before,.weektrack .wprog{left:22px; transform:none}
+}
+.week{position:relative; display:grid; grid-template-columns:1fr 1fr; gap:0 56px; padding:0 0 54px}
+.week .num{
+  position:absolute; left:50%; top:-6px; transform:translateX(-50%); z-index:2;
+  width:58px; height:58px; border-radius:50%; background:var(--card); border:4px solid var(--wc,var(--accent));
+  display:flex; align-items:center; justify-content:center; font-weight:700; font-size:1.25rem; color:var(--wc,var(--accent)); box-shadow:var(--shadow);
+}
+.week .wcard{grid-column:1; text-align:right; justify-self:end; max-width:440px}
+.week.alt .wcard{grid-column:2; text-align:left; justify-self:start}
+.wcard{border:1px solid var(--hair); border-radius:18px; background:var(--card); padding:24px 24px 20px; box-shadow:var(--shadow); position:relative; transition:transform .2s ease, box-shadow .2s ease}
+.wcard:hover{transform:translateY(-5px) scale(1.015); box-shadow:0 18px 44px rgba(12,51,47,.16)}
+.wcard::before{content:""; position:absolute; inset:0 0 0 auto; width:6px; border-radius:0 18px 18px 0; background:var(--wc,var(--accent))}
+.week.alt .wcard::before{inset:0 auto 0 0; border-radius:18px 0 0 18px}
+.wcard .xp{position:absolute; top:-13px; right:16px; background:var(--yellow); color:#1C2422; font-weight:700; font-size:.74rem; border-radius:99px; padding:4px 12px; box-shadow:var(--shadow)}
+.week0 .wcard{border-style:dashed; border-width:1.5px}
+.week0 .num{border-style:dashed}
+.week0 .wcard::before{opacity:.45}
+.wcard .wk{font-size:.72rem; font-weight:700; letter-spacing:.18em; text-transform:uppercase; color:var(--wc,var(--accent))}
+.wcard h3{font-size:1.35rem; margin-top:4px}
+.wcard p{font-size:.92rem; color:var(--muted); margin-top:8px; line-height:1.55}
+.wcard .demo{margin-top:14px; display:inline-block; font-size:.8rem; font-weight:700; color:var(--wc,var(--accent)); background:color-mix(in srgb, var(--wc,var(--accent)) 10%, transparent); border:1px solid var(--wc,var(--accent)); border-radius:99px; padding:5px 14px}
+.gate{position:relative; z-index:2; display:flex; justify-content:center; padding:0 0 54px}
+.gate>span{
+  display:inline-flex; align-items:center; gap:14px; background:linear-gradient(90deg,var(--teal-deep),var(--teal-dark)); color:var(--on-dark);
+  border-radius:20px; padding:13px 26px; font-weight:700; font-size:.95rem; box-shadow:var(--shadow);
+  transform:scale(.7); opacity:0; transition:transform .55s cubic-bezier(.2,1.6,.3,1), opacity .4s ease;
+}
+.gate.in>span{transform:none; opacity:1}
+.gate i{font-style:normal; font-size:1.5rem; animation:trofee 2.4s ease-in-out infinite}
+@keyframes trofee{0%,100%{transform:rotate(-8deg)}50%{transform:rotate(8deg)}}
+.gate .gtxt{display:flex; flex-direction:column; text-align:left; line-height:1.35}
+.gate .ach{font-size:.66rem; font-weight:700; letter-spacing:.2em; text-transform:uppercase; color:var(--yellow)}
+@media(max-width:900px){
+  .week{grid-template-columns:1fr; padding-left:60px}
+  .week .num{left:22px; transform:translateX(-50%); width:46px; height:46px; font-size:1rem}
+  .week .wcard, .week.alt .wcard{grid-column:1; text-align:left; justify-self:start}
+  .wcard::before, .week.alt .wcard::before{inset:0 auto 0 0; border-radius:18px 0 0 18px}
+  .gate{justify-content:flex-start; padding-left:60px}
+}
+
+/* ============ GAME-HUD ============ */
+.hud{
+  position:fixed; left:50%; bottom:18px; transform:translate(-50%, 90px); z-index:60;
+  display:flex; align-items:center; gap:14px; background:var(--teal-deep); color:var(--on-dark);
+  border-radius:99px; padding:11px 20px; box-shadow:0 12px 34px rgba(0,0,0,.35);
+  transition:transform .35s ease; font-weight:700; font-size:.85rem; white-space:nowrap;
+}
+.hud.show{transform:translate(-50%,0)}
+.hud .lvl{color:var(--yellow); letter-spacing:.12em; text-transform:uppercase; font-size:.78rem}
+.hud .bar{width:150px; height:8px; border-radius:99px; background:rgba(255,255,255,.18); overflow:hidden}
+.hud .bar i{display:block; height:100%; width:0%; background:linear-gradient(90deg,var(--mint),var(--yellow)); border-radius:99px}
+.hud .pct{font-variant-numeric:tabular-nums; color:var(--mint); min-width:9ch; text-align:right}
+
+/* ============ FINALE ============ */
+.finale{position:relative; overflow:hidden; border-radius:24px; background:linear-gradient(140deg,var(--teal-deep),var(--teal-dark)); color:var(--on-dark); padding:52px clamp(24px,5vw,60px); margin-top:56px; box-shadow:var(--shadow)}
+.finale::before{content:"GO"; position:absolute; right:-30px; bottom:-70px; font-size:15rem; font-weight:700; color:rgba(255,255,255,.06); line-height:1; letter-spacing:-.04em}
+.finale .confetti{position:absolute; inset:0; width:100%; height:100%; pointer-events:none}
+.finale :is(h3,p,ul,.punchline,.lvlcomplete){position:relative}
+.finale .lvlcomplete{display:inline-block; font-size:.78rem; font-weight:700; letter-spacing:.24em; text-transform:uppercase; color:var(--yellow); margin-bottom:12px}
+.finale h3{font-size:clamp(1.8rem,4vw,2.7rem)}
+.finale h3 em{font-style:normal; color:var(--yellow)}
+.finale>p{margin-top:12px; max-width:38em; color:rgba(242,247,246,.88)}
+.checklist{list-style:none; margin:28px 0 0; padding:0; display:grid; grid-template-columns:1fr 1fr; gap:10px 28px}
+@media(max-width:720px){.checklist{grid-template-columns:1fr}}
+.checklist li{display:flex; gap:12px; align-items:baseline; font-size:1rem; font-weight:600}
+.checklist li::before{content:"✓"; flex:none; width:24px; height:24px; border-radius:50%; background:var(--mint); color:var(--teal-deep); display:inline-flex; align-items:center; justify-content:center; font-size:.85rem; font-weight:700; transform:translateY(4px)}
+.punchline{margin-top:34px; font-size:clamp(1.15rem,2.4vw,1.5rem); font-weight:700}
+.punchline em{font-style:normal; color:var(--mint)}
+.backlink{display:inline-block; margin-top:26px; font-weight:700; color:var(--on-dark); background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.25); border-radius:99px; padding:11px 24px; text-decoration:none; transition:background .2s ease}
+.backlink:hover{background:rgba(255,255,255,.18)}
+
+footer{border-top:1px solid var(--hair); padding:34px 0 44px; color:var(--muted); font-size:.85rem}
+footer .wrap{display:flex; flex-wrap:wrap; gap:12px; justify-content:space-between; align-items:center}
+</style>
+<!-- PASSWORD GATE -->
+<div id="gate" style="position:fixed;inset:0;z-index:99999;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#0f0f11;font-family:system-ui">
+  <div style="font-size:1.8rem;font-weight:800;color:#fff;margin-bottom:2rem">💚 Health CG · Sprint</div>
+  <div style="background:#1a1a1f;border:1px solid #2a2a32;border-radius:16px;padding:2.5rem;width:360px;max-width:90vw;text-align:center;box-sizing:border-box">
+    <h2 style="color:#fff;margin:0 0 1rem;font-size:1.15rem">Beveiligde applicatie</h2>
+    <input type="password" id="pwInput" placeholder="Wachtwoord..."
+      style="width:100%;padding:.85rem;border:1px solid #333;border-radius:10px;background:#111;color:#fff;font-size:1rem;margin-bottom:1rem;outline:none;box-sizing:border-box"
+      onkeydown="if(event.key==='Enter')checkPw()"/>
+    <button onclick="checkPw()"
+      style="width:100%;padding:.85rem;background:#00887B;color:#fff;border:none;border-radius:10px;font-size:1rem;font-weight:600;cursor:pointer">
+      Toegang
+    </button>
+    <div style="margin-top:1rem;font-size:.8rem;color:#444">
+      <a href="https://stverstr.github.io" style="color:#2BB3A3">&larr; Portfolio</a>
+    </div>
+  </div>
+</div>
+<script>
+const MASTER_HASH='750db0f147fb55c6755f5b3bb2606a35623b43d03c80056c48587dfa2df45c04';
+async function sha256(s){const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s));return Array.from(new Uint8Array(b)).map(x=>x.toString(16).padStart(2,'0')).join('');}
+function unlockGate(){document.getElementById('gate').style.display='none';document.documentElement.style.overflow='';}
+async function checkPw(){const h=await sha256(document.getElementById('pwInput').value);if(h===MASTER_HASH){sessionStorage.setItem('auth','1');unlockGate();}else{const i=document.getElementById('pwInput');i.style.borderColor='#ef4444';i.value='';setTimeout(()=>i.style.borderColor='#333',600);}}
+if(sessionStorage.getItem('auth')==='1'){document.addEventListener('DOMContentLoaded',unlockGate);}else{document.documentElement.style.overflow='hidden';}
+</script>
+
+
+<nav class="top">
+  <div class="wrap">
+    <div class="brand"><img class="cglogo" src="data:image/png;base64,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" alt="Colruyt Group"><span><b>HEALTH</b> · AI-first sprint</span></div>
+    <div class="navlinks">
+      <a href="#missie">De missie</a>
+      <a href="#aifirst">AI-first</a>
+      <a href="#teams">De teams</a>
+      <a href="#ritme">Het ritme</a>
+      <a href="#weken">De 4 weken</a>
+      <a href="#finale">De finale</a>
+      <a class="back" href="health-cg-organisatie.html">← Hoofddocument</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ============ HERO ============ -->
+<header class="hero">
+  <div class="orb o1"></div><div class="orb o2"></div><div class="orb o3"></div>
+  <div class="wrap">
+    <div class="kick">Health · Colruyt Group · AI-first sprint</div>
+    <h1>4 weken.<br>AI-first naar een<br><em>afgewerkt concept</em><span class="yr">.</span></h1>
+    <p class="sub">Eén AI-coördinator zet het skelet klaar. Elke deelnemer bouwt — AI-getraind — zijn eigen module in één gedeelde applicatie. Vier levels, vier achievements — en één eindbaas: het afgewerkte concept.</p>
+    <div class="herostats">
+      <div class="hstat"><b data-n="4">0</b><small>weken</small></div>
+      <div class="hstat"><b data-n="1">0</b><small>gedeelde applicatie</small></div>
+      <div class="hstat"><b data-n="4">0</b><small>achievements</small></div>
+      <div class="hstat gold"><b data-n="1">0</b><small>afgewerkt concept</small></div>
+    </div>
+  </div>
+  <div class="scrolldn">scroll</div>
+</header>
+
+<!-- ============ MISSIE ============ -->
+<section id="missie">
+  <div class="wrap">
+    <div class="rv">
+      <span class="eyebrow">01 · De missie</span>
+      <h2 class="sec-title">Na 4 weken stáát dit. Allemaal.</h2>
+      <p class="sec-lead">Geen tussentijdse rapporten, geen halve versies. Elk blok wordt gebouwd, getest en vastgeklikt — af is af.</p>
+    </div>
+    <div class="doelkop rv">
+      <span class="dk1">★ Het eerste objectief</span>
+      <b>Het afgewerkte concept — zeven blokken, één naslagwerk.</b>
+    </div>
+    <div class="missie stagger">
+      <div class="mcard" style="--mc:var(--p6)"><span class="chk">✓</span><b>De organisatie staat</b><p>Capability build &amp; service centre uitgetekend en bemand — mandaat, rollen en fte's beslist.</p></div>
+      <div class="mcard" style="--mc:var(--p2)"><span class="chk">✓</span><b>Een werkende advisory-POC</b><p>Assessment → persoonlijk plan, klikbaar en getest met échte klanten.</p></div>
+      <div class="mcard" style="--mc:var(--p5)"><span class="chk">✓</span><b>Volledig uitgewerkte branding</b><p>De gezondheidstaal als bibliotheek: kleuren, iconen, woorden — doorvertaald naar elk kanaal.</p></div>
+      <div class="mcard" style="--mc:var(--p1)"><span class="chk">✓</span><b>Een gedragen gezondheidsvisie</b><p>De zes pijlers uitgeschreven, met ambitie en klantbehoefte per pijler.</p></div>
+      <div class="mcard" style="--mc:var(--p4)"><span class="chk">✓</span><b>Budget &amp; KPI's</b><p>Investerings- en runbudget, plus een KPI-boom van €1 miljard tot NPS — gekoppeld aan de opschaaltriggers.</p></div>
+      <div class="mcard" style="--mc:var(--p3)"><span class="chk">✓</span><b>High-level architectuur</b><p>Het gezondheidsplan centraal: datadeling, matchingregels en mens-in-de-lus, klaar om op te bouwen.</p></div>
+      <div class="mcard" style="--mc:var(--yellow)"><span class="chk">✓</span><b>Roadmap &amp; vervolg</b><p>Hoe we verdergaan: de focus, wie waarop werkt en wat we wanneer verwachten — klaar om maandag na de sprint te starten.</p></div>
+    </div>
+    <div class="dualdoel rv">
+      <span class="dk">★ Het tweede objectief</span>
+      <b>We bouwen ook aan onszelf: het eerste volwaardige AI-team.</b>
+      <p>Voor het eerst leert een team hier end-to-end snelheid maken met AI — agents, skills en één gedeelde manier van werken. Wat we in deze sprint leren over AI-first werken is een opbrengst op zich: zo werken we daarna aan álles.</p>
+      <span class="sbk">Het scorebord — zo meten we dit objectief</span>
+      <div class="sbgrid">
+        <div class="sb hoofd"><b>28 deelobjectieven</b><p>7 modules × 4 levels, vooraf gedefinieerd. Dé score: hoeveel worden er op de gate <b>in één keer goedgekeurd</b>?</p></div>
+        <div class="sb"><b>Rode team: 100% opgevolgd</b><p>Élke vondst van de rode-team-agent is vóór de gate opgelost of bewust als open besluit geagendeerd — niets passeert stilletjes.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ AI-FIRST ============ -->
+<section id="aifirst" class="band">
+  <div class="wrap">
+    <div class="rv">
+      <span class="eyebrow">02 · AI-first</span>
+      <h2 class="sec-title">Iedereen bouwt. AI bewaakt het geheel.</h2>
+      <p class="sec-lead">Dit is geen sprint met een AI-tool erbij — het hele model is erop gebouwd. Daarom kan het in vier weken, massaal parallel én end-to-end consistent.</p>
+    </div>
+    <div class="principes stagger">
+      <div class="pcard"><span class="pnum">1</span><b>Eerst AI-training</b><p>Dag één: elke deelnemer leert bouwen met AI. Geen toeschouwers — alleen bouwers.</p></div>
+      <div class="pcard"><span class="pnum">2</span><b>Het skelet staat klaar</b><p>De AI-coördinator zet de applicatie op: één hoofdpagina, met per deelnemer een eigen module.</p></div>
+      <div class="pcard"><span class="pnum">3</span><b>Agents bewaken het geheel</b><p>Skills en agents checken taal, stijl en structuur bij élke wijziging — consistentie op automatische piloot.</p></div>
+      <div class="pcard"><span class="pnum">4</span><b>Zichtbaar bouwen</b><p>Iedereen werkt in hetzelfde geheel: wat je maakt, staat er meteen in. Maximaal parallel, zonder chaos.</p></div>
+    </div>
+    <div class="appmap rv">
+      <div class="apphead"><span class="applbl">Eén gedeeld naslagwerk</span><b>Visie, organisatie, vakmanschap, branding &amp; POC — naadloos aan elkaar</b></div>
+      <div class="modules">
+        <div class="mod" style="--mc:var(--p1)"><b>Gezondheidsvisie</b><small>eigen module · eigen eigenaar · eigen beslissingenlog</small></div>
+        <div class="mod" style="--mc:var(--p5)"><b>Gezondheidstaal &amp; branding</b><small>eigen module · eigen eigenaar · eigen beslissingenlog</small></div>
+        <div class="mod" style="--mc:var(--p2)"><b>Advisory-POC</b><small>eigen module · eigen eigenaar · eigen beslissingenlog</small></div>
+        <div class="mod" style="--mc:var(--p3)"><b>Architectuur</b><small>eigen module · eigen eigenaar · eigen beslissingenlog</small></div>
+        <div class="mod" style="--mc:var(--p6)"><b>Organisatie</b><small>eigen module · eigen eigenaar · eigen beslissingenlog</small></div>
+        <div class="mod" style="--mc:var(--p4)"><b>Budget &amp; KPI's</b><small>eigen module · eigen eigenaar · eigen beslissingenlog</small></div>
+        <div class="mod" style="--mc:var(--yellow)"><b>Roadmap &amp; vervolg</b><small>eigen module · eigen eigenaar · eigen beslissingenlog</small></div>
+      </div>
+      <div class="agentbar"><i>⚙</i> AI-agents &amp; skills — gebouwd door de AI-coördinator: bewaken gezondheidstaal, structuur en samenhang bij élke wijziging</div>
+      <div class="agentbar crit"><i>🔍</i> Rode-team-agent — mooi is niet hetzelfde als juist: wijst élke week de zwakste redenering aan, vóór de demo. Elk besluit staat in de beslissingenlog: wat, waarom, en welk alternatief verworpen werd.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TEAMS ============ -->
+<section id="teams">
+  <div class="wrap">
+    <div class="rv">
+      <span class="eyebrow">03 · De teams</span>
+      <h2 class="sec-title">Eén team bouwt. Eén team klikt vast.</h2>
+      <p class="sec-lead">Eén facilitator, één AI-coördinator en een groep AI-getrainde bouwers. Het validatieteam beslist — elke week opnieuw, zonder wachtrij.</p>
+    </div>
+    <div class="teams rv">
+      <div class="team sprint">
+        <span class="tk">Het bouwteam</span>
+        <h3>Wij <em>bouwen</em> het.</h3>
+        <p>De facilitator houdt ritme en focus. De AI-coördinator bouwt het skelet, de agents en de samenhang. En elke deelnemer is — AI-getraind — eigenaar van zijn eigen module.</p>
+        <div class="roles">
+          <span>1 facilitator · ritme &amp; focus</span><span>1 AI-coördinator · skelet, agents &amp; samenhang</span>
+          <span>deelnemer · visie</span><span>deelnemer · taal &amp; branding</span><span>deelnemer · advisory-POC</span>
+          <span>deelnemer · architectuur</span><span>deelnemer · organisatie</span><span>deelnemer · budget &amp; KPI's</span><span>deelnemer · roadmap &amp; vervolg</span>
+        </div>
+      </div>
+      <div class="mid" aria-hidden="true">⇄</div>
+      <div class="team valid">
+        <span class="tk">Validatieteam</span>
+        <h3>Wij klikken het <em>vast</em>.</h3>
+        <p>Elke vrijdag naar de demo, beslissen binnen 48 uur. Wat gevalideerd is, gaat niet meer open — zo stapelt het concept week na week.</p>
+        <div class="roles">
+          <span>directiesponsor</span><span>Gilles &amp; Lisa · kader</span><span>Kenneth &amp; Karen · advisory</span>
+          <span>BOU-leads</span><span>HR</span><span>klantenpanel (week 3)</span>
+        </div>
+      </div>
+    </div>
+    <div class="spelregels rv">
+      <b>Eerst AI-training, dan bouwen</b>
+      <b>Alles in één applicatie</b>
+      <b>Zichtbaar bouwen — altijd live</b>
+      <b>Demo élke vrijdag</b>
+      <b>Beslissing binnen 48 uur</b>
+      <b>Besluiten tellen, niet pagina's</b>
+    </div>
+  </div>
+</section>
+
+<!-- ============ RITME ============ -->
+<section id="ritme" class="band">
+  <div class="wrap">
+    <div class="rv">
+      <span class="eyebrow">04 · Het ritme</span>
+      <h2 class="sec-title">Elke week hetzelfde beat.</h2>
+      <p class="sec-lead">Voorspelbaar ritme, maximale focus. En vrijdag is heilig: dan tonen we wat er stáát.</p>
+    </div>
+    <div class="ritme stagger">
+      <button class="dag" type="button" data-modal="dag-ma"><span class="d">Maandag</span><b>Kick-off</b><p>weekdoel scherp, werk verdeeld — en gaan</p><span class="meer">dagschema →</span></button>
+      <button class="dag" type="button" data-modal="dag-di"><span class="d">Dinsdag</span><b>Bouwen</b><p>maken met AI naast je — deuren dicht</p><span class="meer">dagschema →</span></button>
+      <button class="dag" type="button" data-modal="dag-wo"><span class="d">Woensdag</span><b>Bouwen &amp; toetsen</b><p>aftoetsen bij vakmanschap &amp; klanten — de agents bewaken de samenhang</p><span class="meer">dagschema →</span></button>
+      <button class="dag" type="button" data-modal="dag-do"><span class="d">Donderdag</span><b>Afwerken &amp; tegenspraak</b><p>demo-klaar — en de rode-team-agent wijst de zwakste redenering aan</p><span class="meer">dagschema →</span></button>
+      <button class="dag demo" type="button" data-modal="dag-vr"><span class="d">Vrijdag</span><b>DEMO-DAG</b><p>tonen → valideren → vastklikken. Elke week.</p><span class="combo">COMBO ×4</span><span class="meer">dagschema →</span></button>
+    </div>
+    <p class="ritmenote">Klik op een dag voor het volledige dagschema: de meetings, de check-ins en wat er die dag af moet.</p>
+  </div>
+</section>
+
+<!-- ============ WEKEN ============ -->
+<section id="weken">
+  <div class="wrap">
+    <div class="rv">
+      <span class="eyebrow">05 · Week per week</span>
+      <h2 class="sec-title">Vier weken, vier levels.</h2>
+      <p class="sec-lead">Elk level bouwt op het vorige en levert 25% van het concept op. Vier achievements klikken de grote blokken vast — en de gates valideren besluiten, geen mooie pagina's.</p>
+    </div>
+
+    <div class="weektrack">
+      <div class="wprog" id="wprog"></div>
+
+      <div class="week week0 rv" style="--wc:var(--p4)">
+        <span class="num">00</span>
+        <div class="wcard">
+          <span class="wk">Week 0 · De voorbereiding</span>
+          <h3>Alles klaar vóór de start</h3>
+          <p>Klanten geworven voor de test van week 3. Tooling, toegangen en data-afspraken geregeld: welke AI-tools, welke data, privacy en consent. En per module — de zeven blokken van het concept, elk met één eigenaar — een heldere definitie van "af", zodat de gates kunnen schrappen in scope, nooit in tijd.</p>
+          <span class="demo">klaar = startschot voor level 01</span>
+        </div>
+      </div>
+
+      <div class="week alt rv" style="--wc:var(--p6)">
+        <span class="num">01</span>
+        <div class="wcard">
+          <span class="xp">+25%</span>
+          <span class="wk">Level 01 · De lancering</span>
+          <h3>Training, skelet — en iedereen bouwt</h3>
+          <p>Kader en scope met Gilles &amp; Lisa. Dag één en twee: AI-training voor élke deelnemer. De AI-coördinator zet de applicatie klaar — hoofdpagina, modules, beslissingenlogs en de eerste agents en skills. Iedereen claimt zijn module en bouwt zijn eerste versie.</p>
+          <span class="demo">vr · het skelet staat live — iedereen heeft gebouwd</span>
+          <br><button class="wobj" type="button" data-modal="lvl1">de 7 deelobjectieven van dit level →</button>
+        </div>
+      </div>
+      <div class="gate rv"><span><i>🏆</i><span class="gtxt"><em class="ach">Achievement unlocked · 1/4</em>Iedereen bouwt — de applicatie leeft</span></span></div>
+
+      <div class="week rv" style="--wc:var(--p1)">
+        <span class="num">02</span>
+        <div class="wcard">
+          <span class="xp">+25%</span>
+          <span class="wk">Level 02 · De inhoud</span>
+          <h3>Alle modules tegelijk naar v1</h3>
+          <p>Maximaal parallel: visie op de zes pijlers, gezondheidstaal &amp; branding, advisory-flow, architectuur, organisatieblauwdruk, budget-opzet en het vervolgritme — elk in de eigen module, terwijl de agents taal en samenhang live bewaken.</p>
+          <span class="demo">vr · demo-dag = gate-dag</span>
+          <br><button class="wobj" type="button" data-modal="lvl2">de 7 deelobjectieven van dit level →</button>
+        </div>
+      </div>
+      <div class="gate rv"><span><i>🏆</i><span class="gtxt"><em class="ach">Achievement unlocked · 2/4</em>Visie &amp; taal vastgeklikt — de agents bewaken ze</span></span></div>
+
+      <div class="week alt rv" style="--wc:var(--p2)">
+        <span class="num">03</span>
+        <div class="wcard">
+          <span class="xp">+25%</span>
+          <span class="wk">Level 03 · De POC &amp; de test</span>
+          <h3>Echte klanten in een werkend geheel</h3>
+          <p>De advisory-module wordt een werkende POC — van assessment naar persoonlijk plan, in de gezondheidstaal. Tien à vijftien klanten testen. Budget en KPI-boom worden doorgerekend; alle modules verdiepen op elkaars output.</p>
+          <span class="demo">vr · demo-dag = gate-dag</span>
+          <br><button class="wobj" type="button" data-modal="lvl3">de 7 deelobjectieven van dit level →</button>
+        </div>
+      </div>
+      <div class="gate rv"><span><i>🏆</i><span class="gtxt"><em class="ach">Achievement unlocked · 3/4</em>De POC werkt — klanten bevestigen het</span></span></div>
+
+      <div class="week rv" style="--wc:var(--yellow)">
+        <span class="num">04</span>
+        <div class="wcard">
+          <span class="xp">+25% = 100%</span>
+          <span class="wk">Level 04 · De finale</span>
+          <h3>Alles hangt al aan elkaar</h3>
+          <p>Geen integratieweek nodig — het geheel bestond vanaf dag één. Scherpstellen op de klantfeedback, de pitch bouwen, stakeholderdag en het volledige concept presenteren aan de directie.</p>
+          <span class="demo">vr · de eindbaas: directiecommitment</span>
+          <br><button class="wobj" type="button" data-modal="lvl4">de 7 deelobjectieven van dit level →</button>
+        </div>
+      </div>
+      <div class="gate rv"><span><i>🏆</i><span class="gtxt"><em class="ach">Achievement unlocked · 4/4</em>Commitment van de directie. Go.</span></span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FINALE ============ -->
+<section id="finale" class="band">
+  <div class="wrap">
+    <div class="rv">
+      <span class="eyebrow">06 · De finale</span>
+      <h2 class="sec-title">Doe je mee?</h2>
+    </div>
+    <div class="finale rv">
+      <canvas class="confetti" aria-hidden="true" id="fin-confetti"></canvas>
+      <span class="lvlcomplete">★ Level complete · concept 100%</span>
+      <h3>Week 4: het concept <em>stáát</em>.</h3>
+      <p>Geen stapel documenten die nog moet landen, maar één levend naslagwerk waarin visie, organisatie, vakmanschap, branding én een werkende POC naadloos aan elkaar hangen — afgewerkt, gevalideerd en gedragen. Klaar om de roadmap naar 2028 op te bouwen.</p>
+      <ul class="checklist">
+        <li>De organisatie: uitgetekend én bemand</li>
+        <li>De advisory-POC: werkend én klant-getest</li>
+        <li>De branding: één gezondheidstaal, elk kanaal</li>
+        <li>De visie: zes pijlers, door iedereen gedragen</li>
+        <li>Budget &amp; KPI's: van ambitie tot dashboard</li>
+        <li>De architectuur: klaar om op te bouwen</li>
+        <li>De vervolgroadmap: focus, eigenaars en verwachtingen per kwartaal</li>
+        <li>Bonus: een AI-getraind team, klaar voor de volgende sprint</li>
+      </ul>
+      <p class="punchline">Vier weken. Eén naslagwerk: visie, organisatie, vakmanschap, branding én POC — naadloos aan elkaar. <em>En een team dat voortaan AI-first werkt.</em></p>
+      <a class="backlink" href="health-cg-organisatie.html">← Terug naar het hoofddocument</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ DAGSCHEMA-MODALS ============ -->
+<div class="modal" id="modal-dag-ma" role="dialog" aria-modal="true" aria-labelledby="ma-title">
+  <div class="dlg">
+    <button class="close" type="button" aria-label="Sluiten">×</button>
+    <span class="k">Het dagschema · maandag</span>
+    <h3 id="ma-title">Kick-off — het weekdoel staat vóór de middag</h3>
+    <div class="sched">
+      <div class="slot"><span class="t">9u00</span><div><b>Week-kickoff <small>45 min · hele bouwteam · o.l.v. de facilitator</small></b><p>Het weekdoel en de gate-criteria op scherp. Elke eigenaar benoemt zijn deelobjectief van de week: wat is vrijdag "af"?</p></div></div>
+      <div class="slot"><span class="t">9u45</span><div><b>Afhankelijkhedenronde <small>30 min · o.l.v. de AI-coördinator</small></b><p>Wie heeft wat van wie nodig, en wanneer? De kruisverbanden worden benoemd én in de agents gezet, zodat het systeem ze bewaakt.</p></div></div>
+      <div class="slot"><span class="t">10u15</span><div><b>Bouwen <small>tot 16u30</small></b><p>Iedereen aan zijn module — het eerste werk van de week staat vandaag nog live in het naslagwerk.</p></div></div>
+      <div class="slot"><span class="t">16u30</span><div><b>Stand-down <small>15 min · hele bouwteam</small></b><p>Iedereen toont kort wat er live staat. Blokkades voor morgen worden nu benoemd — niet morgen ontdekt.</p></div></div>
+    </div>
+    <div class="dagpunch">Doel van maandag: 's avonds staat het weekdoel onwrikbaar vast én is het eerste werk zichtbaar.</div>
+  </div>
+</div>
+
+<div class="modal" id="modal-dag-di" role="dialog" aria-modal="true" aria-labelledby="di-title">
+  <div class="dlg">
+    <button class="close" type="button" aria-label="Sluiten">×</button>
+    <span class="k">Het dagschema · dinsdag</span>
+    <h3 id="di-title">Bouwen — maximale focustijd</h3>
+    <div class="sched">
+      <div class="slot"><span class="t">9u00</span><div><b>Stand-up <small>15 min · hele bouwteam</small></b><p>Drie vragen per persoon: wat deed ik gisteren, wat doe ik vandaag, waar zit ik vast? Blokkades gaan meteen naar de facilitator of AI-coördinator.</p></div></div>
+      <div class="slot"><span class="t">9u15</span><div><b>Focustijd <small>tot 16u30 · geen meetings</small></b><p>Deuren dicht, agents aan. Dinsdag is de heiligste bouwdag van de week — er wordt niets ingepland.</p></div></div>
+      <div class="slot"><span class="t">doorlopend</span><div><b>AI-inloop <small>bij de AI-coördinator · geen agenda</small></b><p>Wie vastzit met een agent, skill of prompt loopt binnen. Vastzitten mag geen uur duren — dit is ook hoe het team leert.</p></div></div>
+      <div class="slot"><span class="t">16u30</span><div><b>Stand-down <small>15 min</small></b><p>Het werk van vandaag staat live. Kort tonen, kort vooruitblikken.</p></div></div>
+    </div>
+    <div class="dagpunch">Doel van dinsdag: maximale bouwtijd. Elke meeting die hier sluipt, is er één te veel.</div>
+  </div>
+</div>
+
+<div class="modal" id="modal-dag-wo" role="dialog" aria-modal="true" aria-labelledby="wo-title">
+  <div class="dlg">
+    <button class="close" type="button" aria-label="Sluiten">×</button>
+    <span class="k">Het dagschema · woensdag</span>
+    <h3 id="wo-title">Bouwen &amp; toetsen — halverwege bijsturen</h3>
+    <div class="sched">
+      <div class="slot"><span class="t">9u00</span><div><b>Stand-up <small>15 min</small></b><p>Zelfde drie vragen — kort en staand.</p></div></div>
+      <div class="slot"><span class="t">10u00</span><div><b>Toetsronde <small>90 min · vakmanschap gezondheid + klanten waar relevant</small></b><p>Inhoudelijke toets per module: klópt het — niet: oogt het mooi. Vakmanschap toetst de gezondheidsinhoud, klanten toetsen de herkenbaarheid.</p></div></div>
+      <div class="slot"><span class="t">14u00</span><div><b>Kruislezing <small>30 min · timeboxed</small></b><p>Eigenaars lezen elkaars beslissingenlog en stellen vragen rechtstreeks in de module. Zo blijft alles aan elkaar hangen — door mensen én agents.</p></div></div>
+      <div class="slot"><span class="t">16u30</span><div><b>Stand-down <small>15 min</small></b><p>Feedback verwerkt of ingepland voor donderdagochtend.</p></div></div>
+    </div>
+    <div class="dagpunch">Doel van woensdag: halverwege de week bijsturen — niet op vrijdag ontdekken dat het de verkeerde kant op ging.</div>
+  </div>
+</div>
+
+<div class="modal" id="modal-dag-do" role="dialog" aria-modal="true" aria-labelledby="do-title">
+  <div class="dlg">
+    <button class="close" type="button" aria-label="Sluiten">×</button>
+    <span class="k">Het dagschema · donderdag</span>
+    <h3 id="do-title">Afwerken &amp; tegenspraak — geen verrassingen op vrijdag</h3>
+    <div class="sched">
+      <div class="slot"><span class="t">9u00</span><div><b>Stand-up <small>15 min</small></b><p>Focus van vandaag: alles demo-klaar.</p></div></div>
+      <div class="slot"><span class="t">9u15</span><div><b>Afwerken <small>tot 14u00</small></b><p>Losse eindjes weg, deelobjectieven afgerond, beslissingenlogs bijgewerkt: wat besloten, waarom, welk alternatief verworpen.</p></div></div>
+      <div class="slot"><span class="t">14u00</span><div><b>Rode-team-ronde <small>60 min · hele bouwteam</small></b><p>De rode-team-agent presenteert per module de zwakste redenering. De eigenaar lost ze op — of agendeert ze bewust als open besluit voor de demo van morgen. Niets passeert stilletjes.</p></div></div>
+      <div class="slot"><span class="t">16u00</span><div><b>Demo-generale <small>30 min · o.l.v. de facilitator</small></b><p>Volgorde, wie toont wat, en welke besluiten morgen ter validatie liggen. De beslislijst gaat vandaag nog naar het validatieteam — zij komen morgen voorbereid.</p></div></div>
+    </div>
+    <div class="dagpunch">Doel van donderdag: de tegenspraak gebeurt vandaag, zodat vrijdag over besluiten gaat.</div>
+  </div>
+</div>
+
+<div class="modal" id="modal-dag-vr" role="dialog" aria-modal="true" aria-labelledby="vr-title">
+  <div class="dlg">
+    <button class="close" type="button" aria-label="Sluiten">×</button>
+    <span class="k">Het dagschema · vrijdag</span>
+    <h3 id="vr-title">Demo-dag — tonen, valideren, vastklikken</h3>
+    <div class="sched">
+      <div class="slot"><span class="t">10u00</span><div><b>Demo &amp; validatie <small>90 min · bouwteam + validatieteam</small></b><p>Elke module toont in het naslagwerk zélf — geen slides. Per deelobjectief beslist het validatieteam: <b>goedgekeurd</b>, <b>geschrapt</b> of <b>terug</b> — altijd met de reden in de beslissingenlog.</p></div></div>
+      <div class="slot"><span class="t">11u30</span><div><b>Retro <small>30 min · bouwteam</small></b><p>Wat leerden we deze week over AI-first werken? Eén concrete verbetering voor volgende week — dit voedt het tweede objectief én het scorebord.</p></div></div>
+      <div class="slot"><span class="t">nm</span><div><b>Vastklikken &amp; vieren <small>bouwteam</small></b><p>Goedgekeurde besluiten worden vastgeklikt in het naslagwerk, de HUD springt +25%. Wat het validatieteam vrijdag niet kon beslissen, beslist het <b>binnen 48 uur</b>.</p></div></div>
+    </div>
+    <div class="dagpunch">Doel van vrijdag: besluiten. De score van de week = deelobjectieven die in één keer worden goedgekeurd.</div>
+  </div>
+</div>
+
+<!-- ============ DEELOBJECTIEVEN PER LEVEL ============ -->
+<div class="modal" id="modal-lvl1" role="dialog" aria-modal="true" aria-labelledby="l1-title">
+  <div class="dlg">
+    <button class="close" type="button" aria-label="Sluiten">×</button>
+    <span class="k">Level 01 · de lancering</span>
+    <h3 id="l1-title">De 7 deelobjectieven van week 1</h3>
+    <p>Elke module heeft één eigenaar en één deelobjectief per level — vrijdag beslist het validatieteam per stuk.</p>
+    <div class="sched mobj">
+      <div class="slot"><span class="m" style="color:var(--p1)">Gezondheidsvisie</span><p>De pijlerstructuur staat; al het bestaande materiaal is verwerkt tot een eerste versie.</p></div>
+      <div class="slot"><span class="m" style="color:var(--p5)">Taal &amp; branding</span><p>Inventaris van de bestaande stijl plus een eerste taalproef: aanzet van kleuren en iconen.</p></div>
+      <div class="slot"><span class="m" style="color:var(--p2)">Advisory-POC</span><p>De flow van assessment naar plan geschetst — schermen op papier, in de module.</p></div>
+      <div class="slot"><span class="m" style="color:var(--p3)">Architectuur</span><p>Contextschets en bouwblokken benoemd: wat praat met wat.</p></div>
+      <div class="slot"><span class="m" style="color:var(--p6)">Organisatie</span><p>Het skelet van de blauwdruk (capability build &amp; service centre) staat; open vragen gelogd.</p></div>
+      <div class="slot"><span class="m" style="color:var(--p4)">Budget &amp; KPI's</span><p>Kostenstructuur-skelet en de aanzet van de KPI-boom.</p></div>
+      <div class="slot"><span class="m" style="color:var(--ink)">Roadmap &amp; vervolg</span><p>Skelet van de vervolgroadmap: de horizonnen uit het hoofddocument (piloot medio 2027, opschalen 2028) als vertrekpunt.</p></div>
+    </div>
+    <div class="dagpunch">Vrijdag · de score: hoeveel van de zeven worden in één keer goedgekeurd?</div>
+  </div>
+</div>
+
+<div class="modal" id="modal-lvl2" role="dialog" aria-modal="true" aria-labelledby="l2-title">
+  <div class="dlg">
+    <button class="close" type="button" aria-label="Sluiten">×</button>
+    <span class="k">Level 02 · de inhoud</span>
+    <h3 id="l2-title">De 7 deelobjectieven van week 2</h3>
+    <p>Alles naar v1 — en de twee fundamenten (visie en taal) worden op deze gate definitief vastgeklikt.</p>
+    <div class="sched mobj">
+      <div class="slot"><span class="m" style="color:var(--p1)">Gezondheidsvisie</span><p>De zes pijlers volledig uitgeschreven: ambitie én klantbehoefte per pijler. <b>Wordt vastgeklikt.</b></p></div>
+      <div class="slot"><span class="m" style="color:var(--p5)">Taal &amp; branding</span><p>Bibliotheek v1 — kleuren, iconen, woorden, tone of voice — doorvertaald naar drie kanalen. <b>Wordt vastgeklikt.</b></p></div>
+      <div class="slot"><span class="m" style="color:var(--p2)">Advisory-POC</span><p>Datamodel plus klikbare flow v1, in de gezondheidstaal.</p></div>
+      <div class="slot"><span class="m" style="color:var(--p3)">Architectuur</span><p>HL-architectuur v1: het plan centraal, datadeling, matchingregels, mens-in-de-lus.</p></div>
+      <div class="slot"><span class="m" style="color:var(--p6)">Organisatie</span><p>Rollen en fte's v1; het mandaatvoorstel klaar voor bespreking.</p></div>
+      <div class="slot"><span class="m" style="color:var(--p4)">Budget &amp; KPI's</span><p>Kostenmodel v1 en KPI-boom v1 — van €1 miljard ambitie tot NPS.</p></div>
+      <div class="slot"><span class="m" style="color:var(--ink)">Roadmap &amp; vervolg</span><p>Het werkritme ná de sprint uitgetekend: wie werkt waarop verder, in welk ritme, met welke rollen.</p></div>
+    </div>
+    <div class="dagpunch">Vrijdag · gate 2: visie &amp; taal gaan hierna niet meer open — de agents bewaken ze.</div>
+  </div>
+</div>
+
+<div class="modal" id="modal-lvl3" role="dialog" aria-modal="true" aria-labelledby="l3-title">
+  <div class="dlg">
+    <button class="close" type="button" aria-label="Sluiten">×</button>
+    <span class="k">Level 03 · de POC &amp; de test</span>
+    <h3 id="l3-title">De 7 deelobjectieven van week 3</h3>
+    <p>Echte klanten in een werkend geheel — en elke module verdiept op wat de test leert.</p>
+    <div class="sched mobj">
+      <div class="slot"><span class="m" style="color:var(--p1)">Gezondheidsvisie</span><p>Aangescherpt op wat de klanttest leert — met de wijzigingen in de beslissingenlog.</p></div>
+      <div class="slot"><span class="m" style="color:var(--p5)">Taal &amp; branding</span><p>Live toegepast in de POC; de consistentie-agent bewaakt álle modules.</p></div>
+      <div class="slot"><span class="m" style="color:var(--p2)">Advisory-POC</span><p>Wérkt: tien à vijftien klanten getest, feedback verwerkt en gelogd.</p></div>
+      <div class="slot"><span class="m" style="color:var(--p3)">Architectuur</span><p>Getoetst aan de werkende POC: klopt het model in de praktijk?</p></div>
+      <div class="slot"><span class="m" style="color:var(--p6)">Organisatie</span><p>Bemanningsplan en de service centre-afspraken concreet.</p></div>
+      <div class="slot"><span class="m" style="color:var(--p4)">Budget &amp; KPI's</span><p>Doorgerekend met de testinzichten; ontwerp van het KPI-dashboard.</p></div>
+      <div class="slot"><span class="m" style="color:var(--ink)">Roadmap &amp; vervolg</span><p>Mijlpalen doorgerekend met de testinzichten: wat verwachten we wanneer — de eerste 90 dagen concreet.</p></div>
+    </div>
+    <div class="dagpunch">Vrijdag · gate 3: de POC werkt — klanten bevestigen het.</div>
+  </div>
+</div>
+
+<div class="modal" id="modal-lvl4" role="dialog" aria-modal="true" aria-labelledby="l4-title">
+  <div class="dlg">
+    <button class="close" type="button" aria-label="Sluiten">×</button>
+    <span class="k">Level 04 · de finale</span>
+    <h3 id="l4-title">De 7 deelobjectieven van week 4</h3>
+    <p>Geen integratieweek — afronden, scherpstellen en het volledige concept presenteren.</p>
+    <div class="sched mobj">
+      <div class="slot"><span class="m" style="color:var(--p1)">Gezondheidsvisie</span><p>Het pitch-hoofdstuk af; beslissingenlog volledig — geen open punten meer.</p></div>
+      <div class="slot"><span class="m" style="color:var(--p5)">Taal &amp; branding</span><p>Het merkboek af — klaar om élk kanaal te voeden.</p></div>
+      <div class="slot"><span class="m" style="color:var(--p2)">Advisory-POC</span><p>Demo-script plus de vervolgstappen richting de piloot.</p></div>
+      <div class="slot"><span class="m" style="color:var(--p3)">Architectuur</span><p>Input voor de roadmap: wat bouwen we eerst, en waarom.</p></div>
+      <div class="slot"><span class="m" style="color:var(--p6)">Organisatie</span><p>Het implementatieplan: wie start wanneer, met welk mandaat.</p></div>
+      <div class="slot"><span class="m" style="color:var(--p4)">Budget &amp; KPI's</span><p>Het directievoorstel: invest, run en de opschaaltriggers.</p></div>
+      <div class="slot"><span class="m" style="color:var(--ink)">Roadmap &amp; vervolg</span><p>De vervolgroadmap af: focus, eigenaars en verwachtingen per kwartaal — maandag na de sprint gaat het verder.</p></div>
+    </div>
+    <div class="dagpunch">Vrijdag · gate 4: het volledige concept, in één keer — go.</div>
+  </div>
+</div>
+
+<div class="hud" id="hud" aria-hidden="true">
+  <span class="lvl" id="hud-lvl">Level 01</span>
+  <span class="bar"><i id="hud-bar"></i></span>
+  <span class="pct" id="hud-pct">0% gebouwd</span>
+</div>
+
+<footer>
+  <div class="wrap">
+    <span>Colruyt Group · Health — start-to-sprint, bijlage bij het strategisch debat</span>
+    <span>Werkversie · juli 2026</span>
+  </div>
+</footer>
+
+<script>
+// scroll reveals
+const io = new IntersectionObserver((es)=>{
+  es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+},{threshold:.15});
+document.querySelectorAll('.rv,.stagger').forEach(el=>io.observe(el));
+
+// weektrack progress + game-HUD
+const wt=document.querySelector('.weektrack'), wp=document.getElementById('wprog');
+const hud=document.getElementById('hud'), hudLvl=document.getElementById('hud-lvl'),
+      hudBar=document.getElementById('hud-bar'), hudPct=document.getElementById('hud-pct');
+function wtick(){
+  if(!wt) return;
+  const r=wt.getBoundingClientRect(), vh=innerHeight;
+  const done=Math.min(Math.max((vh*0.75-r.top)/r.height,0),1);
+  wp.style.height=(done*100)+'%';
+  const lvl=Math.min(4, Math.max(1, Math.ceil(done*4)));
+  hudLvl.textContent='Level 0'+lvl;
+  hudBar.style.width=(done*100)+'%';
+  hudPct.textContent=Math.round(done*100)+'% gebouwd';
+  hud.classList.toggle('show', done>0.02 && r.bottom>vh*0.4);
+}
+addEventListener('scroll',wtick,{passive:true}); addEventListener('resize',wtick); wtick();
+
+// hero-tellers
+(function(){
+  const els=[...document.querySelectorAll('.hstat b[data-n]')];
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches){
+    els.forEach(el=>el.textContent=el.dataset.n); return;
+  }
+  const t0=performance.now(), dur=1300;
+  function step(t){
+    const p=Math.min((t-t0-350)/dur,1);
+    if(p>0) els.forEach(el=>{ el.textContent=Math.round(+el.dataset.n * (1-Math.pow(1-p,3))); });
+    if(p<1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+})();
+
+// nav active state
+const secs=[...document.querySelectorAll('section[id]')];
+const links=[...document.querySelectorAll('.navlinks a')];
+const io2=new IntersectionObserver(es=>{
+  es.forEach(e=>{ if(e.isIntersecting){
+    links.forEach(l=>l.classList.toggle('act', l.getAttribute('href')==='#'+e.target.id));
+  }});
+},{rootMargin:'-40% 0px -55% 0px'});
+secs.forEach(s=>io2.observe(s));
+
+// modals
+document.querySelectorAll('[data-modal]').forEach(btn=>btn.addEventListener('click',()=>{
+  const m=document.getElementById('modal-'+btn.dataset.modal); if(m) m.classList.add('open');
+}));
+document.querySelectorAll('.modal').forEach(m=>{
+  m.addEventListener('click',e=>{ if(e.target===m || e.target.closest('.close')) m.classList.remove('open'); });
+});
+addEventListener('keydown',e=>{ if(e.key==='Escape') document.querySelectorAll('.modal.open').forEach(m=>m.classList.remove('open')); });
+
+// zachte, continue confetti in de finale-kaart
+(function(){
+  const card=document.querySelector('.finale');
+  if(!card || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const cv=document.getElementById('fin-confetti');
+  const ctx=cv.getContext('2d'); let W=0,H=0;
+  function size(){W=cv.width=card.clientWidth; H=cv.height=card.clientHeight}
+  size(); addEventListener('resize',size);
+  const cols=['#FFCD0D','#2BB3A3','#3BC878','#7E9BEB','rgba(255,255,255,.75)'];
+  const R=(a,b)=>a+Math.random()*(b-a);
+  const flakes=Array.from({length:40},()=>({
+    x:Math.random(), y:Math.random(), r:R(4,8), vy:R(.05,.13),
+    ph:R(0,6.28), sw:R(8,22), rot:R(0,360), vr:R(-1.4,1.4),
+    c:cols[Math.floor(R(0,cols.length))]
+  }));
+  let run=false, raf=null, t=0;
+  function draw(){
+    t+=1/60; ctx.clearRect(0,0,W,H); ctx.globalAlpha=.7;
+    for(const f of flakes){
+      f.y+=f.vy/60; f.rot+=f.vr;
+      if(f.y>1.06){f.y=-.06; f.x=Math.random();}
+      const x=f.x*W+Math.sin(t*.8+f.ph)*f.sw, y=f.y*H;
+      ctx.save(); ctx.translate(x,y); ctx.rotate(f.rot*Math.PI/180);
+      ctx.fillStyle=f.c; ctx.fillRect(-f.r/2,-f.r/2,f.r,f.r*.62); ctx.restore();
+    }
+    if(run) raf=requestAnimationFrame(draw);
+  }
+  new IntersectionObserver(es=>{
+    es.forEach(e=>{
+      if(e.isIntersecting && !run){ run=true; size(); draw(); }
+      else if(!e.isIntersecting && run){ run=false; cancelAnimationFrame(raf); }
+    });
+  },{threshold:.05}).observe(card);
+})();
+</script>
