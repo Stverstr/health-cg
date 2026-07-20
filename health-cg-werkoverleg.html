@@ -84,14 +84,30 @@ nav.top{
 nav.top .wrap{display:flex; align-items:center; gap:16px; height:52px}
 .brand{font-weight:700; font-size:.92rem; white-space:nowrap}
 .brand b{color:var(--accent)}
-.navlinks{display:flex; gap:2px; margin-left:auto; overflow-x:auto; scrollbar-width:none}
-.navlinks::-webkit-scrollbar{display:none}
-.navlinks a,.navlinks button{
-  color:var(--muted); text-decoration:none; font-size:.84rem; font-weight:600;
+/* ============ HOOFDMENU: 3 pagina's, submenu enkel zichtbaar na klik ============ */
+.mainnav{display:flex; gap:2px; margin-left:auto}
+.mainnav-item{position:relative}
+.mainnav-btn{
+  display:flex; align-items:center; gap:6px; color:var(--muted); font-size:.84rem; font-weight:600;
   padding:6px 12px; border-radius:99px; white-space:nowrap; transition:.2s;
 }
-.navlinks a:hover,.navlinks button:hover,.navlinks .act{color:var(--accent); background:var(--accent-soft)}
-.navlinks a.doclink{margin-left:6px; border:1.5px solid var(--hair)}
+.mainnav-btn .car{font-size:.65em; transition:transform .2s}
+.mainnav-item.current>.mainnav-btn{color:var(--accent)}
+.mainnav-item.open>.mainnav-btn,.mainnav-btn:hover{color:var(--accent); background:var(--accent-soft)}
+.mainnav-item.open .mainnav-btn .car{transform:rotate(180deg)}
+.mainnav-drop{
+  position:absolute; top:calc(100% + 8px); right:0; min-width:210px;
+  background:var(--card); border:1px solid var(--hair); border-radius:12px;
+  box-shadow:var(--shadow); padding:8px; display:none; flex-direction:column; gap:2px; z-index:60;
+}
+.mainnav-item.open .mainnav-drop{display:flex}
+.mainnav-drop a,.mainnav-drop button{
+  display:block; width:100%; text-align:left; color:var(--ink); font-size:.86rem; font-weight:500;
+  padding:9px 12px; border-radius:8px; text-decoration:none; transition:.15s; white-space:nowrap;
+  background:none; border:none; font-family:inherit; cursor:pointer;
+}
+.mainnav-drop a:hover,.mainnav-drop button:hover,.mainnav-drop .act{background:var(--accent-soft); color:var(--accent)}
+@media (max-width:760px){ .mainnav-drop{right:auto; left:0} }
 
 /* Tabs */
 .panel{display:none}
@@ -316,12 +332,40 @@ window.addEventListener('DOMContentLoaded',()=>{if(sessionStorage.getItem('auth'
 <nav class="top">
   <div class="wrap">
     <div class="brand">Health <b>×</b> Werkoverleg</div>
-    <div class="navlinks">
-      <button data-tab="agenda" class="act">Agenda</button>
-      <button data-tab="topics">Topics</button>
-      <button data-tab="acties">Acties</button>
-      <button data-tab="archief">Archief</button>
-      <a class="doclink" href="health-cg-organisatie.html">Hoofddocument</a>
+    <div class="mainnav">
+      <div class="mainnav-item" data-page="organisatie">
+        <button class="mainnav-btn">Organisatie &amp; Advisory <span class="car">▾</span></button>
+        <div class="mainnav-drop">
+          <a href="health-cg-organisatie.html#vandaag">Vandaag</a>
+          <a href="health-cg-organisatie.html#verhaal">Eén verhaal</a>
+          <a href="health-cg-organisatie.html#varianten">Varianten</a>
+          <a href="health-cg-organisatie.html#aanbeveling">Aanbeveling</a>
+          <a href="health-cg-organisatie.html#advisory">Advisory</a>
+          <a href="health-cg-organisatie.html#roadmap">Roadmap</a>
+          <a href="health-cg-organisatie.html#debat">Het debat</a>
+          <a href="health-cg-organisatie.html#acties">Aan de slag</a>
+        </div>
+      </div>
+      <div class="mainnav-item" data-page="sprint">
+        <button class="mainnav-btn">AI-Sprint <span class="car">▾</span></button>
+        <div class="mainnav-drop">
+          <a href="health-cg-sprint.html#missie">De missie</a>
+          <a href="health-cg-sprint.html#aifirst">AI-first</a>
+          <a href="health-cg-sprint.html#teams">De teams</a>
+          <a href="health-cg-sprint.html#ritme">Het ritme</a>
+          <a href="health-cg-sprint.html#weken">De 4 weken</a>
+          <a href="health-cg-sprint.html#finale">De finale</a>
+        </div>
+      </div>
+      <div class="mainnav-item current" data-page="werkoverleg">
+        <button class="mainnav-btn">Werkoverleg <span class="car">▾</span></button>
+        <div class="mainnav-drop">
+          <button data-tab="agenda" class="act">Agenda</button>
+          <button data-tab="topics">Topics</button>
+          <button data-tab="acties">Acties</button>
+          <button data-tab="archief">Archief</button>
+        </div>
+      </div>
     </div>
   </div>
 </nav>
@@ -729,8 +773,21 @@ window.addEventListener('DOMContentLoaded',()=>{if(sessionStorage.getItem('auth'
 </footer>
 
 <script>
+// Hoofdmenu: 3 pagina's, submenu enkel zichtbaar na klik
+document.querySelectorAll('.mainnav-item').forEach(item=>{
+  item.querySelector('.mainnav-btn').addEventListener('click',e=>{
+    e.stopPropagation();
+    const wasOpen=item.classList.contains('open');
+    document.querySelectorAll('.mainnav-item.open').forEach(o=>o.classList.remove('open'));
+    if(!wasOpen) item.classList.add('open');
+  });
+});
+document.addEventListener('click',()=>{
+  document.querySelectorAll('.mainnav-item.open').forEach(o=>o.classList.remove('open'));
+});
+
 // Tabs: agenda / topics / acties / archief (hash onthoudt de actieve tab)
-const tabs=[...document.querySelectorAll('.navlinks [data-tab]')];
+const tabs=[...document.querySelectorAll('[data-tab]')];
 function showTab(id){
   if(!document.getElementById('p-'+id)) id='agenda';
   tabs.forEach(b=>b.classList.toggle('act',b.dataset.tab===id));
