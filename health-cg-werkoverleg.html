@@ -61,7 +61,7 @@ body{
 h1,h2,h3,h4{line-height:1.15; text-wrap:balance; margin:0}
 p{margin:0}
 a{color:var(--accent)}
-.wrap{max-width:920px; margin:0 auto; padding:0 24px}
+.wrap{max-width:1240px; margin:0 auto; padding:0 24px}
 section{padding:44px 0}
 section+section{border-top:1px solid var(--hair)}
 .eyebrow{
@@ -84,30 +84,26 @@ nav.top{
 nav.top .wrap{display:flex; align-items:center; gap:16px; height:52px}
 .brand{font-weight:700; font-size:.92rem; white-space:nowrap}
 .brand b{color:var(--accent)}
-/* ============ HOOFDMENU: 3 pagina's, submenu enkel zichtbaar na klik ============ */
+/* ============ HOOFDMENU: 3 pagina's + horizontale submenu-balk, enkel zichtbaar na klik ============ */
 .mainnav{display:flex; gap:2px; margin-left:auto}
-.mainnav-item{position:relative}
 .mainnav-btn{
-  display:flex; align-items:center; gap:6px; color:var(--muted); font-size:.84rem; font-weight:600;
+  color:var(--muted); font-size:.84rem; font-weight:600;
   padding:6px 12px; border-radius:99px; white-space:nowrap; transition:.2s;
 }
-.mainnav-btn .car{font-size:.65em; transition:transform .2s}
-.mainnav-item.current>.mainnav-btn{color:var(--accent)}
-.mainnav-item.open>.mainnav-btn,.mainnav-btn:hover{color:var(--accent); background:var(--accent-soft)}
-.mainnav-item.open .mainnav-btn .car{transform:rotate(180deg)}
-.mainnav-drop{
-  position:absolute; top:calc(100% + 8px); right:0; min-width:210px;
-  background:var(--card); border:1px solid var(--hair); border-radius:12px;
-  box-shadow:var(--shadow); padding:8px; display:none; flex-direction:column; gap:2px; z-index:60;
-}
-.mainnav-item.open .mainnav-drop{display:flex}
-.mainnav-drop a,.mainnav-drop button{
-  display:block; width:100%; text-align:left; color:var(--ink); font-size:.86rem; font-weight:500;
-  padding:9px 12px; border-radius:8px; text-decoration:none; transition:.15s; white-space:nowrap;
+.mainnav-btn.current{color:var(--accent)}
+.mainnav-btn.open,.mainnav-btn:hover{color:var(--accent); background:var(--accent-soft)}
+.submenu-bar{display:none; border-top:1px solid var(--hair); background:var(--band)}
+.submenu-bar.open{display:block}
+.submenu-bar .wrap{display:flex; gap:4px; overflow-x:auto; padding:9px 24px; scrollbar-width:none; height:auto}
+.submenu-bar .wrap::-webkit-scrollbar{display:none}
+.submenu{display:none; gap:4px}
+.submenu.act{display:flex}
+.submenu a,.submenu button{
+  padding:7px 13px; border-radius:99px; font-size:.84rem; font-weight:600;
+  color:var(--muted); text-decoration:none; white-space:nowrap; transition:.15s;
   background:none; border:none; font-family:inherit; cursor:pointer;
 }
-.mainnav-drop a:hover,.mainnav-drop button:hover,.mainnav-drop .act{background:var(--accent-soft); color:var(--accent)}
-@media (max-width:760px){ .mainnav-drop{right:auto; left:0} }
+.submenu a:hover,.submenu button:hover,.submenu .act{color:var(--accent); background:var(--accent-soft)}
 
 /* Tabs */
 .panel{display:none}
@@ -160,12 +156,17 @@ header.kop p{margin-top:8px; color:#C9E4E0; font-size:.98rem; max-width:44em}
 /* ============ OVERLEGTYPE-GROEPEN (in de agenda), 3 naast elkaar ============ */
 .overlegtypes-row{display:grid; grid-template-columns:repeat(3,1fr); gap:22px; align-items:start; margin-top:18px; counter-reset:punt}
 .overlegtype{margin-top:0}
-.overlegtype-kop{display:flex; align-items:center; gap:10px; margin-bottom:6px; flex-wrap:wrap}
-.overlegtype-kop .ot-desc{color:var(--muted); font-size:.82rem}
+.overlegtype-kop{display:flex; align-items:center; gap:8px; margin-bottom:6px; flex-wrap:wrap}
+.overlegtype-kop .datum-select{
+  margin-left:auto; font-size:.82rem; font-weight:600; color:var(--ink); font-family:inherit;
+  background:var(--card); border:1px solid var(--hair); border-radius:99px;
+  padding:5px 10px; cursor:pointer;
+}
 @media (max-width:900px){ .overlegtypes-row{grid-template-columns:1fr} }
 
 /* ============ AGENDA ============ */
-.agenda{margin-top:18px; border:1px solid var(--hair); border-radius:14px; overflow:hidden; box-shadow:var(--shadow)}
+.agenda{display:none; margin-top:18px; border:1px solid var(--hair); border-radius:14px; overflow:hidden; box-shadow:var(--shadow)}
+.agenda.act{display:block}
 .agenda-kop{
   display:flex; align-items:center; gap:14px; flex-wrap:wrap;
   background:var(--band); padding:14px 20px; border-bottom:1px solid var(--hair);
@@ -201,8 +202,17 @@ header.kop p{margin-top:8px; color:#C9E4E0; font-size:.98rem; max-width:44em}
 .sponsorvraag li{margin:4px 0}
 
 /* ============ TOPICS: kolom met alle topics + detail van het geselecteerde ============ */
-.topics-layout{display:grid; grid-template-columns:250px 1fr; gap:22px; align-items:start; margin-top:20px}
-.topics-list{display:flex; flex-direction:column; gap:6px; position:sticky; top:70px}
+.topics-toggle{
+  display:inline-flex; align-items:center; gap:7px; margin-top:14px; margin-bottom:2px;
+  font-size:.85rem; font-weight:700; color:var(--accent); cursor:pointer;
+  background:var(--accent-soft); border:none; border-radius:99px; padding:8px 15px;
+}
+.topics-toggle .ttog-car{transition:transform .2s}
+.topics-layout.collapsed .topics-toggle .ttog-car{transform:rotate(180deg)}
+.topics-layout{display:grid; grid-template-columns:220px 1fr; gap:22px; align-items:start; margin-top:10px; transition:grid-template-columns .15s}
+.topics-layout.collapsed{grid-template-columns:0px 1fr}
+.topics-list{display:flex; flex-direction:column; gap:6px; position:sticky; top:70px; min-width:220px; overflow:hidden; transition:opacity .15s}
+.topics-layout.collapsed .topics-list{display:none}
 .topics-list-item{
   display:block; background:var(--card); border:1px solid var(--hair); border-radius:10px;
   padding:11px 13px; text-decoration:none; color:var(--ink); transition:.15s;
@@ -213,8 +223,8 @@ header.kop p{margin-top:8px; color:#C9E4E0; font-size:.98rem; max-width:44em}
 .topics-list-item .tli-tags{display:flex; gap:4px; flex-wrap:wrap}
 .topics-detail{min-width:0}
 @media (max-width:820px){
-  .topics-layout{grid-template-columns:1fr}
-  .topics-list{position:static; flex-direction:row; flex-wrap:wrap}
+  .topics-layout,.topics-layout.collapsed{grid-template-columns:1fr}
+  .topics-list{position:static; flex-direction:row; flex-wrap:wrap; min-width:0}
   .topics-list-item{flex:1 1 200px}
 }
 
@@ -333,38 +343,36 @@ window.addEventListener('DOMContentLoaded',()=>{if(sessionStorage.getItem('auth'
   <div class="wrap">
     <div class="brand">Health <b>×</b> Werkoverleg</div>
     <div class="mainnav">
-      <div class="mainnav-item" data-page="organisatie">
-        <button class="mainnav-btn">Organisatie &amp; Advisory <span class="car">▾</span></button>
-        <div class="mainnav-drop">
-          <a href="health-cg-organisatie.html#vandaag">Vandaag</a>
-          <a href="health-cg-organisatie.html#verhaal">Eén verhaal</a>
-          <a href="health-cg-organisatie.html#varianten">Varianten</a>
-          <a href="health-cg-organisatie.html#aanbeveling">Aanbeveling</a>
-          <a href="health-cg-organisatie.html#advisory">Advisory</a>
-          <a href="health-cg-organisatie.html#roadmap">Roadmap</a>
-          <a href="health-cg-organisatie.html#debat">Het debat</a>
-          <a href="health-cg-organisatie.html#acties">Aan de slag</a>
-        </div>
+      <button class="mainnav-btn" data-page="organisatie">Organisatie &amp; Advisory</button>
+      <button class="mainnav-btn" data-page="sprint">AI-Sprint</button>
+      <button class="mainnav-btn current" data-page="werkoverleg">Werkoverleg</button>
+    </div>
+  </div>
+  <div class="submenu-bar">
+    <div class="wrap">
+      <div class="submenu" data-page="organisatie">
+        <a href="health-cg-organisatie.html#vandaag">Vandaag</a>
+        <a href="health-cg-organisatie.html#verhaal">Eén verhaal</a>
+        <a href="health-cg-organisatie.html#varianten">Varianten</a>
+        <a href="health-cg-organisatie.html#aanbeveling">Aanbeveling</a>
+        <a href="health-cg-organisatie.html#advisory">Advisory</a>
+        <a href="health-cg-organisatie.html#roadmap">Roadmap</a>
+        <a href="health-cg-organisatie.html#debat">Het debat</a>
+        <a href="health-cg-organisatie.html#acties">Aan de slag</a>
       </div>
-      <div class="mainnav-item" data-page="sprint">
-        <button class="mainnav-btn">AI-Sprint <span class="car">▾</span></button>
-        <div class="mainnav-drop">
-          <a href="health-cg-sprint.html#missie">De missie</a>
-          <a href="health-cg-sprint.html#aifirst">AI-first</a>
-          <a href="health-cg-sprint.html#teams">De teams</a>
-          <a href="health-cg-sprint.html#ritme">Het ritme</a>
-          <a href="health-cg-sprint.html#weken">De 4 weken</a>
-          <a href="health-cg-sprint.html#finale">De finale</a>
-        </div>
+      <div class="submenu" data-page="sprint">
+        <a href="health-cg-sprint.html#missie">De missie</a>
+        <a href="health-cg-sprint.html#aifirst">AI-first</a>
+        <a href="health-cg-sprint.html#teams">De teams</a>
+        <a href="health-cg-sprint.html#ritme">Het ritme</a>
+        <a href="health-cg-sprint.html#weken">De 4 weken</a>
+        <a href="health-cg-sprint.html#finale">De finale</a>
       </div>
-      <div class="mainnav-item current" data-page="werkoverleg">
-        <button class="mainnav-btn">Werkoverleg <span class="car">▾</span></button>
-        <div class="mainnav-drop">
-          <button data-tab="agenda" class="act">Agenda</button>
-          <button data-tab="topics">Topics</button>
-          <button data-tab="acties">Acties</button>
-          <button data-tab="archief">Archief</button>
-        </div>
+      <div class="submenu act" data-page="werkoverleg">
+        <button data-tab="agenda" class="act">Agenda</button>
+        <button data-tab="topics">Topics</button>
+        <button data-tab="acties">Acties</button>
+        <button data-tab="archief">Archief</button>
       </div>
     </div>
   </div>
@@ -413,7 +421,6 @@ window.addEventListener('DOMContentLoaded',()=>{if(sessionStorage.getItem('auth'
     <div class="overlegtype">
       <div class="overlegtype-kop">
         <span class="chip meeting-coordinatie">Health Coördinatie</span>
-        <span class="ot-desc">Afstemming — coördinator, Vakmanschap, EBA, marketing, Yoboo &amp; Fysieke Health</span>
       </div>
       <p class="leegstand">Nog geen overleg gepland. Toegewezen agendapunten (met datum en doel) verschijnen hier zodra er een datum vastligt.</p>
     </div>
@@ -422,7 +429,6 @@ window.addEventListener('DOMContentLoaded',()=>{if(sessionStorage.getItem('auth'
     <div class="overlegtype">
       <div class="overlegtype-kop">
         <span class="chip meeting-sturing">Health Sturing</span>
-        <span class="ot-desc">Besluitvorming — met Lisa &amp; Gilles</span>
       </div>
       <p class="leegstand">Nog geen overleg gepland. Toegewezen agendapunten (met datum en doel) verschijnen hier zodra er een datum vastligt.</p>
     </div>
@@ -431,12 +437,16 @@ window.addEventListener('DOMContentLoaded',()=>{if(sessionStorage.getItem('auth'
     <div class="overlegtype">
       <div class="overlegtype-kop">
         <span class="chip meeting-wolisa">WO Lisa</span>
-        <span class="ot-desc">Wekelijks sponsoroverleg met Lisa</span>
+        <!-- DATUM-SELECT: 1 <option value="agenda-kaart-id"> per geplande datum, zelfde volgorde als de .agenda-kaarten eronder -->
+        <select class="datum-select">
+          <option value="ag-wolisa-1">ma 20 jul</option>
+          <option value="ag-wolisa-2">do 23 jul</option>
+        </select>
       </div>
 
-      <div class="agenda">
+      <div class="agenda act" id="ag-wolisa-1">
         <div class="agenda-kop">
-          <h3>Overleg #1 — vandaag</h3>
+          <h3>Overleg #1</h3>
           <span class="meta">ma 20 juli · kort overleg · ± 40 min</span>
         </div>
         <!-- AGENDA: per punt een <li> met .punt (b = link naar de topic-kaart, span = korte toelichting), chip en .tijd -->
@@ -469,9 +479,9 @@ window.addEventListener('DOMContentLoaded',()=>{if(sessionStorage.getItem('auth'
         </ol>
       </div>
 
-      <div class="agenda">
+      <div class="agenda" id="ag-wolisa-2">
         <div class="agenda-kop">
-          <h3>Overleg #2 — donderdag</h3>
+          <h3>Overleg #2</h3>
           <span class="meta">do 23 juli · langer overleg</span>
         </div>
         <ol>
@@ -519,7 +529,8 @@ window.addEventListener('DOMContentLoaded',()=>{if(sessionStorage.getItem('auth'
          rechts = alle .topic-kaarten, maar enkel de kaart met class="act" is zichtbaar (showTopic() in de JS onderaan regelt dat).
          Nieuw agendapunt toevoegen = zowel een .topics-list-item als een .topic-kaart toevoegen, met hetzelfde id.
          Nieuw verloop-item toevoegen zodra het punt op een meeting is besproken; chip-klasse = meeting-wolisa / meeting-sturing / meeting-coordinatie. -->
-    <div class="topics-layout">
+    <button class="topics-toggle" id="topicsToggle" aria-expanded="true">☰ Alle topics <span class="ttog-car">‹</span></button>
+    <div class="topics-layout" id="topicsLayout">
       <nav class="topics-list">
         <a href="#topic-yoboo" data-topic="topic-yoboo" class="topics-list-item act">
           <span class="tli-title">Yoboo — eerste bevindingen</span>
@@ -773,17 +784,32 @@ window.addEventListener('DOMContentLoaded',()=>{if(sessionStorage.getItem('auth'
 </footer>
 
 <script>
-// Hoofdmenu: 3 pagina's, submenu enkel zichtbaar na klik
-document.querySelectorAll('.mainnav-item').forEach(item=>{
-  item.querySelector('.mainnav-btn').addEventListener('click',e=>{
+// Hoofdmenu: 3 pagina's, horizontale submenu-balk enkel zichtbaar na klik
+document.querySelectorAll('.mainnav-btn').forEach(btn=>{
+  btn.addEventListener('click',e=>{
     e.stopPropagation();
-    const wasOpen=item.classList.contains('open');
-    document.querySelectorAll('.mainnav-item.open').forEach(o=>o.classList.remove('open'));
-    if(!wasOpen) item.classList.add('open');
+    const bar=document.querySelector('.submenu-bar');
+    const alreadyOpen=btn.classList.contains('open');
+    document.querySelectorAll('.mainnav-btn').forEach(b=>b.classList.remove('open'));
+    if(alreadyOpen){
+      bar.classList.remove('open');
+    } else {
+      btn.classList.add('open');
+      document.querySelectorAll('.submenu').forEach(s=>s.classList.toggle('act', s.dataset.page===btn.dataset.page));
+      bar.classList.add('open');
+    }
   });
 });
 document.addEventListener('click',()=>{
-  document.querySelectorAll('.mainnav-item.open').forEach(o=>o.classList.remove('open'));
+  document.querySelectorAll('.mainnav-btn').forEach(b=>b.classList.remove('open'));
+  document.querySelector('.submenu-bar').classList.remove('open');
+});
+
+// Agenda: dropdown per overlegtype kiest welke geplande datum getoond wordt
+document.querySelectorAll('.datum-select').forEach(sel=>{
+  sel.addEventListener('change',()=>{
+    sel.closest('.overlegtype').querySelectorAll('.agenda').forEach(a=>a.classList.toggle('act', a.id===sel.value));
+  });
 });
 
 // Tabs: agenda / topics / acties / archief (hash onthoudt de actieve tab)
@@ -810,6 +836,16 @@ topicListItems.forEach(a=>a.addEventListener('click',e=>{
   showTopic(a.dataset.topic);
   document.querySelector('.topics-detail').scrollIntoView({behavior:'smooth', block:'start'});
 }));
+
+// Topics: linkerkolom in-/uitklappen (neemt anders te veel plaats)
+const topicsLayout=document.getElementById('topicsLayout');
+const topicsToggle=document.getElementById('topicsToggle');
+if(topicsToggle){
+  topicsToggle.addEventListener('click',()=>{
+    const collapsed=topicsLayout.classList.toggle('collapsed');
+    topicsToggle.setAttribute('aria-expanded', String(!collapsed));
+  });
+}
 
 // Links vanuit de agenda naar de uitgewerkte topic-kaart: wissel naar Topics, toon enkel die kaart
 document.querySelectorAll('a.topic-link').forEach(a=>a.addEventListener('click',e=>{
