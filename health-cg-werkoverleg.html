@@ -210,7 +210,12 @@ header.kop p{margin-top:8px; color:#C9E4E0; font-size:.98rem; max-width:44em}
 .topics-list-item.act{border-color:var(--accent); background:var(--accent-soft)}
 .topics-list-item .tli-title{display:block; font-size:.9rem; font-weight:600; margin-bottom:6px}
 .topics-list-item .tli-tags{display:flex; gap:4px; flex-wrap:wrap}
+.topics-filter{
+  width:100%; margin-bottom:4px; font-size:.85rem; font-weight:600; font-family:inherit; color:var(--ink);
+  background:var(--card); border:1px solid var(--hair); border-radius:99px; padding:8px 12px; cursor:pointer;
+}
 .topics-detail{min-width:0}
+.topics-list-item.gefilterd{display:none}
 @media (max-width:820px){
   .topics-layout,.topics-layout.collapsed{grid-template-columns:1fr}
   .topics-list{position:static; flex-direction:row; flex-wrap:wrap; min-width:0}
@@ -257,6 +262,12 @@ a.topic-link:hover{border-bottom-style:solid}
   border-radius:0 10px 10px 0; padding:10px 14px; font-size:.95rem;
 }
 .topic .voorstel b{color:var(--accent)}
+
+/* Omkaderd blok voor iemands persoonlijke feedback/inschatting binnen een topic */
+.feedback-blok{margin-top:18px; border:1.5px solid var(--accent); border-radius:12px; padding:16px 18px 18px}
+.feedback-blok .fb-titel{font-size:.78rem; font-weight:700; text-transform:uppercase; letter-spacing:.1em; color:var(--accent); margin-bottom:10px}
+.feedback-blok h4:first-of-type{margin-top:0}
+.feedback-blok .voorstel:last-child{margin-bottom:0}
 
 /* Gedeeld materiaal */
 .materiaal{display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:14px; margin-top:18px}
@@ -507,27 +518,34 @@ window.addEventListener('DOMContentLoaded',()=>{if(localStorage.getItem('auth')=
     <button class="topics-toggle" id="topicsToggle" aria-expanded="true">☰ Alle topics <span class="ttog-car">‹</span></button>
     <div class="topics-layout" id="topicsLayout">
       <nav class="topics-list">
-        <a href="#topic-yoboo" data-topic="topic-yoboo" class="topics-list-item act">
+        <!-- FILTER: value = wolisa / sturing / coordinatie, moet overeenkomen met data-meeting op de .topics-list-item hieronder -->
+        <select class="topics-filter" id="topicsFilter">
+          <option value="alle">Alle overleggen</option>
+          <option value="wolisa">WO Lisa</option>
+          <option value="sturing">Health Sturing</option>
+          <option value="coordinatie">Health Coördinatie</option>
+        </select>
+        <a href="#topic-yoboo" data-topic="topic-yoboo" data-meeting="wolisa" class="topics-list-item act">
           <span class="tli-title">Yoboo — eerste bevindingen</span>
           <span class="tli-tags"><span class="chip informeren">informeren</span><span class="chip meeting-wolisa">WO Lisa</span></span>
         </a>
-        <a href="#topic-advisory-track" data-topic="topic-advisory-track" class="topics-list-item">
+        <a href="#topic-advisory-track" data-topic="topic-advisory-track" data-meeting="wolisa" class="topics-list-item">
           <span class="tli-title">Strategic track Health Advisory</span>
           <span class="tli-tags"><span class="chip bespreken">bespreken</span><span class="chip meeting-wolisa">WO Lisa</span></span>
         </a>
-        <a href="#topic-private-label" data-topic="topic-private-label" class="topics-list-item">
+        <a href="#topic-private-label" data-topic="topic-private-label" data-meeting="wolisa" class="topics-list-item">
           <span class="tli-title">Strategic track Health Private Label</span>
           <span class="tli-tags"><span class="chip bespreken">bespreken</span><span class="chip meeting-wolisa">WO Lisa</span></span>
         </a>
-        <a href="#topic-franchise-event" data-topic="topic-franchise-event" class="topics-list-item">
+        <a href="#topic-franchise-event" data-topic="topic-franchise-event" data-meeting="wolisa" class="topics-list-item">
           <span class="tli-title">Apothekers/franchise-event</span>
           <span class="tli-tags"><span class="chip bespreken">bespreken</span><span class="chip meeting-wolisa">WO Lisa</span></span>
         </a>
-        <a href="#topic-health-box" data-topic="topic-health-box" class="topics-list-item">
+        <a href="#topic-health-box" data-topic="topic-health-box" data-meeting="wolisa" class="topics-list-item">
           <span class="tli-title">Health box</span>
           <span class="tli-tags"><span class="chip beslissen">beslissen</span><span class="chip meeting-wolisa">WO Lisa</span></span>
         </a>
-        <a href="#topic-sri-sri" data-topic="topic-sri-sri" class="topics-list-item">
+        <a href="#topic-sri-sri" data-topic="topic-sri-sri" data-meeting="sturing" class="topics-list-item">
           <span class="tli-title">Sri Sri — samenwerking</span>
           <span class="tli-tags"><span class="chip bespreken">bespreken</span><span class="chip meeting-sturing">Health Sturing</span></span>
         </a>
@@ -736,15 +754,19 @@ window.addEventListener('DOMContentLoaded',()=>{if(localStorage.getItem('auth')=
         </div>
       </div>
 
-      <h4>Route 1 · Product(en) in het assortiment</h4>
-      <p>Als aanvulling op het bestaande product-assortiment bij Newpharma kan dat werken. Niet als private label, en nog niet binnen een nieuw health retail concept — daar staan we voorlopig nog niet ver genoeg voor.</p>
+      <div class="feedback-blok">
+        <div class="fb-titel">Feedback Stijn</div>
 
-      <h4>Route 2 · Partner voor wellness (Health Advisory)</h4>
-      <p>Mogelijk voor Health Advisory: als oplossing voor de gezondheidsdoelstellingen van de klant, onderdeel van de waaier die we kunnen aanbieden — producten, maar ook wellness en andere zaken. Ook hier staan we nog niet ver genoeg om dat al als een echt partnership uit te bouwen.</p>
+        <h4>Route 1 · Product(en) in het assortiment</h4>
+        <p>Als aanvulling op het bestaande product-assortiment bij Newpharma kan dat werken. Niet als private label, en nog niet binnen een nieuw health retail concept — daar staan we voorlopig nog niet ver genoeg voor.</p>
 
-      <div class="voorstel"><b>Als we nu iets willen doen:</b> enkel het product-assortiment bij Newpharma — geen private label, geen nieuw retail concept, nog geen partnership rond Health Advisory.</div>
+        <h4>Route 2 · Partner voor wellness (Health Advisory)</h4>
+        <p>Mogelijk voor Health Advisory: als oplossing voor de gezondheidsdoelstellingen van de klant, onderdeel van de waaier die we kunnen aanbieden — producten, maar ook wellness en andere zaken. Ook hier staan we nog niet ver genoeg om dat al als een echt partnership uit te bouwen.</p>
 
-      <p style="margin-top:10px"><b>Vraag:</b> eens met die insteek — nu enkel assortiment bij Newpharma, de rest later? En vooral: wanneer?</p>
+        <div class="voorstel"><b>Als we nu iets willen doen:</b> enkel het product-assortiment bij Newpharma — geen private label, geen nieuw retail concept, nog geen partnership rond Health Advisory.</div>
+      </div>
+
+      <p style="margin-top:14px"><b>Vraag:</b> eens met die insteek — nu enkel assortiment bij Newpharma, de rest later? En vooral: wanneer?</p>
 
       <div class="materiaal" style="margin-top:14px">
         <a href="https://colruytgroupcom.sharepoint.com/sites/col-buo-BusinessOrchestrationHealth/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2Fcol%2Dbuo%2DBusinessOrchestrationHealth%2FShared%20Documents%2FTactische%20werking%2FBusiness%20development%2FMoments&sortField=Modified&isAscending=false&viewid=91611887%2De7df%2D4f79%2Da55f%2D423e4fab8f54&p=true&ct=1784564467419&or=Teams%2DHL&ga=1&LOF=1" target="_blank" rel="noopener"><b>Sri Sri-documentatie</b><span>Historiek op Teams.</span></a>
@@ -841,6 +863,15 @@ topicListItems.forEach(a=>a.addEventListener('click',e=>{
   showTopic(a.dataset.topic);
   document.querySelector('.topics-detail').scrollIntoView({behavior:'smooth', block:'start'});
 }));
+
+// Topics: filter op overlegtype
+const topicsFilter=document.getElementById('topicsFilter');
+if(topicsFilter){
+  topicsFilter.addEventListener('change',()=>{
+    const val=topicsFilter.value;
+    topicListItems.forEach(a=>a.classList.toggle('gefilterd', val!=='alle' && a.dataset.meeting!==val));
+  });
+}
 
 // Topics: linkerkolom in-/uitklappen (neemt anders te veel plaats)
 const topicsLayout=document.getElementById('topicsLayout');
