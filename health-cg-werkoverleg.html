@@ -189,6 +189,33 @@ header.kop p{margin-top:8px; color:#C9E4E0; font-size:.98rem; max-width:44em}
   .agenda ol li{grid-template-columns:30px 1fr; }
   .agenda .tijd,.agenda ol li .chip{grid-column:2}
 }
+.agenda ol li[draggable="true"]{cursor:grab}
+.agenda ol li.slepen{opacity:.4}
+.agenda ol li.drop-boven{box-shadow:inset 0 2px 0 var(--accent)}
+.agenda ol li.drop-onder{box-shadow:inset 0 -2px 0 var(--accent)}
+.agenda ol.leeg-dropzone{min-height:40px}
+
+/* Nieuw agendapunt: knop + formulier */
+.nieuw-agendapunt-btn{
+  margin-top:14px; font-size:.85rem; font-weight:700; color:#fff; cursor:pointer;
+  background:var(--accent); border:none; border-radius:99px; padding:9px 16px;
+}
+.agendapunt-form{
+  margin-top:14px; display:none; grid-template-columns:1fr 1fr; gap:10px;
+  background:var(--band); border:1px solid var(--hair); border-radius:14px; padding:16px 18px;
+}
+.agendapunt-form.open{display:grid}
+.agendapunt-form label{display:flex; flex-direction:column; gap:4px; font-size:.82rem; font-weight:600; color:var(--muted)}
+.agendapunt-form label.full{grid-column:1/-1}
+.agendapunt-form input,.agendapunt-form select{
+  font:inherit; font-size:.92rem; color:var(--ink); background:var(--card);
+  border:1px solid var(--hair); border-radius:8px; padding:8px 10px;
+}
+.agendapunt-form .form-acties{grid-column:1/-1; display:flex; gap:8px; justify-content:flex-end; margin-top:4px}
+.agendapunt-form button{font-size:.85rem; font-weight:700; border-radius:99px; padding:8px 16px; cursor:pointer; border:none}
+.agendapunt-form button[type="submit"]{background:var(--accent); color:#fff}
+.agendapunt-form button.annuleer{background:none; color:var(--muted); border:1px solid var(--hair)}
+.agendapunt-form .fout{grid-column:1/-1; color:var(--red); font-size:.85rem}
 
 /* ============ TOPICS: kolom met alle topics + detail van het geselecteerde ============ */
 .topics-toggle{
@@ -332,8 +359,8 @@ footer{padding:28px 0 40px; color:var(--muted); font-size:.85rem; border-top:1px
 <script>
 const MASTER_HASH = '750db0f147fb55c6755f5b3bb2606a35623b43d03c80056c48587dfa2df45c04';
 async function sha256(s){const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s));return Array.from(new Uint8Array(b)).map(x=>x.toString(16).padStart(2,'0')).join('');}
-async function checkPw(){const h=await sha256(document.getElementById('pwInput').value);if(h===MASTER_HASH){localStorage.setItem('auth','1');document.getElementById('gate').style.display='none';document.getElementById('app').style.display='block';window.dispatchEvent(new Event('resize'));}else{const i=document.getElementById('pwInput');i.style.borderColor='#ef4444';i.value='';setTimeout(()=>i.style.borderColor='#333',600);}}
-window.addEventListener('DOMContentLoaded',()=>{if(localStorage.getItem('auth')==='1'){document.getElementById('gate').style.display='none';document.getElementById('app').style.display='block';window.dispatchEvent(new Event('resize'));}});
+async function checkPw(){const h=await sha256(document.getElementById('pwInput').value);if(h===MASTER_HASH){localStorage.setItem('auth','1');document.getElementById('gate').style.display='none';document.getElementById('app').style.display='block';window.dispatchEvent(new Event('resize'));if(typeof initWerkoverleg==='function')initWerkoverleg();}else{const i=document.getElementById('pwInput');i.style.borderColor='#ef4444';i.value='';setTimeout(()=>i.style.borderColor='#333',600);}}
+window.addEventListener('DOMContentLoaded',()=>{if(localStorage.getItem('auth')==='1'){document.getElementById('gate').style.display='none';document.getElementById('app').style.display='block';window.dispatchEvent(new Event('resize'));if(typeof initWerkoverleg==='function')initWerkoverleg();}});
 </script>
 
 <!-- APP -->
@@ -377,13 +404,10 @@ window.addEventListener('DOMContentLoaded',()=>{if(localStorage.getItem('auth')=
   <div class="wrap">
     <span class="eyebrow">Doorheen de week</span>
     <h2 class="sec-title">Te agenderen</h2>
-    <p class="sec-note">Nog niet uitgewerkt of toegewezen.</p>
+    <p class="sec-note">Nog niet toegewezen aan een overleg. Sleep een punt naar een kolom hiernaast om het te agenderen.</p>
     <div class="inbox">
-      <!-- INBOX: nieuw item bovenaan toevoegen, formaat:
-           <li><span class="datum">20 jul</span><span class="tekst">het punt</span><span class="chip meeting-onbepaald">niet toegewezen</span></li>
-           item verwijderen zodra het is uitgewerkt tot een topic-kaart (Topics-tab) én toegewezen aan een overleg+datum (Agenda-tab) -->
-      <ul>
-        <li class="leeg">Alles verwerkt — de gedropte punten (20 jul) staan uitgewerkt in Topics en toegewezen in de agenda hieronder.</li>
+      <ul id="inboxLijst">
+        <li class="leeg">Laden…</li>
       </ul>
     </div>
   </div>
@@ -394,130 +418,38 @@ window.addEventListener('DOMContentLoaded',()=>{if(localStorage.getItem('auth')=
   <div class="wrap">
     <span class="eyebrow">Eerstvolgend per overleg</span>
     <h2 class="sec-title">Agenda</h2>
-    <p class="sec-note">Klik een titel voor de volledige uitwerking.</p>
+    <p class="sec-note">Klik een titel voor de volledige uitwerking. Sleep punten tussen overleggen, of herorden ze binnen één overleg.</p>
 
-    <!-- OVERLEGTYPES NAAST ELKAAR: eerst Coördinatie, dan Sturing, dan WO Lisa. Nummering (agendapunten) loopt door over de 3 kolommen (counter-reset staat op .overlegtypes-row, niet per <ol>). -->
-    <div class="overlegtypes-row">
-
-    <!-- OVERLEGTYPE: HEALTH COÖRDINATIE -->
-    <div class="overlegtype">
-      <div class="overlegtype-kop">
-        <span class="chip meeting-coordinatie">Health Coördinatie</span>
-      </div>
-
-      <div class="agenda act" id="ag-coordinatie-1">
-        <div class="agenda-kop">
-          <h3>Overleg</h3>
-          <span class="meta">wo 22 juli</span>
-        </div>
-        <ol>
-          <li>
-            <div class="punt"><b><a class="topic-link" data-topic="topic-private-label" href="#topic-private-label">Strategic track Health Private Label</a></b><span>Wie trekt dit?</span></div>
-            <span class="chip bespreken">bespreken</span>
-            <span class="tijd">10 min</span>
-          </li>
-          <li>
-            <div class="punt"><b><a class="topic-link" data-topic="topic-franchise-event" href="#topic-franchise-event">Apothekers/franchise-event</a></b><span>Stand van zaken en aanpak van het event.</span></div>
-            <span class="chip bespreken">bespreken</span>
-            <span class="tijd">10 min</span>
-          </li>
-          <li>
-            <div class="punt"><b><a class="topic-link" data-topic="topic-health-box" href="#topic-health-box">Health box</a></b><span>Verdergaan met de pre-op/post-op boxen?</span></div>
-            <span class="chip beslissen">beslissen</span>
-            <span class="tijd">5 min</span>
-          </li>
-        </ol>
-      </div>
-    </div>
-
-    <!-- OVERLEGTYPE: HEALTH STURING -->
-    <div class="overlegtype">
-      <div class="overlegtype-kop">
-        <span class="chip meeting-sturing">Health Sturing</span>
-      </div>
-
-      <div class="agenda act" id="ag-sturing-1">
-        <div class="agenda-kop">
-          <h3>Overleg</h3>
-          <span class="meta">wo 22 juli</span>
-        </div>
-        <ol>
-          <li>
-            <div class="punt"><b><a class="topic-link" data-topic="topic-yoboo" href="#topic-yoboo">Yoboo — eerste bevindingen</a></b><span>Wat leren we tot nu toe uit Yoboo, en wat betekent dat voor de advisory-rol?</span></div>
-            <span class="chip informeren">informeren</span>
-            <span class="tijd">10 min</span>
-          </li>
-          <li>
-            <div class="punt"><b><a class="topic-link" data-topic="topic-sri-sri" href="#topic-sri-sri">Sri Sri — samenwerking</a></b><span>Hoe gaan we hiermee verder, en wanneer?</span></div>
-            <span class="chip bespreken">bespreken</span>
-            <span class="tijd">15 min</span>
-          </li>
-          <li>
-            <div class="punt"><b><a class="topic-link" data-topic="topic-fysieke-status" href="#topic-fysieke-status">Status organisatie Fysieke health retail</a></b><span>Waar staan we vandaag met de organisatie van de fysieke health retail-poot?</span></div>
-            <span class="chip informeren">informeren</span>
-            <span class="tijd">10 min</span>
-          </li>
-          <li>
-            <div class="punt"><b><a class="topic-link" data-topic="topic-earnout" href="#topic-earnout">Yoboo — earn-out founders</a></b><span>De earn-out voor de Yoboo-founders.</span></div>
-            <span class="chip bespreken">bespreken</span>
-            <span class="tijd">10 min</span>
-          </li>
-        </ol>
-      </div>
-    </div>
-
-    <!-- OVERLEGTYPE: WO LISA -->
-    <div class="overlegtype">
-      <div class="overlegtype-kop">
-        <span class="chip meeting-wolisa">WO Lisa</span>
-        <!-- DATUM-SELECT: 1 <option value="agenda-kaart-id"> per geplande datum, zelfde volgorde als de .agenda-kaarten eronder -->
-        <select class="datum-select">
-          <option value="ag-wolisa-1">ma 20 jul</option>
-          <option value="ag-wolisa-2">do 23 jul</option>
+    <button class="nieuw-agendapunt-btn" id="nieuwAgendapuntBtn">+ Nieuw agendapunt</button>
+    <form class="agendapunt-form" id="agendapuntForm">
+      <label class="full">Titel<input type="text" name="titel" required></label>
+      <label class="full">Toelichting (kort)<input type="text" name="toelichting"></label>
+      <label>Overleg
+        <select name="meeting">
+          <option value="">Niet toegewezen (Te agenderen)</option>
+          <option value="coordinatie">Health Coördinatie</option>
+          <option value="sturing">Health Sturing</option>
+          <option value="wolisa">WO Lisa</option>
         </select>
+      </label>
+      <label>Datum<input type="date" name="datum"></label>
+      <label>Doel
+        <select name="doel">
+          <option value="informeren">informeren</option>
+          <option value="bespreken" selected>bespreken</option>
+          <option value="beslissen">beslissen</option>
+        </select>
+      </label>
+      <label>Tijd (min)<input type="number" name="tijd_min" value="10" min="1"></label>
+      <div class="fout" id="agendapuntFormFout" style="display:none"></div>
+      <div class="form-acties">
+        <button type="button" class="annuleer" id="agendapuntFormAnnuleer">Annuleren</button>
+        <button type="submit">Toevoegen</button>
       </div>
+    </form>
 
-      <div class="agenda act" id="ag-wolisa-1">
-        <div class="agenda-kop">
-          <h3>Overleg #1</h3>
-          <span class="meta">ma 20 juli · kort overleg · ± 40 min</span>
-        </div>
-        <!-- AGENDA: per punt een <li> met .punt (b = link naar de topic-kaart, span = korte toelichting), chip en .tijd -->
-        <ol>
-          <li>
-            <div class="punt"><b><a class="topic-link" data-topic="topic-advisory-track" href="#topic-advisory-track">Strategic track Health Advisory</a></b><span>Stand van het traject — hoe verder?</span></div>
-            <span class="chip bespreken">bespreken</span>
-            <span class="tijd">10 min</span>
-          </li>
-        </ol>
-      </div>
-
-      <div class="agenda" id="ag-wolisa-2">
-        <div class="agenda-kop">
-          <h3>Overleg #2</h3>
-          <span class="meta">do 23 juli · langer overleg</span>
-        </div>
-        <ol>
-          <li>
-            <div class="punt"><b>Roadmap / storyboard opgebouwd</b><span>Openen met de opgebouwde roadmap en het storyboard richting lancering — <a href="https://stverstr.github.io/Roadmap-Tool/" target="_blank" rel="noopener">open de roadmap-tool</a>.</span></div>
-            <span class="chip informeren">informeren</span>
-            <span class="tijd">10 min</span>
-          </li>
-          <li>
-            <div class="punt"><b>Organisatie Health — voorstel way forward</b><span>Het voorstel uit het hoofddocument: variant 2 (corporate regie) op platformprincipes, met de opschaaltriggers. Wat is er nodig om dit richting beslissing te brengen?</span></div>
-            <span class="chip bespreken">bespreken</span>
-            <span class="tijd">30 min</span>
-          </li>
-          <li>
-            <div class="punt"><b>Health AI-sprint</b><span>Het 4-weken AI-first sprintplan: opzet, deelnemers en wat er nodig is om te starten.</span></div>
-            <span class="chip bespreken">bespreken</span>
-            <span class="tijd">15 min</span>
-          </li>
-        </ol>
-      </div>
-    </div>
-
-    </div>
+    <!-- OVERLEGTYPES NAAST ELKAAR: eerst Coördinatie, dan Sturing, dan WO Lisa — wordt dynamisch gevuld door renderAgenda() in de script hieronder. -->
+    <div class="overlegtypes-row" id="agendaContainer"></div>
   </div>
 </section>
 </div>
@@ -529,323 +461,19 @@ window.addEventListener('DOMContentLoaded',()=>{if(localStorage.getItem('auth')=
     <span class="eyebrow">Agendapunten, los van een meeting</span>
     <h2 class="sec-title">Topics</h2>
 
-    <!-- TOPICS: links kolom = 1 link per agendapunt (.topics-list-item, data-topic = id van de kaart);
-         rechts = alle .topic-kaarten, maar enkel de kaart met class="act" is zichtbaar (showTopic() in de JS onderaan regelt dat).
-         Nieuw agendapunt toevoegen = zowel een .topics-list-item als een .topic-kaart toevoegen, met hetzelfde id.
-         Nieuw verloop-item toevoegen zodra het punt op een meeting is besproken; chip-klasse = meeting-wolisa / meeting-sturing / meeting-coordinatie. -->
+    <!-- Wordt volledig dynamisch gevuld door renderTopics() in de script hieronder. -->
     <button class="topics-toggle" id="topicsToggle" aria-expanded="true">☰ Alle topics <span class="ttog-car">‹</span></button>
     <div class="topics-layout" id="topicsLayout">
-      <nav class="topics-list">
-        <!-- FILTER: value = wolisa / sturing / coordinatie, moet overeenkomen met data-meeting op de .topics-list-item hieronder -->
+      <nav class="topics-list" id="topicsList">
         <select class="topics-filter" id="topicsFilter">
           <option value="alle">Alle overleggen</option>
           <option value="wolisa">WO Lisa</option>
           <option value="sturing">Health Sturing</option>
           <option value="coordinatie">Health Coördinatie</option>
         </select>
-        <a href="#topic-yoboo" data-topic="topic-yoboo" data-meeting="sturing" class="topics-list-item act">
-          <span class="tli-title">Yoboo — eerste bevindingen</span>
-          <span class="tli-tags"><span class="chip informeren">informeren</span><span class="chip meeting-sturing">Health Sturing</span></span>
-        </a>
-        <a href="#topic-advisory-track" data-topic="topic-advisory-track" data-meeting="wolisa" class="topics-list-item">
-          <span class="tli-title">Strategic track Health Advisory</span>
-          <span class="tli-tags"><span class="chip bespreken">bespreken</span><span class="chip meeting-wolisa">WO Lisa</span></span>
-        </a>
-        <a href="#topic-private-label" data-topic="topic-private-label" data-meeting="coordinatie" class="topics-list-item">
-          <span class="tli-title">Strategic track Health Private Label</span>
-          <span class="tli-tags"><span class="chip bespreken">bespreken</span><span class="chip meeting-coordinatie">Health Coördinatie</span></span>
-        </a>
-        <a href="#topic-franchise-event" data-topic="topic-franchise-event" data-meeting="coordinatie" class="topics-list-item">
-          <span class="tli-title">Apothekers/franchise-event</span>
-          <span class="tli-tags"><span class="chip bespreken">bespreken</span><span class="chip meeting-coordinatie">Health Coördinatie</span></span>
-        </a>
-        <a href="#topic-health-box" data-topic="topic-health-box" data-meeting="coordinatie" class="topics-list-item">
-          <span class="tli-title">Health box</span>
-          <span class="tli-tags"><span class="chip beslissen">beslissen</span><span class="chip meeting-coordinatie">Health Coördinatie</span></span>
-        </a>
-        <a href="#topic-sri-sri" data-topic="topic-sri-sri" data-meeting="sturing" class="topics-list-item">
-          <span class="tli-title">Sri Sri — samenwerking</span>
-          <span class="tli-tags"><span class="chip bespreken">bespreken</span><span class="chip meeting-sturing">Health Sturing</span></span>
-        </a>
-        <a href="#topic-fysieke-status" data-topic="topic-fysieke-status" data-meeting="sturing" class="topics-list-item">
-          <span class="tli-title">Status organisatie Fysieke health retail</span>
-          <span class="tli-tags"><span class="chip informeren">informeren</span><span class="chip meeting-sturing">Health Sturing</span></span>
-        </a>
-        <a href="#topic-earnout" data-topic="topic-earnout" data-meeting="sturing" class="topics-list-item">
-          <span class="tli-title">Yoboo — earn-out founders</span>
-          <span class="tli-tags"><span class="chip bespreken">bespreken</span><span class="chip meeting-sturing">Health Sturing</span></span>
-        </a>
       </nav>
-      <div class="topics-detail">
-
-    <div class="topic act" id="topic-yoboo">
-      <div class="tags">
-        <span class="chip informeren">informeren</span>
-        <span class="chip meeting-sturing">Health Sturing</span>
-        <span class="datum-inline">22 jul</span>
-      </div>
-      <h3>Yoboo — eerste bevindingen</h3>
-          <p>Twee voormiddagen ter plaatse in Antwerpen (met Olivier, de originele founder, en Lare); donderdagmiddag volgt een derde bezoek. Zes observaties:</p>
-
-          <div class="minigrid">
-            <div class="mini rood">
-              <b>Misalignment met corporate</b>
-              <p>Yoboo stopte in januari met B2pharmacy; corporate zet Noorderlaan &amp; Sint-Gillis gewoon verder. Wederzijds weinig zicht, ruis tussen Joris (CEO) en Olivier.</p>
-            </div>
-            <div class="mini rood">
-              <b>Apotheek-piste verlaten</b>
-              <p>Olivier gelooft niet meer in de apotheker als servicekanaal (te weinig tijd, te weinig commercieel). De apotheektesten draaien enkel nog op Joris.</p>
-            </div>
-            <div class="mini blauw">
-              <b>B2B = acquisitiekanaal</b>
-              <p>Snel omzet én eindgebruikers binnenhalen; medewerkers beheerd als individuen. Vroeger apothekers, straks sportclubs, diëtisten…</p>
-            </div>
-            <div class="mini amber">
-              <b>Start-up zonder market fit</b>
-              <p><span class="cijfer">€65k <small>omzet</small> / €600k <small>kosten</small></span><br>Resources van een geschaald team; professionalisering (testing, DevOps, demo's, stakeholders) pas gestart.</p>
-            </div>
-            <div class="mini amber">
-              <b>Rewrite op til</b>
-              <p>Roadmap zit goed in elkaar, maar de refactoring van het informatiemodel is de facto een rewrite. Is dit het moment, nu we de aanpak herbekijken?</p>
-            </div>
-            <div class="mini amber">
-              <b>Aan de rand van het ecosysteem</b>
-              <p>Wil het health-ecosysteem onderbouwen maar staat er amper mee in contact; vakmanschap niet gealigneerd met de groep.</p>
-            </div>
-          </div>
-
-          <p style="margin-top:14px"><b>Mijn inschatting:</b> ik geloof wél in het verhaal en de richting — de vragen gaan over alignment, timing en organisatie.</p>
-
-          <div class="voorstel"><b>Te bespreken met Lisa:</b> (1) hoe herstellen we de alignment tussen corporate en Yoboo — strategie, apotheek-experimenten en de lijn Joris/Olivier; (2) laten we de rewrite van het informatiemodel nu doorgaan, of eerst de beslissing over de bredere aanpak; (3) hoe brengen we Yoboo van de rand naar het hart van het ecosysteem, incl. alignering van het vakmanschap.</div>
-
-      <div class="verloop">
-        <h4>Verloop</h4>
-        <ul>
-          <li><span class="chip meeting-sturing">Health Sturing</span><span class="datum">22 jul</span> gepland — eerste keer op de agenda, nog niet besproken.</li>
-        </ul>
-      </div>
+      <div class="topics-detail" id="topicsDetail"></div>
     </div>
-
-    <div class="topic" id="topic-advisory-track">
-      <div class="tags">
-        <span class="chip bespreken">bespreken</span>
-        <span class="chip meeting-wolisa">WO Lisa</span>
-        <span class="datum-inline">20 jul</span>
-      </div>
-      <h3>Strategic track Health Advisory — hoe verder?</h3>
-          <p>Het traject loopt al een tijd en is voorzien tot einde dit jaar. De bottleneck vandaag: een workshop geboekt krijgen met de belangrijkste stakeholders. Vóór die workshop er is, moeten we kiezen wat we ermee willen — er liggen drie routes op tafel.</p>
-
-          <h4>Route A · Wit blad</h4>
-          <ul>
-            <li>Met de stakeholders vanaf nul vertrekken. Maximaal draagvlak, maar traag — en het risico dat we uitkomen waar we al staan.</li>
-          </ul>
-
-          <h4>Route B · Visie ter validatie</h4>
-          <ul>
-            <li>Zelf een visie neerleggen en die door de stakeholders laten valideren. Sneller en sturender; de workshop wordt een toetsing in plaats van een zoektocht.</li>
-          </ul>
-
-          <h4>Route C · Vervangen door de sprint</h4>
-          <ul>
-            <li>Het strategische traject vervangen door de AI-first sprint (zie sprintvoorstel), die veel verder gaat dan principes: één gedeelde applicatie en concrete uitwerking in vier weken.</li>
-          </ul>
-
-          <p style="margin-top:14px"><b>Mijn weging:</b> het strategische werk zal hoe dan ook enkel tot een set principes leiden — daarna moet het echte werk nog starten. Dat pleit ervoor om minstens met een visie te vertrekken (B), of de stap naar de sprint te zetten (C).</p>
-
-          <div class="voorstel"><b>Vraag aan Lisa:</b> welke route kiezen we vóór we de stakeholderworkshop vastleggen — wit blad, visie ter validatie, of de sprint als vervanger van het strategische traject?</div>
-
-      <div class="verloop">
-        <h4>Verloop</h4>
-        <ul>
-          <li><span class="chip meeting-wolisa">WO Lisa</span><span class="datum">20 jul</span> gepland — eerste keer op de agenda, nog niet besproken.</li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="topic" id="topic-private-label">
-      <div class="tags">
-        <span class="chip bespreken">bespreken</span>
-        <span class="chip meeting-coordinatie">Health Coördinatie</span>
-        <span class="datum-inline">22 jul</span>
-      </div>
-      <h3>Strategic track Health Private Label — wie trekt dit?</h3>
-          <p>Na overleg is mijn inschatting dat deze track <b>niet door Ilka en haar team getrokken zal worden</b>:</p>
-          <ul>
-            <li>Er ligt bij hen wel een strategisch-planoefening, maar die spitst zich <b>niet specifiek op gezondheid</b> toe.</li>
-            <li>Ze zal al zeker niet beantwoorden <b>wie welke private labels mag oprichten</b> (Newpharma / Yoboo / Jims).</li>
-            <li>Ilka verwacht die oefening eerder bij <b>corporate marketing</b>.</li>
-          </ul>
-          <div class="voorstel"><b>Vraag aan Lisa:</b> moeten we deze track niet eerst beter onderbouwen — scope, vraagstelling en eigenaar scherp krijgen (Ilka's team, corporate marketing, of binnen het Health-traject zelf) — vóór we hem als strategic track verder laten lopen?</div>
-
-          <div class="voorstel" style="margin-top:8px"><b>Voorstel:</b> Lisa vraagt aan Olivier wie hierop kan werken; Kenneth en Stijn werken samen een opdrachtkader uit.</div>
-
-      <div class="verloop">
-        <h4>Verloop</h4>
-        <ul>
-          <li><span class="chip meeting-coordinatie">Health Coördinatie</span><span class="datum">22 jul</span> gepland — eerste keer op de agenda, nog niet besproken.</li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="topic" id="topic-franchise-event">
-      <div class="tags">
-        <span class="chip bespreken">bespreken</span>
-        <span class="chip meeting-coordinatie">Health Coördinatie</span>
-        <span class="datum-inline">22 jul</span>
-      </div>
-      <h3>Apothekers/franchise-event — wat gaan we vertellen?</h3>
-          <p>Er is een event gepland in <b>september</b>, maar de basis eronder is wankel:</p>
-          <ul>
-            <li>Het wordt <b>enkel door Joris getrokken</b>; Olivier is niet echt op de hoogte.</li>
-            <li>Er ligt weinig rond franchising op tafel <b>waar iedereen achter staat</b>.</li>
-            <li>We hebben vandaag <b>geen werkend, duurzaam en profitabel franchisemodel</b> om te verkopen.</li>
-          </ul>
-
-          <h4>Optie 1 · Doorgaan en model uitwerken</h4>
-          <ul>
-            <li>Het event laten doorgaan en tegen september alsnog een volledig franchisemodel uitwerken. Ambitieus op deze termijn, zonder gedragen basis.</li>
-          </ul>
-
-          <h4>Optie 2 · Informatief/inspirerend event</h4>
-          <ul>
-            <li>Het event ombuigen naar informeren en inspireren, zonder al diep op franchising in te gaan. De relatie opbouwen, de belofte klein houden.</li>
-          </ul>
-
-          <h4>Optie 3 · Annuleren</h4>
-          <ul>
-            <li>Het event schrappen tot er een verhaal én een model ligt.</li>
-          </ul>
-
-          <div class="voorstel"><b>Mijn voorstel:</b> optie 2 — eerder een brainstorm-/co-creatie-event met de apothekers, om te voelen waar zij naartoe willen, dan een concreet franchisevoorstel.</div>
-          <p style="margin-top:8px"><b>Nog te bepalen:</b> wie moet er naast Joris mee aan boord om het verhaal gedragen te krijgen?</p>
-
-      <div class="verloop">
-        <h4>Verloop</h4>
-        <ul>
-          <li><span class="chip meeting-coordinatie">Health Coördinatie</span><span class="datum">22 jul</span> gepland — eerste keer op de agenda, nog niet besproken.</li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="topic" id="topic-health-box">
-      <div class="tags">
-        <span class="chip beslissen">beslissen</span>
-        <span class="chip meeting-coordinatie">Health Coördinatie</span>
-        <span class="datum-inline">22 jul</span>
-      </div>
-      <h3>Health box — verdergaan met pre-op/post-op?</h3>
-      <p>Caroline heeft de health box intussen verder uitgewerkt: in een proces gegoten en aangevuld met een set principes. <b>Dat ziet er goed uit.</b></p>
-      <ul>
-        <li>Mijn idee daarbij: dit geheel <b>door AI laten ondersteunen</b> — om het overzicht niet te verliezen, en vooral om <b>zoveel mogelijk differentiatie en personalisatie</b> in de boxen toe te laten.</li>
-      </ul>
-      <div class="voorstel"><b>Beslist:</b> we gaan verder met de pre-op/post-op boxen. Nog te bepalen: hoe ondersteunen we Caroline verder — vanuit AI of anders?</div>
-
-      <div class="verloop">
-        <h4>Verloop</h4>
-        <ul>
-          <li><span class="chip meeting-coordinatie">Health Coördinatie</span><span class="datum">22 jul</span> gepland — eerste keer op de agenda, nog niet besproken.</li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="topic" id="topic-sri-sri">
-      <div class="tags">
-        <span class="chip bespreken">bespreken</span>
-        <span class="chip meeting-sturing">Health Sturing</span>
-        <span class="datum-inline">22 jul</span>
-      </div>
-      <h3>Sri Sri — samenwerking</h3>
-      <p>Sri Sri kwam zich voorstellen als mogelijke partner.</p>
-
-      <div class="minigrid">
-        <div class="mini blauw">
-          <b>Historiek: "Moments" (2022)</b>
-          <p>Toekomstraad keurde toen een nieuw CG health-retailconcept goed met Sri Sri Tattva als eerste partner — POC voorzien vanaf 2023, nooit opgestart.</p>
-        </div>
-        <div class="mini groen">
-          <b>Gilles (Newpharma)</b>
-          <ul>
-            <li>Foodsupplementen (en food) interessant voor het Newpharma/Benefralux-assortiment.</li>
-            <li>Let op regulatory: producten nu enkel toegelaten voor verkoop in India — moeten in België nog goedgekeurd worden (al wel elders in de EU gedistribueerd).</li>
-            <li>Diensten: online coaching via Yoboo + in-person coaching on-site voor CGA/YB/NP-community, incl. meditatie.</li>
-          </ul>
-        </div>
-        <div class="mini amber">
-          <b>Caroline</b>
-          <ul>
-            <li>Benieuwd naar het volledige gamma (supplementen, functional foods, drinks, koffie/thee/infusies, crèmes) en of dit testbaar is in het nieuwe health retail concept.</li>
-            <li>Voorwaarde: regulatory én kwaliteit op punt — extra quality checks na transport (bv. via Eurofins)?</li>
-            <li>Wil weten of elk product zonder coaching verkocht mag worden: veiligheid, risicogroepen (kinderen, zwangere vrouwen), interactie met medicatie, dosissen.</li>
-            <li>Benieuwd naar wetenschappelijke onderbouwing (RCT's) en de samenwerking met Wageningen Universiteit.</li>
-            <li>Ziet kansen in workshops/webinars (interesse in Ayurveda aftoetsen), een health box met kruiden/food/thee + educatie, en een plek in de Health House Club van HRC.</li>
-            <li>Vraag: kunnen health-coaches op 1 maand tot Ayurveda-coach opgeleid worden?</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="feedback-blok">
-        <div class="fb-titel">Feedback Stijn</div>
-
-        <h4>Route 1 · Product(en) in het assortiment</h4>
-        <p>Als aanvulling op het bestaande product-assortiment bij Newpharma kan dat werken. Persoonlijk zou ik nog niet voor private label gaan.</p>
-
-        <h4>Route 2 · Partner voor wellness (Health Advisory)</h4>
-        <p>Mogelijk voor Health Advisory: als oplossing voor de gezondheidsdoelstellingen van de klant, onderdeel van de waaier die we kunnen aanbieden — producten, maar ook wellness en andere zaken. Ook hier staan we nog niet ver genoeg om dat al als een echt partnership uit te bouwen.</p>
-
-        <div class="voorstel"><b>Als we nu iets willen doen:</b> enkel het product-assortiment bij Newpharma. Nog niet in een nieuw health retail concept, en nog niet binnen Health Advisory.</div>
-      </div>
-
-      <p style="margin-top:14px"><b>Vraag:</b> eens met die insteek — nu enkel assortiment bij Newpharma, de rest later? En vooral: wanneer?</p>
-
-      <div class="materiaal" style="margin-top:14px">
-        <a href="https://colruytgroupcom.sharepoint.com/sites/col-buo-BusinessOrchestrationHealth/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2Fcol%2Dbuo%2DBusinessOrchestrationHealth%2FShared%20Documents%2FTactische%20werking%2FBusiness%20development%2FMoments&sortField=Modified&isAscending=false&viewid=91611887%2De7df%2D4f79%2Da55f%2D423e4fab8f54&p=true&ct=1784564467419&or=Teams%2DHL&ga=1&LOF=1" target="_blank" rel="noopener"><b>Sri Sri-documentatie</b><span>Historiek op Teams.</span></a>
-      </div>
-
-      <div class="verloop">
-        <h4>Verloop</h4>
-        <ul>
-          <li><span class="chip meeting-sturing">Health Sturing</span><span class="datum">22 jul</span> gepland — eerste keer op de agenda, nog niet besproken.</li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="topic" id="topic-fysieke-status">
-      <div class="tags">
-        <span class="chip informeren">informeren</span>
-        <span class="chip meeting-sturing">Health Sturing</span>
-        <span class="datum-inline">22 jul</span>
-      </div>
-      <h3>Status organisatie Fysieke health retail</h3>
-      <p>Waar staan we vandaag met de organisatie van de fysieke health retail-poot?</p>
-
-      <div class="verloop">
-        <h4>Verloop</h4>
-        <ul>
-          <li><span class="chip meeting-sturing">Health Sturing</span><span class="datum">22 jul</span> gepland — eerste keer op de agenda, nog niet besproken.</li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="topic" id="topic-earnout">
-      <div class="tags">
-        <span class="chip bespreken">bespreken</span>
-        <span class="chip meeting-sturing">Health Sturing</span>
-        <span class="datum-inline">22 jul</span>
-      </div>
-      <h3>Yoboo — earn-out founders</h3>
-      <p>De earn-out voor de Yoboo-founders bespreken.</p>
-
-      <div class="verloop">
-        <h4>Verloop</h4>
-        <ul>
-          <li><span class="chip meeting-sturing">Health Sturing</span><span class="datum">22 jul</span> gepland — eerste keer op de agenda, nog niet besproken.</li>
-        </ul>
-      </div>
-    </div>
-
-      </div>
-    </div>
-
   </div>
 </section>
 </div>
@@ -879,18 +507,8 @@ window.addEventListener('DOMContentLoaded',()=>{if(localStorage.getItem('auth')=
     <span class="eyebrow">Historiek</span>
     <h2 class="sec-title">Afgeronde agendapunten &amp; vorige overleggen</h2>
 
-    <!-- ARCHIEF:
-         - afgeronde agendapunten: dezelfde .topic-kaart (incl. .verloop) hierheen verplaatsen vanuit Topics, geen inhoud wijzigen.
-         - overlegverslagen: per afgeronde datum een <details class="overleg">, nieuwste bovenaan.
-           Structuur: summary (overlegtype-chip + datum) > .inhoud met h4-blokken: Agenda / Beslissingen / Acties eruit -->
-    <div class="topic act">
-      <div class="tags">
-        <span class="chip klaar">klaar</span>
-        <span class="chip meeting-wolisa">WO Lisa</span>
-      </div>
-      <h3>Health sturing meeting — voorbereiding</h3>
-      <p>Voorbereiding van de agendapunten voor Health Sturing — afgerond: die punten (Sri Sri, status Fysieke health retail) staan nu zelf op de Health Sturing-agenda.</p>
-    </div>
+    <!-- Wordt dynamisch gevuld door renderArchief() in de script hieronder (agendapunten met status='klaar'). -->
+    <div id="archiefContainer"></div>
   </div>
 </section>
 </div>
@@ -901,15 +519,9 @@ window.addEventListener('DOMContentLoaded',()=>{if(localStorage.getItem('auth')=
 </footer>
 
 <script>
-
-// Agenda: dropdown per overlegtype kiest welke geplande datum getoond wordt
-document.querySelectorAll('.datum-select').forEach(sel=>{
-  sel.addEventListener('change',()=>{
-    sel.closest('.overlegtype').querySelectorAll('.agenda').forEach(a=>a.classList.toggle('act', a.id===sel.value));
-  });
-});
-
-// Tabs: agenda / topics / acties / archief (hash onthoudt de actieve tab)
+/* ============================================================
+   Tabs: agenda / topics / acties / archief (hash onthoudt de actieve tab)
+   ============================================================ */
 const tabs=[...document.querySelectorAll('[data-tab]')];
 function showTab(id){
   if(!document.getElementById('p-'+id)) id='agenda';
@@ -920,30 +532,228 @@ function showTab(id){
 tabs.forEach(b=>b.addEventListener('click',()=>{showTab(b.dataset.tab); scrollTo({top:0});}));
 if(location.hash) showTab(location.hash.slice(1));
 
-// Topics: kolom met alle agendapunten links, telkens maar 1 kaart zichtbaar rechts
-const topicListItems=[...document.querySelectorAll('.topics-list-item')];
-const topicCards=[...document.querySelectorAll('.topics-detail .topic')];
-function showTopic(id){
-  if(!document.getElementById(id)) return;
-  topicListItems.forEach(a=>a.classList.toggle('act', a.dataset.topic===id));
-  topicCards.forEach(t=>t.classList.toggle('act', t.id===id));
+/* ============================================================
+   Supabase: alle agendapunten leven in de database, niet meer in de HTML.
+   Lezen én schrijven vereisen telkens MASTER_HASH (zelfde wachtwoord als de gate) —
+   zie de voeg_agendapunt_toe / verplaats_agendapunt / haal_..._op functies in Supabase.
+   ============================================================ */
+const SUPABASE_URL = 'https://uvodxrrxsxnjlinqrjlw.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_is9JHVr3f7hRfZh31WtLvA_sz5ymhQW';
+async function sbRpc(fn, params){
+  const res = await fetch(`${SUPABASE_URL}/rest/v1/rpc/${fn}`, {
+    method:'POST',
+    headers:{ apikey:SUPABASE_ANON_KEY, Authorization:`Bearer ${SUPABASE_ANON_KEY}`, 'Content-Type':'application/json' },
+    body: JSON.stringify(Object.assign({}, params, { p_wachtwoord_hash: MASTER_HASH }))
+  });
+  if(!res.ok) throw new Error(await res.text());
+  const text = await res.text();
+  return text ? JSON.parse(text) : null;
 }
-topicListItems.forEach(a=>a.addEventListener('click',e=>{
-  e.preventDefault();
-  showTopic(a.dataset.topic);
-  document.querySelector('.topics-detail').scrollIntoView({behavior:'smooth', block:'start'});
-}));
 
-// Topics: filter op overlegtype
-const topicsFilter=document.getElementById('topicsFilter');
-if(topicsFilter){
-  topicsFilter.addEventListener('change',()=>{
-    const val=topicsFilter.value;
-    topicListItems.forEach(a=>a.classList.toggle('gefilterd', val!=='alle' && a.dataset.meeting!==val));
+const MEETING_LABEL = { wolisa:'WO Lisa', sturing:'Health Sturing', coordinatie:'Health Coördinatie' };
+const MEETING_ORDER = ['coordinatie','sturing','wolisa'];
+
+let agendapunten = [];
+let verloopData = [];
+let huidigTopicId = null;
+let geselecteerdeDatum = {}; // per meeting: welke datum staat er open
+
+function fmtDatum(d){
+  if(!d) return '';
+  const dt = new Date(d+'T12:00:00');
+  const dagen=['zo','ma','di','wo','do','vr','za'];
+  const maanden=['jan','feb','mrt','apr','mei','jun','jul','aug','sep','okt','nov','dec'];
+  return `${dagen[dt.getDay()]} ${dt.getDate()} ${maanden[dt.getMonth()]}`;
+}
+function fmtDatumKort(d){
+  if(!d) return '';
+  const dt = new Date(d+'T12:00:00');
+  const dagen=['zo','ma','di','wo','do','vr','za'];
+  return `${dagen[dt.getDay()]} ${dt.getDate()}/${dt.getMonth()+1}`;
+}
+
+async function laadData(){
+  const [ap, vl] = await Promise.all([
+    sbRpc('haal_agendapunten_op', {}),
+    sbRpc('haal_verloop_op', {})
+  ]);
+  agendapunten = ap || [];
+  verloopData = vl || [];
+  renderInbox();
+  renderAgenda();
+  renderTopics();
+  renderArchief();
+}
+
+/* ---------- Inbox: agendapunten zonder meeting ---------- */
+function renderInbox(){
+  const ul = document.getElementById('inboxLijst');
+  const items = agendapunten.filter(a=>a.status==='open' && !a.meeting);
+  if(!items.length){ ul.innerHTML = '<li class="leeg">Niets te agenderen.</li>'; return; }
+  ul.innerHTML = items.map(a=>`
+    <li draggable="true" data-id="${a.id}">
+      <span class="tekst">${a.titel}</span>
+      <span class="chip meeting-onbepaald">niet toegewezen</span>
+    </li>`).join('');
+  maakSleepbaar(ul, null, null);
+}
+
+/* ---------- Agenda: 3 kolommen, elk met datum-select + agenda-kaart ---------- */
+function renderAgenda(){
+  const wrap = document.getElementById('agendaContainer');
+  wrap.innerHTML = MEETING_ORDER.map(meeting=>{
+    const items = agendapunten.filter(a=>a.status==='open' && a.meeting===meeting);
+    const datums = [...new Set(items.map(a=>a.datum).filter(Boolean))].sort();
+    if(!datums.length){
+      return `
+        <div class="overlegtype" data-meeting="${meeting}">
+          <div class="overlegtype-kop"><span class="chip meeting-${meeting}">${MEETING_LABEL[meeting]}</span></div>
+          <p class="leegstand">Nog geen overleg gepland.</p>
+        </div>`;
+    }
+    if(!geselecteerdeDatum[meeting] || !datums.includes(geselecteerdeDatum[meeting])) geselecteerdeDatum[meeting] = datums[0];
+    const gekozen = geselecteerdeDatum[meeting];
+    const selectHtml = datums.length>1
+      ? `<select class="datum-select" data-meeting="${meeting}">${datums.map(d=>`<option value="${d}" ${d===gekozen?'selected':''}>${fmtDatumKort(d)}</option>`).join('')}</select>`
+      : `<span class="ot-desc">${fmtDatum(gekozen)}</span>`;
+    const lijst = items.filter(a=>a.datum===gekozen).sort((x,y)=>x.volgorde-y.volgorde);
+    return `
+      <div class="overlegtype" data-meeting="${meeting}">
+        <div class="overlegtype-kop">
+          <span class="chip meeting-${meeting}">${MEETING_LABEL[meeting]}</span>
+          ${selectHtml}
+        </div>
+        <div class="agenda act">
+          <div class="agenda-kop"><h3>Overleg</h3><span class="meta">${fmtDatum(gekozen)}</span></div>
+          <ol data-meeting="${meeting}" data-datum="${gekozen}">
+            ${lijst.map(a=>`
+              <li draggable="true" data-id="${a.id}">
+                <div class="punt"><b><a class="topic-link" data-id="${a.id}" href="#">${a.titel}</a></b>${a.toelichting?`<span>${a.toelichting}</span>`:''}</div>
+                <span class="chip ${a.doel}">${a.doel}</span>
+                <span class="tijd">${a.tijd_min} min</span>
+              </li>`).join('')}
+          </ol>
+        </div>
+      </div>`;
+  }).join('');
+
+  wrap.querySelectorAll('.datum-select').forEach(sel=>{
+    sel.addEventListener('change',()=>{ geselecteerdeDatum[sel.dataset.meeting]=sel.value; renderAgenda(); });
+  });
+  wrap.querySelectorAll('ol[data-meeting]').forEach(ol=>{
+    maakSleepbaar(ol, ol.dataset.meeting, ol.dataset.datum);
+  });
+  wrap.querySelectorAll('a.topic-link').forEach(a=>a.addEventListener('click',e=>{
+    e.preventDefault();
+    showTab('topics');
+    toonTopic(a.dataset.id);
+    document.getElementById('topicsDetail').scrollIntoView({behavior:'smooth', block:'start'});
+  }));
+}
+
+/* ---------- Sleep-logica: herbruikbaar voor inbox-<ul> en agenda-<ol>'s ---------- */
+function maakSleepbaar(container, meeting, datum){
+  container.querySelectorAll('li[draggable="true"]').forEach(li=>{
+    li.addEventListener('dragstart',e=>{
+      li.classList.add('slepen');
+      e.dataTransfer.setData('text/plain', li.dataset.id);
+      e.dataTransfer.effectAllowed='move';
+    });
+    li.addEventListener('dragend',()=>li.classList.remove('slepen'));
+  });
+  container.addEventListener('dragover',e=>{
+    e.preventDefault();
+    const na = [...container.querySelectorAll('li[draggable="true"]:not(.slepen)')].find(li=>{
+      const r = li.getBoundingClientRect();
+      return e.clientY < r.top + r.height/2;
+    });
+    container.querySelectorAll('li').forEach(li=>li.classList.remove('drop-boven','drop-onder'));
+    if(na) na.classList.add('drop-boven');
+  });
+  container.addEventListener('drop', async e=>{
+    e.preventDefault();
+    container.querySelectorAll('li').forEach(li=>li.classList.remove('drop-boven','drop-onder'));
+    const id = e.dataTransfer.getData('text/plain');
+    const na = [...container.querySelectorAll('li[draggable="true"]:not(.slepen)')].find(li=>{
+      const r = li.getBoundingClientRect();
+      return e.clientY < r.top + r.height/2;
+    });
+    const el = container.querySelector(`li[data-id="${id}"]`);
+    if(!el) return;
+    if(na) container.insertBefore(el, na); else container.appendChild(el);
+    const ids = [...container.querySelectorAll('li[draggable="true"]')].map(li=>li.dataset.id);
+    try{
+      await Promise.all(ids.map((itemId, idx)=>sbRpc('verplaats_agendapunt', {
+        p_id:itemId, p_meeting:meeting, p_datum:datum, p_volgorde:idx
+      })));
+      await laadData();
+    }catch(err){ alert('Verslepen mislukt: '+err.message); await laadData(); }
   });
 }
 
-// Topics: linkerkolom in-/uitklappen (neemt anders te veel plaats)
+/* ---------- Topics: filterbare lijst + detail ---------- */
+function renderTopics(){
+  const list = document.getElementById('topicsList');
+  const filterSel = document.getElementById('topicsFilter');
+  const items = agendapunten.filter(a=>a.status==='open');
+  const filterHtml = filterSel.outerHTML;
+  list.innerHTML = filterHtml + items.map(a=>`
+    <a href="#" data-id="${a.id}" data-meeting="${a.meeting||''}" class="topics-list-item">
+      <span class="tli-title">${a.titel}</span>
+      <span class="tli-tags"><span class="chip ${a.doel}">${a.doel}</span>${a.meeting?`<span class="chip meeting-${a.meeting}">${MEETING_LABEL[a.meeting]}</span>`:'<span class="chip meeting-onbepaald">niet toegewezen</span>'}</span>
+    </a>`).join('');
+
+  document.getElementById('topicsFilter').addEventListener('change', e=>{
+    const val = e.target.value;
+    list.querySelectorAll('.topics-list-item').forEach(a=>a.classList.toggle('gefilterd', val!=='alle' && a.dataset.meeting!==val));
+  });
+  list.querySelectorAll('a.topics-list-item').forEach(a=>a.addEventListener('click',e=>{
+    e.preventDefault();
+    toonTopic(a.dataset.id);
+    document.getElementById('topicsDetail').scrollIntoView({behavior:'smooth', block:'start'});
+  }));
+
+  if(!huidigTopicId || !items.some(a=>a.id===huidigTopicId)) huidigTopicId = items[0]?.id || null;
+  toonTopic(huidigTopicId);
+}
+
+function topicKaartHtml(a){
+  const verloop = verloopData.filter(v=>v.agendapunt_id===a.id);
+  return `
+    <div class="tags">
+      <span class="chip ${a.doel}">${a.doel}</span>
+      ${a.meeting?`<span class="chip meeting-${a.meeting}">${MEETING_LABEL[a.meeting]}</span>`:''}
+      ${a.datum?`<span class="datum-inline">${fmtDatumKort(a.datum)}</span>`:''}
+    </div>
+    <h3>${a.titel}</h3>
+    ${a.uitwerking_html || `<p style="color:var(--muted)">Nog niet uitgewerkt — vraag dit aan Claude.</p>`}
+    ${verloop.length ? `
+    <div class="verloop">
+      <h4>Verloop</h4>
+      <ul>
+        ${verloop.map(v=>`<li>${v.meeting?`<span class="chip meeting-${v.meeting}">${MEETING_LABEL[v.meeting]}</span>`:''}${v.datum?`<span class="datum">${fmtDatumKort(v.datum)}</span>`:''} ${v.omschrijving}</li>`).join('')}
+      </ul>
+    </div>` : ''}
+  `;
+}
+
+function toonTopic(id){
+  huidigTopicId = id;
+  document.querySelectorAll('#topicsList .topics-list-item').forEach(a=>a.classList.toggle('act', a.dataset.id===id));
+  const detail = document.getElementById('topicsDetail');
+  const a = agendapunten.find(x=>x.id===id);
+  detail.innerHTML = a ? `<div class="topic act">${topicKaartHtml(a)}</div>` : '';
+}
+
+/* ---------- Archief: agendapunten met status 'klaar' ---------- */
+function renderArchief(){
+  const wrap = document.getElementById('archiefContainer');
+  const items = agendapunten.filter(a=>a.status==='klaar');
+  if(!items.length){ wrap.innerHTML = '<p class="leegstand">Nog geen afgeronde agendapunten.</p>'; return; }
+  wrap.innerHTML = items.map(a=>`<div class="topic act">${topicKaartHtml(a)}</div>`).join('');
+}
+
+/* ---------- Topics: kolom in-/uitklappen ---------- */
 const topicsLayout=document.getElementById('topicsLayout');
 const topicsToggle=document.getElementById('topicsToggle');
 if(topicsToggle){
@@ -953,19 +763,37 @@ if(topicsToggle){
   });
 }
 
-// Links vanuit de agenda naar de uitgewerkte topic-kaart: wissel naar Topics, toon enkel die kaart
-document.querySelectorAll('a.topic-link').forEach(a=>a.addEventListener('click',e=>{
+/* ---------- Nieuw agendapunt: knop + formulier ---------- */
+const nieuwBtn = document.getElementById('nieuwAgendapuntBtn');
+const form = document.getElementById('agendapuntForm');
+nieuwBtn.addEventListener('click', ()=>form.classList.toggle('open'));
+document.getElementById('agendapuntFormAnnuleer').addEventListener('click', ()=>{ form.classList.remove('open'); form.reset(); });
+form.addEventListener('submit', async e=>{
   e.preventDefault();
-  showTab('topics');
-  showTopic(a.dataset.topic);
-  document.querySelector('.topics-detail').scrollIntoView({behavior:'smooth', block:'start'});
-}));
+  const fd = new FormData(form);
+  const foutEl = document.getElementById('agendapuntFormFout');
+  foutEl.style.display='none';
+  try{
+    await sbRpc('voeg_agendapunt_toe', {
+      p_titel: fd.get('titel'),
+      p_toelichting: fd.get('toelichting') || null,
+      p_meeting: fd.get('meeting') || null,
+      p_datum: fd.get('datum') || null,
+      p_doel: fd.get('doel'),
+      p_tijd_min: Number(fd.get('tijd_min')) || 10
+    });
+    form.reset(); form.classList.remove('open');
+    await laadData();
+  }catch(err){
+    foutEl.textContent = 'Toevoegen mislukt: '+err.message;
+    foutEl.style.display='block';
+  }
+});
 
-// Archief: exclusief accordeon voor overlegverslagen — één tegelijk open
-const archiefDetails=[...document.querySelectorAll('#archief details.overleg')];
-archiefDetails.forEach(d=>d.addEventListener('toggle',()=>{
-  if(d.open) archiefDetails.forEach(o=>{if(o!==d) o.open=false;});
-}));
+/* ---------- Opstarten: wordt aangeroepen vanuit de wachtwoordgate-script hierboven ---------- */
+function initWerkoverleg(){
+  laadData().catch(err=>console.error('Kon data niet laden:', err));
+}
 </script>
 
 </div>
