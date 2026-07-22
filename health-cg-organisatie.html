@@ -711,13 +711,6 @@ button.instap p{font-size:.72rem; color:var(--muted); margin:0}
   .advflow{grid-template-columns:1fr}
   .advarr{transform:rotate(90deg)}
 }
-.roles{display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:52px}
-@media(max-width:820px){.roles{grid-template-columns:1fr}}
-.role{border:1px solid var(--hair); border-radius:14px; padding:18px 20px; background:var(--card)}
-.role .k{font-size:.72rem; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); font-weight:700}
-.role b{display:block; margin-top:6px}
-.role p{font-size:.86rem; color:var(--muted); margin-top:4px}
-.role.hl{border-color:var(--accent); background:var(--accent-soft)}
 
 /* ============ ROADMAP ============ */
 /* horizontaal overzicht: bouwstenen op de tijdsas */
@@ -937,8 +930,8 @@ window.addEventListener('DOMContentLoaded',()=>{if(localStorage.getItem('auth')=
 
     <div class="pains stagger">
       <div class="pain"><b>De klant ziet geen verhaal</b><p>Zeven merken, nul samenhang. Niemand ervaart “Colruyt Group helpt mij gezonder leven”.</p><div class="concl"><b>Dus:</b> één verhaal dat de merken verbindt.</div><button class="painlink" data-modal="coolblue" type="button">Zo kan het wél → het Coolblue-voorbeeld</button></div>
-      <div class="pain"><b>Intern regeert de chaos</b><p>Iedereen doet naar best vermogen van alles — maar niets is gealigneerd, veel is dubbel.</p><div class="concl"><b>Dus:</b> heldere governance en één roadmap-eigenaar.</div><button class="painlink" data-modal="chaos" type="button">Waar het intern hapert →</button></div>
-      <div class="pain"><b>Innovatie faalt keer op keer</b><p>Te veel ideeën, geen prioritering, geen focus — en zonder stabiele organisatorische grond sterven goede initiatieven een stille dood.</p><div class="concl"><b>Dus:</b> prioriteren — enkele quick-wins, elk met één eigenaar.</div><button class="painlink" data-modal="innovatie" type="button">Waarom innovatie stokt →</button></div>
+      <div class="pain"><b>Intern regeert de chaos</b><p>Iedereen doet naar best vermogen van alles — maar niets is gealigneerd, veel is dubbel.</p><div class="concl"><b>Dus:</b> nabijheid — één plek waar we samen werken.</div><button class="painlink" data-modal="chaos" type="button">Waar het intern hapert →</button></div>
+      <div class="pain"><b>Innovatie faalt keer op keer</b><p>Te veel ideeën, geen prioritering, geen focus — en zonder stabiele organisatorische grond sterven goede initiatieven een stille dood.</p><div class="concl"><b>Dus:</b> één gedragen roadmap, vanuit strategie en tactiek.</div><button class="painlink" data-modal="innovatie" type="button">Waarom innovatie stokt →</button></div>
     </div>
 
     <div class="goalsbar rv">
@@ -1014,7 +1007,10 @@ window.addEventListener('DOMContentLoaded',()=>{if(localStorage.getItem('auth')=
         <div class="pnode" style="--pc:var(--p6)"><span class="medal"><svg class="pic"><use href="#ic-middelen"/></svg></span><span><b>Schadelijke middelen vermijden</b><small>bewust omgaan met tabak, alcohol &amp; co</small></span></div>
       </div>
       <p class="wheelcaption">In het midden de klant: meten → doelen → actie, een cyclus die blijft draaien, met coaching als motor. Daarrond de zes leefstijlthema's in klanttaal. Daarrond onze vier pijlers: elke ring omsluit álle thema's, want elke pijler kan aan elk thema bijdragen.</p>
-      <div style="text-align:center; margin-top:12px"><button class="painlink" data-modal="kaders" type="button">Inspiratie: bestaande gezondheidskaders →</button></div>
+      <div style="text-align:center; margin-top:12px; display:flex; flex-wrap:wrap; gap:8px 22px; justify-content:center">
+        <button class="painlink" data-modal="kaders" type="button">Inspiratie: bestaande gezondheidskaders →</button>
+        <button class="painlink" data-modal="taal" type="button">Verdieping: de gezondheidstaal end-to-end →</button>
+      </div>
     </div>
 
     <div class="coachsectie rv">
@@ -1132,18 +1128,10 @@ window.addEventListener('DOMContentLoaded',()=>{if(localStorage.getItem('auth')=
       </details>
     </div>
 
-    <div class="roles stagger">
-      <div class="role"><span class="k">Voor de klant</span><b>Eén taal, overal herkenbaar</b><p>Dezelfde pijlers in de winkel, de app, de fitness en de apotheek. Elk contact bevestigt hetzelfde verhaal — zo ontstaat één stem.</p></div>
-      <div class="role hl"><span class="k">Voor de organisatie</span><b>Eén filter voor alle ideeën</b><p>Prioriteren wordt eenvoudig: wat een pijler versterkt, krijgt voorrang. Het antwoord op te veel ideeën en te weinig focus.</p></div>
-      <div class="role"><span class="k">Voor de advisory</span><b>Het skelet van elk advies</b><p>Het assessment meet de pijlers, het plan vult ze in, de merken leveren. Eén kader betekent data die overal bruikbaar is.</p></div>
-    </div>
-
     <div class="kapstokregel rv">
       <b>Jouw héle gezondheid. <em>Eén verhaal, overal herkenbaar.</em></b>
       <span>De klant moet voelen dat we zijn volledige gezondheid afdekken — en elk contact, in elk kanaal, bevestigt datzelfde verhaal.</span>
     </div>
-
-    <div style="text-align:center; margin-top:26px" class="rv"><button class="painlink" data-modal="taal" type="button">Verdieping: de gezondheidstaal end-to-end →</button></div>
   </div>
 </section>
 
