@@ -338,30 +338,25 @@ footer{padding:28px 0 40px; color:var(--muted); font-size:.85rem; border-top:1px
 </style>
 <body>
 
-<!-- PASSWORD GATE -->
+<!-- LOGIN (echte Supabase Auth-sessie; zonder geldige sessie geeft de database 0 rijen terug) -->
 <div id="gate" style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;background:#0f0f11;font-family:system-ui">
   <div style="font-size:1.8rem;font-weight:800;color:#fff;margin-bottom:2rem">🩺 Health CG</div>
-  <div style="background:#1a1a1f;border:1px solid #2a2a32;border-radius:16px;padding:2.5rem;width:360px;text-align:center">
-    <h2 style="color:#fff;margin-bottom:1rem">Beveiligde applicatie</h2>
-    <input type="password" id="pwInput" placeholder="Wachtwoord..."
-      style="width:100%;padding:.85rem;border:1px solid #333;border-radius:10px;background:#111;color:#fff;font-size:1rem;margin-bottom:1rem;outline:none"
-      onkeydown="if(event.key==='Enter')checkPw()"/>
-    <button onclick="checkPw()"
+  <form id="loginForm" style="background:#1a1a1f;border:1px solid #2a2a32;border-radius:16px;padding:2.5rem;width:360px;text-align:center">
+    <h2 style="color:#fff;margin-bottom:1rem">Aanmelden</h2>
+    <input type="email" id="emailInput" placeholder="E-mailadres" autocomplete="username" required
+      style="width:100%;padding:.85rem;border:1px solid #333;border-radius:10px;background:#111;color:#fff;font-size:1rem;margin-bottom:.75rem;outline:none"/>
+    <input type="password" id="pwInput" placeholder="Wachtwoord" autocomplete="current-password" required
+      style="width:100%;padding:.85rem;border:1px solid #333;border-radius:10px;background:#111;color:#fff;font-size:1rem;margin-bottom:1rem;outline:none"/>
+    <button type="submit" id="loginBtn"
       style="width:100%;padding:.85rem;background:#6366f1;color:#fff;border:none;border-radius:10px;font-size:1rem;font-weight:600;cursor:pointer">
-      Toegang
+      Aanmelden
     </button>
+    <div id="loginFout" style="display:none;margin-top:.85rem;font-size:.85rem;color:#ef4444"></div>
     <div style="margin-top:1rem;font-size:.8rem;color:#444">
       <a href="https://stverstr.github.io" style="color:#6366f1">← Portfolio</a>
     </div>
-  </div>
+  </form>
 </div>
-
-<script>
-const MASTER_HASH = '750db0f147fb55c6755f5b3bb2606a35623b43d03c80056c48587dfa2df45c04';
-async function sha256(s){const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s));return Array.from(new Uint8Array(b)).map(x=>x.toString(16).padStart(2,'0')).join('');}
-async function checkPw(){const h=await sha256(document.getElementById('pwInput').value);if(h===MASTER_HASH){localStorage.setItem('auth','1');document.getElementById('gate').style.display='none';document.getElementById('app').style.display='block';window.dispatchEvent(new Event('resize'));if(typeof initWerkoverleg==='function')initWerkoverleg();}else{const i=document.getElementById('pwInput');i.style.borderColor='#ef4444';i.value='';setTimeout(()=>i.style.borderColor='#333',600);}}
-window.addEventListener('DOMContentLoaded',()=>{if(localStorage.getItem('auth')==='1'){document.getElementById('gate').style.display='none';document.getElementById('app').style.display='block';window.dispatchEvent(new Event('resize'));if(typeof initWerkoverleg==='function')initWerkoverleg();}});
-</script>
 
 <!-- APP -->
 <div id="app" style="display:none">
@@ -382,6 +377,7 @@ window.addEventListener('DOMContentLoaded',()=>{if(localStorage.getItem('auth')=
         <button data-tab="topics">Topics</button>
         <button data-tab="acties">Acties</button>
         <button data-tab="archief">Archief</button>
+        <button id="afmeldBtn" style="margin-left:auto">Afmelden</button>
       </div>
     </div>
   </div>
@@ -533,18 +529,49 @@ tabs.forEach(b=>b.addEventListener('click',()=>{showTab(b.dataset.tab); scrollTo
 if(location.hash) showTab(location.hash.slice(1));
 
 /* ============================================================
-   Supabase: alle agendapunten leven in de database, niet meer in de HTML.
-   Lezen én schrijven vereisen telkens MASTER_HASH (zelfde wachtwoord als de gate) —
-   zie de voeg_agendapunt_toe / verplaats_agendapunt / haal_..._op functies in Supabase.
+   Supabase: alle agendapunten leven in een eigen, apart Supabase-project.
+   Beveiliging = echte Supabase Auth. Zonder geldige sessie geeft de database
+   0 rijen terug (RLS staat enkel toe aan 'authenticated'), dus de anon-key
+   hieronder volstaat op zichzelf niet om iets te zien of te wijzigen.
    ============================================================ */
-const SUPABASE_URL = 'https://uvodxrrxsxnjlinqrjlw.supabase.co';
-const SUPABASE_ANON_KEY = 'sb_publishable_is9JHVr3f7hRfZh31WtLvA_sz5ymhQW';
-async function sbRpc(fn, params){
-  const res = await fetch(`${SUPABASE_URL}/rest/v1/rpc/${fn}`, {
+const SUPABASE_URL = 'https://mbcukzoutmypgewzujne.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_jebTbJr__gK_2X_L4uH26g_EfzyQpn_';
+const SESSIE_KEY = 'healthcg_sessie';
+
+function sessie(){ try{ return JSON.parse(localStorage.getItem(SESSIE_KEY)||'null'); }catch{ return null; } }
+function bewaarSessie(s){ localStorage.setItem(SESSIE_KEY, JSON.stringify(s)); }
+function wisSessie(){ localStorage.removeItem(SESSIE_KEY); }
+
+async function ververesSessie(){
+  const s = sessie();
+  if(!s?.refresh_token) return null;
+  const res = await fetch(`${SUPABASE_URL}/auth/v1/token?grant_type=refresh_token`, {
     method:'POST',
-    headers:{ apikey:SUPABASE_ANON_KEY, Authorization:`Bearer ${SUPABASE_ANON_KEY}`, 'Content-Type':'application/json' },
-    body: JSON.stringify(Object.assign({}, params, { p_wachtwoord_hash: MASTER_HASH }))
+    headers:{ apikey:SUPABASE_ANON_KEY, 'Content-Type':'application/json' },
+    body: JSON.stringify({ refresh_token: s.refresh_token })
   });
+  if(!res.ok){ wisSessie(); return null; }
+  const nieuw = await res.json();
+  bewaarSessie(nieuw);
+  return nieuw;
+}
+
+async function sbFetch(pad, opties={}, opnieuw=true){
+  let s = sessie();
+  if(!s?.access_token) throw new Error('Niet aangemeld');
+  const res = await fetch(`${SUPABASE_URL}/rest/v1/${pad}`, Object.assign({}, opties, {
+    headers: Object.assign({
+      apikey: SUPABASE_ANON_KEY,
+      Authorization: `Bearer ${s.access_token}`,
+      'Content-Type':'application/json'
+    }, opties.headers||{})
+  }));
+  if(res.status===401 && opnieuw){
+    const nieuw = await ververesSessie();
+    if(nieuw) return sbFetch(pad, opties, false);
+    toonLogin();
+    throw new Error('Sessie verlopen — meld opnieuw aan');
+  }
   if(!res.ok) throw new Error(await res.text());
   const text = await res.text();
   return text ? JSON.parse(text) : null;
@@ -574,8 +601,8 @@ function fmtDatumKort(d){
 
 async function laadData(){
   const [ap, vl] = await Promise.all([
-    sbRpc('haal_agendapunten_op', {}),
-    sbRpc('haal_verloop_op', {})
+    sbFetch('agendapunten?select=*&order=meeting.nullsfirst,volgorde'),
+    sbFetch('verloop?select=*&order=created_at')
   ]);
   agendapunten = ap || [];
   verloopData = vl || [];
@@ -683,8 +710,9 @@ function maakSleepbaar(container, meeting, datum){
     if(na) container.insertBefore(el, na); else container.appendChild(el);
     const ids = [...container.querySelectorAll('li[draggable="true"]')].map(li=>li.dataset.id);
     try{
-      await Promise.all(ids.map((itemId, idx)=>sbRpc('verplaats_agendapunt', {
-        p_id:itemId, p_meeting:meeting, p_datum:datum, p_volgorde:idx
+      await Promise.all(ids.map((itemId, idx)=>sbFetch(`agendapunten?id=eq.${itemId}`, {
+        method:'PATCH',
+        body: JSON.stringify({ meeting, datum, volgorde: idx, updated_at: new Date().toISOString() })
       })));
       await laadData();
     }catch(err){ alert('Verslepen mislukt: '+err.message); await laadData(); }
@@ -774,13 +802,19 @@ form.addEventListener('submit', async e=>{
   const foutEl = document.getElementById('agendapuntFormFout');
   foutEl.style.display='none';
   try{
-    await sbRpc('voeg_agendapunt_toe', {
-      p_titel: fd.get('titel'),
-      p_toelichting: fd.get('toelichting') || null,
-      p_meeting: fd.get('meeting') || null,
-      p_datum: fd.get('datum') || null,
-      p_doel: fd.get('doel'),
-      p_tijd_min: Number(fd.get('tijd_min')) || 10
+    const meeting = fd.get('meeting') || null;
+    const maxVolgorde = agendapunten.filter(a=>a.meeting===meeting).reduce((m,a)=>Math.max(m,a.volgorde),-1);
+    await sbFetch('agendapunten', {
+      method:'POST',
+      body: JSON.stringify({
+        titel: fd.get('titel'),
+        toelichting: fd.get('toelichting') || null,
+        meeting,
+        datum: fd.get('datum') || null,
+        doel: fd.get('doel'),
+        tijd_min: Number(fd.get('tijd_min')) || 10,
+        volgorde: maxVolgorde + 1
+      })
     });
     form.reset(); form.classList.remove('open');
     await laadData();
@@ -790,10 +824,66 @@ form.addEventListener('submit', async e=>{
   }
 });
 
-/* ---------- Opstarten: wordt aangeroepen vanuit de wachtwoordgate-script hierboven ---------- */
-function initWerkoverleg(){
-  laadData().catch(err=>console.error('Kon data niet laden:', err));
+/* ============================================================
+   Login / logout
+   ============================================================ */
+function toonLogin(){
+  document.getElementById('gate').style.display='flex';
+  document.getElementById('app').style.display='none';
 }
+function toonApp(){
+  document.getElementById('gate').style.display='none';
+  document.getElementById('app').style.display='block';
+  window.dispatchEvent(new Event('resize'));
+  laadData().catch(err=>{
+    console.error('Kon data niet laden:', err);
+    alert('Kon de gegevens niet laden: '+err.message);
+  });
+}
+
+document.getElementById('loginForm').addEventListener('submit', async e=>{
+  e.preventDefault();
+  const btn = document.getElementById('loginBtn');
+  const foutEl = document.getElementById('loginFout');
+  foutEl.style.display='none';
+  btn.disabled = true; btn.textContent = 'Bezig…';
+  try{
+    const res = await fetch(`${SUPABASE_URL}/auth/v1/token?grant_type=password`, {
+      method:'POST',
+      headers:{ apikey:SUPABASE_ANON_KEY, 'Content-Type':'application/json' },
+      body: JSON.stringify({
+        email: document.getElementById('emailInput').value,
+        password: document.getElementById('pwInput').value
+      })
+    });
+    if(!res.ok){
+      const fout = await res.json().catch(()=>({}));
+      throw new Error(fout.msg || fout.error_description || 'Aanmelden mislukt');
+    }
+    bewaarSessie(await res.json());
+    document.getElementById('pwInput').value='';
+    toonApp();
+  }catch(err){
+    foutEl.textContent = err.message;
+    foutEl.style.display='block';
+  }finally{
+    btn.disabled = false; btn.textContent = 'Aanmelden';
+  }
+});
+
+document.getElementById('afmeldBtn').addEventListener('click', ()=>{ wisSessie(); location.reload(); });
+
+/* Bij het openen: bestaande sessie hergebruiken (en verversen als het token verlopen is) */
+(async ()=>{
+  if(!sessie()){ toonLogin(); return; }
+  try{
+    await sbFetch('agendapunten?select=id&limit=1');
+    toonApp();
+  }catch{
+    const nieuw = await ververesSessie();
+    if(nieuw) toonApp(); else toonLogin();
+  }
+})();
 </script>
 
 </div>
