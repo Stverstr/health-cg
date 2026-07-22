@@ -13,7 +13,7 @@
   --accent:var(--teal); --accent-soft:rgba(0,136,123,.10);
   --on-dark:#F2F7F6;
   --shadow:0 10px 30px rgba(12,51,47,.08);
-  --food:#009A3E; --move:#224396; --care:#00887B; --educate:#C29200;
+  --food:#009A3E; --move:#224396; --care:#00887B; --know:#C29200;
   --p1:#009A3E; --p2:#224396; --p3:#1B746B; --p4:#414348; --p5:#C29200; --p6:#00887B;
 }
 @media (prefers-color-scheme: dark){
@@ -22,7 +22,7 @@
     --bg:#0E1514; --band:#131C1A; --card:#17211F;
     --accent:#2BB3A3; --accent-soft:rgba(43,179,163,.14);
     --shadow:0 10px 30px rgba(0,0,0,.35);
-    --food:#3BC878; --move:#7E9BEB; --care:#2BB3A3; --educate:#E5C558;
+    --food:#3BC878; --move:#7E9BEB; --care:#2BB3A3; --know:#E5C558;
     --p1:#3BC878; --p2:#7E9BEB; --p3:#3FB3A5; --p4:#A9B6B2; --p5:#E5C558; --p6:#2BB3A3;
   }
 }
@@ -31,7 +31,7 @@
   --bg:#FFFFFF; --band:#F2F6F5; --card:#FFFFFF;
   --accent:#00887B; --accent-soft:rgba(0,136,123,.10);
   --shadow:0 10px 30px rgba(12,51,47,.08);
-  --food:#009A3E; --move:#224396; --care:#00887B; --educate:#C29200;
+  --food:#009A3E; --move:#224396; --care:#00887B; --know:#C29200;
   --p1:#009A3E; --p2:#224396; --p3:#1B746B; --p4:#414348; --p5:#C29200; --p6:#00887B;
 }
 :root[data-theme="dark"]{
@@ -39,7 +39,7 @@
   --bg:#0E1514; --band:#131C1A; --card:#17211F;
   --accent:#2BB3A3; --accent-soft:rgba(43,179,163,.14);
   --shadow:0 10px 30px rgba(0,0,0,.35);
-  --food:#3BC878; --move:#7E9BEB; --care:#2BB3A3; --educate:#E5C558;
+  --food:#3BC878; --move:#7E9BEB; --care:#2BB3A3; --know:#E5C558;
   --p1:#3BC878; --p2:#7E9BEB; --p3:#3FB3A5; --p4:#A9B6B2; --p5:#E5C558; --p6:#2BB3A3;
 }
 
@@ -278,7 +278,7 @@ header.hero::after{
   border:1.5px solid color-mix(in srgb, var(--rc) 50%, transparent);
   background:radial-gradient(closest-side, transparent 92%, color-mix(in srgb, var(--rc) 7%, transparent));
 }
-.ring.educate{width:97%; height:97%}
+.ring.know{width:97%; height:97%}
 .ring.care{width:90%; height:90%}
 .ring.move{width:83%; height:83%}
 .ring.food{width:76%; height:76%}
@@ -454,17 +454,6 @@ details.vb .inhoud>p{color:var(--muted); font-size:.92rem; margin-bottom:14px}
 .lg-jims{background-image:url("data:image/png;base64,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")}
 
 /* ============ VARIANTEN ============ */
-.vtabs{display:grid; grid-template-columns:repeat(2,1fr); gap:14px; margin:44px auto 0; max-width:880px}
-@media(max-width:820px){.vtabs{grid-template-columns:1fr}}
-.vtab{
-  text-align:left; border:1.5px solid var(--hair); border-radius:16px; padding:20px 22px;
-  background:var(--card); transition:.25s; box-shadow:var(--shadow);
-}
-.vtab .num{font-size:.75rem; font-weight:700; letter-spacing:.14em; color:var(--muted); text-transform:uppercase}
-.vtab h3{font-size:1.18rem; margin:6px 0 4px}
-.vtab p{font-size:.88rem; color:var(--muted)}
-.vtab[aria-selected="true"]{border-color:var(--accent); background:var(--accent-soft); transform:translateY(-3px)}
-.vtab[aria-selected="true"] .num{color:var(--accent)}
 .vpanel{display:none; margin-top:38px; animation:fadeup .5s ease}
 .vpanel.show{display:block}
 
@@ -520,10 +509,26 @@ details.vb .inhoud>p{color:var(--muted); font-size:.92rem; margin-bottom:14px}
   color:var(--accent); text-align:center; margin-bottom:4px;
 }
 .eenteam .etsub{display:block; text-align:center; font-size:.78rem; color:var(--muted); margin-bottom:12px}
-.etgrid{display:grid; grid-template-columns:repeat(6,1fr); gap:10px}
-.etgrid>*{grid-column:span 2}
-.etgrid>*:nth-child(4),.etgrid>*:nth-child(5){grid-column:span 3}
-@media(max-width:820px){.etgrid{grid-template-columns:1fr} .etgrid>*,.etgrid>*:nth-child(4),.etgrid>*:nth-child(5){grid-column:auto}}
+/* Twee teams — advisory en vakmanschap — binnen dezelfde organisatie */
+.teamgrid{display:grid; grid-template-columns:1fr 1.25fr 1fr; gap:12px; align-items:stretch}
+@media(max-width:980px){.teamgrid{grid-template-columns:1fr 1fr} .teamgrid>.team:nth-child(2){grid-column:1/-1; order:3}}
+@media(max-width:700px){.teamgrid,.teamgrid>.team:nth-child(2){grid-template-columns:1fr; grid-column:auto; order:0}}
+.team{
+  border:1.5px solid var(--accent); border-radius:14px; padding:12px;
+  background:var(--card); display:flex; flex-direction:column; gap:9px;
+}
+.teamk{
+  font-size:.66rem; font-weight:700; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--accent); text-align:center;
+}
+.vaknodes{display:flex; flex-direction:column; gap:9px; flex:1}
+.teamvac{align-self:center; font-size:.8rem}
+/* Vacaturetekst in een modal */
+.vac h4{margin-top:20px}
+.vac ul{margin:8px 0 0 18px; color:var(--muted); font-size:.92rem; line-height:1.7}
+.vac ul b{color:var(--ink)}
+.vacnoot{margin-top:18px; font-size:.82rem; color:var(--muted); font-style:italic}
+.team .orgnode{flex:1; display:flex; flex-direction:column; justify-content:center; margin:0}
 .etgrid .orgnode{border-color:var(--accent); background:var(--card); display:flex; flex-direction:column; justify-content:flex-start}
 .etduo{display:flex; gap:5px; justify-content:center; margin-top:auto; padding-top:9px}
 .etduo i{
@@ -535,15 +540,7 @@ details.vb .inhoud>p{color:var(--muted); font-size:.92rem; margin-bottom:14px}
   border:1px dashed var(--hair); border-radius:12px; padding:9px 14px;
 }
 .merkvrij b{color:var(--ink)}
-.floaters{display:flex; gap:10px; justify-content:center; margin-top:14px; flex-wrap:wrap}
-.floater{
-  border:1.5px dashed var(--red); color:var(--red); border-radius:10px; padding:8px 14px;
-  font-size:.83rem; font-weight:700; background:transparent;
-}
-.floater small{display:block; font-weight:400; font-size:.7rem; opacity:.85}
 .org{position:relative}
-.org svg.orgl{position:absolute; inset:0; width:100%; height:100%; pointer-events:none}
-.org svg.orgl path{fill:none; stroke:var(--red); stroke-width:1.5; stroke-dasharray:5 4; opacity:.65}
 .bou{display:flex; flex-direction:column; align-items:center; gap:2px}
 
 /* hub (variant 3) */
@@ -939,7 +936,7 @@ window.addEventListener('DOMContentLoaded',()=>{if(localStorage.getItem('auth')=
     <div class="wheelwrap rv">
       <div class="wheel">
         <!-- 4 pijlerringen: elke ring omsluit álle thema's -->
-        <div class="ring educate" style="--rc:var(--educate)"><span class="ringlabel" style="--rc:var(--educate)">Educate</span></div>
+        <div class="ring know" style="--rc:var(--know)"><span class="ringlabel" style="--rc:var(--know)">Know</span></div>
         <div class="ring care" style="--rc:var(--care)"><span class="ringlabel" style="--rc:var(--care)">Care</span></div>
         <div class="ring move" style="--rc:var(--move)"><span class="ringlabel" style="--rc:var(--move)">Move</span></div>
         <div class="ring food" style="--rc:var(--food)"><span class="ringlabel" style="--rc:var(--food)">Food</span></div>
@@ -980,7 +977,7 @@ window.addEventListener('DOMContentLoaded',()=>{if(localStorage.getItem('auth')=
         <div class="rnode" style="--rc:var(--food)"><b>Food</b><small>voeding die het doel van de klant ondersteunt</small></div>
         <div class="rnode" style="--rc:var(--move)"><b>Move</b><small>bewegen, begeleiding en clubs</small></div>
         <div class="rnode" style="--rc:var(--care)"><b>Care</b><small>supplementen, farma en verzorging</small></div>
-        <div class="rnode" style="--rc:var(--educate)"><b>Educate</b><small>kennis, opleiding en inspiratie</small></div>
+        <div class="rnode" style="--rc:var(--know)"><b>Know</b><small>kennis, opleiding en inspiratie</small></div>
       </div>
       <div class="pillarlist">
         <div class="pnode" style="--pc:var(--p1)"><span class="medal"><svg class="pic"><use href="#ic-voeding"/></svg></span><span><b>Voeding</b><small>wat je eet en drinkt — je brandstof, elke dag</small></span></div>
@@ -1051,7 +1048,7 @@ window.addEventListener('DOMContentLoaded',()=>{if(localStorage.getItem('auth')=
             <div class="vbcel" style="--vc:var(--move)"><b>Move</b><p>Jims als fitnessketen, plus fitnesscoaching op maat.</p></div>
             <div class="vbcel" style="--vc:var(--food)"><b>Food</b><p>Eiwitrijke voeding die zware trainingen ondersteunt.</p></div>
             <div class="vbcel" style="--vc:var(--care)"><b>Care</b><p>Herstelsupplementen voor, tijdens of na de training.</p></div>
-            <div class="vbcel" style="--vc:var(--educate)"><b>Educate</b><p>Een opleiding over hoe je het best en veilig beweegt.</p></div>
+            <div class="vbcel" style="--vc:var(--know)"><b>Know</b><p>Een opleiding over hoe je het best en veilig beweegt.</p></div>
           </div>
         </div>
       </details>
@@ -1064,7 +1061,7 @@ window.addEventListener('DOMContentLoaded',()=>{if(localStorage.getItem('auth')=
             <div class="vbcel" style="--vc:var(--food)"><b>Food</b><p>Aangepast eetplan, portiebegeleiding en recepten die vol houden.</p></div>
             <div class="vbcel" style="--vc:var(--move)"><b>Move</b><p>Beweegplan op jouw niveau, met opvolging van je vooruitgang.</p></div>
             <div class="vbcel" style="--vc:var(--care)"><b>Care</b><p>Opvolging van je waarden, supplementen enkel waar ze zinvol zijn.</p></div>
-            <div class="vbcel" style="--vc:var(--educate)"><b>Educate</b><p>Begrijpen waarom gewicht schommelt — en hoe je terugval vermijdt.</p></div>
+            <div class="vbcel" style="--vc:var(--know)"><b>Know</b><p>Begrijpen waarom gewicht schommelt — en hoe je terugval vermijdt.</p></div>
           </div>
         </div>
       </details>
@@ -1074,7 +1071,7 @@ window.addEventListener('DOMContentLoaded',()=>{if(localStorage.getItem('auth')=
         <div class="inhoud">
           <p>Pre- en post-operatieve begeleiding: wie vooraf sterker aan de start komt, herstelt sneller. Een traject met een duidelijk begin en einde.</p>
           <div class="vbgrid">
-            <div class="vbcel" style="--vc:var(--educate)"><b>Educate</b><p>Uitleg over wat de ingreep inhoudt, wat je mag verwachten en hoe je je voorbereidt.</p></div>
+            <div class="vbcel" style="--vc:var(--know)"><b>Know</b><p>Uitleg over wat de ingreep inhoudt, wat je mag verwachten en hoe je je voorbereidt.</p></div>
             <div class="vbcel" style="--vc:var(--food)"><b>Food</b><p>Voeding die je vooraf versterkt, en herstelvoeding voor de periode erna.</p></div>
             <div class="vbcel" style="--vc:var(--care)"><b>Care</b><p>Vitamines en supplementen waar nodig, wondzorg en medicatiebegeleiding.</p></div>
             <div class="vbcel" style="--vc:var(--move)"><b>Move</b><p>Een bewegingscoach die je vooraf gericht versterkt en nadien weer opbouwt.</p></div>
@@ -1090,7 +1087,7 @@ window.addEventListener('DOMContentLoaded',()=>{if(localStorage.getItem('auth')=
             <div class="vbcel" style="--vc:var(--move)"><b>Move</b><p>Begeleide opbouw in het juiste tempo, afgestemd met je kinesist.</p></div>
             <div class="vbcel" style="--vc:var(--care)"><b>Care</b><p>Pijnbeheer, hulpmiddelen en supplementen die herstel ondersteunen.</p></div>
             <div class="vbcel" style="--vc:var(--food)"><b>Food</b><p>Voeding gericht op herstel en het terugwinnen van spiermassa.</p></div>
-            <div class="vbcel" style="--vc:var(--educate)"><b>Educate</b><p>Begrijpen wat je lichaam doet — en waarom te snel gaan je terugwerpt.</p></div>
+            <div class="vbcel" style="--vc:var(--know)"><b>Know</b><p>Begrijpen wat je lichaam doet — en waarom te snel gaan je terugwerpt.</p></div>
           </div>
         </div>
       </details>
@@ -1100,7 +1097,7 @@ window.addEventListener('DOMContentLoaded',()=>{if(localStorage.getItem('auth')=
         <div class="inhoud">
           <p>Een thema waar de klant zelden aan producten denkt — en waar het antwoord juist over alle pijlers verspreid zit.</p>
           <div class="vbgrid">
-            <div class="vbcel" style="--vc:var(--educate)"><b>Educate</b><p>Slaaphygiëne: wat werkt echt, en welke gewoontes houden je wakker.</p></div>
+            <div class="vbcel" style="--vc:var(--know)"><b>Know</b><p>Slaaphygiëne: wat werkt echt, en welke gewoontes houden je wakker.</p></div>
             <div class="vbcel" style="--vc:var(--care)"><b>Care</b><p>Advies van de apotheker; magnesium of melatonine enkel waar zinvol.</p></div>
             <div class="vbcel" style="--vc:var(--food)"><b>Food</b><p>Timing van cafeïne, alcohol en je avondmaaltijd.</p></div>
             <div class="vbcel" style="--vc:var(--move)"><b>Move</b><p>Voldoende beweging overdag, en tot rust komen 's avonds.</p></div>
@@ -1120,89 +1117,43 @@ window.addEventListener('DOMContentLoaded',()=>{if(localStorage.getItem('auth')=
 <section id="varianten">
   <div class="wrap">
     <div class="rv">
-      <span class="eyebrow">03 · Organisatievarianten &amp; eindbeeld</span>
+      <span class="eyebrow">03 · De organisatie</span>
       <h2 class="sec-title">Hoe organiseren we ons?</h2>
-      <p class="sec-lead">Er liggen twee organisatievarianten op tafel — dát is de keuze. Het eindbeeld, health als platform, beschrijft hoe de nieuwe organisatie vanaf dag één werkt en waar ze naartoe groeit.</p>
+      <p class="sec-lead">Geen keuzemenu. We kiezen ervoor om vanaf dag één te werken volgens de <b>principes van een health platform</b>, binnen een breder ecosysteem: het plan van de klant stuurt, AI en data doen het zware werk, en onze merken en partners vormen het ecosysteem eromheen. Dat vraagt één Health-directie met echt mandaat.</p>
     </div>
 
-    <div class="vtabs stagger" role="tablist">
-      <button class="vtab" role="tab" aria-selected="true" data-v="1">
-        <span class="num">Variant 1</span>
-        <h3>Verder zoals vandaag</h3>
-        <p>BOU’s blijven autonoom, het groepsteam verzamelt en verbindt.</p>
-      </button>
-      <button class="vtab" role="tab" aria-selected="false" data-v="2">
-        <span class="num">Variant 2</span>
-        <h3>Corporate regie</h3>
-        <p>Eén Health-directie met echt mandaat, binnen CG-governance.</p>
-      </button>
-    </div>
-
-    <!-- VARIANT 1 -->
-    <div class="vpanel show" id="v1">
-      <div class="vhead"><h3>Verder zoals vandaag</h3><span class="tag">coördineert</span></div>
-      <div class="vgrid">
-        <div class="org rv">
-          <div class="orgnode head">Groepsteam strategie &amp; tactiek<small>coördinator · enterprise architect · vakmanschap gezondheid · corporate marketing</small></div>
-          <div class="connector"><span class="ln dashed"></span><em>verzamelt &amp; rapporteert — stuurt beperkt</em><span class="ln dashed"></span></div>
-          <div class="bourow">
-            <span class="bou"><span class="blogo sm lg-colruyt" role="img" aria-label="Colruyt"></span><small>BOU</small></span>
-            <span class="bou"><span class="blogo sm lg-okay" role="img" aria-label="Okay"></span><small>BOU</small></span>
-            <span class="bou"><span class="blogo sm lg-bioplanet" role="img" aria-label="Bio-Planet"></span><small>BOU</small></span>
-            <span class="bou"><span class="blogo sm lg-foodbag" role="img" aria-label="Foodbag"></span><small>BOU</small></span>
-            <span class="bou"><span class="blogo sm lg-spar" role="img" aria-label="Spar"></span><small>BOU</small></span>
-            <span class="bou" id="bou-np-v1"><span class="blogo sm lg-newpharma" role="img" aria-label="Newpharma"></span><small>BOU</small></span>
-            <span class="bou" id="bou-jims-v1"><span class="blogo sm lg-jims" role="img" aria-label="Jims"></span><small>BOU</small></span>
-          </div>
-          <div class="floaters">
-            <span class="floater" id="fl-yoboo">Yoboo<small>aparte BOU onder Newpharma</small></span>
-            <span class="floater" id="fl-poot">Fysieke health-poot<small>onder Newpharma · niet optimaal</small></span>
-          </div>
-          <svg class="orgl" aria-hidden="true"><path/><path/></svg>
-          <div style="text-align:center; margin-top:18px"><button class="painlink" data-modal="governance" type="button">Hoe sturen we vandaag? De governance in het kort →</button></div>
-        </div>
-        <div class="scorecard rv">
-          <h4>Score op het kader</h4>
-          <div class="meter"><div class="t"><span>Snelheid</span><span>1/5</span></div><div class="bar"><i style="--v:20%"></i></div></div>
-          <div class="meter"><div class="t"><span>Alignment</span><span>1/5</span></div><div class="bar"><i style="--v:20%"></i></div></div>
-          <div class="meter"><div class="t"><span>Eén stem</span><span>1/5</span></div><div class="bar"><i style="--v:20%"></i></div></div>
-          <p class="verdict"><b>Eerlijk beeld:</b> deze variant bestendigt de drie pijnpunten. Elke BOU blijft zijn eigen health-initiatieven doen — los van elkaar. Een pad naar het eindbeeld is er niet.</p>
-        </div>
-      </div>
-      <details class="pc">
-        <summary>Voordelen, nadelen &amp; wat wél kan verbeteren</summary>
-        <div class="inner">
-          <div class="plus"><h5>Voordelen</h5><ul>
-            <li>Geen reorganisatie, geen weerstand, geen overgangskosten</li>
-            <li>BOU-ondernemerschap en eigenaarschap blijven maximaal</li>
-            <li>Snel te “verbeteren”: gedeelde visie als charter, kwartaalritueel, gezamenlijke merkbelofte</li>
-          </ul></div>
-          <div class="min"><h5>Nadelen</h5><ul>
-            <li>Vakmanschap &amp; corporate marketing blijven verzamelen zonder te kunnen sturen</li>
-            <li>Yoboo en de fysieke poot blijven wezen zonder sterke eigenaar</li>
-            <li>Alignment blijft vrijblijvend — bij elke budgetronde wint de eigen BOU-prioriteit</li>
-            <li>Innovatie blijft sneuvelen op dezelfde instabiele grond</li>
-          </ul></div>
-        </div>
-      </details>
-    </div>
-
-    <!-- VARIANT 2 -->
-    <div class="vpanel" id="v2">
+    <!-- DE ORGANISATIE -->
+    <div class="vpanel show" id="v2">
       <div class="vhead"><h3>Corporate regie</h3><span class="tag">mandaat binnen CG-governance</span></div>
       <div class="vgrid">
         <div class="org rv">
           <div class="orgnode dark">Health-directie Colruyt Group<small>mandaat: budget · prioritering · gezondheidstaal · één roadmap<br>AI, data &amp; agile in de kern — vanaf dag één</small></div>
           <div class="connector"><span class="ln strong"></span><em class="mand">stuurt met mandaat</em><span class="ln strong"></span></div>
           <div class="eenteam">
-            <span class="etl">Eén team — bouwt én draait</span>
+            <span class="etl">Drie teams — elk bouwt én draait</span>
             <span class="etsub">Geen aparte bouwers en uitvoerders: wie het concept maakt, laat het ook draaien en stuurt het bij.</span>
-            <div class="etgrid">
-              <div class="orgnode head">Health advisory<small>één geheel met een digitale én een fysieke poot: app, assessments en plan samen met de coaches — Yoboo verhuist hierheen</small><span class="etduo"><i>bouwt</i><i>draait</i></span></div>
-              <div class="orgnode head">Fysieke health-poot<small>winkelconcept en processen én de winkels zelf — uit Newpharma gelicht</small><span class="etduo"><i>bouwt</i><i>draait</i></span></div>
-              <div class="orgnode head">Gezondheidsvisie &amp; vakmanschap<small>sturend · eigenaar van de gezondheidstaal — bepaalt bv. wat er in de Health box zit én stelt ze samen</small><span class="etduo"><i>bouwt</i><i>draait</i></span></div>
-              <div class="orgnode head">Health Food vakmanschap<small>bouwt de kennis op én deelt, adviseert, coördineert en stuurt richting de food-enseignes</small><span class="etduo"><i>bouwt</i><i>draait</i></span></div>
-              <div class="orgnode head">Curatie van het aanbod<small>beheert centraal het assortiment producten &amp; diensten — op marge en business, maar vooral op de gezondheidsdoelen van de klant</small><span class="etduo"><i>bouwt</i><i>draait</i></span></div>
+            <div class="teamgrid">
+              <div class="team">
+                <span class="teamk">Health advisory</span>
+                <div class="orgnode head">Het gezondheidsplan<small>één geheel, digitaal én fysiek: app, assessments en plan samen met de coaches. Bouwt het shop-in-shop-concept dat élke winkel kan toepassen — en kan zelf een winkel uitbouwen. Yoboo verhuist hierheen</small></div>
+                <span class="etduo"><i>bouwt</i><i>draait</i></span>
+                <button class="painlink teamvac" data-modal="vac-advisory" type="button">Vacature: Health Advisory Lead →</button>
+              </div>
+              <div class="team">
+                <span class="teamk">Vakmanschap</span>
+                <div class="vaknodes">
+                  <div class="orgnode head">Gezondheidsvisie &amp; gezondheidstaal<small>sturend · eigenaar van de kleuren, iconen en woorden — bepaalt bv. wat er in de Health box zit én stelt ze samen</small></div>
+                  <div class="orgnode head">Health Food vakmanschap<small>bouwt de kennis op én deelt, adviseert, coördineert en stuurt richting de food-enseignes</small></div>
+                  <div class="orgnode head">Curatie van het aanbod<small>beheert centraal het assortiment producten &amp; diensten — op marge en business, maar vooral op de gezondheidsdoelen van de klant</small></div>
+                </div>
+                <span class="etduo"><i>bouwt</i><i>draait</i></span>
+                <button class="painlink teamvac" data-modal="vac-vakmanschap" type="button">Vacature: Lead Vakmanschap Gezondheid →</button>
+              </div>
+              <div class="team">
+                <span class="teamk">Marketing &amp; communicatie</span>
+                <div class="orgnode head">Het verhaal uitdragen<small>naar álle doelgroepen: de eindklant én intern naar de merken — ook hier meerdere klanten. Hier zit het change management: overtuigen, laten landen en mensen echt meekrijgen</small></div>
+                <span class="etduo"><i>bouwt</i><i>draait</i></span>
+              </div>
             </div>
           </div>
           <div class="connector"><span class="ln"></span><em>de merken: én ondernemer, én kanaal</em><span class="ln"></span></div>
@@ -1215,7 +1166,7 @@ window.addEventListener('DOMContentLoaded',()=>{if(localStorage.getItem('auth')=
             <span class="bou"><span class="blogo sm lg-newpharma" role="img" aria-label="Newpharma"></span></span>
             <span class="bou"><span class="blogo sm lg-jims" role="img" aria-label="Jims"></span></span>
           </div>
-          <p class="merkvrij">Elk merk blijft <b>vrij om een eigen assortiment op te bouwen</b>, naast het centraal gecureerde CG-assortiment.</p>
+          <p class="merkvrij">Elk merk blijft <b>vrij om een eigen assortiment én een eigen fysieke poot uit te bouwen</b> — naast het centraal gecureerde CG-assortiment en het shop-in-shop-concept dat het overal kan toepassen.</p>
           <div style="text-align:center; margin-top:18px"><button class="painlink" data-modal="directie" type="button">Wat doet elk blok precies? De verduidelijking →</button></div>
         </div>
         <div class="scorecard rv">
@@ -1246,66 +1197,10 @@ window.addEventListener('DOMContentLoaded',()=>{if(localStorage.getItem('auth')=
       </details>
     </div>
 
-    <!-- EINDBEELD -->
-    <div class="ebbridge rv">
-      <i></i>
-      <span>Het eindbeeld waar variant 2 van dag één naartoe bouwt</span>
-      <i class="b"></i>
+    <div class="merkvrij rv" style="text-align:left; max-width:none">
+      <b>En waarom niet gewoon verder zoals vandaag?</b> Omdat vakmanschap en corporate marketing dan blijven verzamelen zonder te kunnen sturen, Yoboo en de fysieke poot wezen blijven zonder sterke eigenaar, en elke budgetronde opnieuw de eigen BOU-prioriteit wint. Precies de drie pijnpunten die we hierboven beschreven. <button class="painlink" data-modal="governance" type="button" style="margin-left:6px">Hoe sturen we vandaag? &rarr;</button>
     </div>
-    <div class="eindbeeld rv" id="eindbeeld">
-      <div class="ebhead">
-        <span class="ebkicker">Het eindbeeld</span>
-        <h3>Health als platform</h3>
-        <p>Geen organogram, maar de ambitie en werkingsprincipes voor de inrichting van de nieuwe organisatie: de klant en zijn gezondheidsplan staan in het midden, de organisatie errond blijft minimaal — het systeem stuurt.</p>
-      </div>
-      <div class="vgrid">
-        <div class="org rv">
-          <div class="hubwrap">
-            <svg class="lines" viewBox="0 0 100 75" preserveAspectRatio="none" aria-hidden="true">
-              <line x1="50" y1="37" x2="15" y2="9"/><line x1="50" y1="37" x2="50" y2="6"/>
-              <line x1="50" y1="37" x2="85" y2="9"/><line x1="50" y1="37" x2="12" y2="42"/>
-              <line x1="50" y1="37" x2="50" y2="67"/><line x1="50" y1="37" x2="88" y2="42"/>
-            </svg>
-            <div class="hubc">
-              <b>Health advisory platform</b>
-              <small>minimale kern · product · data &amp; AI · vakmanschap<br>het gezondheidsplan van de klant stuurt alles</small>
-            </div>
-            <div class="sat" style="left:15%; top:12%"><i style="background:var(--food)"></i>Colruyt · Okay · Spar<small>food fulfilment</small></div>
-            <div class="sat" style="left:50%; top:8%"><i style="background:var(--food)"></i>Bio-Planet · Foodbag<small>gezonde voeding</small></div>
-            <div class="sat" style="left:85%; top:12%"><i style="background:var(--move)"></i>Jims<small>move fulfilment</small></div>
-            <div class="sat" style="left:12%; top:56%"><i style="background:var(--care)"></i>Newpharma<small>care online</small></div>
-            <div class="sat" style="left:50%; top:90%"><i style="background:var(--care)"></i>Apotheken &amp; health stores<small>care fysiek</small></div>
-            <div class="sat" style="left:88%; top:56%"><i style="background:var(--teal-dark)"></i>Coaches<small>menselijke begeleiding</small></div>
-          </div>
-          <div style="text-align:center; margin-top:18px"><button class="painlink" data-modal="platform" type="button">Hoe werkt dit in de praktijk? →</button></div>
-        </div>
-        <div class="scorecard rv">
-          <h4>De werkingsprincipes</h4>
-          <div class="princ"><b>Het plan stuurt</b><p>Wat de klant nodig heeft, bepaalt wat er gebeurt. Sturen zit in het systeem — geen vergadering per geval, maar regels die 24/7 werken.</p></div>
-          <div class="princ"><b>AI doet het zware werk</b><p>Personalisatie, advies en content — een kleine kern met weekritme beslist op klantdata over de regels.</p></div>
-          <div class="princ"><b>Eén gezondheidstaal</b><p>Zelfde kleuren, iconen en woorden in élk kanaal — niet onderhandelbaar.</p></div>
-          <div class="princ"><b>Merken: én ondernemer, én kanaal</b><p>Eigen ondernemerschap binnen het kader, plus een nieuw kanaal dat vertrekt vanuit het plan van de klant.</p></div>
-          <p class="verdict"><b>Kern:</b> dit is hoe variant 2 werkt en groeit. Het plankanaal schaalt op het ritme van bewijs.</p>
-        </div>
-      </div>
-      <details class="pc">
-        <summary>Wat dit oplevert &amp; wat het vraagt</summary>
-        <div class="inner">
-          <div class="plus"><h5>Wat dit oplevert</h5><ul>
-            <li>Eén stem by design: de klant en zijn plan staan letterlijk in het midden</li>
-            <li>Maximale snelheid: kleine kern, weekritme, beslissen op klantdata</li>
-            <li>AI doet het zware werk (personalisatie, advies, content) — minimale bezetting blijft realistisch</li>
-            <li>Cross-sell zit in het model ingebakken: het plan verwijst automatisch naar food, move &amp; care</li>
-          </ul></div>
-          <div class="min"><h5>Wat het vraagt</h5><ul>
-            <li>Datadeling over alle merken heen — technisch én juridisch werk</li>
-            <li>Spelregels van het plankanaal vastleggen vóór het groot is: leverbetrouwbaarheid, verrekening, attributie</li>
-            <li>Discipline op de gezondheidstaal: één bibliotheek, geen lokale varianten</li>
-            <li>Mens-in-de-lus voor alles wat medisch gevoelig is — AI stelt voor, de vakmens beslist</li>
-          </ul></div>
-        </div>
-      </details>
-    </div>
+
   </div>
 </section>
 
@@ -1314,14 +1209,14 @@ window.addEventListener('DOMContentLoaded',()=>{if(localStorage.getItem('auth')=
   <div class="wrap">
     <div class="reco rv">
       <span class="eyebrow">04 · Aanbeveling</span>
-      <h3>Kies <em>variant 2</em>. Bouw ze van dag één volgens de <em>principes van het platform</em>.</h3>
-      <p>Variant 1 lost niets op. En het platform is de manier waarop variant 2 vanaf dag één werkt: AI, data en agile in de kern, het plan dat stuurt, één gezondheidstaal. De echte vraag is dus niet óf we kantelen, maar wanneer we <b>opschalen</b>. Daarvoor gelden drie expliciete triggers:</p>
+      <h3>Vanaf dag één als <em>health platform</em>, in een <em>breder ecosysteem</em>.</h3>
+      <p>We kiezen ervoor om van meet af aan volgens de principes van een health platform te werken: AI, data en agile in de kern, het plan van de klant dat stuurt, één gezondheidstaal — en onze merken en partners als het ecosysteem eromheen. We bouwen dat uit en <b>schalen pas op als het werkt</b>. Daarvoor gelden drie expliciete triggers:</p>
       <div class="trigs">
         <div class="trig"><span class="k">Trigger 1</span><b>De visie staat</b><span>Eén gedragen CG-gezondheidsvisie met vakmanschap dat stuurt — de pijlers zijn gedefinieerd en door elke BOU onderschreven.</span></div>
         <div class="trig"><span class="k">Trigger 2</span><b>De advisory werkt</b><span>Actieve gezondheidsplannen, sterke NPS en aantoonbare cross-sell over minstens twee merken heen.</span></div>
-        <div class="trig"><span class="k">Trigger 3</span><b>De winkel werkt</b><span>Een werkende fysieke health-winkel waarin de advisory zijn plaats heeft — de klant vindt er advies én aanbod in één ervaring, meetbaar en herhaalbaar.</span></div>
+        <div class="trig"><span class="k">Trigger 3</span><b>Er is een fysieke aansluiting</b><span>Het plan landt ook buiten het scherm — via het shop-in-shop-concept in een bestaande winkel of een eigen health-winkel. De klant vindt er advies én aanbod in één ervaring, meetbaar en herhaalbaar.</span></div>
       </div>
-      <p style="margin-top:18px">Staan de drie triggers op groen, dan schalen we op: <b>meer winkels, andere merken aankoppelen op het plankanaal</b> en mogelijk een <b>franchisemodel</b> om sneller te groeien.</p>
+      <p style="margin-top:18px">Staan de drie triggers op groen, dan schalen we op: <b>meer fysieke aansluitingen, andere merken aankoppelen op het plankanaal</b> en mogelijk een <b>franchisemodel</b> om sneller te groeien.</p>
     </div>
   </div>
 </section>
@@ -1623,6 +1518,89 @@ window.addEventListener('DOMContentLoaded',()=>{if(localStorage.getItem('auth')=
   </div>
 </div>
 
+<div class="modal" id="modal-vac-advisory" role="dialog" aria-modal="true" aria-labelledby="vacadv-title">
+  <div class="dlg vac">
+    <button class="close" type="button" aria-label="Sluiten">&times;</button>
+    <span class="k">Vacature &middot; team health advisory</span>
+    <h3 id="vacadv-title">Health Advisory Lead</h3>
+    <p style="margin-top:10px">De Health Advisory is het hart van ons gezondheidsverhaal: de plek waar de klant zijn plan krijgt &mdash; meten, doelen, actie, en opnieuw meten, met coaching als motor. Vandaag bestaat dat in stukken. Jij maakt er &eacute;&eacute;n product van.</p>
+
+    <div class="fw">
+      <h4>Je bent de product manager van de advisory</h4>
+      <p>Je bepaalt wat we bouwen, in welke volgorde en waarom &mdash; vertrekkend vanuit strategie en tactiek, niet vanuit de waan van de dag. Je bewaakt dat de digitale poot (app, assessments, plan) en de fysieke poot (de coaches, het shop-in-shop-concept) <b>&eacute;&eacute;n samenhangend geheel</b> vormen. De klant mag de naad niet voelen.</p>
+    </div>
+
+    <div class="fw">
+      <h4>Je hebt twee soorten klanten <small>en beide moeten tevreden zijn</small></h4>
+      <p><b>De eindklant.</b> Ervaart hij echte meerwaarde? Wordt hij effectief gezonder, of denkt hij dat alleen maar?</p>
+      <p style="margin-top:8px"><b>De merken.</b> Zij zijn tegelijk ondernemer &eacute;n kanaal. De advisory moet hun business versterken, niet doorkruisen. Ervaart een merk de advisory als iets dat wordt opgelegd, dan heb je gefaald &mdash; ook al werkt het product technisch. Je hebt geen hi&euml;rarchische macht over de merken, wel de opdracht ze mee te krijgen.</p>
+    </div>
+
+    <div class="fw">
+      <h4>Je werkt zij aan zij met het vakmanschap</h4>
+      <p>Het vakmanschap zit in de lead voor de wetenschappelijke onderbouwing &mdash; wat we beweren, moet kloppen. Jij bent daar niet de tegenpartij van maar de partner: jij brengt de klantvraag, het gebruik en de haalbaarheid binnen, zij bewaken dat het klopt. Samen bepalen jullie wat de advisory belooft. Een gezondheidsmerk verliest vertrouwen sneller met &eacute;&eacute;n slecht onderbouwde claim dan het wint met tien goede features.</p>
+    </div>
+
+    <div class="fw">
+      <h4>Wat we van je verwachten</h4>
+      <ul>
+        <li>Aantoonbare ervaring in <b>productmanagement</b> van een digitaal product met echte gebruikers &mdash; je kent het verschil tussen een roadmap en een verlanglijst</li>
+        <li>Je kan <b>prioriteren en die keuzes verdedigen</b>, ook wanneer merken tegelijk iets anders willen</li>
+        <li>Even sterk in het gesprek met een ontwikkelaar als met een BOU-directeur of een coach op de vloer</li>
+        <li>Je werkt <b>agile en AI-first</b>: data om te beslissen, AI om sneller te gaan</li>
+        <li>Affiniteit met gezondheid &mdash; en de nederigheid om de inhoud bij het vakmanschap te laten</li>
+        <li>Je durft schrappen: te veel idee&euml;n en te weinig focus is precies waar we vandaag op stuklopen</li>
+      </ul>
+    </div>
+
+    <div class="punch">Een rol met echte impact op de ambitie van de groep: &euro;1 miljard omzet aan minstens 5% marge, en erkenning als speler in preventieve gezondheid &mdash; met 2028, het jaar dat Colruyt 100 wordt, als gedeelde horizon.</div>
+    <p class="vacnoot">Interne werkversie &mdash; nog te valideren op verloning, rapporteringslijn en functieclassificatie.</p>
+  </div>
+</div>
+
+<div class="modal" id="modal-vac-vakmanschap" role="dialog" aria-modal="true" aria-labelledby="vacvak-title">
+  <div class="dlg vac">
+    <button class="close" type="button" aria-label="Sluiten">&times;</button>
+    <span class="k">Vacature &middot; team vakmanschap</span>
+    <h3 id="vacvak-title">Lead Vakmanschap Gezondheid</h3>
+    <p style="margin-top:10px">Als we de klant beloven dat we hem gezonder helpen leven, dan moet die belofte <b>kloppen</b> &mdash; inhoudelijk, wetenschappelijk en consequent, in elk kanaal. Daar sta jij voor. Je leidt het team achter de gezondheidsvisie en -taal, het Health Food vakmanschap en de curatie van het aanbod.</p>
+
+    <div class="fw">
+      <h4>Je bewaakt dat wat we beweren, klopt</h4>
+      <p>Een gezondheidsmerk bouw je op vertrouwen. Jij bent de laatste horde: geen advies, product of campagne gaat de deur uit zonder dat de onderbouwing staat. Dat betekent ook <b>nee zeggen tegen iets dat commercieel aantrekkelijk is maar inhoudelijk niet houdt</b>.</p>
+    </div>
+
+    <div class="fw">
+      <h4>Je bent eigenaar van de gezondheidstaal <small>niet onderhandelbaar</small></h4>
+      <p>&Eacute;&eacute;n bibliotheek van kleuren, iconen en woorden voor de zes leefstijlpijlers, waar &eacute;lk kanaal uit put: de app, de winkel, de apotheek, de fitness. Geen lokale varianten. Dat is wat maakt dat de klant zijn plan overal herkent zonder na te denken &mdash; en het werkt alleen als iemand het &eacute;cht bewaakt. Die taal is bovendien meer dan visuals: ze is ook inhoud, continu onderbouwd en meetbaar.</p>
+    </div>
+
+    <div class="fw">
+      <h4>Je bouwt Health Food vakmanschap op &mdash; en draagt het uit</h4>
+      <p>Kennis die in jouw team blijft, is waardeloos. Je deelt, adviseert, co&ouml;rdineert en stuurt richting de food-enseignes, zodat wat we weten ook echt in de winkelrekken terechtkomt. Zonder hi&euml;rarchische macht over die enseignes: je overtuigt op inhoud en op wat het hen oplevert.</p>
+    </div>
+
+    <div class="fw">
+      <h4>Je cureert het aanbod</h4>
+      <p>Het centrale assortiment is geen inkooplijst maar een gezondheidsinstrument. Marge en business tellen &mdash; maar de eerste vraag is of het aanbod de gezondheidsdoelen van de klant helpt oplossen. Elk merk blijft daarnaast vrij een eigen assortiment op te bouwen; jouw curatie is de referentie, geen keurslijf.</p>
+    </div>
+
+    <div class="fw">
+      <h4>Wat we van je verwachten</h4>
+      <ul>
+        <li>Een stevige <b>inhoudelijke of wetenschappelijke basis</b> in gezondheid of voeding &mdash; je kan een studie lezen &eacute;n beoordelen of ze iets bewijst</li>
+        <li>Ervaring met het <b>vertalen van kennis naar praktijk</b>: van evidentie naar advies en aanbod dat een gewone klant begrijpt</li>
+        <li>Je bouwt <b>gezag op zonder hi&euml;rarchische macht</b> &mdash; je overtuigt op argument, niet op mandaat</li>
+        <li>Even scherp op <b>commerci&euml;le realiteit</b> als op inhoud: dit is geen zuivere expertenrol</li>
+        <li>De rechte rug om nee te zeggen &mdash; maar <b>geen rem</b>: je zoekt actief hoe iets w&eacute;l kan</li>
+      </ul>
+    </div>
+
+    <div class="punch">Eigenaarschap over iets dat de hele groep raakt: de gezondheidstaal die in &eacute;lk kanaal terugkomt &mdash; met 2028, het jaar dat Colruyt 100 wordt, als gedeelde horizon.</div>
+    <p class="vacnoot">Interne werkversie &mdash; nog te valideren op verloning, rapporteringslijn en functieclassificatie.</p>
+  </div>
+</div>
+
 <div class="modal" id="modal-directie" role="dialog" aria-modal="true" aria-labelledby="directie-title">
   <div class="dlg">
     <button class="close" type="button" aria-label="Sluiten">×</button>
@@ -1766,16 +1744,6 @@ const io = new IntersectionObserver((es)=>{
 },{threshold:.18});
 document.querySelectorAll('.rv,.stagger,.scorecard,.mile').forEach(el=>io.observe(el));
 
-// variant tabs
-const tabs=[...document.querySelectorAll('.vtab')];
-tabs.forEach(t=>t.addEventListener('click',()=>{
-  tabs.forEach(x=>x.setAttribute('aria-selected', x===t ? 'true':'false'));
-  document.querySelectorAll('.vpanel').forEach(p=>p.classList.remove('show'));
-  const p=document.getElementById('v'+t.dataset.v);
-  p.classList.add('show');
-  p.querySelectorAll('.rv,.scorecard').forEach(el=>{el.classList.add('in')});
-  requestAnimationFrame(drawOrg);
-}));
 
 // timeline progress line
 const tl=document.querySelector('.timeline'), prog=document.getElementById('tlprog');
@@ -1787,39 +1755,6 @@ function tick(){
 }
 addEventListener('scroll',tick,{passive:true}); addEventListener('resize',tick); tick();
 
-// variant 1: dashed lines Newpharma -> Yoboo & fysieke poot
-function drawOrg(){
-  const np=document.getElementById('bou-np-v1');
-  if(!np) return;
-  const org=np.closest('.org'), svg=org.querySelector('svg.orgl');
-  const or=org.getBoundingClientRect();
-  if(or.width<10) return; // panel hidden
-  svg.setAttribute('viewBox',`0 0 ${or.width} ${or.height}`);
-  svg.setAttribute('preserveAspectRatio','none');
-  const nr=np.getBoundingClientRect();
-  const x1=nr.left+nr.width/2-or.left, y1=nr.bottom-or.top+2;
-  const jr=document.getElementById('bou-jims-v1').getBoundingClientRect();
-  const j={l:jr.left-or.left-8, r:jr.right-or.left+8, t:jr.top-or.top-8, b:jr.bottom-or.top+4};
-  const paths=svg.querySelectorAll('path');
-  [document.getElementById('fl-yoboo'), document.getElementById('fl-poot')].forEach((fl,i)=>{
-    const fr=fl.getBoundingClientRect();
-    const x2=fr.left+fr.width/2-or.left, y2=fr.top-or.top-2;
-    // zou de rechte lijn de Jims-kaart kruisen? loop dan onder Jims door
-    let cross=false;
-    for(let t=0;t<=1;t+=.02){
-      const x=x1+(x2-x1)*t, y=y1+(y2-y1)*t;
-      if(x>j.l&&x<j.r&&y>j.t&&y<j.b){cross=true;break;}
-    }
-    if(cross && y2>j.b){
-      const my=(j.b+y2)/2, dx=Math.sign(x2-x1)||1;
-      const r=Math.max(2,Math.min(10,(y2-my)*.8,(my-y1)*.8,Math.abs(x2-x1)/2));
-      paths[i].setAttribute('d',`M${x1} ${y1} V${my-r} Q${x1} ${my} ${x1+dx*r} ${my} H${x2-dx*r} Q${x2} ${my} ${x2} ${my+r} V${y2}`);
-    }else{
-      paths[i].setAttribute('d',`M${x1} ${y1} L${x2} ${y2}`);
-    }
-  });
-}
-addEventListener('resize',drawOrg); addEventListener('load',drawOrg); drawOrg();
 
 // modals
 document.querySelectorAll('[data-modal]').forEach(btn=>btn.addEventListener('click',()=>{
