@@ -659,7 +659,11 @@ function renderAgenda(){
           <p class="leegstand">Nog geen overleg gepland.</p>
         </div>`;
     }
-    if(!geselecteerdeDatum[meeting] || !datums.includes(geselecteerdeDatum[meeting])) geselecteerdeDatum[meeting] = datums[0];
+    // Open standaard op het eerstvolgende overleg (vandaag of later), niet op een overleg dat al voorbij is
+    if(!geselecteerdeDatum[meeting] || !datums.includes(geselecteerdeDatum[meeting])){
+      const vandaag = new Date().toISOString().slice(0,10);
+      geselecteerdeDatum[meeting] = datums.find(d=>d>=vandaag) || datums[datums.length-1];
+    }
     const gekozen = geselecteerdeDatum[meeting];
     const selectHtml = datums.length>1
       ? `<select class="datum-select" data-meeting="${meeting}">${datums.map(d=>`<option value="${d}" ${d===gekozen?'selected':''}>${fmtDatumKort(d)}</option>`).join('')}</select>`
