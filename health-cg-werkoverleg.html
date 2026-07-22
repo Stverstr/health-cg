@@ -366,7 +366,7 @@ window.addEventListener('DOMContentLoaded',()=>{if(localStorage.getItem('auth')=
     <h1>Werkoverleg Health</h1>
     <p><span class="chip meeting-wolisa">WO Lisa</span> <span class="chip meeting-sturing">Health Sturing</span> <span class="chip meeting-coordinatie">Health Coördinatie</span></p>
     <!-- VOLGEND OVERLEG: datum hier bijwerken -->
-    <div class="volgend"><span class="dot"></span> WO Lisa — ma 20 juli &amp; do 23 juli &nbsp;·&nbsp; Health Sturing — wo 22 juli</div>
+    <div class="volgend"><span class="dot"></span> Vandaag wo 22 juli: Health Sturing &amp; Health Coördinatie &nbsp;·&nbsp; WO Lisa — ma 20 juli &amp; do 23 juli</div>
   </div>
 </header>
 
@@ -404,7 +404,30 @@ window.addEventListener('DOMContentLoaded',()=>{if(localStorage.getItem('auth')=
       <div class="overlegtype-kop">
         <span class="chip meeting-coordinatie">Health Coördinatie</span>
       </div>
-      <p class="leegstand">Nog geen overleg gepland. Al wel klaar om te agenderen: <a class="topic-link" data-topic="topic-private-label" href="#topic-private-label">Strategic track Health Private Label</a>, <a class="topic-link" data-topic="topic-franchise-event" href="#topic-franchise-event">Apothekers/franchise-event</a>, <a class="topic-link" data-topic="topic-health-box" href="#topic-health-box">Health box</a>.</p>
+
+      <div class="agenda act" id="ag-coordinatie-1">
+        <div class="agenda-kop">
+          <h3>Overleg</h3>
+          <span class="meta">wo 22 juli</span>
+        </div>
+        <ol>
+          <li>
+            <div class="punt"><b><a class="topic-link" data-topic="topic-private-label" href="#topic-private-label">Strategic track Health Private Label</a></b><span>Wie trekt dit?</span></div>
+            <span class="chip bespreken">bespreken</span>
+            <span class="tijd">10 min</span>
+          </li>
+          <li>
+            <div class="punt"><b><a class="topic-link" data-topic="topic-franchise-event" href="#topic-franchise-event">Apothekers/franchise-event</a></b><span>Stand van zaken en aanpak van het event.</span></div>
+            <span class="chip bespreken">bespreken</span>
+            <span class="tijd">10 min</span>
+          </li>
+          <li>
+            <div class="punt"><b><a class="topic-link" data-topic="topic-health-box" href="#topic-health-box">Health box</a></b><span>Verdergaan met de pre-op/post-op boxen?</span></div>
+            <span class="chip beslissen">beslissen</span>
+            <span class="tijd">5 min</span>
+          </li>
+        </ol>
+      </div>
     </div>
 
     <!-- OVERLEGTYPE: HEALTH STURING -->
@@ -419,6 +442,11 @@ window.addEventListener('DOMContentLoaded',()=>{if(localStorage.getItem('auth')=
           <span class="meta">wo 22 juli</span>
         </div>
         <ol>
+          <li>
+            <div class="punt"><b><a class="topic-link" data-topic="topic-yoboo" href="#topic-yoboo">Yoboo — eerste bevindingen</a></b><span>Wat leren we tot nu toe uit Yoboo, en wat betekent dat voor de advisory-rol?</span></div>
+            <span class="chip informeren">informeren</span>
+            <span class="tijd">10 min</span>
+          </li>
           <li>
             <div class="punt"><b><a class="topic-link" data-topic="topic-sri-sri" href="#topic-sri-sri">Sri Sri — samenwerking</a></b><span>Hoe gaan we hiermee verder, en wanneer?</span></div>
             <span class="chip bespreken">bespreken</span>
@@ -452,19 +480,9 @@ window.addEventListener('DOMContentLoaded',()=>{if(localStorage.getItem('auth')=
         <!-- AGENDA: per punt een <li> met .punt (b = link naar de topic-kaart, span = korte toelichting), chip en .tijd -->
         <ol>
           <li>
-            <div class="punt"><b><a class="topic-link" data-topic="topic-yoboo" href="#topic-yoboo">Yoboo — eerste bevindingen</a></b><span>Wat leren we tot nu toe uit Yoboo, en wat betekent dat voor de advisory-rol?</span></div>
-            <span class="chip informeren">informeren</span>
-            <span class="tijd">10 min</span>
-          </li>
-          <li>
             <div class="punt"><b><a class="topic-link" data-topic="topic-advisory-track" href="#topic-advisory-track">Strategic track Health Advisory</a></b><span>Stand van het traject — hoe verder?</span></div>
             <span class="chip bespreken">bespreken</span>
             <span class="tijd">10 min</span>
-          </li>
-          <li>
-            <div class="punt"><b>Health sturing meeting — voorbereiding</b><span>Welke punten geven we mee naar de Health Sturing-vergadering? Samen bepalen.</span></div>
-            <span class="chip bespreken">bespreken</span>
-            <span class="tijd">5 min</span>
           </li>
         </ol>
       </div>
@@ -520,9 +538,9 @@ window.addEventListener('DOMContentLoaded',()=>{if(localStorage.getItem('auth')=
           <option value="sturing">Health Sturing</option>
           <option value="coordinatie">Health Coördinatie</option>
         </select>
-        <a href="#topic-yoboo" data-topic="topic-yoboo" data-meeting="wolisa" class="topics-list-item act">
+        <a href="#topic-yoboo" data-topic="topic-yoboo" data-meeting="sturing" class="topics-list-item act">
           <span class="tli-title">Yoboo — eerste bevindingen</span>
-          <span class="tli-tags"><span class="chip informeren">informeren</span><span class="chip meeting-wolisa">WO Lisa</span></span>
+          <span class="tli-tags"><span class="chip informeren">informeren</span><span class="chip meeting-sturing">Health Sturing</span></span>
         </a>
         <a href="#topic-advisory-track" data-topic="topic-advisory-track" data-meeting="wolisa" class="topics-list-item">
           <span class="tli-title">Strategic track Health Advisory</span>
@@ -554,8 +572,8 @@ window.addEventListener('DOMContentLoaded',()=>{if(localStorage.getItem('auth')=
     <div class="topic act" id="topic-yoboo">
       <div class="tags">
         <span class="chip informeren">informeren</span>
-        <span class="chip meeting-wolisa">WO Lisa</span>
-        <span class="datum-inline">20 jul</span>
+        <span class="chip meeting-sturing">Health Sturing</span>
+        <span class="datum-inline">22 jul</span>
       </div>
       <h3>Yoboo — eerste bevindingen</h3>
           <p>Twee voormiddagen ter plaatse in Antwerpen (met Olivier, de originele founder, en Lare); donderdagmiddag volgt een derde bezoek. Zes observaties:</p>
@@ -594,7 +612,7 @@ window.addEventListener('DOMContentLoaded',()=>{if(localStorage.getItem('auth')=
       <div class="verloop">
         <h4>Verloop</h4>
         <ul>
-          <li><span class="chip meeting-wolisa">WO Lisa</span><span class="datum">20 jul</span> gepland — eerste keer op de agenda, nog niet besproken.</li>
+          <li><span class="chip meeting-sturing">Health Sturing</span><span class="datum">22 jul</span> gepland — eerste keer op de agenda, nog niet besproken.</li>
         </ul>
       </div>
     </div>
@@ -639,6 +657,7 @@ window.addEventListener('DOMContentLoaded',()=>{if(localStorage.getItem('auth')=
       <div class="tags">
         <span class="chip bespreken">bespreken</span>
         <span class="chip meeting-coordinatie">Health Coördinatie</span>
+        <span class="datum-inline">22 jul</span>
       </div>
       <h3>Strategic track Health Private Label — wie trekt dit?</h3>
           <p>Na overleg is mijn inschatting dat deze track <b>niet door Ilka en haar team getrokken zal worden</b>:</p>
@@ -652,7 +671,7 @@ window.addEventListener('DOMContentLoaded',()=>{if(localStorage.getItem('auth')=
       <div class="verloop">
         <h4>Verloop</h4>
         <ul>
-          <li><span class="chip meeting-coordinatie">Health Coördinatie</span> toegewezen — te agenderen zodra er een datum is.</li>
+          <li><span class="chip meeting-coordinatie">Health Coördinatie</span><span class="datum">22 jul</span> gepland — eerste keer op de agenda, nog niet besproken.</li>
         </ul>
       </div>
     </div>
@@ -661,6 +680,7 @@ window.addEventListener('DOMContentLoaded',()=>{if(localStorage.getItem('auth')=
       <div class="tags">
         <span class="chip bespreken">bespreken</span>
         <span class="chip meeting-coordinatie">Health Coördinatie</span>
+        <span class="datum-inline">22 jul</span>
       </div>
       <h3>Apothekers/franchise-event — wat gaan we vertellen?</h3>
           <p>Er is een event gepland in <b>september</b>, maar de basis eronder is wankel:</p>
@@ -690,7 +710,7 @@ window.addEventListener('DOMContentLoaded',()=>{if(localStorage.getItem('auth')=
       <div class="verloop">
         <h4>Verloop</h4>
         <ul>
-          <li><span class="chip meeting-coordinatie">Health Coördinatie</span> toegewezen — te agenderen zodra er een datum is.</li>
+          <li><span class="chip meeting-coordinatie">Health Coördinatie</span><span class="datum">22 jul</span> gepland — eerste keer op de agenda, nog niet besproken.</li>
         </ul>
       </div>
     </div>
@@ -699,6 +719,7 @@ window.addEventListener('DOMContentLoaded',()=>{if(localStorage.getItem('auth')=
       <div class="tags">
         <span class="chip beslissen">beslissen</span>
         <span class="chip meeting-coordinatie">Health Coördinatie</span>
+        <span class="datum-inline">22 jul</span>
       </div>
       <h3>Health box — verdergaan met pre-op/post-op?</h3>
       <p>Caroline heeft de health box intussen verder uitgewerkt: in een proces gegoten en aangevuld met een set principes. <b>Dat ziet er goed uit.</b></p>
@@ -710,7 +731,7 @@ window.addEventListener('DOMContentLoaded',()=>{if(localStorage.getItem('auth')=
       <div class="verloop">
         <h4>Verloop</h4>
         <ul>
-          <li><span class="chip meeting-coordinatie">Health Coördinatie</span> toegewezen — te agenderen zodra er een datum is.</li>
+          <li><span class="chip meeting-coordinatie">Health Coördinatie</span><span class="datum">22 jul</span> gepland — eerste keer op de agenda, nog niet besproken.</li>
         </ul>
       </div>
     </div>
@@ -754,12 +775,12 @@ window.addEventListener('DOMContentLoaded',()=>{if(localStorage.getItem('auth')=
         <div class="fb-titel">Feedback Stijn</div>
 
         <h4>Route 1 · Product(en) in het assortiment</h4>
-        <p>Als aanvulling op het bestaande product-assortiment bij Newpharma kan dat werken. Niet als private label, en nog niet binnen een nieuw health retail concept — daar staan we voorlopig nog niet ver genoeg voor.</p>
+        <p>Als aanvulling op het bestaande product-assortiment bij Newpharma kan dat werken. Persoonlijk zou ik nog niet voor private label gaan.</p>
 
         <h4>Route 2 · Partner voor wellness (Health Advisory)</h4>
         <p>Mogelijk voor Health Advisory: als oplossing voor de gezondheidsdoelstellingen van de klant, onderdeel van de waaier die we kunnen aanbieden — producten, maar ook wellness en andere zaken. Ook hier staan we nog niet ver genoeg om dat al als een echt partnership uit te bouwen.</p>
 
-        <div class="voorstel"><b>Als we nu iets willen doen:</b> enkel het product-assortiment bij Newpharma — geen private label, geen nieuw retail concept, nog geen partnership rond Health Advisory.</div>
+        <div class="voorstel"><b>Als we nu iets willen doen:</b> enkel het product-assortiment bij Newpharma. Nog niet in een nieuw health retail concept, en nog niet binnen Health Advisory.</div>
       </div>
 
       <p style="margin-top:14px"><b>Vraag:</b> eens met die insteek — nu enkel assortiment bij Newpharma, de rest later? En vooral: wanneer?</p>
@@ -833,7 +854,14 @@ window.addEventListener('DOMContentLoaded',()=>{if(localStorage.getItem('auth')=
          - afgeronde agendapunten: dezelfde .topic-kaart (incl. .verloop) hierheen verplaatsen vanuit Topics, geen inhoud wijzigen.
          - overlegverslagen: per afgeronde datum een <details class="overleg">, nieuwste bovenaan.
            Structuur: summary (overlegtype-chip + datum) > .inhoud met h4-blokken: Agenda / Beslissingen / Acties eruit -->
-    <p class="leegstand">Nog geen afgeronde agendapunten of overleggen.</p>
+    <div class="topic act">
+      <div class="tags">
+        <span class="chip klaar">klaar</span>
+        <span class="chip meeting-wolisa">WO Lisa</span>
+      </div>
+      <h3>Health sturing meeting — voorbereiding</h3>
+      <p>Voorbereiding van de agendapunten voor Health Sturing — afgerond: die punten (Sri Sri, status Fysieke health retail) staan nu zelf op de Health Sturing-agenda.</p>
+    </div>
   </div>
 </section>
 </div>
