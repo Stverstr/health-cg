@@ -215,7 +215,20 @@ header.kop p{margin-top:8px; color:#C9E4E0; font-size:.98rem; max-width:44em}
 .agendapunt-form button{font-size:.85rem; font-weight:700; border-radius:99px; padding:8px 16px; cursor:pointer; border:none}
 .agendapunt-form button[type="submit"]{background:var(--accent); color:#fff}
 .agendapunt-form button.annuleer{background:none; color:var(--muted); border:1px solid var(--hair)}
+.agendapunt-form button.verwijder{background:none; color:var(--red); border:1px solid var(--red); margin-right:auto}
 .agendapunt-form .fout{grid-column:1/-1; color:var(--red); font-size:.85rem}
+
+/* Bewerkknop op een topic-kaart en op agendapunten */
+.bewerk-btn{
+  font-size:.78rem; font-weight:700; color:var(--accent); cursor:pointer;
+  background:var(--accent-soft); border:none; border-radius:99px; padding:5px 12px;
+}
+.topic .tags .bewerk-btn{margin-left:auto}
+.agenda .bewerk-punt{
+  background:none; border:none; cursor:pointer; color:var(--muted);
+  font-size:.9rem; padding:0 4px; line-height:1;
+}
+.agenda .bewerk-punt:hover{color:var(--accent)}
 
 /* ============ TOPICS: kolom met alle topics + detail van het geselecteerde ============ */
 .topics-toggle{
@@ -437,10 +450,17 @@ footer{padding:28px 0 40px; color:var(--muted); font-size:.85rem; border-top:1px
         </select>
       </label>
       <label>Tijd (min)<input type="number" name="tijd_min" value="10" min="1"></label>
+      <label>Status
+        <select name="status">
+          <option value="open">open</option>
+          <option value="klaar">klaar (naar archief)</option>
+        </select>
+      </label>
       <div class="fout" id="agendapuntFormFout" style="display:none"></div>
       <div class="form-acties">
+        <button type="button" class="verwijder" id="agendapuntFormVerwijder" style="display:none">Verwijderen</button>
         <button type="button" class="annuleer" id="agendapuntFormAnnuleer">Annuleren</button>
-        <button type="submit">Toevoegen</button>
+        <button type="submit" id="agendapuntFormOpslaan">Toevoegen</button>
       </div>
     </form>
 
@@ -621,6 +641,7 @@ function renderInbox(){
     <li draggable="true" data-id="${a.id}">
       <span class="tekst">${a.titel}</span>
       <span class="chip meeting-onbepaald">niet toegewezen</span>
+      <button class="bewerk-punt" title="Bewerken" onclick="openBewerkForm('${a.id}')">✎</button>
     </li>`).join('');
   maakSleepbaar(ul, null, null);
 }
@@ -657,7 +678,7 @@ function renderAgenda(){
               <li draggable="true" data-id="${a.id}">
                 <div class="punt"><b><a class="topic-link" data-id="${a.id}" href="#">${a.titel}</a></b>${a.toelichting?`<span>${a.toelichting}</span>`:''}</div>
                 <span class="chip ${a.doel}">${a.doel}</span>
-                <span class="tijd">${a.tijd_min} min</span>
+                <span class="tijd">${a.tijd_min} min <button class="bewerk-punt" title="Bewerken" onclick="event.stopPropagation();openBewerkForm('${a.id}')">✎</button></span>
               </li>`).join('')}
           </ol>
         </div>
@@ -752,6 +773,7 @@ function topicKaartHtml(a){
       <span class="chip ${a.doel}">${a.doel}</span>
       ${a.meeting?`<span class="chip meeting-${a.meeting}">${MEETING_LABEL[a.meeting]}</span>`:''}
       ${a.datum?`<span class="datum-inline">${fmtDatumKort(a.datum)}</span>`:''}
+      <button class="bewerk-btn" onclick="openBewerkForm('${a.id}')">Bewerken</button>
     </div>
     <h3>${a.titel}</h3>
     ${a.uitwerking_html || `<p style="color:var(--muted)">Nog niet uitgewerkt — vraag dit aan Claude.</p>`}
@@ -791,11 +813,63 @@ if(topicsToggle){
   });
 }
 
-/* ---------- Nieuw agendapunt: knop + formulier ---------- */
+/* ---------- Agendapunt toevoegen én bewerken (zelfde formulier) ---------- */
 const nieuwBtn = document.getElementById('nieuwAgendapuntBtn');
 const form = document.getElementById('agendapuntForm');
-nieuwBtn.addEventListener('click', ()=>form.classList.toggle('open'));
-document.getElementById('agendapuntFormAnnuleer').addEventListener('click', ()=>{ form.classList.remove('open'); form.reset(); });
+const opslaanBtn = document.getElementById('agendapuntFormOpslaan');
+const verwijderBtn = document.getElementById('agendapuntFormVerwijder');
+let bewerktId = null; // null = nieuw item, anders = id van het item dat we aanpassen
+
+function sluitForm(){
+  form.classList.remove('open'); form.reset();
+  bewerktId = null;
+  opslaanBtn.textContent = 'Toevoegen';
+  verwijderBtn.style.display = 'none';
+  document.getElementById('agendapuntFormFout').style.display='none';
+}
+function openNieuwForm(){
+  sluitForm();
+  form.classList.add('open');
+  form.scrollIntoView({behavior:'smooth', block:'center'});
+}
+function openBewerkForm(id){
+  const a = agendapunten.find(x=>x.id===id);
+  if(!a) return;
+  sluitForm();
+  bewerktId = id;
+  form.titel.value = a.titel || '';
+  form.toelichting.value = a.toelichting || '';
+  form.meeting.value = a.meeting || '';
+  form.datum.value = a.datum || '';
+  form.doel.value = a.doel || 'bespreken';
+  form.tijd_min.value = a.tijd_min ?? 10;
+  form.status.value = a.status || 'open';
+  opslaanBtn.textContent = 'Opslaan';
+  verwijderBtn.style.display = 'inline-block';
+  form.classList.add('open');
+  showTab('agenda');
+  form.scrollIntoView({behavior:'smooth', block:'center'});
+}
+window.openBewerkForm = openBewerkForm;
+
+nieuwBtn.addEventListener('click', ()=>{ if(form.classList.contains('open')) sluitForm(); else openNieuwForm(); });
+document.getElementById('agendapuntFormAnnuleer').addEventListener('click', sluitForm);
+
+verwijderBtn.addEventListener('click', async ()=>{
+  if(!bewerktId) return;
+  const a = agendapunten.find(x=>x.id===bewerktId);
+  if(!confirm(`"${a?.titel}" definitief verwijderen?`)) return;
+  const foutEl = document.getElementById('agendapuntFormFout');
+  try{
+    await sbFetch(`agendapunten?id=eq.${bewerktId}`, { method:'DELETE' });
+    sluitForm();
+    await laadData();
+  }catch(err){
+    foutEl.textContent = 'Verwijderen mislukt: '+err.message;
+    foutEl.style.display='block';
+  }
+});
+
 form.addEventListener('submit', async e=>{
   e.preventDefault();
   const fd = new FormData(form);
@@ -803,23 +877,26 @@ form.addEventListener('submit', async e=>{
   foutEl.style.display='none';
   try{
     const meeting = fd.get('meeting') || null;
-    const maxVolgorde = agendapunten.filter(a=>a.meeting===meeting).reduce((m,a)=>Math.max(m,a.volgorde),-1);
-    await sbFetch('agendapunten', {
-      method:'POST',
-      body: JSON.stringify({
-        titel: fd.get('titel'),
-        toelichting: fd.get('toelichting') || null,
-        meeting,
-        datum: fd.get('datum') || null,
-        doel: fd.get('doel'),
-        tijd_min: Number(fd.get('tijd_min')) || 10,
-        volgorde: maxVolgorde + 1
-      })
-    });
-    form.reset(); form.classList.remove('open');
+    const velden = {
+      titel: fd.get('titel'),
+      toelichting: fd.get('toelichting') || null,
+      meeting,
+      datum: fd.get('datum') || null,
+      doel: fd.get('doel'),
+      tijd_min: Number(fd.get('tijd_min')) || 10,
+      status: fd.get('status') || 'open'
+    };
+    if(bewerktId){
+      velden.updated_at = new Date().toISOString();
+      await sbFetch(`agendapunten?id=eq.${bewerktId}`, { method:'PATCH', body: JSON.stringify(velden) });
+    }else{
+      velden.volgorde = agendapunten.filter(a=>a.meeting===meeting).reduce((m,a)=>Math.max(m,a.volgorde),-1) + 1;
+      await sbFetch('agendapunten', { method:'POST', body: JSON.stringify(velden) });
+    }
+    sluitForm();
     await laadData();
   }catch(err){
-    foutEl.textContent = 'Toevoegen mislukt: '+err.message;
+    foutEl.textContent = (bewerktId?'Opslaan':'Toevoegen')+' mislukt: '+err.message;
     foutEl.style.display='block';
   }
 });
