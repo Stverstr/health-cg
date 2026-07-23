@@ -278,7 +278,7 @@ header.hero::after{
   border:1.5px solid color-mix(in srgb, var(--rc) 50%, transparent);
   background:radial-gradient(closest-side, transparent 92%, color-mix(in srgb, var(--rc) 7%, transparent));
 }
-.ring.know{width:97%; height:97%}
+.ring.know{width:97%; height:97%; border-style:dashed}
 .ring.care{width:90%; height:90%}
 .ring.move{width:83%; height:83%}
 .ring.food{width:76%; height:76%}
@@ -1029,10 +1029,10 @@ window.addEventListener('DOMContentLoaded',()=>{if(localStorage.getItem('auth')=
     <div class="wheelwrap rv">
       <div class="wheel">
         <!-- 4 pijlerringen: elke ring omsluit álle thema's -->
-        <div class="ring know" style="--rc:var(--know)"><span class="ringlabel" style="--rc:var(--know)">Know</span></div>
-        <div class="ring care" style="--rc:var(--care)"><span class="ringlabel" style="--rc:var(--care)">Care</span></div>
-        <div class="ring move" style="--rc:var(--move)"><span class="ringlabel" style="--rc:var(--move)">Move</span></div>
-        <div class="ring food" style="--rc:var(--food)"><span class="ringlabel" style="--rc:var(--food)">Food</span></div>
+        <div class="ring know" style="--rc:var(--know)"><span class="ringlabel" style="--rc:var(--know)">Know · overkoepelend</span></div>
+        <div class="ring care" style="--rc:var(--care)"><span class="ringlabel" style="--rc:var(--care)">3 · Care</span></div>
+        <div class="ring move" style="--rc:var(--move)"><span class="ringlabel" style="--rc:var(--move)">2 · Move</span></div>
+        <div class="ring food" style="--rc:var(--food)"><span class="ringlabel" style="--rc:var(--food)">1 · Food</span></div>
 
         <!-- Centrale bol: de motor draait als cyclus, met coaching in het hart -->
         <div class="hubc">
@@ -1067,10 +1067,10 @@ window.addEventListener('DOMContentLoaded',()=>{if(localStorage.getItem('auth')=
         <div class="pnode" style="left:20%; top:50%; --pc:var(--p6)"><span class="medal"><svg class="pic"><use href="#ic-middelen"/></svg></span><b>Schadelijke middelen vermijden</b><small>bewust omgaan met tabak, alcohol &amp; co</small></div>
       </div>
       <div class="ringlist">
-        <div class="rnode" style="--rc:var(--food)"><b>Food</b><small>voeding die het doel van de klant ondersteunt</small></div>
-        <div class="rnode" style="--rc:var(--move)"><b>Move</b><small>bewegen, begeleiding en clubs</small></div>
-        <div class="rnode" style="--rc:var(--care)"><b>Care</b><small>supplementen, farma en verzorging</small></div>
-        <div class="rnode" style="--rc:var(--know)"><b>Know</b><small>kennis, opleiding en inspiratie</small></div>
+        <div class="rnode" style="--rc:var(--food)"><b>1 · Food</b><small>het begint hier: voeding die het doel van de klant ondersteunt</small></div>
+        <div class="rnode" style="--rc:var(--move)"><b>2 · Move</b><small>bewegen, begeleiding en clubs</small></div>
+        <div class="rnode" style="--rc:var(--care)"><b>3 · Care</b><small>als het moet: supplementen, farma en verzorging</small></div>
+        <div class="rnode" style="--rc:var(--know)"><b>Know · overkoepelend</b><small>kennis over Food, Move én Care heen — opleiding en inspiratie</small></div>
       </div>
       <div class="pillarlist">
         <div class="pnode" style="--pc:var(--p1)"><span class="medal"><svg class="pic"><use href="#ic-voeding"/></svg></span><span><b>Voeding</b><small>wat je eet en drinkt — je brandstof, elke dag</small></span></div>
@@ -1080,7 +1080,7 @@ window.addEventListener('DOMContentLoaded',()=>{if(localStorage.getItem('auth')=
         <div class="pnode" style="--pc:var(--p5)"><span class="medal"><svg class="pic"><use href="#ic-verbondenheid"/></svg></span><span><b>Sociale verbondenheid</b><small>mensen om je heen — samen gezond leven</small></span></div>
         <div class="pnode" style="--pc:var(--p6)"><span class="medal"><svg class="pic"><use href="#ic-middelen"/></svg></span><span><b>Schadelijke middelen vermijden</b><small>bewust omgaan met tabak, alcohol &amp; co</small></span></div>
       </div>
-      <p class="wheelcaption">In het midden de klant: meten → doelen → actie, een cyclus die blijft draaien, met coaching als motor. Daarrond de zes leefstijlthema's in klanttaal. Daarrond onze vier pijlers: elke ring omsluit álle thema's, want elke pijler kan aan elk thema bijdragen.</p>
+      <p class="wheelcaption">In het midden de klant: meten → doelen → actie, een cyclus die blijft draaien, met coaching als motor. Daarrond de zes leefstijlthema's in klanttaal. Daarrond onze pijlers, in een vaste volgorde: het begint bij <b>Food</b>, dan <b>Move</b>, en als het moet <b>Care</b>. <b>Know</b> is geen stap in die volgorde maar de overkoepelende laag: kennis die we over Food, Move én Care heen aanbieden. Elke ring omsluit álle thema's, want elke pijler kan aan elk thema bijdragen.</p>
       <div style="text-align:center; margin-top:12px"><button class="painlink" data-modal="kaders" type="button">Inspiratie: bestaande gezondheidskaders →</button></div>
     </div>
 
