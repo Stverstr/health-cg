@@ -510,7 +510,7 @@ details.vb .inhoud>p{color:var(--muted); font-size:.92rem; margin-bottom:14px}
 }
 .eenteam .etsub{display:block; text-align:center; font-size:.78rem; color:var(--muted); margin-bottom:12px}
 /* Twee teams — advisory en vakmanschap — binnen dezelfde organisatie */
-.teamgrid{display:grid; grid-template-columns:1fr 1.25fr 1fr; gap:12px; align-items:stretch}
+.teamgrid{display:grid; grid-template-columns:repeat(3,1fr); gap:12px; align-items:stretch}
 @media(max-width:980px){.teamgrid{grid-template-columns:1fr 1fr} .teamgrid>.team:nth-child(2){grid-column:1/-1; order:3}}
 @media(max-width:700px){.teamgrid,.teamgrid>.team:nth-child(2){grid-template-columns:1fr; grid-column:auto; order:0}}
 .team{
@@ -521,6 +521,7 @@ details.vb .inhoud>p{color:var(--muted); font-size:.92rem; margin-bottom:14px}
   font-size:.66rem; font-weight:700; letter-spacing:.14em; text-transform:uppercase;
   color:var(--accent); text-align:center;
 }
+.teamsub{display:block; font-size:.76rem; color:var(--muted); text-align:center; margin-top:-5px; font-style:italic}
 .vaknodes{display:flex; flex-direction:column; gap:9px; flex:1}
 .teamvac{align-self:center; font-size:.8rem}
 /* Vacaturetekst in een modal */
@@ -1160,12 +1161,18 @@ window.addEventListener('DOMContentLoaded',()=>{if(localStorage.getItem('auth')=
             <div class="teamgrid">
               <div class="team">
                 <span class="teamk">Health advisory</span>
-                <div class="orgnode head">Het gezondheidsplan<small>één geheel, digitaal én fysiek: app, assessments en plan samen met de coaches. Bouwt het shop-in-shop-concept dat élke winkel kan toepassen — en kan zelf een winkel uitbouwen. Yoboo verhuist hierheen</small></div>
+                <span class="teamsub">de klant en zijn plan</span>
+                <div class="vaknodes">
+                  <div class="orgnode head">Het gezondheidsplan<small>app, assessments en plan: één product, digitaal én fysiek — de klant voelt de naad niet</small></div>
+                  <div class="orgnode head">Coaching<small>de coaches maken het plan persoonlijk en houden de klant op koers. Yoboo verhuist hierheen</small></div>
+                  <div class="orgnode head">Fysieke health retail<small>bouwt het shop-in-shop-concept dat élke winkel kan toepassen — en kan zelf een winkel uitbouwen</small></div>
+                </div>
                 <span class="etduo"><i>bouwt</i><i>draait</i></span>
                 <button class="painlink teamvac" data-modal="vac-advisory" type="button">Vacature: Health Advisory Lead →</button>
               </div>
               <div class="team">
                 <span class="teamk">Vakmanschap</span>
+                <span class="teamsub">de inhoud klopt</span>
                 <div class="vaknodes">
                   <div class="orgnode head">Gezondheidsvisie &amp; gezondheidstaal<small>sturend · eigenaar van de kleuren, iconen en woorden — bepaalt bv. wat er in de Health box zit én stelt ze samen</small></div>
                   <div class="orgnode head">Health Food vakmanschap<small>bouwt de kennis op én deelt, adviseert, coördineert en stuurt richting de food-enseignes</small></div>
@@ -1176,8 +1183,14 @@ window.addEventListener('DOMContentLoaded',()=>{if(localStorage.getItem('auth')=
               </div>
               <div class="team">
                 <span class="teamk">Marketing &amp; communicatie</span>
-                <div class="orgnode head">Het verhaal uitdragen<small>naar álle doelgroepen: de eindklant én intern naar de merken — ook hier meerdere klanten. Hier zit het change management: overtuigen, laten landen en mensen echt meekrijgen</small></div>
+                <span class="teamsub">het verhaal landt</span>
+                <div class="vaknodes">
+                  <div class="orgnode head">Merk &amp; campagnes<small>draagt het gezondheidsverhaal uit naar de eindklant — één stem, over alle merken heen</small></div>
+                  <div class="orgnode head">Content &amp; beleving<small>vertaalt de gezondheidstaal naar content, kanalen en beleving — in de winkel, de app en daarbuiten</small></div>
+                  <div class="orgnode head">Change &amp; interne adoptie<small>overtuigt de merken en medewerkers, laat het verhaal landen en krijgt mensen echt mee</small></div>
+                </div>
                 <span class="etduo"><i>bouwt</i><i>draait</i></span>
+                <button class="painlink teamvac" data-modal="vac-marcom" type="button">Vacature: Lead Marketing, Communicatie &amp; Change →</button>
               </div>
             </div>
           </div>
@@ -1661,6 +1674,45 @@ window.addEventListener('DOMContentLoaded',()=>{if(localStorage.getItem('auth')=
   </div>
 </div>
 
+<div class="modal" id="modal-vac-marcom" role="dialog" aria-modal="true" aria-labelledby="vacmar-title">
+  <div class="dlg vac">
+    <button class="close" type="button" aria-label="Sluiten">&times;</button>
+    <span class="k">Vacature &middot; team marketing &amp; communicatie</span>
+    <h3 id="vacmar-title">Lead Marketing, Communicatie &amp; Change</h3>
+    <p style="margin-top:10px">Het beste gezondheidsverhaal bestaat pas als mensen het <b>kennen, geloven en ernaar handelen</b>. Jij zorgt dat het verhaal landt &mdash; bij de eindklant &eacute;n intern bij de merken. Je leidt het team achter merk &amp; campagnes, content &amp; beleving, en change &amp; interne adoptie.</p>
+
+    <div class="fw">
+      <h4>Je draagt &eacute;&eacute;n verhaal uit naar &aacute;lle doelgroepen</h4>
+      <p><b>De eindklant</b> moet voelen dat zijn h&eacute;le gezondheid bij ons terechtkan &mdash; &eacute;&eacute;n stem, over alle merken heen. En <b>de merken en hun medewerkers</b> zijn je tweede klant: zij moeten het verhaal niet ondergaan maar w&iacute;llen vertellen. Twee heel verschillende publieken, &eacute;&eacute;n verhaal dat overal klopt.</p>
+    </div>
+
+    <div class="fw">
+      <h4>Je werkt binnen de gezondheidstaal <small>en maakt ze voelbaar</small></h4>
+      <p>Het vakmanschap is eigenaar van de gezondheidstaal &mdash; de kleuren, iconen en woorden liggen vast, zonder lokale varianten. Jouw vak is die taal <b>tot leven brengen</b>: in campagnes, content en beleving, in de winkel, de app en daarbuiten. Sturende kaders zijn voor jou geen rem maar een hefboom &mdash; herkenbaarheid is precies wat dit merk sterk maakt.</p>
+    </div>
+
+    <div class="fw">
+      <h4>Change is de helft van je job</h4>
+      <p>De organisatie kantelen doe je niet met een campagne. Overtuigen, laten landen en mensen echt meekrijgen &mdash; BOU-directeurs, winkelteams, apothekers, coaches &mdash; is een ambacht op zich. Je hebt <b>geen hi&euml;rarchische macht over de merken</b>: je wint ze op inhoud, timing en op wat het hen oplevert.</p>
+    </div>
+
+    <div class="fw">
+      <h4>Wat we van je verwachten</h4>
+      <ul>
+        <li>Aantoonbare ervaring met <b>merk- en campagnewerk over meerdere kanalen</b> &mdash; en met de resultaten om het te staven</li>
+        <li>Een track record in <b>changemanagement of interne communicatie</b> bij een echte transformatie, niet enkel een rebranding</li>
+        <li>Je bouwt <b>content en beleving</b> die klanten iets doet doen &mdash; niet enkel iets vinden</li>
+        <li>Je gedijt binnen sturende kaders: de gezondheidstaal ligt vast, jouw creativiteit zit in de <b>vertaling</b></li>
+        <li>Je werkt <b>agile en AI-first</b>: content op tempo, en data om te weten wat landt en wat niet</li>
+        <li>Je meet op de hele keten &mdash; van kennen over geloven tot doen &mdash; en stuurt daarop bij</li>
+      </ul>
+    </div>
+
+    <div class="punch">Jij maakt van een strategie een verhaal dat mensen kennen, geloven en doen &mdash; met 2028, het jaar dat Colruyt 100 wordt, als gedeelde horizon.</div>
+    <p class="vacnoot">Interne werkversie &mdash; nog te valideren op verloning, rapporteringslijn en functieclassificatie.</p>
+  </div>
+</div>
+
 <div class="modal" id="modal-directie" role="dialog" aria-modal="true" aria-labelledby="directie-title">
   <div class="dlg">
     <button class="close" type="button" aria-label="Sluiten">×</button>
@@ -1687,6 +1739,11 @@ window.addEventListener('DOMContentLoaded',()=>{if(localStorage.getItem('auth')=
     <div class="fw">
       <h4>Gezondheidsvisie &amp; vakmanschap <small>sturend</small></h4>
       <p>Zet de kaders én is <b>eigenaar van de gezondheidstaal</b>: de kleuren, iconen en woorden van de zes pijlers — één bibliotheek waar élk kanaal uit put, zonder lokale varianten.</p>
+    </div>
+
+    <div class="fw">
+      <h4>Marketing &amp; communicatie <small>het verhaal landt</small></h4>
+      <p>Drie opdrachten in één team: <b>merk &amp; campagnes</b> (het gezondheidsverhaal naar de eindklant, één stem over alle merken heen), <b>content &amp; beleving</b> (de gezondheidstaal vertaald naar content, kanalen en ervaringen) en <b>change &amp; interne adoptie</b> (de merken en medewerkers overtuigen, laten landen en echt meekrijgen). Ook hier meerdere klanten: de eindklant én de organisatie zelf.</p>
     </div>
 
     <div class="fw">
