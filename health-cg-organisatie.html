@@ -363,6 +363,71 @@ header.hero::after{
 .pillarlist .pnode .ic{margin:0}
 .pillarlist .pnode small{margin-top:2px}
 .pillarlist,.ringlist{display:none}
+
+/* ============ ECOSYSTEEM ============ */
+.ecowrap{background:var(--card); border:1px solid var(--hair); border-radius:18px; padding:26px; box-shadow:var(--shadow); margin-top:44px}
+.eco{position:relative; width:100%; aspect-ratio:4/3; min-height:620px}
+.eco .ering{
+  position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); border-radius:50%; pointer-events:none;
+  border:1.5px dashed color-mix(in srgb, var(--accent) 40%, transparent);
+}
+.eco .ering.buiten{
+  width:96%; height:96%; border-style:solid;
+  border-color:color-mix(in srgb, var(--accent) 28%, transparent);
+  background:radial-gradient(closest-side, transparent 90%, var(--accent-soft));
+}
+.eco .ering.kringen{width:46%; height:46%}
+.ecohub{
+  position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
+  width:clamp(190px,24%,250px); aspect-ratio:1; border-radius:50%; padding:20px;
+  display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center;
+  color:var(--on-dark);
+  background:
+    radial-gradient(circle at 34% 26%, rgba(255,255,255,.16), transparent 52%),
+    radial-gradient(circle at 62% 78%, #16645A, #0C332F 78%);
+  box-shadow:0 22px 55px rgba(12,51,47,.4), inset 0 0 0 1.5px rgba(255,255,255,.09);
+}
+.ecohub .k{font-size:.58rem; font-weight:700; letter-spacing:.24em; text-transform:uppercase; color:#7EC9BE; margin-bottom:6px}
+.ecohub b{font-size:clamp(1rem,2vw,1.3rem); letter-spacing:-.01em}
+.ecohub small{font-size:.72rem; color:#8FD8CE; margin-top:7px; line-height:1.4}
+.kringchip{
+  position:absolute; transform:translate(-50%,-50%); white-space:nowrap;
+  background:var(--card); border:1.5px solid color-mix(in srgb, var(--accent) 40%, transparent);
+  color:var(--accent); border-radius:99px; padding:4px 13px;
+  font-size:.76rem; font-weight:700; box-shadow:var(--shadow);
+}
+.econode{position:absolute; transform:translate(-50%,-50%); width:190px; text-align:center}
+.econode b{display:block; font-size:.95rem; letter-spacing:.01em}
+.econode small{display:block; font-size:.72rem; color:var(--muted); margin-top:3px; line-height:1.4}
+.ecogrid{display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:14px; margin-top:26px}
+.ecocard{border:1px solid var(--hair); border-top:4px solid var(--pc); border-radius:14px; padding:16px 18px; background:var(--card)}
+.ecocard b{font-size:.98rem}
+.ecocard p{font-size:.85rem; color:var(--muted); margin-top:7px; line-height:1.5}
+.ecocard p b{font-size:.78rem; text-transform:uppercase; letter-spacing:.08em; color:var(--pc)}
+@media(max-width:900px){.eco{display:none} .ecowrap{padding:18px}}
+
+/* ============ ROUTES: van vandaag naar het plan ============ */
+.vandaagstrip{
+  margin-top:44px; border:1px dashed var(--hair); border-radius:14px; padding:16px 20px;
+  background:var(--card); font-size:.92rem; color:var(--muted); line-height:1.6;
+}
+.vandaagstrip b{color:var(--ink)}
+.routes{display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:16px}
+@media(max-width:900px){.routes{grid-template-columns:1fr}}
+.route{
+  border:1px solid var(--hair); border-top:4px solid var(--rtc); border-radius:14px;
+  padding:18px 20px; background:var(--card); display:flex; flex-direction:column;
+}
+.route .k{font-size:.68rem; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--rtc)}
+.route h4{font-size:1.05rem; margin-top:4px}
+.route ul{margin:10px 0 14px; padding-left:17px; font-size:.88rem; color:var(--muted); line-height:1.55}
+.route li{margin:5px 0}
+.route .gevolg{
+  margin-top:auto; padding:10px 13px; border-radius:0 10px 10px 0;
+  border-left:4px solid var(--rtc); background:color-mix(in srgb, var(--rtc) 9%, transparent);
+  font-size:.86rem; line-height:1.5;
+}
+.route .gevolg b{color:var(--rtc)}
 @media(max-width:900px){
   .wheel{display:none}
   .ringlist{display:grid; gap:10px; margin-top:4px}
@@ -835,6 +900,7 @@ window.addEventListener('DOMContentLoaded',()=>{if(localStorage.getItem('auth')=
       <div class="submenu" data-page="organisatie">
         <a href="#vandaag">Vandaag</a>
         <a href="#verhaal">Eén verhaal</a>
+        <a href="#ecosysteem">Ecosysteem</a>
         <a href="#varianten">Varianten</a>
         <a href="#aanbeveling">Aanbeveling</a>
         <a href="#advisory">Advisory</a>
@@ -1139,11 +1205,77 @@ window.addEventListener('DOMContentLoaded',()=>{if(localStorage.getItem('auth')=
   </div>
 </section>
 
+<!-- ============ 3. ECOSYSTEEM ============ -->
+<section id="ecosysteem" class="band">
+  <div class="wrap">
+    <div class="rv">
+      <span class="eyebrow">03 · Het ecosysteem</span>
+      <h2 class="sec-title">Iedereen een beetje klant.</h2>
+      <p class="sec-lead">Een health platform is geen kanaal maar een ecosysteem. In het hart: de mens die met zijn gezondheid bezig is — <b>het individu is het atoom</b>, eigenaar van zijn data. Daarrond zijn kringen, en daarrond iedereen die bijdraagt. Elk van hen behandelen we als klant: met een duidelijke bijdrage <b>én</b> een duidelijke "what's in it for me".</p>
+    </div>
+
+    <div class="ecowrap rv">
+      <div class="eco">
+        <div class="ering buiten"><span class="ringlabel" style="--rc:var(--accent)">Het ecosysteem</span></div>
+        <div class="ering kringen"><span class="ringlabel" style="--rc:var(--accent)">Zijn kringen</span></div>
+
+        <div class="ecohub">
+          <span class="k">In het hart</span>
+          <b>De mens</b>
+          <small>eigenaar van zijn gezondheid én zijn data — de default is privé</small>
+        </div>
+
+        <!-- de kringen: elke groep rond het individu -->
+        <span class="kringchip" style="left:33.5%; top:35%">Gezin</span>
+        <span class="kringchip" style="left:66.5%; top:35%">Familie</span>
+        <span class="kringchip" style="left:33.5%; top:65%">Fietsclub</span>
+        <span class="kringchip" style="left:66.5%; top:65%">Community</span>
+
+        <!-- de spelers op de buitenring -->
+        <div class="econode" style="left:50%; top:13%; --pc:var(--care)"><span class="medal"><svg class="pic" viewBox="0 0 24 24"><path d="M12 20.5s-7.5-4.8-7.5-10.2a4.2 4.2 0 0 1 7.5-2.6 4.2 4.2 0 0 1 7.5 2.6c0 5.4-7.5 10.2-7.5 10.2z"/></svg></span><b>De coaches</b><small>vertalen advies naar dagelijks gedrag</small></div>
+        <div class="econode" style="left:82%; top:33%; --pc:var(--blue)"><span class="medal"><svg class="pic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 8.5v7M8.5 12h7"/></svg></span><b>Zorgprofessionals</b><small>medisch beeld &amp; voorschrift — zij geven het vertrouwen</small></div>
+        <div class="econode" style="left:82%; top:70%; --pc:var(--food)"><span class="medal"><svg class="pic" viewBox="0 0 24 24"><path d="M6.5 8.5h11l-.9 11H7.4l-.9-11z"/><path d="M9.5 8.5a2.5 2.5 0 0 1 5 0"/></svg></span><b>Merken &amp; oplossingen</b><small>onze merken én partners: het aanbod dat uitvoert</small></div>
+        <div class="econode" style="left:18%; top:70%; --pc:var(--p5)"><span class="medal"><svg class="pic" viewBox="0 0 24 24"><path d="M3.5 12h4l2-5.5 4.5 11 2-5.5h4.5"/></svg></span><b>Data &amp; meetinstrumenten</b><small>wearables en apps sluiten de meetlus</small></div>
+        <div class="econode" style="left:18%; top:33%; --pc:var(--p4)"><span class="medal"><svg class="pic" viewBox="0 0 24 24"><path d="M4.5 19.5h15M7 19.5V8l5-3.5L17 8v11.5M10.5 19.5v-4h3v4"/></svg></span><b>Het middenveld</b><small>mutualiteiten, verzekeraars, overheid, werkgevers</small></div>
+      </div>
+
+      <div class="ecogrid stagger">
+        <div class="ecocard" style="--pc:var(--accent)"><b>De mens &amp; zijn kringen</b>
+          <p><b>Geeft:</b> vertrouwen en data — per bron, met expliciete consent.</p>
+          <p><b>Krijgt:</b> één plan dat werkt in zijn dagelijks leven — en dat hij met zijn kring kan delen, als hij dat wil.</p>
+        </div>
+        <div class="ecocard" style="--pc:var(--care)"><b>De coaches</b>
+          <p><b>Geven:</b> begeleiding die advies omzet in gedrag — het menselijke gezicht van het plan.</p>
+          <p><b>Krijgen:</b> een platform met klanten, inhoud vanuit het vakmanschap en de instrumenten om écht te helpen.</p>
+        </div>
+        <div class="ecocard" style="--pc:var(--blue)"><b>De zorgprofessionals</b>
+          <p><b>Geven:</b> het medisch beeld, het voorschrift en geloofwaardigheid — de arts schrijft voor, wij voeren uit.</p>
+          <p><b>Krijgen:</b> een patiënt die het advies volhoudt, met terugkoppeling over de uitvoering — de medische data blijft bij hen.</p>
+        </div>
+        <div class="ecocard" style="--pc:var(--food)"><b>De merken &amp; oplossingen</b>
+          <p><b>Geven:</b> het aanbod en de uitvoerende kracht — mandje, maaltijdbox, gym en apotheek; ook merken buiten de groep.</p>
+          <p><b>Krijgen:</b> toeleiding en een trouwere, gezondere klant.</p>
+        </div>
+        <div class="ecocard" style="--pc:var(--p5)"><b>Data &amp; meetinstrumenten</b>
+          <p><b>Geven:</b> de metingen die de lus sluiten — wearables en apps zoals Apple Watch of Strava.</p>
+          <p><b>Krijgen:</b> relevantie: hun data krijgt betekenis in het plan van de gebruiker.</p>
+        </div>
+        <div class="ecocard" style="--pc:var(--p4)"><b>Het middenveld</b>
+          <p><b>Geeft:</b> bereik, legitimiteit en mogelijk financiering — mutualiteiten, verzekeraars, overheid, werkgevers en preventiediensten.</p>
+          <p><b>Krijgt:</b> een aantoonbaar gezondere populatie — en dus lagere kosten.</p>
+        </div>
+      </div>
+
+      <p class="wheelcaption">Elke speler is én klant én bijdrager: wie iets aan het ecosysteem geeft, moet er ook iets uithalen. Precies dat maakt het een platform — geen kanaal.</p>
+    </div>
+  </div>
+</section>
+
 <!-- ============ 3. VARIANTEN ============ -->
 <section id="varianten">
   <div class="wrap">
     <div class="rv">
-      <span class="eyebrow">03 · De organisatie</span>
+      <span class="eyebrow">04 · De organisatie</span>
       <h2 class="sec-title">Hoe organiseren we ons?</h2>
       <p class="sec-lead">Geen keuzemenu. We kiezen ervoor om vanaf dag één te werken volgens de <b>principes van een health platform</b>, binnen een breder ecosysteem: het plan van de klant stuurt, AI en data doen het zware werk, en onze merken en partners vormen het ecosysteem eromheen. Dat vraagt één Health-directie met echt mandaat.</p>
     </div>
@@ -1217,7 +1349,7 @@ window.addEventListener('DOMContentLoaded',()=>{if(localStorage.getItem('auth')=
 <section id="aanbeveling" class="band">
   <div class="wrap">
     <div class="reco rv">
-      <span class="eyebrow">04 · Aanbeveling</span>
+      <span class="eyebrow">05 · Aanbeveling</span>
       <h3>Vanaf dag één als <em>health platform</em>, in een <em>breder ecosysteem</em>.</h3>
       <p>We kiezen ervoor om van meet af aan volgens de principes van een health platform te werken: AI, data en agile in de kern, het plan van de klant dat stuurt, één gezondheidstaal — en onze merken en partners als het ecosysteem eromheen. We bouwen dat uit en <b>schalen pas op als het werkt</b>. Daarvoor gelden drie expliciete triggers:</p>
       <div class="trigs">
@@ -1234,7 +1366,7 @@ window.addEventListener('DOMContentLoaded',()=>{if(localStorage.getItem('auth')=
 <section id="advisory">
   <div class="wrap">
     <div class="rv">
-      <span class="eyebrow">05 · Health advisory concept</span>
+      <span class="eyebrow">06 · Health advisory concept</span>
       <h2 class="sec-title">Eén plan per klant. Alle merken erachter.</h2>
       <p class="sec-lead">De advisory vertaalt onze gezondheidsvisie naar een persoonlijk plan met een concreet doel — volledig digitaal of met menselijke coaching — en verbindt zo elk merk in de groep. Ze levert één omgeving waarin de klant én zijn coach naar hetzelfde plan kijken.</p>
     </div>
@@ -1335,7 +1467,7 @@ window.addEventListener('DOMContentLoaded',()=>{if(localStorage.getItem('auth')=
 <section id="roadmap" class="band">
   <div class="wrap">
     <div class="rv">
-      <span class="eyebrow">06 · Strategische roadmap</span>
+      <span class="eyebrow">07 · Strategische roadmap</span>
       <h2 class="sec-title">Vijf bouwstenen naar 2028</h2>
       <p class="sec-lead">Elke bouwsteen stapelt op de vorige. Het eindpunt ligt vast: opschalen in het jaar dat Colruyt 100 wordt.</p>
     </div>
@@ -1402,6 +1534,50 @@ window.addEventListener('DOMContentLoaded',()=>{if(localStorage.getItem('auth')=
         </div>
       </div>
     </div>
+
+    <!-- Van vandaag naar dit plan: drie routes -->
+    <div class="rv" style="margin-top:56px">
+      <h3 class="sec-title" style="font-size:1.5rem">En wat doen we met wat vandaag al loopt?</h3>
+      <p class="sec-lead" style="margin-top:8px">Dit plan landt niet op een leeg blad. Drie routes liggen op tafel.</p>
+    </div>
+
+    <div class="vandaagstrip rv">
+      <b>Vandaag lopen drie dingen naast elkaar.</b> Yoboo focust op B2B-sales van een beperkt Yoboo-aanbod. Centraal werken we volop aan de opening van een winkel in november rond health advisory — grotendeels los van Yoboo. En daarnaast lopen vele initiatieven parallel: de health box, Sri Sri, het strategisch plan health advisory… — zonder veel focus.
+    </div>
+
+    <div class="routes stagger">
+      <div class="route" style="--rtc:var(--red)">
+        <span class="k">Route A</span>
+        <h4>Alles loopt door</h4>
+        <ul>
+          <li>De winkel opent in november zoals gepland</li>
+          <li>B2B-sales loopt gewoon verder</li>
+          <li>De AI-sprint voor de health advisory start ernaast</li>
+        </ul>
+        <div class="gevolg"><b>Gevolg:</b> weinig focus en geen alignment — B2B, de winkel en de advisory lopen verder uit elkaar.</div>
+      </div>
+      <div class="route" style="--rtc:var(--blue)">
+        <span class="k">Route B</span>
+        <h4>Eerst stoppen, dan bouwen</h4>
+        <ul>
+          <li>B2B en de winkel worden stopgezet</li>
+          <li>We organiseren ons en doen de sprint</li>
+          <li>Daarna herstarten we met één gealigneerde strategie</li>
+        </ul>
+        <div class="gevolg"><b>Gevolg:</b> maximale alignment, maar we verliezen momentum, omzet en de novemberdatum — en goodwill bij wie vandaag bouwt.</div>
+      </div>
+      <div class="route" style="--rtc:var(--accent)">
+        <span class="k">Route C · de tussenweg</span>
+        <h4>De sprint als stuur</h4>
+        <ul>
+          <li>De sprint start meteen en wordt hét aligneringsinstrument: élk lopend initiatief komt erin samen</li>
+          <li>De winkel opent in november — maar herijkt als eerste fysieke test van de advisory; de sprint levert vóór de opening het verhaal en de gezondheidstaal</li>
+          <li>B2B loopt door op laag vuur, als kasstroom en acquisitiekanaal — zonder nieuwe engagementen die het eindbeeld hypothekeren</li>
+          <li>De overige initiatieven worden bevroren of kantelen in: wat niet in de sprint-backlog past, stopt</li>
+        </ul>
+        <div class="gevolg"><b>Gevolg:</b> het momentum blijft, en alles komt onder één stuur — de novemberwinkel wordt het eerste bewijs van de gealigneerde strategie in plaats van een los concept.</div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -1409,7 +1585,7 @@ window.addEventListener('DOMContentLoaded',()=>{if(localStorage.getItem('auth')=
 <section id="debat">
   <div class="wrap">
     <div class="rv">
-      <span class="eyebrow">07 · Het debat</span>
+      <span class="eyebrow">08 · Het debat</span>
       <h2 class="sec-title">Vijf beslissingen op tafel</h2>
       <p class="sec-lead">Dit document is geen eindpunt maar een startschot. Deze vijf vragen bepalen alles wat volgt.</p>
     </div>
@@ -1427,7 +1603,7 @@ window.addEventListener('DOMContentLoaded',()=>{if(localStorage.getItem('auth')=
 <section id="acties" class="band">
   <div class="wrap">
     <div class="rv">
-      <span class="eyebrow">08 · Aan de slag</span>
+      <span class="eyebrow">09 · Aan de slag</span>
       <h2 class="sec-title">Mogelijke eerste acties</h2>
       <p class="sec-lead">Korte, direct uitvoerbare stappen — kies twee à drie quick-wins om snel zichtbare voortgang te tonen.</p>
     </div>
