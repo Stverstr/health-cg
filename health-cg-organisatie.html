@@ -312,16 +312,16 @@ header.hero::after{
 .medal .pic{width:30px; height:30px; stroke-width:1.6}
 .wheelcaption{text-align:center; font-size:.78rem; color:var(--muted); margin-top:26px; font-style:italic}
 .wheel .hubc{
-  width:clamp(210px,27%,268px); padding:4.5%;
+  width:clamp(250px,30%,340px); padding:24px;
   background:
     radial-gradient(circle at 34% 26%, rgba(255,255,255,.16), transparent 52%),
     radial-gradient(circle at 62% 78%, #16645A, #0C332F 78%);
   box-shadow:0 22px 55px rgba(12,51,47,.4), inset 0 0 0 1.5px rgba(255,255,255,.09);
 }
-/* De cyclus staat bewust in % van de bol: ze vult ze zo goed als volledig,
-   maar blijft klein genoeg zodat de inhoud de bol nooit tot een ovaal uitrekt. */
+/* Vaste padding in px en een cyclus die klein genoeg blijft: zo kan de inhoud
+   de aspect-ratio nooit oprekken en blijft de bol een échte cirkel. */
 .wheel .hubc>b{font-size:clamp(.76rem,1.6vw,.92rem); line-height:1.2; flex:none}
-.cyclus{width:81%; height:auto; margin-top:2px; display:block; flex:none; overflow:visible}
+.cyclus{width:68%; height:auto; margin-top:4px; display:block; flex:none; overflow:visible}
 .wheel .hubc::before{
   content:""; position:absolute; inset:-12px; border-radius:50%;
   background:conic-gradient(from -30deg,
@@ -991,13 +991,13 @@ window.addEventListener('DOMContentLoaded',()=>{if(localStorage.getItem('auth')=
           </svg>
         </div>
 
-        <!-- 6 leefstijlthema's; boven- en onderkant blijven vrij voor de ringlabels -->
-        <div class="pnode" style="left:36%; top:27.5%; --pc:var(--p1)"><span class="medal"><svg class="pic"><use href="#ic-voeding"/></svg></span><b>Voeding</b><small>wat je eet en drinkt — je brandstof, elke dag</small></div>
-        <div class="pnode" style="left:64%; top:27.5%; --pc:var(--p2)"><span class="medal"><svg class="pic"><use href="#ic-beweging"/></svg></span><b>Beweging</b><small>genoeg bewegen, op jouw manier en tempo</small></div>
-        <div class="pnode" style="left:78%; top:50%; --pc:var(--p3)"><span class="medal"><svg class="pic"><use href="#ic-slaap"/></svg></span><b>Slaap</b><small>uitgerust wakker worden, je batterij opladen</small></div>
-        <div class="pnode" style="left:64%; top:72.5%; --pc:var(--p4)"><span class="medal"><svg class="pic"><use href="#ic-mentaal"/></svg></span><b>Mentale veerkracht</b><small>ruimte in je hoofd, ook als het tegenzit</small></div>
-        <div class="pnode" style="left:36%; top:72.5%; --pc:var(--p5)"><span class="medal"><svg class="pic"><use href="#ic-verbondenheid"/></svg></span><b>Sociale verbondenheid</b><small>mensen om je heen — samen gezond leven</small></div>
-        <div class="pnode" style="left:22%; top:50%; --pc:var(--p6)"><span class="medal"><svg class="pic"><use href="#ic-middelen"/></svg></span><b>Schadelijke middelen vermijden</b><small>bewust omgaan met tabak, alcohol &amp; co</small></div>
+        <!-- 6 leefstijlthema's; ver genoeg van de kern zodat geen enkele tekst de bol raakt -->
+        <div class="pnode" style="left:33%; top:24%; --pc:var(--p1)"><span class="medal"><svg class="pic"><use href="#ic-voeding"/></svg></span><b>Voeding</b><small>wat je eet en drinkt — je brandstof, elke dag</small></div>
+        <div class="pnode" style="left:67%; top:24%; --pc:var(--p2)"><span class="medal"><svg class="pic"><use href="#ic-beweging"/></svg></span><b>Beweging</b><small>genoeg bewegen, op jouw manier en tempo</small></div>
+        <div class="pnode" style="left:80%; top:50%; --pc:var(--p3)"><span class="medal"><svg class="pic"><use href="#ic-slaap"/></svg></span><b>Slaap</b><small>uitgerust wakker worden, je batterij opladen</small></div>
+        <div class="pnode" style="left:68%; top:78%; --pc:var(--p4)"><span class="medal"><svg class="pic"><use href="#ic-mentaal"/></svg></span><b>Mentale veerkracht</b><small>ruimte in je hoofd, ook als het tegenzit</small></div>
+        <div class="pnode" style="left:32%; top:78%; --pc:var(--p5)"><span class="medal"><svg class="pic"><use href="#ic-verbondenheid"/></svg></span><b>Sociale verbondenheid</b><small>mensen om je heen — samen gezond leven</small></div>
+        <div class="pnode" style="left:20%; top:50%; --pc:var(--p6)"><span class="medal"><svg class="pic"><use href="#ic-middelen"/></svg></span><b>Schadelijke middelen vermijden</b><small>bewust omgaan met tabak, alcohol &amp; co</small></div>
       </div>
       <div class="ringlist">
         <div class="rnode" style="--rc:var(--food)"><b>Food</b><small>voeding die het doel van de klant ondersteunt</small></div>
@@ -1151,7 +1151,7 @@ window.addEventListener('DOMContentLoaded',()=>{if(localStorage.getItem('auth')=
     <!-- DE ORGANISATIE -->
     <div class="vpanel show" id="v2">
       <div class="vhead"><h3>Corporate regie</h3><span class="tag">mandaat binnen CG-governance</span></div>
-      <div class="vgrid">
+      <div class="vgrid" style="grid-template-columns:1fr">
         <div class="org rv">
           <div class="orgnode dark">Health-directie Colruyt Group<small>mandaat: budget · prioritering · gezondheidstaal · één roadmap<br>AI, data &amp; agile in de kern — vanaf dag één</small></div>
           <div class="connector"><span class="ln strong"></span><em class="mand">stuurt met mandaat</em><span class="ln strong"></span></div>
@@ -1163,9 +1163,8 @@ window.addEventListener('DOMContentLoaded',()=>{if(localStorage.getItem('auth')=
                 <span class="teamk">Health advisory</span>
                 <span class="teamsub">de klant en zijn plan</span>
                 <div class="vaknodes">
-                  <div class="orgnode head">Het gezondheidsplan<small>app, assessments en plan: één product, digitaal én fysiek — de klant voelt de naad niet</small></div>
-                  <div class="orgnode head">Coaching<small>de coaches maken het plan persoonlijk en houden de klant op koers. Yoboo verhuist hierheen</small></div>
-                  <div class="orgnode head">Fysieke health retail<small>bouwt het shop-in-shop-concept dat élke winkel kan toepassen — en kan zelf een winkel uitbouwen</small></div>
+                  <div class="orgnode head">Digitale health advisory<small>app, assessments en het gezondheidsplan — één digitaal traject, samen met de coaches. Yoboo verhuist hierheen</small></div>
+                  <div class="orgnode head">Fysieke advisory journeys<small>bouwt het shop-in-shop-concept dat élke winkel kan toepassen — en kan zelf een winkel uitbouwen</small></div>
                 </div>
                 <span class="etduo"><i>bouwt</i><i>draait</i></span>
                 <button class="painlink teamvac" data-modal="vac-advisory" type="button">Vacature: Health Advisory Lead →</button>
@@ -1177,6 +1176,7 @@ window.addEventListener('DOMContentLoaded',()=>{if(localStorage.getItem('auth')=
                   <div class="orgnode head">Gezondheidsvisie &amp; gezondheidstaal<small>sturend · eigenaar van de kleuren, iconen en woorden — bepaalt bv. wat er in de Health box zit én stelt ze samen</small></div>
                   <div class="orgnode head">Health Food vakmanschap<small>bouwt de kennis op én deelt, adviseert, coördineert en stuurt richting de food-enseignes</small></div>
                   <div class="orgnode head">Curatie van het aanbod<small>beheert centraal het assortiment producten &amp; diensten — op marge en business, maar vooral op de gezondheidsdoelen van de klant</small></div>
+                  <div class="orgnode head">De coaches<small>de gezondheidscoaches vallen onder het vakmanschap — zij brengen de inhoud tot bij de klant, digitaal én fysiek</small></div>
                 </div>
                 <span class="etduo"><i>bouwt</i><i>draait</i></span>
                 <button class="painlink teamvac" data-modal="vac-vakmanschap" type="button">Vacature: Lead Vakmanschap Gezondheid →</button>
@@ -1185,9 +1185,9 @@ window.addEventListener('DOMContentLoaded',()=>{if(localStorage.getItem('auth')=
                 <span class="teamk">Marketing &amp; communicatie</span>
                 <span class="teamsub">het verhaal landt</span>
                 <div class="vaknodes">
-                  <div class="orgnode head">Merk &amp; campagnes<small>draagt het gezondheidsverhaal uit naar de eindklant — één stem, over alle merken heen</small></div>
-                  <div class="orgnode head">Content &amp; beleving<small>vertaalt de gezondheidstaal naar content, kanalen en beleving — in de winkel, de app en daarbuiten</small></div>
-                  <div class="orgnode head">Change &amp; interne adoptie<small>overtuigt de merken en medewerkers, laat het verhaal landen en krijgt mensen echt mee</small></div>
+                  <div class="orgnode head">Algemene marketing<small>draagt het gezondheidsverhaal uit naar de eindklant — merk, campagnes en content, één stem over alle merken heen</small></div>
+                  <div class="orgnode head">Ecosysteem van klanten<small>managet het brede klantecosysteem — eindklanten, merken, partners en organisaties — en houdt al die relaties gezond</small></div>
+                  <div class="orgnode head">Interne change<small>het interne change-verhaal: overtuigen, laten landen en mensen echt meekrijgen</small></div>
                 </div>
                 <span class="etduo"><i>bouwt</i><i>draait</i></span>
                 <button class="painlink teamvac" data-modal="vac-marcom" type="button">Vacature: Lead Marketing, Communicatie &amp; Change →</button>
@@ -1207,32 +1207,7 @@ window.addEventListener('DOMContentLoaded',()=>{if(localStorage.getItem('auth')=
           <p class="merkvrij">Elk merk blijft <b>vrij om een eigen assortiment én een eigen fysieke poot uit te bouwen</b> — naast het centraal gecureerde CG-assortiment en het shop-in-shop-concept dat het overal kan toepassen.</p>
           <div style="text-align:center; margin-top:18px"><button class="painlink" data-modal="directie" type="button">Wat doet elk blok precies? De verduidelijking →</button></div>
         </div>
-        <div class="scorecard rv">
-          <h4>Score op het kader</h4>
-          <div class="meter"><div class="t"><span>Snelheid</span><span>3/5</span></div><div class="bar"><i style="--v:60%"></i></div></div>
-          <div class="meter"><div class="t"><span>Alignment</span><span>4/5</span></div><div class="bar"><i style="--v:80%"></i></div></div>
-          <div class="meter"><div class="t"><span>Eén stem</span><span>3/5</span></div><div class="bar"><i style="--v:60%"></i></div></div>
-          <p class="verdict"><b>Kern:</b> alignment wordt afdwingbaar. Snelheid blijft begrensd door de bestaande governance-ritmes van de groep. Deze variant wordt van dag één ingericht volgens het eindbeeld hieronder.</p>
-        </div>
       </div>
-      <details class="pc">
-        <summary>Voordelen &amp; nadelen</summary>
-        <div class="inner">
-          <div class="plus"><h5>Voordelen</h5><ul>
-            <li>Eén eigenaar, één budget, één backlog voor alles wat “health” is</li>
-            <li>Yoboo en de fysieke poot krijgen eindelijk een sterke thuis — en werken van dag één zeer nauw samen</li>
-            <li>Haalbaar binnen de bestaande regels — geen governance-revolutie nodig</li>
-            <li>Vakmanschap wordt sturend: de gezondheidsvisie en -taal gelden voor iedereen</li>
-            <li>AI, data en agile zitten vanaf dag één in de kern — er is later geen kanteling nodig</li>
-          </ul></div>
-          <div class="min"><h5>Nadelen</h5><ul>
-            <li>CG-besluitvormingsritmes begrenzen het tempo</li>
-            <li>Risico op een nieuwe corporate laag die zelf log wordt</li>
-            <li>Spanningsveld met BOU-P&amp;L’s: wie krijgt de omzet van cross-sell?</li>
-            <li>Vraagt stevige onderhandeling over het verhuizen van Yoboo &amp; de fysieke poot</li>
-          </ul></div>
-        </div>
-      </details>
     </div>
 
     <div class="merkvrij rv" style="text-align:left; max-width:none">
@@ -1600,7 +1575,7 @@ window.addEventListener('DOMContentLoaded',()=>{if(localStorage.getItem('auth')=
 
     <div class="fw">
       <h4>Je bent de product manager van de advisory</h4>
-      <p>Je bepaalt wat we bouwen, in welke volgorde en waarom &mdash; vertrekkend vanuit strategie en tactiek, niet vanuit de waan van de dag. Je bewaakt dat de digitale poot (app, assessments, plan) en de fysieke poot (de coaches, het shop-in-shop-concept) <b>&eacute;&eacute;n samenhangend geheel</b> vormen. De klant mag de naad niet voelen.</p>
+      <p>Je bepaalt wat we bouwen, in welke volgorde en waarom &mdash; vertrekkend vanuit strategie en tactiek, niet vanuit de waan van de dag. Je bewaakt dat de digitale health advisory (app, assessments, plan) en de fysieke advisory journeys (het shop-in-shop-concept, een eigen winkel) <b>&eacute;&eacute;n samenhangend geheel</b> vormen &mdash; met de coaches van het vakmanschap als vaste partners. De klant mag de naad niet voelen.</p>
     </div>
 
     <div class="fw">
@@ -1679,7 +1654,7 @@ window.addEventListener('DOMContentLoaded',()=>{if(localStorage.getItem('auth')=
     <button class="close" type="button" aria-label="Sluiten">&times;</button>
     <span class="k">Vacature &middot; team marketing &amp; communicatie</span>
     <h3 id="vacmar-title">Lead Marketing, Communicatie &amp; Change</h3>
-    <p style="margin-top:10px">Het beste gezondheidsverhaal bestaat pas als mensen het <b>kennen, geloven en ernaar handelen</b>. Jij zorgt dat het verhaal landt &mdash; bij de eindklant &eacute;n intern bij de merken. Je leidt het team achter merk &amp; campagnes, content &amp; beleving, en change &amp; interne adoptie.</p>
+    <p style="margin-top:10px">Het beste gezondheidsverhaal bestaat pas als mensen het <b>kennen, geloven en ernaar handelen</b>. Jij zorgt dat het verhaal landt &mdash; bij de eindklant &eacute;n intern bij de merken. Je leidt het team achter de algemene marketing, het klantecosysteem en het interne change-verhaal.</p>
 
     <div class="fw">
       <h4>Je draagt &eacute;&eacute;n verhaal uit naar &aacute;lle doelgroepen</h4>
@@ -1692,6 +1667,11 @@ window.addEventListener('DOMContentLoaded',()=>{if(localStorage.getItem('auth')=
     </div>
 
     <div class="fw">
+      <h4>Je managet het brede ecosysteem van klanten</h4>
+      <p>Rond het gezondheidsplan groeit een ecosysteem: eindklanten, merken, partners en organisaties. Jij houdt dat geheel <b>gezond en in beweging</b> &mdash; je kent de spelers, weet wat elk van hen nodig heeft, en zorgt dat het verhaal in elke relatie klopt en versterkt wordt.</p>
+    </div>
+
+    <div class="fw">
       <h4>Change is de helft van je job</h4>
       <p>De organisatie kantelen doe je niet met een campagne. Overtuigen, laten landen en mensen echt meekrijgen &mdash; BOU-directeurs, winkelteams, apothekers, coaches &mdash; is een ambacht op zich. Je hebt <b>geen hi&euml;rarchische macht over de merken</b>: je wint ze op inhoud, timing en op wat het hen oplevert.</p>
     </div>
@@ -1701,7 +1681,7 @@ window.addEventListener('DOMContentLoaded',()=>{if(localStorage.getItem('auth')=
       <ul>
         <li>Aantoonbare ervaring met <b>merk- en campagnewerk over meerdere kanalen</b> &mdash; en met de resultaten om het te staven</li>
         <li>Een track record in <b>changemanagement of interne communicatie</b> bij een echte transformatie, niet enkel een rebranding</li>
-        <li>Je bouwt <b>content en beleving</b> die klanten iets doet doen &mdash; niet enkel iets vinden</li>
+        <li>Je kan een <b>breed ecosysteem van klanten en partners</b> managen &mdash; relaties bouwen en onderhouden over organisatiegrenzen heen</li>
         <li>Je gedijt binnen sturende kaders: de gezondheidstaal ligt vast, jouw creativiteit zit in de <b>vertaling</b></li>
         <li>Je werkt <b>agile en AI-first</b>: content op tempo, en data om te weten wat landt en wat niet</li>
         <li>Je meet op de hele keten &mdash; van kennen over geloven tot doen &mdash; en stuurt daarop bij</li>
@@ -1722,7 +1702,7 @@ window.addEventListener('DOMContentLoaded',()=>{if(localStorage.getItem('auth')=
 
     <div class="fw">
       <h4>Health advisory <small>&eacute;&eacute;n geheel, digitaal &eacute;n fysiek</small></h4>
-      <p>Bewust <b>geen twee aparte onderdelen</b>: de digitale poot (app, assessments, plan) en de fysieke poot (de coaches) worden vanuit &eacute;&eacute;n geheel aangestuurd, op &eacute;&eacute;n roadmap en &eacute;&eacute;n backlog. De klant ervaart &eacute;&eacute;n traject &mdash; dus organiseren we het ook zo.</p>
+      <p>Twee blokken, &eacute;&eacute;n geheel: de <b>digitale health advisory</b> (app, assessments, het gezondheidsplan) en de <b>fysieke advisory journeys</b> (het shop-in-shop-concept, een eigen winkel) worden samen aangestuurd, op &eacute;&eacute;n roadmap en &eacute;&eacute;n backlog. De klant ervaart &eacute;&eacute;n traject &mdash; dus organiseren we het ook zo. De coaches zelf vallen onder het vakmanschap, maar werken dag in dag uit in deze journeys.</p>
     </div>
 
     <div class="fw">
@@ -1743,7 +1723,7 @@ window.addEventListener('DOMContentLoaded',()=>{if(localStorage.getItem('auth')=
 
     <div class="fw">
       <h4>Marketing &amp; communicatie <small>het verhaal landt</small></h4>
-      <p>Drie opdrachten in één team: <b>merk &amp; campagnes</b> (het gezondheidsverhaal naar de eindklant, één stem over alle merken heen), <b>content &amp; beleving</b> (de gezondheidstaal vertaald naar content, kanalen en ervaringen) en <b>change &amp; interne adoptie</b> (de merken en medewerkers overtuigen, laten landen en echt meekrijgen). Ook hier meerdere klanten: de eindklant én de organisatie zelf.</p>
+      <p>Drie opdrachten in één team: <b>algemene marketing</b> (het gezondheidsverhaal naar de eindklant — merk, campagnes en content, één stem over alle merken heen), <b>het ecosysteem van klanten</b> (het brede geheel van eindklanten, merken, partners en organisaties managen) en <b>interne change</b> (overtuigen, laten landen en mensen echt meekrijgen). Ook hier meerdere klanten: de eindklant én de organisatie zelf.</p>
     </div>
 
     <div class="fw">
