@@ -364,6 +364,18 @@ header.hero::after{
 .pillarlist .pnode small{margin-top:2px}
 .pillarlist,.ringlist{display:none}
 
+/* ============ HYPERPERSONALISATIE ============ */
+.hyper{margin-top:26px; border:1.5px solid var(--accent); border-radius:16px; padding:22px 24px; background:var(--accent-soft)}
+.hyper .k{display:block; font-size:.7rem; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:var(--accent)}
+.hyper h3{font-size:1.15rem; margin-top:5px}
+.hyper>p{font-size:.92rem; color:var(--muted); margin-top:7px; max-width:60em; line-height:1.6}
+.hgrid{display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-top:16px}
+@media(max-width:760px){.hgrid{grid-template-columns:1fr}}
+.hgrid>div{background:var(--card); border:1px solid var(--hair); border-radius:12px; padding:14px 16px}
+.hgrid b{font-size:.78rem; text-transform:uppercase; letter-spacing:.1em; color:var(--accent)}
+.hgrid p{font-size:.85rem; color:var(--muted); margin-top:5px; line-height:1.55}
+.hnoot{font-size:.82rem; color:var(--muted); font-style:italic; margin-top:14px}
+
 /* ============ ECOSYSTEEM ============ */
 .ecowrap{background:var(--card); border:1px solid var(--hair); border-radius:18px; padding:26px; box-shadow:var(--shadow); margin-top:44px}
 .eco{position:relative; width:100%; aspect-ratio:4/3; min-height:620px}
@@ -1197,6 +1209,18 @@ window.addEventListener('DOMContentLoaded',()=>{if(localStorage.getItem('auth')=
           </div>
         </div>
       </details>
+    </div>
+
+    <div class="hyper rv">
+      <span class="k">Hyperpersonalisatie</span>
+      <h3>We kénnen de klant — en AI maakt daar het juiste duwtje van</h3>
+      <p>Geen generieke gezondheidstips. Wij weten wat niemand anders weet: wie rookt, wie veel suiker koopt, wie warmloopt voor bio. AI-gestuurde hyperpersonalisatie en gamification zetten die kennis om in nudges die mensen écht in beweging krijgen.</p>
+      <div class="hgrid">
+        <div><b>Kennen</b><p>De aankoopdata vertelt wat een enquête nooit toont: het echte gedrag — wie rookt, wie suiker koopt, wie bio kiest.</p></div>
+        <div><b>Nudgen</b><p>AI vertaalt dat naar hyperpersoonlijke duwtjes: het juiste voorstel, op het juiste moment, in het juiste kanaal.</p></div>
+        <div><b>Belonen</b><p>Gamification maakt gezond gedrag zichtbaar en lonend: kleine stappen, gevierd in de app én in de winkel.</p></div>
+      </div>
+      <p class="hnoot">Altijd binnen de gezondheidstaal — en altijd met consent: de klant kiest wat we mogen gebruiken, de default is privé.</p>
     </div>
 
     <div class="kapstokregel rv">
