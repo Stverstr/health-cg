@@ -127,7 +127,7 @@ h1 small{display:block; font-size:.8rem; color:var(--muted); font-weight:400; ma
 
     <!-- ============ PATIENTEN ============ -->
     <section class="view show" id="v-patienten">
-      <h1>Mijn patiënten met leefstijlplan <small>Kies een patiënt — dossier, medicatie, leefstijl en brieven passen zich aan.</small></h1>
+      <h1>Mijn patiënten met leefstijlplan <small>Kies een patiënt — dossier, medicatie, leefstijl en brieven passen zich aan. Demo: trajecten van meerdere disciplines (cardio, ortho, huisarts) in één lijst.</small></h1>
       <div id="patlijst"></div>
       <div class="medring">🔵 <span><b>Dit is de medische ring.</b> Alles in dit EPD — diagnoses, labo, brieven — blijft hier. Naar de yoboo-app steekt alléén het gevolg over: de voorwaarden van uw leefstijlvoorschrift.</span></div>
     </section>
@@ -291,9 +291,91 @@ Zijn leefstijlvoorwaarden (dagelijks 20' wandelen) zijn gekend in het platform z
 
 dr. Verhoeven`]
     ]
+  },
+  jef: {
+    ini:'JT', naam:'Jef Torfs', info:'°1979 · man · obesitas, prediabetes · gedeeld traject met huisarts',
+    stat:['ok','−4,1 kg · 9/10 groen'],
+    diag:'<b>Obesitas</b> (BMI 33 bij start) met prediabetes (HbA1c 6,2%). Afspraak met patiënt: <b>leefstijl vóór medicatie</b>. Begeleiding door diëtiste M. Claes binnen het leefstijlplan.',
+    consult:[
+      ['22-07 · kwartaalcontrole','−4,1 kg in 9 weken, BMI 31,8. Trend positief — geen farmacotherapie opgestart. Patiënt gemotiveerd door weektrend in de app.'],
+      ['12-05 · start leefstijlplan','Voorschrift voedingsopvolging + dagelijks 20\' wandelen + wekelijkse gewichtsopvolging. Diëtiste schrijft mee binnen haar mandaat.']
+    ],
+    labo:[['HbA1c','6,2%','afw'],['BMI','31,8','afw'],['LDL-cholesterol','3,1 mmol/l','afw'],['Bloeddruk','128/82','ok']],
+    meds:[],
+    rx:{sel:['voedingsopvolging','dagelijks 20\' wandelen','gewichtsopvolging wekelijks'], verstuurd:true},
+    weeks:[1,1,1,1,0,1,1,1,1,1], wtxt:'9/10 weken groen — dip opgevangen door diëtiste en coach',
+    coachnote:['ok','Diëtiste Nele Claes rapporteert: eiwitontbijt en weekmenu lopen. Geen actie nodig van u — kwartaalverslag staat klaar.'],
+    brieven:[
+      ['Kwartaalverslag leefstijltraject', 'huisarts dr. Peeters', '22-07',
+`Geachte collega,
+
+Dhr. Torfs volgt sinds mei een leefstijltraject (voedingsopvolging, dagelijks wandelen, wekelijkse gewichtsopvolging) met begeleiding van diëtiste M. Claes.
+
+Resultaat na 9 weken: −4,1 kg (BMI 33 → 31,8), HbA1c 6,2%. Conform onze afspraak werd geen farmacotherapie opgestart.
+
+Herevaluatie in oktober. Het trendrapport werd gedeeld met consent van de patiënt.
+
+dr. Verhoeven`]
+    ]
+  },
+  nadia: {
+    ini:'NK', naam:'Nadia Kaya', info:'°1985 · vrouw · knieprothese gepland 14-08 (ortho, dr. Wouters)',
+    stat:['info','prehab · OK 14-08'],
+    diag:'<b>Gonartrose rechts, graad IV</b> — totale knieprothese gepland op 14-08 (orthopedie, dr. Wouters). Prehab-traject gestart: eiwitrijke voeding, spierversterkende oefeningen, ademhalings- en ontspanningsoefeningen. BMI 27.',
+    consult:[
+      ['24-07 · prehab-controle','Week 2 prehab loopt goed. Quadricepskracht +15% (kine Bensaïd). Angst voor de ingreep bespreekbaar gemaakt; ademhalingsoefeningen helpen.'],
+      ['10-07 · planning ingreep','Ingreep vastgelegd op 14-08. Prehab-voorschrift verstuurd naar de app; patiënte bestelde de health box pre-operatie.']
+    ],
+    labo:[['Hemoglobine','13,1 g/dl','ok'],['Albumine','41 g/l','ok'],['CRP','3 mg/l','ok'],['BMI','27','ok']],
+    meds:[['Paracetamol 1 g','maximaal 3× per dag bij pijn']],
+    rx:{sel:['eiwitrijk (herstel)','prehab-oefeningen dagelijks','ademhalingsoefening 5\' per dag'], verstuurd:true},
+    weeks:[0,0,0,0,0,0,0,0,1,1], wtxt:'prehab week 2 van 3 — alles groen tot nu',
+    coachnote:['ok','Coach Sam en kine Bensaïd volgen de prehab op. Na de ingreep schuift het plan automatisch naar revalidatie — u hoeft niets te doen.'],
+    brieven:[
+      ['Prehab-afspraken', 'kinesist K. Bensaïd', '10-07',
+`Beste collega,
+
+Mevr. Kaya start een prehab-traject in aanloop naar haar totale knieprothese op 14-08. Graag dagelijkse spierversterkende oefeningen volgens uw schema; de voorwaarden staan in het leefstijlplan zodat u er rechtstreeks in kan meeschrijven.
+
+Na de ingreep zetten we samen het revalidatieluik op.
+
+dr. Verhoeven`],
+      ['Health box pre-/post-operatie — afschrift', 'patiënte', '10-07',
+`Beste mevrouw Kaya,
+
+Uw health box pre-operatie is onderweg: eiwitrijke voeding voor vier weken, een oefengids van uw kinesist en ademhalingsoefeningen. Alles sluit aan op de stapjes in uw app.
+
+Na de ingreep volgt automatisch de herstelbox, afgestemd op uw revalidatieplan.
+
+Het zorgteam`]
+    ]
+  },
+  aicha: {
+    ini:'AD', naam:'Aïcha Demir', info:'°1992 · vrouw · slaapklachten · leefstijl i.p.v. medicatie',
+    stat:['warn','week 2 · opvolgen'],
+    diag:'<b>Insomnie</b> bij werkgerelateerde stress. Bewust géén benzodiazepines gestart. Aanpak: slaaphygiëne en stressregulatie via leefstijlmodule, met slaapcoach. Herevaluatie na 6 weken.',
+    consult:[
+      ['20-07 · telefonisch','Week 2: opstart moeizaam maar de avondroutine begint te pakken. Coach signaleert goede opvolging; geen medicatiewens.'],
+      ['08-07 · intake slaapklachten','Inslaapproblemen 4-5×/week, piekeren. Afspraak: zes weken leefstijltraject vóór enige medicamenteuze stap.']
+    ],
+    labo:[['TSH','1,8 mU/l','ok'],['Ferritine','54 µg/l','ok'],['Vitamine D','48 nmol/l','ok']],
+    meds:[],
+    rx:{sel:['slaaphygiëne'], verstuurd:true},
+    weeks:[0,0,0,0,0,0,0,0,1,1], wtxt:'week 2 — opstartfase, trend voorzichtig positief',
+    coachnote:['ok','Slaapcoach Mira S. sloot aan voor de avondroutine. Herevaluatie op 19-08 — het trendrapport volgt enkel met consent van de patiënte.'],
+    brieven:[
+      ['Nota: leefstijl vóór medicatie', 'patiëntendossier', '08-07',
+`Nota bij intake:
+
+Met patiënte afgesproken: zes weken slaaphygiëne-traject via de leefstijlmodule (avondroutine, schermgebruik, stressregulatie), geen benzodiazepine.
+
+Herevaluatie op 19-08. Trendgegevens uit de app worden enkel gedeeld met expliciet consent van de patiënte; haar werkgever heeft geen enkele toegang.
+
+dr. Verhoeven`]
+    ]
   }
 };
-const bib = ['zoutarm','30\' matige inspanning per dag','gewichtsopvolging wekelijks','dagelijks 20\' wandelen','voedingsopvolging','rookstop','slaaphygiëne','alcohol beperken'];
+const bib = ['zoutarm','30\' matige inspanning per dag','gewichtsopvolging wekelijks','dagelijks 20\' wandelen','voedingsopvolging','rookstop','slaaphygiëne','alcohol beperken','eiwitrijk (herstel)','prehab-oefeningen dagelijks','ademhalingsoefening 5\' per dag'];
 const medbib = ['Bisoprolol 2,5 mg','Atorvastatine 40 mg','Hydrochloorthiazide 12,5 mg','Metformine 850 mg','Empagliflozine 10 mg'];
 let pat = null;
 
@@ -309,7 +391,7 @@ function ga(v){
 /* ============ patiëntenlijst ============ */
 function renderPats(){
   document.getElementById('patlijst').innerHTML = Object.entries(pats).map(([id,p])=>{
-    const st = id==='jos' ? '<span class="pill alert">afgehaakt — actie</span>' : id==='marc' ? '<span class="pill ok">8/10 groen</span>' : '<span class="pill ok">9/10 groen</span>';
+    const st = p.stat ? `<span class="pill ${p.stat[0]}">${p.stat[1]}</span>` : id==='jos' ? '<span class="pill alert">afgehaakt — actie</span>' : id==='marc' ? '<span class="pill ok">8/10 groen</span>' : '<span class="pill ok">9/10 groen</span>';
     return `<div class="row klik" style="margin-bottom:8px" onclick="kies('${id}')">
       <span class="av">${p.ini}</span>
       <span><b>${p.naam}</b><small>${p.info}</small></span>

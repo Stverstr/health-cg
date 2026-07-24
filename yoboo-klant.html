@@ -191,7 +191,16 @@ nav button.act{color:var(--yb-deep); background:var(--yb-soft)}
 <g id="boo-plan"><use href="#boo-body"/><circle cx="38" cy="51" r="4.6" fill="#191717"/><circle cx="62" cy="51" r="4.6" fill="#191717"/><circle cx="38" cy="51" r="8" fill="none" stroke="#191717" stroke-width="2"/><circle cx="62" cy="51" r="8" fill="none" stroke="#191717" stroke-width="2"/><path d="M46 51 L54 51" stroke="#191717" stroke-width="2"/><path d="M44 66 Q50 70 56 66" stroke="#191717" stroke-width="2.8" fill="none" stroke-linecap="round"/><g transform="rotate(-5 50 84)"><rect x="29" y="72" width="42" height="28" rx="4" fill="#FFFFFF" stroke="#D9D9D9" stroke-width="1.6"/><path d="M34 80 L52 80 M34 86 L58 86 M34 92 L48 92" stroke="#B9B5AD" stroke-width="2" stroke-linecap="round"/><path d="M59 78 L62 81 L67 75" stroke="#27A577" stroke-width="2.6" fill="none" stroke-linecap="round"/></g></g>
 </defs></svg>
 
-<div class="pocbar"><span style="display:flex; gap:5px; align-items:center; flex-wrap:wrap">POC · gebruiker: <span class="chip btn sel" id="u-lena" onclick="switchUser('lena')">Lena (lid)</span><span class="chip btn" id="u-tom" onclick="switchUser('tom')">Tom (nieuw)</span></span><a href="health-cg-yoboo.html">← terug naar de POC-hub</a></div>
+<div class="pocbar"><span style="display:flex; gap:6px; align-items:center; flex-wrap:wrap">POC · gebruiker:
+  <select id="userkies" onchange="switchUser(this.value)" style="font:inherit; font-size:.72rem; font-weight:700; border:1px solid var(--hair); border-radius:99px; padding:4px 10px; background:var(--card); color:var(--ink); cursor:pointer">
+    <option value="lena">Lena — lid (volledige app)</option>
+    <option value="tom">Tom — nieuw (onboarding)</option>
+    <option value="omar">Omar — "meer en beter bewegen"</option>
+    <option value="jef">Jef — "gewicht verliezen"</option>
+    <option value="nadia">Nadia — "operatie ondergaan"</option>
+    <option value="marc">Marc — "revalideren na ingreep"</option>
+    <option value="aicha">Aïcha — "slaap slecht"</option>
+  </select></span><a href="health-cg-yoboo.html">← terug naar de POC-hub</a></div>
 
 <div class="app">
   <header>
@@ -516,6 +525,18 @@ nav button.act{color:var(--yb-deep); background:var(--yb-soft)}
       <div class="miniboo"><svg viewBox="0 0 100 104" width="34" height="35"><use href="#boo-base"/></svg><span><b>Yobi:</b> iedereen hier is gecertificeerd — CG Academy of erkend zorgverlener. En wie je ook toevoegt: jij kiest wat die ziet.</span></div>
     </section>
 
+    <!-- ================= VERHAAL (persona's end-to-end) ================= -->
+    <section class="view" id="v-verhaal">
+      <h1 id="vh-h1"></h1>
+      <div id="vh-stapjes" style="display:flex; flex-direction:column; gap:12px"></div>
+      <div class="miniboo" id="vh-boo"></div>
+      <div class="card">
+        <div class="h"><span class="ic" style="background:var(--yb-soft)">🧭</span>Zo loopt jouw traject — end-to-end</div>
+        <div id="vh-traject"></div>
+        <p style="font-size:.72rem; margin-top:8px">Bekijk de andere kant van dit verhaal in de <a href="yoboo-coach.html" style="color:var(--yb-deep); font-weight:700">coach-werkplek</a> en het <a href="yoboo-arts.html" style="color:var(--yb-deep); font-weight:700">artsenportaal</a>.</p>
+      </div>
+    </section>
+
     <!-- ================= ONBOARDING (nieuwe gebruiker Tom) ================= -->
     <section class="view" id="v-onboard">
       <div class="streak" id="obdots"><span class="d on">•</span><span class="d">·</span><span class="d">·</span><span class="d">·</span><span class="d">·</span><span class="d">·</span>&nbsp;<span>je start in 6 stapjes</span></div>
@@ -782,14 +803,67 @@ function nieuweFoto(){
 }
 
 /* gebruikerswissel & onboarding */
+const verhalen={
+  omar:{naam:"Omar", doel:"Ik wil meer en beter bewegen", sub:"Move, Food, Care en Know — elke pijler levert een stuk van het antwoord.",
+    stapjes:[["🏋️","move","Jims — krachtsessie 12u30","Week 3 van je fitnesscoaching-schema: benen en rug."],
+             ["🥗","food","Eiwitrijke lunch na de training","Staat al in je mandje: kwark, kip, volkoren."],
+             ["💬","care","Check-in: hoe voelen je spieren?","Zo doseert Yobi morgen je training — herstel hoort erbij."]],
+    boo:["boo-cheer","sterke week, Omar! Vrijdag plan ik een hersteldag in — spieren groeien in de rust. 💪"],
+    traject:[["👤","Jij","koos het beweegdoel · Jims-schema en voeding zitten in één plan","jij deelt: stappen en trainingen"],
+             ["🧑‍🏫","Coach Sam","stuurt je schema wekelijks bij — zwaarder als het vlot, lichter als het piept","ziet: plan en voortgang"],
+             ["🩺","Arts","niet nodig voor dit traject — en dat is oké. Komt er een blessure, dan schakelt Sam een kinesist of arts in","ziet: niets"]]},
+  jef:{naam:"Jef", doel:"Ik wil gewicht verliezen", sub:"Voeding × beweging — met diëtiste Nele en je huisarts op de achtergrond.",
+    stapjes:[["🍳","food","Ontbijt mét eiwit","Regel nummer één van diëtiste Nele — het recept staat klaar."],
+             ["🚶","move","Lunchwandeling — 20 minuten","Elke dag hetzelfde moment: dat houdt het vol."],
+             ["⚖️","care","Weegmoment — zondag","Alleen de wééktrend telt. Yobi verstopt de dagschommeling."]],
+    boo:["boo-base","−4,1 kg in negen weken, Jef — de trend is je vriend. Zondag kijken we weer. 📉"],
+    traject:[["👤","Jij","koos het doel: −8 kg tegen december · weekmenu en weegmoment zitten in je plan","jij deelt: gewichtstrend en mandje"],
+             ["🥗","Diëtiste Nele","schrijft binnen haar mandaat mee in hetzélfde plan — één plan, vele loketten","ziet: het voedingsluik"],
+             ["🩺","Huisarts","schreef leefstijl vóór medicatie voor · krijgt elk kwartaal de trend — met jouw consent","ziet: therapietrouw, nooit je mandje"]]},
+  nadia:{naam:"Nadia", doel:"Ik moet een operatie ondergaan", sub:"Knieprothese op 14 augustus — fit de operatie in, fitter eruit.",
+    stapjes:[["🏋️","move","Prehab-oefeningen — 15 minuten","Van kinesist Karim: sterke spieren nu = sneller herstel straks."],
+             ["🥛","food","Eiwitshake + gezinsmenu","Uit je pre-operatie health box — herstel begint vóór de ingreep."],
+             ["🧘","care","Ademhalingsoefening — 5 minuten","Rustig naar de ingreep toe. Spanning is normaal; erover praten helpt."]],
+    boo:["boo-plan","nog 21 dagen, Nadia. Elke dag prehab nu betekent dagen sneller thuis straks. Je herstelbox voor ná de operatie staat al klaar. 📦"],
+    traject:[["🩺","Chirurg dr. Wouters","plande de ingreep en schreef het prehab-voorschrift: eiwitrijk, oefeningen, ademhaling","de diagnose blijft in het EPD"],
+             ["👤","Jij","kreeg de health box pre-operatie thuis · drie stapjes per dag tot de ingreep","jij deelt: therapietrouw"],
+             ["🧑‍🏫","Coach Sam + kine Karim","volgen je prehab op · na de operatie schuift je plan automatisch naar revalidatie","zien: het gevolg, nooit het waarom"]]},
+  marc:{naam:"Marc", doel:"Ik revalideer na een ingreep", sub:"Hartrevalidatie — het plan-op-voorschrift van dr. Verhoeven.",
+    stapjes:[["🚶","move","Lunchwandeling — 30 minuten","Op je vaste traject. Drie keer per week is het doel, de rest is bonus."],
+             ["🥗","food","Zoutarm gezinsmenu","Niemand aan tafel proeft het verschil — en jouw hart wint."],
+             ["⚖️","care","Weegmoment — zondagochtend","Deel van je voorschrift · gaat als trend naar dr. Verhoeven."]],
+    boo:["boo-base","week 9, Marc — na je dip in week 4 sta je er weer. Sam belde, jij herpakte je. Zo werkt dat. 💚"],
+    traject:[["🩺","Cardioloog dr. Verhoeven","stelde de diagnose en schreef het leefstijlvoorschrift: zoutarm, 30 minuten bewegen, weegmoment","diagnose en labo blijven in het EPD"],
+             ["🧑‍🏫","Coach Sam","coacht op het gevolg (zoutarm) zonder het waarom te kennen · belde je bij je dip","ziet: voorwaarden en therapietrouw"],
+             ["👤","Jij","voert uit in je eigen app · apotheek St. Gilles levert je medicatie","de arts ziet alleen therapietrouw — nooit je winkeldata"]]},
+  aicha:{naam:"Aïcha", doel:"Ik slaap slecht", sub:"Slaap × mentaal — zonder slaappillen, mét een plan.",
+    stapjes:[["🌙","care","Schermen uit om 22u","Je eerste avondstapje — klein, maar hij doet het werk."],
+             ["📖","know","Microles: slapen bij stress — 4 minuten","Van slaapcoach Mira. Vandaag: waarom piekeren s nachts luider klinkt."],
+             ["💬","care","Avond-check-in","Eén smiley om 21u30 — zo ziet Yobi wat werkt."]],
+    boo:["boo-plan","week 2, Aïcha — opstarten is het zwaarste stuk. Gisteren om 22u12 offline: dat telt gewoon. 🌙"],
+    traject:[["🩺","Huisarts","wilde geen slaapmedicatie starten · schreef slaaphygiëne voor via de leefstijlmodule","herevaluatie over 6 weken — met jouw trend, als jij dat wil"],
+             ["🧑‍🏫","Coach Sam + slaapcoach Mira","bouwen je avondroutine op · Sam antwoordde gisteravond nog op je bericht","zien: de check-ins die jij deelt"],
+             ["👤","Jij","drie kleine avondstapjes · je werkgever weet van niets — en dat blijft zo","jij deelt: alleen je slaaptrend"]]}
+};
+function stapDone(btn){ btn.outerHTML='<div class="pdone"><span class="chk">✓</span>Gedaan! +10 ⚡</div>'; }
+function toonVerhaal(id){
+  const v=verhalen[id];
+  const kleur={move:'--move',food:'--food',care:'--care',know:'--leren'};
+  document.getElementById('vh-h1').innerHTML=`Dag ${v.naam}! <small>„${v.doel}" — ${v.sub}</small>`;
+  document.getElementById('vh-stapjes').innerHTML=v.stapjes.map(([ic,ac,t,p])=>
+    `<div class="card" style="--ac:var(${kleur[ac]})"><div class="h"><span class="ic">${ic}</span>${t}</div><p>${p}</p><button class="pbtn ghost" onclick="stapDone(this)">✓ Gedaan</button></div>`).join('');
+  document.getElementById('vh-boo').innerHTML=booSvg(v.boo[0])+`<span><b>Yobi:</b> ${v.boo[1]}</span>`;
+  document.getElementById('vh-traject').innerHTML=v.traject.map(([ic,wie,wat,ziet])=>
+    `<div class="tgl-row"><span>${ic} <b>${wie}</b><small>${wat}</small><small style="color:var(--yb-deep); margin-top:2px">👁️ ${ziet}</small></span></div>`).join('');
+}
 function switchUser(u){
-  const isTom = u==='tom';
-  document.getElementById('u-lena').classList.toggle('sel', !isTom);
-  document.getElementById('u-tom').classList.toggle('sel', isTom);
-  document.querySelector('nav').style.display = isTom ? 'none' : '';
-  document.getElementById('sparks').style.display = isTom ? 'none' : '';
-  document.querySelector('.avatar').textContent = isTom ? 'T' : 'L';
-  if(isTom){ ga('onboard'); obGo(1); } else { ga('vandaag'); }
+  const isLena = u==='lena';
+  document.querySelector('nav').style.display = isLena ? '' : 'none';
+  document.getElementById('sparks').style.display = isLena ? '' : 'none';
+  document.querySelector('.avatar').textContent = u==='tom' ? 'T' : (verhalen[u] ? verhalen[u].naam[0] : 'L');
+  if(isLena){ ga('vandaag'); }
+  else if(u==='tom'){ ga('onboard'); obGo(1); }
+  else { toonVerhaal(u); ga('verhaal'); }
 }
 function obGo(n){
   document.querySelectorAll('.obstep').forEach(s=>s.classList.toggle('show', s.id==='ob'+n));
