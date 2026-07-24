@@ -55,7 +55,6 @@ header{display:flex; align-items:center; gap:10px; padding:18px 20px 12px}
 :root[data-theme="dark"] .sparkchip{color:var(--sun)}
 @media (prefers-color-scheme: dark){.sparkchip{color:var(--sun)}}
 .sparkchip.pop{transform:scale(1.25)}
-.eurochip{font-size:.78rem; font-weight:800; color:var(--yb-deep); background:var(--yb-soft); border:none; border-radius:99px; padding:5px 12px; cursor:pointer}
 .avatar{width:34px; height:34px; border-radius:50%; background:var(--yb-soft); color:var(--yb-deep); font-weight:800; font-size:.8rem; display:flex; align-items:center; justify-content:center; border:none; cursor:pointer}
 
 main{flex:1; overflow-y:auto; padding:4px 16px 18px}
@@ -198,7 +197,6 @@ nav button.act{color:var(--yb-deep); background:var(--yb-soft)}
   <header>
     <span class="wordmark">yoboo<i>.</i></span>
     <span class="sparkchip" id="sparks">⚡ 340</span>
-    <button class="eurochip" id="budgetchip" onclick="ga('budget')" aria-label="Mijn gezondheidsbudget">💶 € 50</button>
     <button class="avatar" onclick="ga('ik')" aria-label="Mijn profiel en privacy">L</button>
   </header>
 
@@ -470,7 +468,7 @@ nav button.act{color:var(--yb-deep); background:var(--yb-soft)}
 
     <!-- ================= BUDGET ================= -->
     <section class="view" id="v-budget">
-      <button class="terug" onclick="ga('vandaag')">← terug</button>
+      <button class="terug" onclick="ga('ik')">← terug</button>
       <h1>Mijn gezondheidsbudget <small>Voor alles wat je doelen dient — gesponsord of van jezelf.</small></h1>
       <div class="card">
         <div class="h"><span class="ic" style="background:var(--yb-soft)">💶</span>Beschikbaar</div>
@@ -790,7 +788,6 @@ function switchUser(u){
   document.getElementById('u-tom').classList.toggle('sel', isTom);
   document.querySelector('nav').style.display = isTom ? 'none' : '';
   document.getElementById('sparks').style.display = isTom ? 'none' : '';
-  document.getElementById('budgetchip').style.display = isTom ? 'none' : '';
   document.querySelector('.avatar').textContent = isTom ? 'T' : 'L';
   if(isTom){ ga('onboard'); obGo(1); } else { ga('vandaag'); }
 }
@@ -824,7 +821,6 @@ function obKlaar(){
 /* budget & aankopen */
 let budgetWerk=30, budgetMut=20;
 function updBudget(){
-  document.getElementById('budgetchip').textContent='💶 € '+(budgetWerk+budgetMut);
   document.getElementById('bwerk').textContent='€ '+budgetWerk;
   document.getElementById('bmut').textContent='€ '+budgetMut;
 }
