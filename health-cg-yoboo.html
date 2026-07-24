@@ -369,6 +369,14 @@ a{color:var(--yb-deep)}
 .ringcard ul{list-style:none; margin-top:12px; display:grid; gap:8px}
 .ringcard li{display:flex; gap:9px; font-size:.84rem; color:var(--muted)}
 .ringcard li::before{content:"●"; color:var(--rc); font-size:.6rem; line-height:1.9}
+.piramide{display:flex; flex-direction:column; align-items:center; gap:7px; margin-top:14px}
+.piramide .niv{width:62%; text-align:center; border:1px solid var(--hair); background:color-mix(in srgb, var(--muted) 6%, transparent); border-radius:10px; padding:9px 12px}
+.piramide .niv.mid{width:80%}
+.piramide .niv:last-child{width:100%}
+.piramide .niv b{display:block; font-size:.84rem}
+.piramide .niv small{display:block; color:var(--muted); font-size:.72rem; margin-top:2px}
+.piramide .niv.top{background:var(--yb-soft); border-color:var(--yb)}
+.piramide .niv.top b{color:var(--yb-deep)}
 .wetline{margin-top:20px; text-align:center; font-size:.88rem; font-style:italic; color:var(--muted)}
 .wetline b{color:var(--ink)}
 
@@ -1064,12 +1072,13 @@ footer a{color:var(--yb-deep)}
       </div>
       <div class="ringcard" style="--rc:var(--yb)">
         <span class="k">Het Belgische kader bestaat al</span>
-        <h4>mHealthBelgium: van CE-label tot terugbetaling</h4>
-        <ul>
-          <li>De validatiepiramide erkent medische apps in drie niveaus: <b>M1</b> (CE-gemarkeerd medisch hulpmiddel), <b>M2</b> (eHealth-integratie en beveiliging), <b>M3</b> (financiering door het RIZIV)</li>
-          <li>Het precedent bestaat: <b>moveUP</b> — begeleiding na knie- en heupoperaties, exact ons prehab/revalidatie-verhaal — werd zo als eerste app terugbetaald</li>
-          <li>Voor yoboo is dit dé route naar vóórschrijfbaar én terugbetaalbaar — de brug naar het mutualiteiten-luik verderop</li>
-        </ul>
+        <h4>mHealthBelgium: de validatiepiramide</h4>
+        <div class="piramide">
+          <div class="niv top"><b>M3 · financiering door het RIZIV</b><small>voorschrijfbaar én terugbetaald — moveUP (knie- en heuprevalidatie, exact ons verhaal) was de eerste 🏆</small></div>
+          <div class="niv mid"><b>M2 · eHealth-integratie</b><small>beveiliging, identificatie en authenticatie via het eHealth-platform</small></div>
+          <div class="niv"><b>M1 · CE-gemarkeerd medisch hulpmiddel</b><small>de instap: erkend als medische app</small></div>
+        </div>
+        <p>De route voor yoboo: M1 → M2 → M3. Zo wordt de app vóórschrijfbaar én terugbetaalbaar — de brug naar het mutualiteiten-luik verderop.</p>
       </div>
     </div>
     <div class="rv" style="margin-top:26px">
