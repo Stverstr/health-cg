@@ -231,6 +231,17 @@ a{color:var(--yb-deep)}
 .decidebox{border:1.5px dashed var(--oranje); border-radius:10px; padding:9px 11px; font-size:.7rem; background:color-mix(in srgb, var(--oranje) 6%, transparent); line-height:1.5}
 .decidebox .opts{display:flex; gap:6px; flex-wrap:wrap; margin-top:7px}
 .demohint{display:inline-flex; align-items:center; gap:7px; margin-top:14px; font-size:.78rem; font-weight:700; color:var(--yb-deep); background:var(--yb-soft); border:1px dashed color-mix(in srgb, var(--yb) 50%, transparent); border-radius:99px; padding:6px 14px}
+.applink{
+  display:inline-flex; align-items:center; gap:10px; margin:16px 10px 0 0;
+  background:var(--yb); color:#fff; font-weight:800; font-size:.95rem; text-decoration:none;
+  border-radius:14px; padding:13px 22px; box-shadow:var(--shadow);
+}
+.applink:hover{background:var(--yb-deep)}
+.applink small{display:block; font-weight:600; font-size:.7rem; opacity:.85}
+.applink.blauw{background:var(--blauw)}
+.applink.blauw:hover{background:color-mix(in srgb, var(--blauw) 80%, black)}
+.applink.oranje{background:var(--oranje)}
+.applink.oranje:hover{background:color-mix(in srgb, var(--oranje) 80%, black)}
 @media (prefers-reduced-motion: reduce){#sparks{transition:none} .pbtn:active,.wbtn:active{transform:none}}
 
 /* ============ BOO-GALERIJ ============ */
@@ -603,7 +614,8 @@ footer a{color:var(--yb-deep)}
       <span class="sec-eyebrow">De klant · Lena, 36 — gezin met twee kinderen</span>
       <h2 class="sec-title">Zo simpel voelt het voor Lena</h2>
       <p class="sec-lead">Geen gezondheidsjargon, geen grafieken die je moet kunnen lezen. Eén plan, kleine stapjes, en elke stap heeft een knop. Boo viert mee als het lukt — en is mild als het even niet lukt.</p>
-      <span class="demohint">👆 Dit is een wérkende demo — druk gerust op alle knoppen</span>
+      <div><a class="applink" href="yoboo-klant.html">📱 Open de volledige klant-app <span>→</span></a></div>
+      <span class="demohint">👇 Hieronder: losse schermen als voorproef — de echte app met navigatie zit achter de groene knop</span>
     </div>
 
     <div class="phonerow stagger">
@@ -924,7 +936,8 @@ footer a{color:var(--yb-deep)}
       <span class="sec-eyebrow">De coach · Sam — holistische hub, specialisten als spokes</span>
       <h2 class="sec-title">Eén plan, vele loketten — Sam bewaakt het geheel</h2>
       <p class="sec-lead">Sam kijkt over food, move en care heen. De AI bereidt voor, Sam beslist en verwijst door naar diëtist, JIMS-trainer of apotheker — die allemaal in <b>hetzelfde plan</b> schrijven.</p>
-      <span class="demohint">👆 Werkende demo — handel Sams ochtend zelf af</span>
+      <div><a class="applink oranje" href="yoboo-coach.html">🤝 Open de volledige coach-werkplek <span>→</span></a></div>
+      <span class="demohint">👇 Hieronder: twee schermen als voorproef — de echte werkplek met klantenlijst en navigatie zit achter de knop</span>
     </div>
 
     <div class="winrow rv">
@@ -1024,7 +1037,8 @@ footer a{color:var(--yb-deep)}
       <span class="sec-eyebrow">De arts · Dr. Verhoeven — de medische ring</span>
       <h2 class="sec-title">De arts schrijft voor, wij voeren uit</h2>
       <p class="sec-lead">"Gezondheidsadvies van uw supermarkt" heeft een geloofwaardigheidsprobleem — tot de arts het voorschrijft. De arts houdt de medische data, ziet de therapietrouw, en leent zijn geloofwaardigheid alleen aan wat gecertificeerd is.</p>
-      <span class="demohint">👆 Werkende demo — stel zelf het voorschrift samen en verstuur het</span>
+      <div><a class="applink blauw" href="yoboo-arts.html">🩺 Open het volledige EPD met leefstijlmodule <span>→</span></a></div>
+      <span class="demohint">👇 Hieronder: twee schermen als voorproef — het echte EPD met dossier, medicatie en brieven zit achter de knop</span>
     </div>
 
     <div class="winrow rv">

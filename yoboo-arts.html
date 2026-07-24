@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EPD — leefstijlmodule (POC · arts)</title>
+<style>
+:root{
+  --yb:#27A577; --yb-deep:#157258; --yb-soft:rgba(39,165,119,.13);
+  --ink:#141212; --muted:#4C4843; --hair:#D9D4C7;
+  --cream:#F5F5EF; --paper:#FBFBF9; --card:#FFFFFF;
+  --sun:#FFCC00; --coral:#FD817A; --oranje:#D96A2E; --blauw:#2F6FE4; --paars:#8A2FAC;
+  --shadow:0 12px 34px rgba(25,23,23,.12);
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --yb:#34C08D; --yb-deep:#27A577; --yb-soft:rgba(52,192,141,.16);
+    --ink:#F0EDE8; --muted:#A8A29A; --hair:#38342E;
+    --cream:#14120F; --paper:#1A1713; --card:#211D18;
+    --sun:#FFD84D; --coral:#FF9A94; --oranje:#F0955C; --blauw:#7AA9FF; --paars:#C273E0;
+    --shadow:0 12px 34px rgba(0,0,0,.4);
+  }
+}
+:root[data-theme="dark"]{
+  --yb:#34C08D; --yb-deep:#27A577; --yb-soft:rgba(52,192,141,.16);
+  --ink:#F0EDE8; --muted:#A8A29A; --hair:#38342E;
+  --cream:#14120F; --paper:#1A1713; --card:#211D18;
+  --sun:#FFD84D; --coral:#FF9A94; --oranje:#F0955C; --blauw:#7AA9FF; --paars:#C273E0;
+  --shadow:0 12px 34px rgba(0,0,0,.4);
+}
+*{margin:0; padding:0; box-sizing:border-box}
+body{font-family:-apple-system,"Segoe UI",Inter,Calibri,sans-serif; background:var(--cream); color:var(--ink); line-height:1.5; -webkit-font-smoothing:antialiased}
+b{font-weight:800}
+button{font-family:inherit; cursor:pointer}
+@media (prefers-reduced-motion: reduce){*{animation:none !important; transition:none !important}}
+
+.pocbar{padding:10px 22px 0; display:flex; justify-content:space-between; font-size:.72rem; color:var(--muted)}
+.pocbar a{color:var(--blauw); font-weight:700; text-decoration:none}
+.shell{display:flex; max-width:1240px; margin:8px auto 40px; background:var(--paper); border:1px solid var(--hair); border-radius:16px; box-shadow:var(--shadow); min-height:88vh; overflow:hidden}
+
+aside{flex:0 0 200px; background:var(--cream); border-right:1px solid var(--hair); padding:20px 12px; display:flex; flex-direction:column; gap:4px}
+aside .wlogo{font-weight:800; font-size:1.1rem; color:var(--blauw); padding:0 10px 4px}
+aside .wlogo small{display:block; font-size:.64rem; color:var(--muted); font-weight:700; letter-spacing:.08em; text-transform:uppercase}
+.navi{border:none; background:none; text-align:left; font-size:.85rem; font-weight:700; color:var(--muted); border-radius:10px; padding:10px 12px; display:flex; gap:9px; align-items:center}
+.navi.act{background:color-mix(in srgb, var(--blauw) 12%, transparent); color:var(--blauw)}
+aside .me{margin-top:auto; padding:10px 12px; font-size:.76rem; border-top:1px solid var(--hair)}
+aside .me small{display:block; color:var(--muted); font-size:.66rem}
+@media(max-width:760px){aside{flex:0 0 58px} aside .wlogo{font-size:.8rem} aside .wlogo small,.navi .lbl,aside .me{display:none}}
+
+main{flex:1; padding:22px 28px; overflow-y:auto; min-width:0}
+.patbar{
+  display:flex; align-items:center; gap:10px; background:color-mix(in srgb, var(--blauw) 8%, var(--card));
+  border:1px solid color-mix(in srgb, var(--blauw) 30%, var(--hair)); border-radius:12px; padding:10px 15px; margin-bottom:16px; flex-wrap:wrap;
+}
+.patbar .av{width:34px; height:34px; border-radius:50%; background:color-mix(in srgb, var(--blauw) 16%, transparent); color:var(--blauw); font-weight:800; font-size:.72rem; display:flex; align-items:center; justify-content:center}
+.patbar b{font-size:.95rem}
+.patbar small{display:block; font-size:.72rem; color:var(--muted)}
+.patbar .wissel{margin-left:auto; border:1.5px solid var(--blauw); background:none; color:var(--blauw); font-weight:800; font-size:.72rem; border-radius:99px; padding:6px 13px}
+.ringchip{font-size:.64rem; font-weight:800; letter-spacing:.06em; text-transform:uppercase; color:var(--blauw); background:color-mix(in srgb, var(--blauw) 12%, transparent); border-radius:99px; padding:4px 11px}
+
+.view{display:none; flex-direction:column; gap:13px}
+.view.show{display:flex}
+h1{font-size:1.35rem; letter-spacing:-.015em}
+h1 small{display:block; font-size:.8rem; color:var(--muted); font-weight:400; margin-top:3px}
+.card{background:var(--card); border:1px solid var(--hair); border-radius:14px; padding:15px 17px}
+.card>b{font-size:.93rem}
+.card .sub{font-size:.75rem; color:var(--muted); margin-top:2px}
+.row{display:flex; align-items:center; gap:11px; background:var(--card); border:1px solid var(--hair); border-radius:12px; padding:10px 14px}
+.row .av{flex:0 0 30px; width:30px; height:30px; border-radius:50%; font-size:.64rem; font-weight:800; display:flex; align-items:center; justify-content:center; background:color-mix(in srgb, var(--pc, var(--blauw)) 16%, transparent); color:var(--pc, var(--blauw))}
+.row b{font-size:.86rem}
+.row small{display:block; color:var(--muted); font-size:.72rem}
+.row .spacer{flex:1}
+.row.klik{cursor:pointer}
+.row.klik:hover{border-color:var(--blauw)}
+.wbtn{border:none; border-radius:9px; padding:8px 13px; background:var(--blauw); color:#fff; font-weight:800; font-size:.72rem; white-space:nowrap}
+.wbtn.ghost{background:transparent; border:1.5px solid var(--blauw); color:var(--blauw)}
+.wbtn.groen{background:var(--yb)}
+.wbtn:active{transform:scale(.97)}
+.pill{display:inline-block; font-size:.66rem; font-weight:800; border-radius:99px; padding:4px 10px; white-space:nowrap}
+.pill.ok{background:var(--yb-soft); color:var(--yb-deep)}
+.pill.warn{background:color-mix(in srgb, var(--oranje) 16%, transparent); color:var(--oranje)}
+.pill.alert{background:color-mix(in srgb, var(--coral) 18%, transparent); color:color-mix(in srgb, var(--coral) 70%, var(--ink))}
+.pill.info{background:color-mix(in srgb, var(--blauw) 14%, transparent); color:var(--blauw)}
+.chip{font-size:.7rem; font-weight:700; border:1px solid var(--hair); border-radius:99px; padding:5px 11px; background:var(--card); color:var(--muted); cursor:pointer}
+.chip.sel{background:color-mix(in srgb, var(--blauw) 10%, transparent); border-color:var(--blauw); color:var(--blauw)}
+.chip.vast{cursor:default}
+.chips{display:flex; flex-wrap:wrap; gap:6px}
+.lock{display:flex; gap:8px; align-items:flex-start; background:color-mix(in srgb, var(--coral) 8%, transparent); border:1px dashed color-mix(in srgb, var(--coral) 50%, transparent); border-radius:11px; padding:9px 12px; font-size:.74rem; color:var(--muted); line-height:1.5}
+.medring{display:flex; gap:8px; align-items:flex-start; background:color-mix(in srgb, var(--blauw) 7%, transparent); border:1px dashed color-mix(in srgb, var(--blauw) 45%, transparent); border-radius:11px; padding:9px 12px; font-size:.74rem; color:var(--muted); line-height:1.5}
+.weekstrip{display:flex; gap:3px}
+.weekstrip i{width:12px; height:12px; border-radius:3px; background:var(--yb)}
+.weekstrip i.miss{background:var(--hair)}
+.labo td{padding:6px 8px; font-size:.78rem; border-bottom:1px dashed var(--hair)}
+.labo td:first-child{color:var(--muted)}
+.labo tr:last-child td{border-bottom:none}
+.labo .afw{color:var(--oranje); font-weight:800}
+.brief{background:var(--paper); border:1px solid var(--hair); border-radius:12px; padding:16px 18px; font-size:.82rem; line-height:1.65; white-space:pre-line}
+.terug{border:none; background:none; color:var(--blauw); font-weight:800; font-size:.8rem; text-align:left; padding:0}
+.tl{border-left:3px solid var(--hair); margin-left:8px; padding-left:16px; display:flex; flex-direction:column; gap:10px}
+.tl .t{position:relative; font-size:.8rem}
+.tl .t::before{content:""; position:absolute; left:-22px; top:5px; width:9px; height:9px; border-radius:50%; background:var(--blauw)}
+.tl .t small{display:block; color:var(--muted); font-size:.7rem}
+</style>
+</head>
+<body>
+
+<div class="pocbar"><span>POC · fictieve data · ingelogd als dr. Verhoeven (cardiologie, AZ Sint-Lucas)</span><a href="health-cg-yoboo.html">← terug naar de POC-hub</a></div>
+
+<div class="shell">
+  <aside>
+    <span class="wlogo">EPD<small>+ leefstijlmodule</small></span>
+    <button class="navi act" data-v="patienten" onclick="ga('patienten')">👥 <span class="lbl">Patiënten</span></button>
+    <button class="navi" data-v="dossier" onclick="ga('dossier')">📋 <span class="lbl">Dossier</span></button>
+    <button class="navi" data-v="medicatie" onclick="ga('medicatie')">💊 <span class="lbl">Medicatie</span></button>
+    <button class="navi" data-v="leefstijl" onclick="ga('leefstijl')">🌱 <span class="lbl">Leefstijl</span></button>
+    <button class="navi" data-v="brieven" onclick="ga('brieven')">✉️ <span class="lbl">Brieven</span></button>
+    <div class="me"><b>dr. Verhoeven</b><small>cardiologie · AZ Sint-Lucas</small></div>
+  </aside>
+
+  <main>
+    <div class="patbar" id="patbar" style="display:none">
+      <span class="av" id="pb-av"></span>
+      <span><b id="pb-naam"></b><small id="pb-info"></small></span>
+      <span class="ringchip">medische ring · blijft in dit EPD</span>
+      <button class="wissel" onclick="ga('patienten')">wissel patiënt</button>
+    </div>
+
+    <!-- ============ PATIENTEN ============ -->
+    <section class="view show" id="v-patienten">
+      <h1>Mijn patiënten met leefstijlplan <small>Kies een patiënt — dossier, medicatie, leefstijl en brieven passen zich aan.</small></h1>
+      <div id="patlijst"></div>
+      <div class="medring">🔵 <span><b>Dit is de medische ring.</b> Alles in dit EPD — diagnoses, labo, brieven — blijft hier. Naar de yoboo-app steekt alléén het gevolg over: de voorwaarden van uw leefstijlvoorschrift.</span></div>
+    </section>
+
+    <!-- ============ DOSSIER ============ -->
+    <section class="view" id="v-dossier">
+      <h1>Dossier <small>Wat alleen u en de patiënt zien — nooit de app, nooit de coach, nooit een winkel.</small></h1>
+      <div class="card">
+        <b>Diagnose &amp; context</b>
+        <p id="d-diag" style="font-size:.86rem; margin-top:7px"></p>
+      </div>
+      <div class="card">
+        <b>Consultaties</b>
+        <div class="tl" style="margin-top:12px" id="d-consult"></div>
+      </div>
+      <div class="card">
+        <b>Laatste labo</b>
+        <table class="labo" style="width:100%; border-collapse:collapse; margin-top:8px" id="d-labo"></table>
+      </div>
+      <div class="lock">🔒 <span><b>Niets van deze pagina steekt over naar yoboo.</b> De app kent alleen de voorwaarden uit uw voorschrift ("zoutarm") — nooit deze diagnose, dit labo of deze historiek.</span></div>
+    </section>
+
+    <!-- ============ MEDICATIE ============ -->
+    <section class="view" id="v-medicatie">
+      <h1>Medicatie <small>Voorschrijven en doorgeven aan de apotheek van keuze van de patiënt.</small></h1>
+      <div class="card">
+        <b>Actueel schema</b>
+        <div id="m-lijst" style="display:flex; flex-direction:column; gap:8px; margin-top:10px"></div>
+      </div>
+      <div class="card">
+        <b>Medicatie toevoegen</b>
+        <div class="sub">kies uit de vaakst voorgeschreven middelen van uw dienst</div>
+        <div class="chips" style="margin-top:9px" id="m-kies"></div>
+        <div id="m-status"></div>
+      </div>
+      <div class="medring">🔵 <span><b>Doorgeven gebeurt binnen de zorg.</b> Het schema gaat naar de apotheek die de patiënt koos (bv. Newpharma-punt St. Gilles). De yoboo-app ziet medicatie nooit — hoogstens vertaalt ú een gevolg naar het leefstijlplan.</span></div>
+    </section>
+
+    <!-- ============ LEEFSTIJL ============ -->
+    <section class="view" id="v-leefstijl">
+      <h1>Leefstijlvoorschrift <small>Het enige wat oversteekt naar de app — en u kiest wat.</small></h1>
+      <div class="card">
+        <b>Voorwaarden voor het plan</b>
+        <div class="sub">klik om te (de)selecteren · gevalideerde bibliotheek</div>
+        <div class="chips" style="margin-top:9px" id="rx-lib"></div>
+        <div style="margin-top:12px; border:1px solid var(--hair); border-radius:11px; padding:10px 12px; background:var(--paper)">
+          <b style="font-size:.72rem">Wat de app ontvangt — en niets meer:</b>
+          <div class="chips" style="margin-top:7px" id="rx-prev"></div>
+        </div>
+        <div style="display:flex; gap:8px; margin-top:12px; flex-wrap:wrap" id="rx-act">
+          <button class="wbtn ghost" onclick="rxDraft(this)">Bewaar concept</button>
+          <button class="wbtn" onclick="rxSend()">Verstuur naar toestel van de patiënt</button>
+        </div>
+      </div>
+      <div class="card">
+        <b>Therapietrouw — laatste 10 weken</b>
+        <div style="display:flex; align-items:center; gap:12px; margin-top:9px; flex-wrap:wrap"><span class="weekstrip" id="rx-weeks"></span><small id="rx-weekstxt" style="color:var(--muted); font-size:.76rem"></small></div>
+        <div id="rx-coach" style="margin-top:10px"></div>
+      </div>
+      <div class="lock">🔒 <span><b>U ziet therapietrouw, nooit winkeldata.</b> Wat de patiënt koopt of waar die sport blijft bij hem — u ziet alleen of het plan gevolgd wordt.</span></div>
+    </section>
+
+    <!-- ============ BRIEVEN ============ -->
+    <section class="view" id="v-brieven">
+      <h1>Brieven <small>Verslagen en correspondentie — binnen de medische ring.</small></h1>
+      <div id="b-lijst"></div>
+      <div id="b-open"></div>
+    </section>
+  </main>
+</div>
+
+<script>
+/* ============ patiëntdata (fictief) ============ */
+const pats = {
+  marc: {
+    ini:'MV', naam:'Marc Vermeulen', info:'°1970 · man · opgenomen 03-05, revalidatie afgerond',
+    diag:'<b>NSTEMI (mei 2026)</b> — percutane coronaire interventie, 1 stent (LAD). Hypertensie. BMI 29. Rookte tot 2019. Familiale belasting: vader AMI op 61.',
+    consult:[
+      ['12-07 · controle','Goede evolutie. Leefstijlplan loopt (week 9). Bloeddruk 138/86 — medicatie behouden.'],
+      ['05-06 · start leefstijlplan','Voorschrift zoutarm + dagelijks 30\' matige inspanning. Consent gegeven in consultatie.'],
+      ['03-05 · opname','NSTEMI, PCI met stent. Ongecompliceerd verloop, ontslag na 4 dagen.']
+    ],
+    labo:[['LDL-cholesterol','1,4 mmol/l','ok'],['Bloeddruk','138/86','afw'],['Nuchtere glucose','5,4 mmol/l','ok'],['eGFR','82 ml/min','ok']],
+    meds:[['Acetylsalicylzuur 80 mg','1× per dag · levenslang'],['Ticagrelor 90 mg','2× per dag · tot 05-2027'],['Atorvastatine 40 mg','1× per dag'],['Bisoprolol 2,5 mg','1× per dag']],
+    rx:{sel:['zoutarm','30\' matige inspanning per dag','gewichtsopvolging wekelijks'], verstuurd:true},
+    weeks:[1,1,1,0,0,1,1,1,1,1], wtxt:'8/10 weken groen — dip in week 4-5, opgevangen door coach Sam',
+    coachnote:['ok','Coach Sam belde Marc op 22-07: lunchwandeling herstart. Geen actie nodig van u.'],
+    brieven:[
+      ['Ontslagbrief opname 03-05', 'huisarts dr. Peeters', '07-05',
+`Geachte collega,
+
+Uw patiënt Marc Vermeulen (°1970) werd opgenomen met een NSTEMI. Er werd een PCI met plaatsing van 1 stent in de LAD uitgevoerd. Het verloop was ongecompliceerd.
+
+Medicatie bij ontslag: zie schema. Wij stelden een leefstijltraject voor via het CG Health-programma (zoutarm, dagelijkse matige inspanning), dat patiënt aanvaardde.
+
+Controle op onze raadpleging over 6 weken.
+
+Met collegiale groeten,
+dr. Verhoeven — cardiologie`],
+      ['Verwijsbrief diëtiste', 'diëtiste M. Claes', '05-06',
+`Beste collega,
+
+Graag begeleiding van dhr. Vermeulen bij de zoutarme voeding na recent coronair event. Patiënt volgt een leefstijlplan (CG Health); u kan binnen uw mandaat rechtstreeks in dat plan meeschrijven.
+
+De diagnose deel ik enkel via deze beveiligde weg — het leefstijlplan zelf bevat uitsluitend de voorwaarden.
+
+dr. Verhoeven`],
+      ['Terugkoppeling leefstijlcoach — Q2', 'intern verslag', '30-06',
+`Samenvatting coach Sam (via platform, therapietrouw-rapport):
+
+- Plan gevolgd: 8 van 10 weken
+- Beweging: opgebouwd van 3×/week naar dagelijks
+- Zoutarm menu: loopt via gezinsmenu, geen klachten
+- Aandachtspunt: motivatiedip bij drukte op het werk
+
+Geen medische gegevens uitgewisseld; rapport beperkt zich tot uitvoering van het voorschrift.`]
+    ]
+  },
+  rita: {
+    ini:'RC', naam:'Rita Coppens', info:'°1962 · vrouw · hypertensie, overgewicht',
+    diag:'<b>Essentiële hypertensie</b>, therapieresistent bij matige therapietrouw medicatie (2024-2025). Overgewicht (BMI 31). Doel: gewichtsreductie en zoutbeperking vóór eventuele bijkomende medicatie.',
+    consult:[
+      ['18-07 · controle','−3,2 kg over 12 weken. Bloeddruk 142/88 → 134/84. Zeer gemotiveerd door de app-opvolging.'],
+      ['20-04 · start leefstijlplan','Voorschrift zoutarm + gewichtsopvolging. Wil uitdrukkelijk géén extra pil als het anders kan.']
+    ],
+    labo:[['Bloeddruk','134/84','afw'],['BMI','29,8','afw'],['Nuchtere glucose','5,9 mmol/l','ok'],['eGFR','76 ml/min','ok']],
+    meds:[['Perindopril 5 mg','1× per dag'],['Amlodipine 5 mg','1× per dag']],
+    rx:{sel:['zoutarm','gewichtsopvolging wekelijks'], verstuurd:true},
+    weeks:[1,1,1,1,1,1,1,1,0,1], wtxt:'9/10 weken groen — sterke therapietrouw',
+    coachnote:['ok','Loopt uitstekend. Overweeg bij volgende controle: beweegvoorwaarde toevoegen?'],
+    brieven:[
+      ['Verslag aan huisarts — leefstijltraject', 'huisarts dr. El Amrani', '18-07',
+`Geachte collega,
+
+Mevr. Coppens volgt sinds april een leefstijlplan (zoutarm, wekelijkse gewichtsopvolging) via het CG Health-programma. Resultaat na 12 weken: −3,2 kg, bloeddruk 134/84.
+
+Medicatie ongewijzigd. Bij aanhoudende trend stellen wij voor de situatie in oktober te herevalueren.
+
+dr. Verhoeven`]
+    ]
+  },
+  jos: {
+    ini:'JB', naam:'Jos Bracke', info:'°1958 · man · diabetes type 2, afgehaakt in leefstijltraject',
+    diag:'<b>Diabetes mellitus type 2</b> (2021), suboptimale regeling (HbA1c 7,9%). COPD GOLD II. Alleenstaand sinds 2025 — beperkt sociaal netwerk, lage digitale vaardigheid.',
+    consult:[
+      ['15-07 · controle','Leefstijlplan gestopt na week 3. Patiënt vindt de app "niks voor hem". Voorstel: mens-gedreven herstart via coach.'],
+      ['10-05 · start leefstijlplan','Voorschrift beweging + voedingsopvolging. Twijfelde al bij de start.']
+    ],
+    labo:[['HbA1c','7,9%','afw'],['LDL-cholesterol','2,6 mmol/l','afw'],['Bloeddruk','144/90','afw'],['eGFR','68 ml/min','ok']],
+    meds:[['Metformine 850 mg','2× per dag'],['Gliclazide 30 mg','1× per dag'],['Tiotropium inhalatie','1× per dag']],
+    rx:{sel:['dagelijks 20\' wandelen','voedingsopvolging'], verstuurd:true},
+    weeks:[1,1,1,0,0,0,0,0,0,0], wtxt:'afgehaakt na week 3 — app-eerst werkt niet voor Jos',
+    coachnote:['warn','Voorstel van het platform: mens-gedreven herstart — coach belt eerst, app volgt. U beslist.'],
+    brieven:[
+      ['Verwijsbrief wandelclub op verwijzing', 'apotheek St. Gilles — zorgpunt', '15-07',
+`Beste,
+
+Graag verwelkomen jullie dhr. Bracke in de donderdagse wandelgroep vanuit het zorgpunt. Sociale aansluiting is voor deze patiënt belangrijker dan een app: mens eerst, digitaal daarna.
+
+Zijn leefstijlvoorwaarden (dagelijks 20' wandelen) zijn gekend in het platform zodra hij herstart.
+
+dr. Verhoeven`]
+    ]
+  }
+};
+const bib = ['zoutarm','30\' matige inspanning per dag','gewichtsopvolging wekelijks','dagelijks 20\' wandelen','voedingsopvolging','rookstop','slaaphygiëne','alcohol beperken'];
+const medbib = ['Bisoprolol 2,5 mg','Atorvastatine 40 mg','Hydrochloorthiazide 12,5 mg','Metformine 850 mg','Empagliflozine 10 mg'];
+let pat = null;
+
+/* ============ navigatie ============ */
+function ga(v){
+  if(v!=='patienten' && !pat){ v='patienten'; }
+  document.querySelectorAll('.view').forEach(s=>s.classList.toggle('show', s.id==='v-'+v));
+  document.querySelectorAll('.navi').forEach(b=>b.classList.toggle('act', b.dataset.v===v));
+  document.getElementById('patbar').style.display = (v==='patienten'||!pat) ? 'none' : 'flex';
+  document.querySelector('main').scrollTo({top:0});
+}
+
+/* ============ patiëntenlijst ============ */
+function renderPats(){
+  document.getElementById('patlijst').innerHTML = Object.entries(pats).map(([id,p])=>{
+    const st = id==='jos' ? '<span class="pill alert">afgehaakt — actie</span>' : id==='marc' ? '<span class="pill ok">8/10 groen</span>' : '<span class="pill ok">9/10 groen</span>';
+    return `<div class="row klik" style="margin-bottom:8px" onclick="kies('${id}')">
+      <span class="av">${p.ini}</span>
+      <span><b>${p.naam}</b><small>${p.info}</small></span>
+      <span class="spacer"></span>${st}
+      <button class="wbtn">Open</button>
+    </div>`;
+  }).join('');
+}
+function kies(id){
+  pat = id;
+  const p = pats[id];
+  document.getElementById('pb-av').textContent = p.ini;
+  document.getElementById('pb-naam').textContent = p.naam;
+  document.getElementById('pb-info').textContent = p.info;
+  renderDossier(); renderMeds(); renderRx(); renderBrieven();
+  ga('dossier');
+}
+
+/* ============ dossier ============ */
+function renderDossier(){
+  const p = pats[pat];
+  document.getElementById('d-diag').innerHTML = p.diag;
+  document.getElementById('d-consult').innerHTML = p.consult.map(([t,x])=>`<div class="t"><b>${t}</b><small>${x}</small></div>`).join('');
+  document.getElementById('d-labo').innerHTML = p.labo.map(([n,w,s])=>`<tr><td>${n}</td><td class="${s==='afw'?'afw':''}">${w}${s==='afw'?' ⚠︎':''}</td></tr>`).join('');
+}
+
+/* ============ medicatie ============ */
+function renderMeds(){
+  const p = pats[pat];
+  document.getElementById('m-lijst').innerHTML = p.meds.map(([n,d])=>`
+    <div class="row"><span class="av">℞</span><span><b>${n}</b><small>${d}</small></span><span class="spacer"></span><span class="pill ok">actief</span></div>`).join('');
+  document.getElementById('m-kies').innerHTML = medbib
+    .filter(m=>!p.meds.some(x=>x[0]===m))
+    .map(m=>`<span class="chip" onclick="voegMedToe('${m.replace(/'/g,"\\'")}')">+ ${m}</span>`).join('');
+  document.getElementById('m-status').innerHTML='';
+}
+function voegMedToe(m){
+  const p = pats[pat];
+  p.meds.push([m,'1× per dag · nieuw']);
+  renderMeds();
+  let extra = '';
+  if(m.includes('Hydrochloorthiazide')){
+    extra = `<div class="medring" style="margin-top:10px">🌱 <span><b>Suggestie:</b> bij een diureticum is de zoutarm-voorwaarde extra relevant. ${p.rx.sel.includes('zoutarm') ? 'Die staat al in het leefstijlplan ✓' : '<button class="wbtn groen" style="margin-left:6px" onclick="zetZoutarm()">Voeg \u0027zoutarm\u0027 toe aan het leefstijlplan</button>'}</span></div>`;
+  }
+  document.getElementById('m-status').innerHTML =
+    `<div class="row" style="margin-top:10px; --pc:var(--yb)"><span class="av">✓</span><span><b>${m} doorgegeven</b><small>naar de apotheek van keuze van de patiënt (Newpharma-punt St. Gilles) · schema bijgewerkt</small></span></div>` + extra;
+}
+function zetZoutarm(){
+  pats[pat].rx.sel.push('zoutarm');
+  renderRx();
+  document.getElementById('m-status').insertAdjacentHTML('beforeend','<div class="row" style="margin-top:8px; --pc:var(--yb)"><span class="av">🌱</span><span><b>\u0027zoutarm\u0027 toegevoegd aan het leefstijlvoorschrift</b><small>de app ontvangt alleen deze voorwaarde — niet waarom</small></span></div>');
+}
+
+/* ============ leefstijl ============ */
+function renderRx(){
+  const p = pats[pat];
+  document.getElementById('rx-lib').innerHTML = bib.map(v=>
+    `<span class="chip ${p.rx.sel.includes(v)?'sel':''}" onclick="rxToggle('${v.replace(/'/g,"\\'")}')">${v}</span>`).join('');
+  document.getElementById('rx-prev').innerHTML = p.rx.sel.length
+    ? p.rx.sel.map(v=>`<span class="chip sel vast">${v}</span>`).join('')
+    : '<span class="chip vast">nog geen voorwaarden gekozen</span>';
+  document.getElementById('rx-weeks').innerHTML = p.weeks.map(w=>`<i class="${w?'':'miss'}"></i>`).join('');
+  document.getElementById('rx-weekstxt').textContent = p.wtxt;
+  const [cls,txt] = p.coachnote;
+  document.getElementById('rx-coach').innerHTML = `<div class="row" style="--pc:${cls==='warn'?'var(--oranje)':'var(--yb)'}"><span class="av">S</span><span><b>Coach-terugkoppeling</b><small>${txt}</small></span><span class="spacer"></span>${pat==='jos'?'<button class="wbtn" onclick="coachContact(this)">Vraag mens-gedreven herstart</button>':''}</div>`;
+  document.getElementById('rx-act').innerHTML =
+    '<button class="wbtn ghost" onclick="rxDraft(this)">Bewaar concept</button>'+
+    `<button class="wbtn" onclick="rxSend()">${p.rx.verstuurd?'Verstuur bijgewerkt voorschrift':'Verstuur naar toestel van de patiënt'}</button>`;
+}
+function rxToggle(v){
+  const s = pats[pat].rx.sel;
+  s.includes(v) ? s.splice(s.indexOf(v),1) : s.push(v);
+  renderRx();
+}
+function rxDraft(btn){ btn.textContent='✓ concept bewaard'; setTimeout(()=>{btn.textContent='Bewaar concept';},1600); }
+function rxSend(){
+  const p = pats[pat];
+  const n = p.rx.sel.length;
+  const act = document.getElementById('rx-act');
+  if(!n){ act.insertAdjacentHTML('beforeend','<span class="pill warn">kies eerst minstens één voorwaarde</span>'); return; }
+  act.innerHTML = '<span class="chip vast">📲 wachten op consent van de patiënt…</span>';
+  setTimeout(()=>{
+    act.innerHTML = `<span class="pill ok">✓ consent gegeven — plan bijgewerkt met ${n} voorwaarde${n>1?'n':''}</span> <span class="chip vast">coach volgt op binnen 48 u</span>`;
+    p.rx.verstuurd = true;
+  }, 1400);
+}
+function coachContact(btn){
+  btn.outerHTML = '<span class="pill ok">✓ aangevraagd — coach belt Jos deze week</span>';
+}
+
+/* ============ brieven ============ */
+function renderBrieven(){
+  const p = pats[pat];
+  document.getElementById('b-open').innerHTML='';
+  document.getElementById('b-lijst').innerHTML = p.brieven.map((b,i)=>`
+    <div class="row klik" style="margin-bottom:8px" onclick="openBrief(${i})">
+      <span class="av">✉️</span>
+      <span><b>${b[0]}</b><small>aan: ${b[1]} · ${b[2]}-2026</small></span>
+      <span class="spacer"></span><button class="wbtn ghost">Lees</button>
+    </div>`).join('')
+    + `<div class="row" style="--pc:var(--yb)"><span class="av">＋</span><span><b>Nieuwe brief</b><small>sjabloon met leefstijlparagraaf ingevuld vanuit het therapietrouw-rapport</small></span><span class="spacer"></span><button class="wbtn" onclick="nieuweBrief(this)">Maak concept</button></div>`;
+}
+function openBrief(i){
+  const b = pats[pat].brieven[i];
+  document.getElementById('b-open').innerHTML =
+    `<button class="terug" onclick="renderBrieven()">← sluit brief</button>
+     <div class="card"><b>${b[0]}</b><div class="sub">aan: ${b[1]} · ${b[2]}-2026</div>
+     <div class="brief" style="margin-top:10px">${b[3]}</div></div>`;
+}
+function nieuweBrief(btn){
+  btn.outerHTML = '<span class="pill ok">✓ concept klaar — leefstijlparagraaf automatisch ingevuld</span>';
+}
+
+renderPats();
+</script>
+</body>
+</html>

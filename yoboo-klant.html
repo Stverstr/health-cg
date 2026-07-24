@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>yoboo — jouw app (POC · klant)</title>
+<style>
+:root{
+  --yb:#27A577; --yb-deep:#157258; --yb-soft:rgba(39,165,119,.13);
+  --ink:#141212; --muted:#4C4843; --hair:#D9D4C7;
+  --cream:#F5F5EF; --paper:#FBFBF9; --card:#FFFFFF;
+  --sun:#FFCC00; --coral:#FD817A; --oranje:#D96A2E; --blauw:#2F6FE4; --paars:#8A2FAC;
+  --food:#1E9066; --move:#2F6FE4; --care:#E8615A; --leren:#B98800;
+  --shadow:0 12px 34px rgba(25,23,23,.12);
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --yb:#34C08D; --yb-deep:#27A577; --yb-soft:rgba(52,192,141,.16);
+    --ink:#F0EDE8; --muted:#A8A29A; --hair:#38342E;
+    --cream:#14120F; --paper:#1A1713; --card:#211D18;
+    --sun:#FFD84D; --coral:#FF9A94; --oranje:#F0955C; --blauw:#7AA9FF; --paars:#C273E0;
+    --food:#34C08D; --move:#7AA9FF; --care:#FF9A94; --leren:#FFD84D;
+    --shadow:0 12px 34px rgba(0,0,0,.4);
+  }
+}
+:root[data-theme="dark"]{
+  --yb:#34C08D; --yb-deep:#27A577; --yb-soft:rgba(52,192,141,.16);
+  --ink:#F0EDE8; --muted:#A8A29A; --hair:#38342E;
+  --cream:#14120F; --paper:#1A1713; --card:#211D18;
+  --sun:#FFD84D; --coral:#FF9A94; --oranje:#F0955C; --blauw:#7AA9FF; --paars:#C273E0;
+  --food:#34C08D; --move:#7AA9FF; --care:#FF9A94; --leren:#FFD84D;
+  --shadow:0 12px 34px rgba(0,0,0,.4);
+}
+*{margin:0; padding:0; box-sizing:border-box}
+body{
+  font-family:-apple-system,"SF Pro Rounded","Segoe UI",Inter,Calibri,sans-serif;
+  background:var(--cream); color:var(--ink); line-height:1.5; -webkit-font-smoothing:antialiased;
+}
+b{font-weight:800}
+button{font-family:inherit; cursor:pointer}
+@media (prefers-reduced-motion: reduce){*{animation:none !important; transition:none !important}}
+
+/* app-kolom */
+.pocbar{max-width:430px; margin:0 auto; padding:10px 16px 0; display:flex; justify-content:space-between; font-size:.72rem; color:var(--muted)}
+.pocbar a{color:var(--yb-deep); font-weight:700; text-decoration:none}
+.app{
+  max-width:430px; margin:8px auto 40px; background:var(--paper);
+  border:1px solid var(--hair); border-radius:34px; box-shadow:var(--shadow);
+  min-height:88vh; display:flex; flex-direction:column; overflow:hidden;
+}
+header{display:flex; align-items:center; gap:10px; padding:18px 20px 12px}
+.wordmark{font-size:1.3rem; font-weight:800; letter-spacing:-.03em}
+.wordmark i{font-style:normal; color:var(--yb)}
+.sparkchip{margin-left:auto; font-size:.78rem; font-weight:800; color:#8a6d00; background:color-mix(in srgb, var(--sun) 32%, transparent); border-radius:99px; padding:5px 12px; transition:transform .3s ease}
+:root[data-theme="dark"] .sparkchip{color:var(--sun)}
+@media (prefers-color-scheme: dark){.sparkchip{color:var(--sun)}}
+.sparkchip.pop{transform:scale(1.25)}
+.avatar{width:34px; height:34px; border-radius:50%; background:var(--yb-soft); color:var(--yb-deep); font-weight:800; font-size:.8rem; display:flex; align-items:center; justify-content:center}
+
+main{flex:1; overflow-y:auto; padding:4px 16px 18px}
+.view{display:none; flex-direction:column; gap:12px}
+.view.show{display:flex}
+h1{font-size:1.35rem; letter-spacing:-.015em; line-height:1.2}
+h1 small{display:block; font-size:.8rem; color:var(--muted); font-weight:400; margin-top:3px}
+.card{background:var(--card); border:1px solid var(--hair); border-radius:16px; padding:14px 15px}
+.card .h{display:flex; align-items:center; gap:8px; font-weight:800; font-size:.92rem}
+.card .h .ic{width:26px; height:26px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:.85rem; background:color-mix(in srgb, var(--ac, var(--yb)) 16%, transparent)}
+.card p{color:var(--muted); font-size:.84rem; margin-top:5px}
+.pbtn{display:block; width:100%; margin-top:10px; border:none; border-radius:12px; padding:11px 12px; background:var(--ac, var(--yb)); color:#fff; font-weight:800; font-size:.86rem; text-align:center}
+.pbtn.ghost{background:transparent; color:var(--yb-deep); border:1.5px solid var(--yb)}
+.pbtn:active{transform:scale(.98)}
+.pdone{display:flex; align-items:center; gap:8px; margin-top:10px; font-size:.83rem; font-weight:700; color:var(--yb-deep)}
+.pdone .chk{flex:0 0 21px; width:21px; height:21px; border-radius:50%; background:var(--yb); color:#fff; display:flex; align-items:center; justify-content:center; font-size:.68rem}
+.miniboo{display:flex; gap:9px; align-items:flex-start; background:var(--yb-soft); border-radius:14px; padding:11px 12px; font-size:.82rem}
+.miniboo svg{flex:0 0 34px}
+.miniboo b{color:var(--yb-deep)}
+.streak{display:flex; gap:5px; align-items:center; font-size:.78rem; color:var(--muted); font-weight:600}
+.streak .d{width:20px; height:20px; border-radius:50%; background:var(--hair); display:flex; align-items:center; justify-content:center; font-size:.62rem}
+.streak .d.on{background:var(--yb); color:#fff}
+.checkrow{display:flex; gap:7px; margin-top:10px}
+.checkrow button{flex:1; font-size:1.3rem; padding:9px 0; border-radius:12px; border:1px solid var(--hair); background:var(--paper)}
+.checkrow button:hover{border-color:var(--yb); background:var(--yb-soft)}
+.chips{display:flex; flex-wrap:wrap; gap:6px; margin-top:9px}
+.chip{font-size:.72rem; font-weight:700; border:1px solid var(--hair); border-radius:99px; padding:5px 11px; background:var(--paper); color:var(--muted)}
+.chip.sel{background:var(--yb-soft); border-color:var(--yb); color:var(--yb-deep)}
+.chip.btn{cursor:pointer}
+.chip.btn:hover{border-color:var(--yb); color:var(--yb-deep)}
+.menu td{padding:6px 4px; font-size:.82rem; border-bottom:1px dashed var(--hair)}
+.menu td:first-child{color:var(--muted); font-weight:700; font-size:.7rem; text-transform:uppercase; width:34px}
+.menu tr:last-child td{border-bottom:none}
+.tag{display:inline-block; font-size:.64rem; font-weight:800; border-radius:99px; padding:2px 8px; background:var(--yb-soft); color:var(--yb-deep)}
+.ring{display:flex; align-items:center; gap:13px}
+.ring svg{flex:0 0 80px}
+.ring b{font-size:1rem}
+.ring small{display:block; color:var(--muted); font-size:.76rem; margin-top:2px}
+.members{display:flex; flex-direction:column; gap:7px; margin-top:9px}
+.members .m{display:flex; align-items:center; gap:9px; font-size:.8rem}
+.members .av{flex:0 0 27px; width:27px; height:27px; border-radius:50%; background:color-mix(in srgb, var(--move) 20%, transparent); color:var(--move); display:flex; align-items:center; justify-content:center; font-weight:800; font-size:.64rem}
+.members .mb{flex:1; height:8px; border-radius:5px; background:var(--hair); overflow:hidden}
+.members .mb i{display:block; height:100%; background:var(--move); border-radius:5px; transition:width .5s ease}
+.members small{width:48px; text-align:right; color:var(--muted); font-size:.7rem}
+.badgeban{margin-top:10px; background:linear-gradient(120deg,var(--yb),var(--yb-deep)); color:#fff; border-radius:13px; padding:12px; font-weight:800; font-size:.84rem; text-align:center}
+.foto{display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:9px}
+.foto .pf{border:1px solid var(--hair); border-radius:12px; padding:9px 10px; background:var(--paper)}
+.foto .pf b{font-size:.74rem; display:flex; justify-content:space-between; font-weight:800}
+.foto .bar{height:7px; border-radius:4px; background:var(--hair); margin-top:7px; overflow:hidden}
+.foto .bar i{display:block; height:100%; border-radius:4px; background:var(--pc)}
+.tgl-row{display:flex; align-items:flex-start; gap:9px; padding:10px 0; border-bottom:1px dashed var(--hair); font-size:.83rem}
+.tgl-row:last-child{border-bottom:none}
+.tgl-row small{display:block; color:var(--muted); font-size:.72rem}
+.tgl{margin-left:auto; flex:0 0 40px; width:40px; height:23px; border-radius:99px; background:var(--hair); position:relative; cursor:pointer}
+.tgl::after{content:""; position:absolute; top:2.5px; left:3px; width:18px; height:18px; border-radius:50%; background:var(--card); box-shadow:0 1px 3px rgba(0,0,0,.25); transition:left .15s ease}
+.tgl.on{background:var(--yb)}
+.tgl.on::after{left:19px}
+.week{display:flex; flex-direction:column; gap:6px; margin-top:9px}
+.wrow{display:flex; align-items:center; gap:9px; font-size:.8rem}
+.wrow .dag{width:32px; font-weight:800; font-size:.68rem; text-transform:uppercase; color:var(--muted)}
+.wrow .dots{display:flex; gap:4px}
+.wrow .dots i{width:14px; height:14px; border-radius:50%; background:var(--yb)}
+.wrow .dots i.half{opacity:.35}
+.wrow .dots i.open{background:var(--hair)}
+.wrow small{margin-left:auto; color:var(--muted); font-size:.7rem}
+.wrow.today{background:var(--yb-soft); border-radius:9px; padding:4px 7px; margin:0 -7px}
+
+/* tabbalk */
+nav{
+  display:flex; border-top:1px solid var(--hair); background:var(--card);
+  padding:8px 6px calc(10px + env(safe-area-inset-bottom));
+}
+nav button{
+  flex:1; border:none; background:none; display:flex; flex-direction:column; align-items:center; gap:3px;
+  font-size:.62rem; font-weight:700; color:var(--muted); padding:5px 0; border-radius:12px;
+}
+nav button .nic{font-size:1.15rem; line-height:1}
+nav button.act{color:var(--yb-deep); background:var(--yb-soft)}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<g id="boo-body"><path d="M50 8 C56 2 66 2 68 9 C64 15 55 16 50 12 Z" fill="#27A577" opacity=".9"/><path d="M50 13 C50 9 50 6 52 3" stroke="#17795A" stroke-width="2.4" fill="none" stroke-linecap="round"/><ellipse cx="50" cy="58" rx="38" ry="42" fill="#27A577"/><ellipse cx="50" cy="66" rx="26" ry="24" fill="#FFFFFF" opacity=".22"/><circle cx="31" cy="60" r="4.5" fill="#FD817A" opacity=".55"/><circle cx="69" cy="60" r="4.5" fill="#FD817A" opacity=".55"/></g>
+<g id="boo-eyes"><circle cx="38" cy="50" r="5.2" fill="#191717"/><circle cx="62" cy="50" r="5.2" fill="#191717"/><circle cx="39.8" cy="48.2" r="1.7" fill="#fff"/><circle cx="63.8" cy="48.2" r="1.7" fill="#fff"/></g>
+<g id="boo-base"><use href="#boo-body"/><use href="#boo-eyes"/><path d="M42 64 Q50 72 58 64" stroke="#191717" stroke-width="3" fill="none" stroke-linecap="round"/></g>
+<g id="boo-cheer"><use href="#boo-body"/><path d="M32 50 Q38 44 44 50" stroke="#191717" stroke-width="3.2" fill="none" stroke-linecap="round"/><path d="M56 50 Q62 44 68 50" stroke="#191717" stroke-width="3.2" fill="none" stroke-linecap="round"/><path d="M40 62 Q50 76 60 62 Z" fill="#191717"/><path d="M45 69 Q50 73 55 69 Q50 71 45 69 Z" fill="#FD817A"/><path d="M14 40 L22 30 M10 52 L20 48" stroke="#FFCC00" stroke-width="3.5" stroke-linecap="round"/><path d="M86 40 L78 30 M90 52 L80 48" stroke="#FFCC00" stroke-width="3.5" stroke-linecap="round"/></g>
+<g id="boo-eet"><use href="#boo-body"/><use href="#boo-eyes"/><ellipse cx="50" cy="67" rx="7" ry="5.5" fill="#191717"/><ellipse cx="50" cy="69.5" rx="4" ry="2.4" fill="#FD817A"/><ellipse cx="79" cy="74" rx="9" ry="8.5" fill="#E62C32" opacity=".92"/><path d="M79 66 Q80 62 84 61" stroke="#17795A" stroke-width="2.2" fill="none" stroke-linecap="round"/><path d="M64 70 Q70 70 73 73" stroke="#17795A" stroke-width="3.5" fill="none" stroke-linecap="round"/></g>
+<g id="boo-fiets"><g transform="translate(10,-12) scale(.8)"><use href="#boo-body"/><use href="#boo-eyes"/><path d="M42 64 Q50 72 58 64" stroke="#191717" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M24 34 Q50 8 76 34 L74 42 Q50 22 26 42 Z" fill="#FFCC00" stroke="#191717" stroke-width="1.6"/></g><circle cx="28" cy="90" r="11" fill="none" stroke="#191717" stroke-width="3"/><circle cx="76" cy="90" r="11" fill="none" stroke="#191717" stroke-width="3"/><path d="M28 90 L46 74 L64 90 M46 74 L52 90 M76 90 L66 72 L58 72" stroke="#191717" stroke-width="2.6" fill="none" stroke-linecap="round"/></g>
+<g id="boo-boos"><use href="#boo-body"/><path d="M30 41 L44 47 M70 41 L56 47" stroke="#191717" stroke-width="3.2" stroke-linecap="round"/><circle cx="39" cy="52" r="4.4" fill="#191717"/><circle cx="61" cy="52" r="4.4" fill="#191717"/><path d="M42 71 Q50 63 58 71" stroke="#191717" stroke-width="3" fill="none" stroke-linecap="round"/></g>
+<g id="boo-plan"><use href="#boo-body"/><circle cx="38" cy="51" r="4.6" fill="#191717"/><circle cx="62" cy="51" r="4.6" fill="#191717"/><circle cx="38" cy="51" r="8" fill="none" stroke="#191717" stroke-width="2"/><circle cx="62" cy="51" r="8" fill="none" stroke="#191717" stroke-width="2"/><path d="M46 51 L54 51" stroke="#191717" stroke-width="2"/><path d="M44 66 Q50 70 56 66" stroke="#191717" stroke-width="2.8" fill="none" stroke-linecap="round"/><g transform="rotate(-5 50 84)"><rect x="29" y="72" width="42" height="28" rx="4" fill="#FFFFFF" stroke="#D9D9D9" stroke-width="1.6"/><path d="M34 80 L52 80 M34 86 L58 86 M34 92 L48 92" stroke="#B9B5AD" stroke-width="2" stroke-linecap="round"/><path d="M59 78 L62 81 L67 75" stroke="#27A577" stroke-width="2.6" fill="none" stroke-linecap="round"/></g></g>
+</defs></svg>
+
+<div class="pocbar"><span>POC · fictieve data · Lena P.</span><a href="health-cg-yoboo.html">← terug naar de POC-hub</a></div>
+
+<div class="app">
+  <header>
+    <span class="wordmark">yoboo<i>.</i></span>
+    <span class="sparkchip" id="sparks">⚡ 340</span>
+    <span class="avatar">L</span>
+  </header>
+
+  <main>
+    <!-- ================= VANDAAG ================= -->
+    <section class="view show" id="v-vandaag">
+      <h1>Dag Lena! <small>Dit is jouw dag in drie stapjes.</small></h1>
+      <div class="streak" id="streak"><span class="d on">✓</span><span class="d on">✓</span><span class="d on">✓</span><span class="d on">✓</span><span class="d on">✓</span><span class="d">·</span><span class="d">·</span>&nbsp;<span id="streaktxt">5 dagen op rij!</span></div>
+      <div class="card" style="--ac:var(--food)">
+        <div class="h"><span class="ic">🥗</span>Vandaag op tafel: wokschotel</div>
+        <p>Alles wat je nodig hebt, in één keer in je winkelmandje.</p>
+        <div id="act-mandje"><button class="pbtn" onclick="doeMandje()">Zet in mijn mandje</button></div>
+      </div>
+      <div class="card" style="--ac:var(--move)">
+        <div class="h"><span class="ic">🚶</span>20 minuten buiten</div>
+        <p>Wandeling, fietstochtje, tikkertje met de kids — alles telt.</p>
+        <div class="pdone"><span class="chk">✓</span>Gedaan! +20 ⚡</div>
+      </div>
+      <div class="card" style="--ac:var(--care)" id="act-checkin">
+        <div class="h"><span class="ic">💬</span>Hoe voel je je vandaag?</div>
+        <p>Eén vraagje, vijf seconden.</p>
+        <button class="pbtn ghost" onclick="startCheckin()">Doe de check-in</button>
+      </div>
+      <div class="miniboo" id="boo-vandaag"><svg viewBox="0 0 100 104" width="34" height="35"><use href="#boo-base"/></svg><span><b>Boo:</b> lekker bezig! Nog twee stapjes en je week is helemaal groen. 💚</span></div>
+      <div class="card">
+        <div class="h"><span class="ic" style="background:color-mix(in srgb, var(--move) 15%, transparent)">🚴</span>In je gezin</div>
+        <p>De fietschallenge staat op <b id="kmkort">75 km</b> — nog even en de badge is binnen.</p>
+        <button class="pbtn ghost" onclick="ga('gezin')">Naar de challenge →</button>
+      </div>
+    </section>
+
+    <!-- ================= PLAN ================= -->
+    <section class="view" id="v-plan">
+      <h1>Mijn plan <small>Jouw doel, jouw tempo. Sam en Boo kijken mee.</small></h1>
+      <div class="card" style="--ac:var(--yb)">
+        <div class="h"><span class="ic">🎯</span>Mijn doel</div>
+        <p style="font-size:.95rem; color:var(--ink); font-style:italic">"Ik wil 's avonds energie over hebben."</p>
+        <div id="doelwijzig"><button class="pbtn ghost" onclick="wijzigDoel()">Doel aanpassen</button></div>
+      </div>
+      <div class="card">
+        <div class="h"><span class="ic" style="background:var(--yb-soft)">📅</span>Deze week</div>
+        <div class="week">
+          <div class="wrow"><span class="dag">ma</span><span class="dots"><i></i><i></i><i></i></span><small>alles gedaan 🎉</small></div>
+          <div class="wrow"><span class="dag">di</span><span class="dots"><i></i><i></i><i></i></span><small>alles gedaan</small></div>
+          <div class="wrow"><span class="dag">wo</span><span class="dots"><i></i><i class="half"></i><i></i></span><small>drukke dag — telt toch</small></div>
+          <div class="wrow"><span class="dag">do</span><span class="dots"><i></i><i></i><i></i></span><small>alles gedaan</small></div>
+          <div class="wrow"><span class="dag">vr</span><span class="dots"><i></i><i></i><i></i></span><small>alles gedaan</small></div>
+          <div class="wrow today"><span class="dag">za</span><span class="dots" id="zadots"><i class="open"></i><i></i><i class="open"></i></span><small>vandaag — 1 van 3</small></div>
+          <div class="wrow"><span class="dag">zo</span><span class="dots"><i class="open"></i><i class="open"></i><i class="open"></i></span><small>morgen</small></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="h"><span class="ic" style="background:var(--yb-soft)">🤝</span>Wie helpt mee</div>
+        <div class="tgl-row"><span><b>Boo</b> (AI)<small>stelt je stapjes voor, jij beslist</small></span><span class="tag" style="margin-left:auto">altijd aan boord</span></div>
+        <div class="tgl-row"><span><b>Coach Sam</b><small>kijkt wekelijks mee, belt als het nodig is</small></span><span class="tag" style="margin-left:auto">met jouw toestemming</span></div>
+        <div id="hulpvraag"><button class="pbtn ghost" onclick="vraagHulp()">Stel Sam een vraag</button></div>
+      </div>
+      <div class="card">
+        <div class="h"><span class="ic" style="background:var(--yb-soft)">🌧️</span>Als het even niet lukt</div>
+        <p>Dan lukt het niet — geen schuldgevoel, geen rode cijfers. Het plan past zich aan jouw week aan, niet omgekeerd. Woensdag is voortaan je makkelijke dag.</p>
+      </div>
+      <div class="miniboo" id="boo-plan-v"><svg viewBox="0 0 100 104" width="34" height="35"><use href="#boo-plan"/></svg><span><b>Boo:</b> ik heb je plan nog eens nagelezen: zaterdag is een topdag om die wokschotel te doen. 👨‍🍳</span></div>
+    </section>
+
+    <!-- ================= GEZIN ================= -->
+    <section class="view" id="v-gezin">
+      <h1>Ons gezin <small>Samen gezond — ieder zijn eigen plan, één leuke laag erbovenop.</small></h1>
+      <div class="card" style="--ac:var(--food)">
+        <div class="h"><span class="ic">🍽️</span>Weekmenu</div>
+        <table class="menu" style="width:100%; border-collapse:collapse; margin-top:6px">
+          <tr><td>ma</td><td>Wokschotel met kip</td></tr>
+          <tr><td>di</td><td>Pasta met veel groentjes</td></tr>
+          <tr><td>wo</td><td>Vis met puree <span class="tag">favoriet van Wout</span></td></tr>
+          <tr><td>do</td><td>Foodbag: Thaise curry</td></tr>
+          <tr><td>vr</td><td>Zelfgemaakte pizza 🎉</td></tr>
+        </table>
+        <div id="menuknoppen">
+          <button class="pbtn" onclick="menuKanaal('cg')">Alles in het mandje — Collect&amp;Go</button>
+          <button class="pbtn ghost" onclick="menuKanaal('fb')">Of laat het thuisbrengen met Foodbag</button>
+        </div>
+        <p style="margin-top:9px; font-size:.76rem">✨ Dit menu past voor iedereen aan tafel — ook voor papa's hart en Wouts groeispurt. Meer moet je daar niet over weten. 😉</p>
+      </div>
+      <div class="card" style="--ac:var(--move)">
+        <div class="h"><span class="ic">🚴</span>Gezinschallenge: 100 km samen fietsen</div>
+        <div class="ring" style="margin-top:9px">
+          <svg viewBox="0 0 80 80" width="80" height="80">
+            <circle cx="40" cy="40" r="33" fill="none" stroke="var(--hair)" stroke-width="9"/>
+            <circle id="ringc" cx="40" cy="40" r="33" fill="none" stroke="var(--move)" stroke-width="9" stroke-linecap="round" stroke-dasharray="207" stroke-dashoffset="52" transform="rotate(-90 40 40)" style="transition:stroke-dashoffset .5s ease"/>
+            <text id="ringt" x="40" y="45" text-anchor="middle" font-size="16" font-weight="800" fill="var(--ink)">75%</text>
+          </svg>
+          <span><b id="ringb">75 van 100 km</b><small id="rings">Nog 25 km — dat is één zondagse rit!</small></span>
+        </div>
+        <div id="ridewrap"><button class="pbtn" style="--ac:var(--move)" onclick="addRide()">➕ Rit van vandaag toevoegen (8 km)</button></div>
+        <div class="members">
+          <div class="m"><span class="av">L</span><span class="mb"><i id="barL" style="width:64%"></i></span><small id="kmL">32 km</small></div>
+          <div class="m"><span class="av">K</span><span class="mb"><i style="width:56%"></i></span><small>28 km</small></div>
+          <div class="m"><span class="av">W</span><span class="mb"><i style="width:24%"></i></span><small>12 km</small></div>
+          <div class="m"><span class="av">F</span><span class="mb"><i style="width:6%"></i></span><small>3 km</small></div>
+        </div>
+        <p style="margin-top:8px; font-size:.76rem">Fien (5) telt dubbel mee met haar loopfietsje. 🏆 Badge bij 100 km: <b>Gezin op wielen</b></p>
+      </div>
+      <div class="card">
+        <div class="h"><span class="ic" style="background:var(--yb-soft)">👀</span>Wat ziet mijn gezin van mij?</div>
+        <p>Alleen challenges en wat jij deelt. Nooit je check-ins, je cijfers of je plan — ook Koen niet. Aanpassen doe je bij <b>Ik → privacy</b>.</p>
+      </div>
+      <div class="miniboo" id="boo-gezin"><svg viewBox="0 0 100 104" width="34" height="35"><use href="#boo-fiets"/></svg><span><b>Boo:</b> jullie liggen vóór op schema! Zondagsritje naar de ijsjesboer? 🍦</span></div>
+    </section>
+
+    <!-- ================= FOTO ================= -->
+    <section class="view" id="v-foto">
+      <h1>Mijn vertrekfoto <small>Waar sta je vandaag? Alleen jij ziet dit.</small></h1>
+      <div class="card">
+        <div class="foto">
+          <div class="pf" style="--pc:var(--food)"><b>Voeding <span>😊</span></b><div class="bar"><i style="width:70%"></i></div></div>
+          <div class="pf" style="--pc:var(--move)"><b>Beweging <span>🙂</span></b><div class="bar"><i style="width:45%"></i></div></div>
+          <div class="pf" style="--pc:var(--paars)"><b>Slaap <span>😴</span></b><div class="bar"><i style="width:35%"></i></div></div>
+          <div class="pf" style="--pc:var(--care)"><b>Ontspanning <span>🙂</span></b><div class="bar"><i style="width:55%"></i></div></div>
+          <div class="pf" style="--pc:var(--leren)"><b>Samen <span>😊</span></b><div class="bar"><i style="width:80%"></i></div></div>
+          <div class="pf" style="--pc:var(--oranje)"><b>Gewoontes <span>🙂</span></b><div class="bar"><i style="width:60%"></i></div></div>
+        </div>
+        <p style="margin-top:10px">Gemaakt op basis van wat jij wilde delen: je aankopen en je vragenlijstje. Geen oordeel — gewoon je vertrekpunt.</p>
+        <div id="fotokies"><button class="pbtn" onclick="toonPijlers()">Kies waar je aan wil werken</button></div>
+      </div>
+      <div class="card">
+        <div class="h"><span class="ic" style="background:var(--yb-soft)">📈</span>Sinds je start (4 weken)</div>
+        <div class="tgl-row"><span>Beweging<small>van 🙁 naar 🙂 — de wandelingen doen het</small></span><span class="tag" style="margin-left:auto">+2 stapjes</span></div>
+        <div class="tgl-row"><span>Voeding<small>meer groenten in het mandje, minder kant-en-klaar</small></span><span class="tag" style="margin-left:auto">+1 stapje</span></div>
+        <div class="tgl-row"><span>Slaap<small>nog niet aan begonnen — geen probleem</small></span><span class="tag" style="margin-left:auto">=</span></div>
+        <div id="nieuwfoto"><button class="pbtn ghost" onclick="nieuweFoto()">Vraag een nieuwe foto</button></div>
+      </div>
+      <div class="miniboo" id="boo-foto"><svg viewBox="0 0 100 104" width="34" height="35"><use href="#boo-plan"/></svg><span><b>Boo:</b> slaap lijkt me iets voor ons, wat denk je? Kleine stapjes, grote nachten. 🌙</span></div>
+    </section>
+
+    <!-- ================= IK ================= -->
+    <section class="view" id="v-ik">
+      <h1>Ik <small>Jij beslist. Altijd.</small></h1>
+      <div class="card">
+        <div class="h"><span class="ic" style="background:var(--yb-soft)">🙋</span>Lena Peeters</div>
+        <p>Aangemeld met je Xtra-profiel · lid sinds juni · gezin: Koen, Wout (16) en Fien (5)</p>
+      </div>
+      <div class="card">
+        <div class="h"><span class="ic" style="background:var(--yb-soft)">🛒</span>Wat ik deel</div>
+        <div class="tgl-row"><span>Mijn aankopen (Colruyt, Bio-Planet)<small>zo kan het menu écht op maat</small></span><span class="tgl on" onclick="tgl(this,'je aankopen')"></span></div>
+        <div class="tgl-row"><span>Mijn stappen (smartwatch)<small>voor de challenges</small></span><span class="tgl on" onclick="tgl(this,'je stappen')"></span></div>
+        <div class="tgl-row"><span>Mijn apotheek-aankopen<small>uit, tot jij het aanzet</small></span><span class="tgl" data-lock="1" onclick="tgl(this,'apotheek')"></span></div>
+      </div>
+      <div class="card">
+        <div class="h"><span class="ic" style="background:var(--yb-soft)">👀</span>Wie kijkt mee</div>
+        <div class="tgl-row"><span>Coach Sam<small>ziet mijn plan en voortgang</small></span><span class="tgl on" onclick="tgl(this,'coach Sam')"></span></div>
+        <div class="tgl-row"><span>Mijn gezin<small>ziet alleen challenges, nooit mijn cijfers</small></span><span class="tgl on" onclick="tgl(this,'je gezin')"></span></div>
+        <div class="tgl-row"><span>Mijn huisarts<small>uit — aan te zetten wanneer jij wil</small></span><span class="tgl" onclick="tgl(this,'je huisarts')"></span></div>
+      </div>
+      <div class="card">
+        <div class="h"><span class="ic" style="background:var(--yb-soft)">🗂️</span>Mijn data</div>
+        <div id="dataacties">
+          <button class="pbtn ghost" onclick="downloadData(this)">Download alles wat yoboo van mij weet</button>
+          <button class="pbtn ghost" style="color:var(--care); border-color:var(--care)" onclick="wisData(this)">Wis al mijn data</button>
+        </div>
+      </div>
+      <div class="miniboo" id="boo-ik"><svg viewBox="0 0 100 104" width="34" height="35"><use href="#boo-base"/></svg><span><b>Boo:</b> alles staat standaard op privé. Elk knopje kan je altijd weer uitzetten — dan vergeet ik het meteen.</span></div>
+    </section>
+  </main>
+
+  <nav>
+    <button class="act" data-v="vandaag" onclick="ga('vandaag')"><span class="nic">🏠</span>Vandaag</button>
+    <button data-v="plan" onclick="ga('plan')"><span class="nic">🗺️</span>Plan</button>
+    <button data-v="gezin" onclick="ga('gezin')"><span class="nic">👨‍👩‍👧</span>Gezin</button>
+    <button data-v="foto" onclick="ga('foto')"><span class="nic">📸</span>Foto</button>
+    <button data-v="ik" onclick="ga('ik')"><span class="nic">🙋</span>Ik</button>
+  </nav>
+</div>
+
+<script>
+const booSvg = v => `<svg viewBox="0 0 100 104" width="34" height="35"><use href="#${v}"/></svg>`;
+const setBoo = (id,v,t) => { document.getElementById(id).innerHTML = booSvg(v)+`<span><b>Boo:</b> ${t}</span>`; };
+
+/* navigatie */
+function ga(v){
+  document.querySelectorAll('.view').forEach(s=>s.classList.toggle('show', s.id==='v-'+v));
+  document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('act', b.dataset.v===v));
+  document.querySelector('main').scrollTo({top:0});
+}
+
+/* vonken & streak */
+let sparks=340, mandjeDone=false, checkinDone=false;
+function addSparks(n){
+  sparks+=n;
+  const el=document.getElementById('sparks');
+  el.textContent='⚡ '+sparks;
+  el.classList.remove('pop'); void el.offsetWidth; el.classList.add('pop');
+}
+function maybeStreak(){
+  if(mandjeDone&&checkinDone){
+    const d=document.querySelectorAll('#streak .d');
+    d[5].classList.add('on'); d[5].textContent='✓';
+    document.getElementById('streaktxt').textContent='6 dagen op rij!';
+    setBoo('boo-vandaag','boo-cheer','JA! Week helemaal groen — zes dagen op rij. Morgen maken we er zeven van. 🎉');
+    const za=document.getElementById('zadots').children; za[0].classList.remove('open'); za[2].classList.remove('open');
+  }
+}
+
+/* vandaag */
+function doeMandje(){
+  document.getElementById('act-mandje').innerHTML='<div class="pdone"><span class="chk">✓</span>In je mandje! Morgen 16u klaar in Halle. +15 ⚡</div>';
+  addSparks(15); mandjeDone=true;
+  document.getElementById('zadots').children[0].classList.remove('open');
+  if(!checkinDone) setBoo('boo-vandaag','boo-eet','mmm, wokschotel. Nog één stapje en je week is helemaal groen!');
+  maybeStreak();
+}
+function startCheckin(){
+  document.getElementById('act-checkin').innerHTML=
+    '<div class="h"><span class="ic">💬</span>Hoe voel je je vandaag?</div>'+
+    '<div class="checkrow"><button onclick="doCheckin(\'😴\')">😴</button><button onclick="doCheckin(\'😐\')">😐</button><button onclick="doCheckin(\'🙂\')">🙂</button><button onclick="doCheckin(\'🤩\')">🤩</button></div>';
+}
+function doCheckin(m){
+  document.getElementById('act-checkin').innerHTML=
+    '<div class="h"><span class="ic">💬</span>Hoe voel je je vandaag?</div>'+
+    `<div class="pdone"><span class="chk">✓</span>Genoteerd: ${m} · +10 ⚡</div>`;
+  addSparks(10); checkinDone=true;
+  const r={'😴':'Zachtjes aan vandaag dan. Je wandeling telt dubbel als frisse-neus-moment. 🌿','😐':'Gewoon een gewone dag — kleine stapjes zijn dan precies goed.','🙂':'Fijn! Goede dag om de wokschotel te proberen.','🤩':'Kijk eens aan! Zin in een extra stapje vandaag?'};
+  if(!mandjeDone) setBoo('boo-vandaag','boo-base',r[m]);
+  maybeStreak();
+}
+
+/* plan */
+function wijzigDoel(){
+  document.getElementById('doelwijzig').innerHTML=
+    '<div class="chips">'+
+    ['⚡ Meer energie','😴 Beter slapen','💪 Fitter worden','⚖️ Gezond gewicht'].map(d=>`<span class="chip btn" onclick="kiesDoel('${d}')">${d}</span>`).join('')+'</div>';
+}
+function kiesDoel(d){
+  document.getElementById('doelwijzig').innerHTML=`<div class="pdone"><span class="chk">✓</span>Nieuw doel: ${d} — Boo herwerkt je stapjes vannacht</div>`;
+  setBoo('boo-plan-v','boo-plan',`nieuw doel, nieuw plan! Ik puzzel vannacht je stapjes bij elkaar — morgen staat alles klaar. En je oude doel? Dat blijft in je historiek staan.`);
+}
+function vraagHulp(){
+  document.getElementById('hulpvraag').innerHTML=
+    '<div class="chips">'+
+    ['Mijn week is te druk','Ik val stil, help','Mag ik meer uitdaging?'].map(v=>`<span class="chip btn" onclick="stuurSam('${v}')">${v}</span>`).join('')+'</div>';
+}
+function stuurSam(v){
+  document.getElementById('hulpvraag').innerHTML=`<div class="pdone"><span class="chk">✓</span>Verstuurd naar Sam: "${v}" — hij antwoordt meestal binnen een dag</div>`;
+}
+
+/* gezin */
+function menuKanaal(k){
+  document.getElementById('menuknoppen').innerHTML = k==='cg'
+    ? '<div class="pdone"><span class="chk">✓</span>23 producten in je mandje — vrijdag af te halen in Halle · +10 ⚡</div>'
+    : '<div class="pdone"><span class="chk">✓</span>Foodbag-box besteld — donderdag aan je deur · +10 ⚡</div>';
+  addSparks(10);
+  setBoo('boo-gezin','boo-eet', k==='cg' ? 'geregeld! Vrijdag staat alles klaar. 😉' : 'topkeuze — donderdag koken we samen Thais! 🍛');
+}
+let km=75, rit=0;
+function addRide(){
+  km=Math.min(100, km+[8,9,8][Math.min(rit,2)]); rit++;
+  const p=km/100;
+  document.getElementById('ringc').style.strokeDashoffset=207*(1-p);
+  document.getElementById('ringt').textContent = km>=100?'🏆':Math.round(p*100)+'%';
+  document.getElementById('ringb').textContent = km>=100?'100 km — gehaald!':`${km} van 100 km`;
+  document.getElementById('rings').textContent = km>=100?'Badge verdiend — dik verdiend zelfs.':`Nog ${100-km} km — bijna, hé!`;
+  document.getElementById('kmkort').textContent = km+' km';
+  const lkm=32+[8,17,25][Math.min(rit-1,2)];
+  document.getElementById('barL').style.width=Math.min(100,Math.round(lkm/50*100))+'%';
+  document.getElementById('kmL').textContent=lkm+' km';
+  if(km>=100){
+    document.getElementById('ridewrap').innerHTML='<div class="badgeban">🏆 Badge ontgrendeld: Gezin op wielen · +50 ⚡</div>';
+    addSparks(50);
+    setBoo('boo-gezin','boo-cheer','100 KM! Jullie zijn officieel een Gezin op wielen! IJsjes verdiend. 🍦🎉');
+  } else {
+    setBoo('boo-gezin','boo-fiets', `${km} km al! Lekker tempo, familie P. 🚴`);
+  }
+}
+
+/* foto */
+function toonPijlers(){
+  document.getElementById('fotokies').innerHTML='<div class="chips">'+
+    ['🌙 Slaap','🥗 Voeding','🚶 Beweging','🧘 Ontspanning','🤝 Samen','🔄 Gewoontes'].map(p=>`<span class="chip btn" onclick="kiesFocus('${p}')">${p}</span>`).join('')+'</div>';
+}
+function kiesFocus(p){
+  document.getElementById('fotokies').innerHTML=`<div class="pdone"><span class="chk">✓</span>Nieuw doel: ${p} — je plan wordt bijgewerkt</div>`;
+  setBoo('boo-foto','boo-cheer', p.includes('Slaap') ? 'goeie keuze! Vanavond je eerste mini-stapje: schermen uit om 22u. Ik onthou het voor je. 🌙' : `${p.split(' ')[1]} it is! Vanavond staat je eerste kleine stapje klaar.`);
+}
+function nieuweFoto(){
+  document.getElementById('nieuwfoto').innerHTML='<div class="pdone"><span class="chk">✓</span>We verzamelen je laatste metingen — morgen staat je nieuwe foto klaar</div>';
+}
+
+/* ik */
+function tgl(el,naam){
+  if(el.dataset.lock){
+    setBoo('boo-ik','boo-plan','deze bron is gevoeliger — die vraagt een aparte, uitgebreide toestemming. Daar zijn de juristen nog mee bezig, dus hij blijft nog even uit. 🔍');
+    return;
+  }
+  el.classList.toggle('on');
+  if(el.classList.contains('on')) setBoo('boo-ik','boo-base',`aan! Vanaf nu telt ${naam} mee. Uitzetten kan altijd — één tik.`);
+  else setBoo('boo-ik','boo-boos',`uitgezet — stroom gestopt, historiek bevroren. Ik kijk zo streng naar wie er tóch om zou vragen. 😤`);
+}
+function downloadData(btn){
+  btn.outerHTML='<div class="pdone"><span class="chk">✓</span>Je pakket staat klaar: metingen, plan, consent-historiek — alles in leesbare taal</div>';
+}
+function wisData(btn){
+  btn.outerHTML='<div class="pdone" style="color:var(--care)"><span class="chk" style="background:var(--care)">!</span>In de echte app: álles weg, ook bij ons — onomkeerbaar. In deze demo mag je gerust zijn. 😉</div>';
+  setBoo('boo-ik','boo-base','als je dat ooit echt doet, dan is het ook écht weg. Belofte. Maar ik zou je wel missen, hé.');
+}
+</script>
+</body>
+</html>

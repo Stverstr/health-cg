@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>yoboo coach — Sams werkplek (POC)</title>
+<style>
+:root{
+  --yb:#27A577; --yb-deep:#157258; --yb-soft:rgba(39,165,119,.13);
+  --ink:#141212; --muted:#4C4843; --hair:#D9D4C7;
+  --cream:#F5F5EF; --paper:#FBFBF9; --card:#FFFFFF;
+  --sun:#FFCC00; --coral:#FD817A; --oranje:#D96A2E; --blauw:#2F6FE4; --paars:#8A2FAC;
+  --food:#1E9066; --move:#2F6FE4; --care:#E8615A; --leren:#B98800;
+  --shadow:0 12px 34px rgba(25,23,23,.12);
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --yb:#34C08D; --yb-deep:#27A577; --yb-soft:rgba(52,192,141,.16);
+    --ink:#F0EDE8; --muted:#A8A29A; --hair:#38342E;
+    --cream:#14120F; --paper:#1A1713; --card:#211D18;
+    --sun:#FFD84D; --coral:#FF9A94; --oranje:#F0955C; --blauw:#7AA9FF; --paars:#C273E0;
+    --food:#34C08D; --move:#7AA9FF; --care:#FF9A94; --leren:#FFD84D;
+    --shadow:0 12px 34px rgba(0,0,0,.4);
+  }
+}
+:root[data-theme="dark"]{
+  --yb:#34C08D; --yb-deep:#27A577; --yb-soft:rgba(52,192,141,.16);
+  --ink:#F0EDE8; --muted:#A8A29A; --hair:#38342E;
+  --cream:#14120F; --paper:#1A1713; --card:#211D18;
+  --sun:#FFD84D; --coral:#FF9A94; --oranje:#F0955C; --blauw:#7AA9FF; --paars:#C273E0;
+  --food:#34C08D; --move:#7AA9FF; --care:#FF9A94; --leren:#FFD84D;
+  --shadow:0 12px 34px rgba(0,0,0,.4);
+}
+*{margin:0; padding:0; box-sizing:border-box}
+body{font-family:-apple-system,"SF Pro Rounded","Segoe UI",Inter,Calibri,sans-serif; background:var(--cream); color:var(--ink); line-height:1.5; -webkit-font-smoothing:antialiased}
+b{font-weight:800}
+button{font-family:inherit; cursor:pointer}
+@media (prefers-reduced-motion: reduce){*{animation:none !important; transition:none !important}}
+
+.pocbar{padding:10px 22px 0; display:flex; justify-content:space-between; font-size:.72rem; color:var(--muted)}
+.pocbar a{color:var(--yb-deep); font-weight:700; text-decoration:none}
+.shell{display:flex; max-width:1240px; margin:8px auto 40px; background:var(--paper); border:1px solid var(--hair); border-radius:20px; box-shadow:var(--shadow); min-height:88vh; overflow:hidden}
+
+/* sidebar */
+aside{flex:0 0 210px; background:var(--cream); border-right:1px solid var(--hair); padding:20px 12px; display:flex; flex-direction:column; gap:4px}
+aside .wlogo{font-weight:800; font-size:1.15rem; letter-spacing:-.02em; padding:0 10px 16px}
+aside .wlogo i{font-style:normal; color:var(--yb)}
+aside .wlogo small{display:block; font-size:.66rem; color:var(--muted); font-weight:700; letter-spacing:.08em; text-transform:uppercase}
+.navi{border:none; background:none; text-align:left; font-size:.85rem; font-weight:700; color:var(--muted); border-radius:11px; padding:10px 12px; display:flex; gap:9px; align-items:center}
+.navi .n{margin-left:auto; font-size:.62rem; font-weight:800; background:var(--yb-soft); color:var(--yb-deep); border-radius:99px; padding:2px 8px}
+.navi.act{background:var(--yb-soft); color:var(--yb-deep)}
+aside .me{margin-top:auto; display:flex; gap:9px; align-items:center; padding:10px 12px; font-size:.78rem; border-top:1px solid var(--hair)}
+aside .me .av{width:32px; height:32px; border-radius:50%; background:color-mix(in srgb, var(--oranje) 20%, transparent); color:var(--oranje); font-weight:800; font-size:.72rem; display:flex; align-items:center; justify-content:center}
+aside .me small{display:block; color:var(--muted); font-size:.66rem}
+@media(max-width:760px){aside{flex:0 0 62px} aside .wlogo{font-size:.9rem} aside .wlogo small,.navi .lbl,.navi .n,aside .me span{display:none}}
+
+/* main */
+main{flex:1; padding:24px 28px; overflow-y:auto; min-width:0}
+.view{display:none; flex-direction:column; gap:14px}
+.view.show{display:flex}
+h1{font-size:1.45rem; letter-spacing:-.015em}
+h1 small{display:block; font-size:.82rem; color:var(--muted); font-weight:400; margin-top:3px}
+.kpis{display:grid; grid-template-columns:repeat(3,1fr); gap:10px; max-width:560px}
+.kpi{background:var(--card); border:1px solid var(--hair); border-radius:12px; padding:11px 14px}
+.kpi b{font-size:1.3rem}
+.kpi small{display:block; color:var(--muted); font-size:.7rem}
+.row{display:flex; align-items:center; gap:11px; background:var(--card); border:1px solid var(--hair); border-radius:13px; padding:11px 14px}
+.row .av{flex:0 0 32px; width:32px; height:32px; border-radius:50%; font-size:.66rem; font-weight:800; display:flex; align-items:center; justify-content:center; background:color-mix(in srgb, var(--pc, var(--yb)) 18%, transparent); color:var(--pc, var(--yb))}
+.row b{font-size:.88rem}
+.row small{display:block; color:var(--muted); font-size:.74rem}
+.row .spacer{flex:1}
+.row.klik{cursor:pointer}
+.row.klik:hover{border-color:var(--yb)}
+.wbtn{border:none; border-radius:9px; padding:8px 13px; background:var(--yb); color:#fff; font-weight:800; font-size:.74rem; white-space:nowrap}
+.wbtn.ghost{background:transparent; border:1.5px solid var(--yb); color:var(--yb-deep)}
+.wbtn.warn{background:var(--oranje)}
+.wbtn:active{transform:scale(.97)}
+.pill{display:inline-block; font-size:.68rem; font-weight:800; border-radius:99px; padding:4px 10px; white-space:nowrap}
+.pill.ok{background:var(--yb-soft); color:var(--yb-deep)}
+.pill.warn{background:color-mix(in srgb, var(--oranje) 16%, transparent); color:var(--oranje)}
+.pill.alert{background:color-mix(in srgb, var(--coral) 18%, transparent); color:color-mix(in srgb, var(--coral) 70%, var(--ink))}
+.pill.info{background:color-mix(in srgb, var(--blauw) 14%, transparent); color:var(--blauw)}
+.chip{font-size:.7rem; font-weight:700; border:1px solid var(--hair); border-radius:99px; padding:4px 11px; background:var(--card); color:var(--muted)}
+.chip.sel{background:var(--yb-soft); border-color:var(--yb); color:var(--yb-deep)}
+.chips{display:flex; flex-wrap:wrap; gap:6px}
+.card{background:var(--card); border:1px solid var(--hair); border-radius:15px; padding:16px 18px}
+.card>b{font-size:.95rem}
+.card .sub{font-size:.76rem; color:var(--muted); margin-top:2px}
+.lock{display:flex; gap:8px; align-items:flex-start; background:color-mix(in srgb, var(--coral) 8%, transparent); border:1px dashed color-mix(in srgb, var(--coral) 50%, transparent); border-radius:11px; padding:9px 12px; font-size:.74rem; color:var(--muted); line-height:1.5}
+.decide{border:1.5px dashed var(--oranje); border-radius:12px; padding:11px 13px; font-size:.8rem; background:color-mix(in srgb, var(--oranje) 6%, transparent); line-height:1.55}
+.decide .opts{display:flex; gap:7px; flex-wrap:wrap; margin-top:8px}
+.decide .opts button{font-size:.7rem; font-weight:700; border:1px solid var(--hair); border-radius:99px; padding:6px 12px; background:var(--card); color:var(--ink)}
+.decide .opts button:hover{border-color:var(--yb); color:var(--yb-deep)}
+.weekstrip{display:flex; gap:3px}
+.weekstrip i{width:12px; height:12px; border-radius:3px; background:var(--yb)}
+.weekstrip i.miss{background:var(--hair)}
+.bulk{
+  display:none; position:sticky; top:0; z-index:5; align-items:center; gap:10px;
+  background:var(--ink); color:var(--cream); border-radius:13px; padding:10px 16px; font-size:.8rem; font-weight:700;
+}
+.bulk.show{display:flex}
+.bulk .wbtn{background:var(--yb)}
+.bulk .wbtn.ghost{border-color:var(--cream); color:var(--cream)}
+.cb{flex:0 0 20px; width:20px; height:20px; border-radius:6px; border:2px solid var(--hair); background:var(--card); display:flex; align-items:center; justify-content:center; font-size:.62rem; color:#fff; cursor:pointer}
+.cb.on{background:var(--yb); border-color:var(--yb)}
+.terug{border:none; background:none; color:var(--yb-deep); font-weight:800; font-size:.8rem; text-align:left; padding:0}
+.msg{max-width:70%; border-radius:13px; padding:9px 13px; font-size:.82rem; line-height:1.5}
+.msg.in{background:var(--card); border:1px solid var(--hair); align-self:flex-start}
+.msg.uit{background:var(--yb); color:#fff; align-self:flex-end}
+.thread{display:flex; flex-direction:column; gap:8px}
+.boohulp{display:flex; gap:9px; align-items:flex-start; background:var(--yb-soft); border-radius:13px; padding:10px 13px; font-size:.8rem; max-width:640px}
+.boohulp b{color:var(--yb-deep)}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<g id="boo-body"><path d="M50 8 C56 2 66 2 68 9 C64 15 55 16 50 12 Z" fill="#27A577" opacity=".9"/><path d="M50 13 C50 9 50 6 52 3" stroke="#17795A" stroke-width="2.4" fill="none" stroke-linecap="round"/><ellipse cx="50" cy="58" rx="38" ry="42" fill="#27A577"/><ellipse cx="50" cy="66" rx="26" ry="24" fill="#FFFFFF" opacity=".22"/><circle cx="31" cy="60" r="4.5" fill="#FD817A" opacity=".55"/><circle cx="69" cy="60" r="4.5" fill="#FD817A" opacity=".55"/></g>
+<g id="boo-eyes"><circle cx="38" cy="50" r="5.2" fill="#191717"/><circle cx="62" cy="50" r="5.2" fill="#191717"/><circle cx="39.8" cy="48.2" r="1.7" fill="#fff"/><circle cx="63.8" cy="48.2" r="1.7" fill="#fff"/></g>
+<g id="boo-coach"><use href="#boo-body"/><use href="#boo-eyes"/><path d="M42 64 Q50 72 58 64" stroke="#191717" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M27 33 Q50 10 73 33 L73 28 Q50 6 27 28 Z" fill="#191717"/><path d="M70 31 L88 27 L88 33 L71 36 Z" fill="#191717"/><circle cx="50" cy="9" r="4" fill="#FFCC00"/><path d="M58 66 Q66 70 70 76" stroke="#191717" stroke-width="2" fill="none"/><rect x="66" y="74" width="12" height="8" rx="3" fill="#FFCC00" stroke="#191717" stroke-width="1.6"/></g>
+</defs></svg>
+
+<div class="pocbar"><span>POC · fictieve data · ingelogd als coach Sam</span><a href="health-cg-yoboo.html">← terug naar de POC-hub</a></div>
+
+<div class="shell">
+  <aside>
+    <span class="wlogo">yoboo<i>.</i><small>coach-werkplek</small></span>
+    <button class="navi act" data-v="vandaag" onclick="ga('vandaag')">☀️ <span class="lbl">Vandaag</span><span class="n" id="waitn">3</span></button>
+    <button class="navi" data-v="klanten" onclick="ga('klanten')">👥 <span class="lbl">Klanten</span><span class="n">34</span></button>
+    <button class="navi" data-v="kringen" onclick="ga('kringen')">🔄 <span class="lbl">Kring-acties</span></button>
+    <button class="navi" data-v="berichten" onclick="ga('berichten')">💬 <span class="lbl">Berichten</span><span class="n" id="msgn">2</span></button>
+    <button class="navi" data-v="academy" onclick="ga('academy')">🎓 <span class="lbl">Academy</span></button>
+    <div class="me"><span class="av">S</span><span><b>Sam</b><small>holistische coach · supervisie dr. Aerts</small></span></div>
+  </aside>
+
+  <main>
+    <!-- ============ VANDAAG ============ -->
+    <section class="view show" id="v-vandaag">
+      <h1>Goeiemorgen, Sam <small>donderdag 24 juli · <b id="waittxt">3 dingen</b> wachten op jou — de rest doet de AI</small></h1>
+      <div class="kpis">
+        <div class="kpi"><b>27</b><small>weeklussen gesloten</small></div>
+        <div class="kpi"><b>86%</b><small>therapietrouw</small></div>
+        <div class="kpi"><b id="waitkpi">3</b><small>wacht op jou</small></div>
+      </div>
+      <div class="row" style="--pc:var(--care)" id="t-marc"><span class="av">MV</span><span><b>Marc V. — 2 weken geen beweegdata</b><small>plan-op-voorschrift · voorstel: bellen, geen pushbericht</small></span><span class="spacer"></span><button class="wbtn" onclick="openKlant('marc')">Open dossier</button><button class="wbtn warn" onclick="belMarc(this)">Bel Marc</button></div>
+      <div class="row" style="--pc:var(--oranje)" id="t-aicha"><span class="av">AD</span><span><b>Aïcha D. — "moeilijke week"</b><small>check-in gisteren 22:41 · slaap &amp; stress, week 2</small></span><span class="spacer"></span><button class="wbtn ghost" onclick="ga('berichten')">Beantwoord in Berichten</button></div>
+      <div class="row" style="--pc:var(--paars)" id="t-conflict"><span class="av">⚖️</span><span><b>Kring-conflict gezin D. wacht op jouw beslissing</b><small>engine-voorstel klaar: één menu, twee portiegroottes</small></span><span class="spacer"></span><button class="wbtn" onclick="ga('kringen')">Naar kring-acties</button></div>
+      <div class="row" style="--pc:var(--yb)"><span class="av">LP</span><span><b>Lena P. — streak 6, week helemaal groen</b><small>geen actie nodig — Boo doet zijn ding</small></span><span class="spacer"></span><span class="pill ok">op koers</span></div>
+      <div class="boohulp"><svg viewBox="0 0 100 104" width="34" height="35"><use href="#boo-coach"/></svg><span><b>Boo:</b> ik heb vannacht 34 plannen doorlopen. Drie dingen vragen een mens — de rest heb ik klaargezet als voorstellen. Jij beslist.</span></div>
+    </section>
+
+    <!-- ============ KLANTEN ============ -->
+    <section class="view" id="v-klanten">
+      <h1>Klanten <small>Vink meerdere klanten aan voor groepsacties, of open een dossier.</small></h1>
+      <div class="bulk" id="bulkbar"><span id="bulkn">0 geselecteerd</span><span style="flex:1"></span><button class="wbtn" onclick="bulkMsg()">💬 Stuur groepsbericht</button><button class="wbtn ghost" onclick="bulkCheckin()">📅 Plan wekelijkse check-in</button></div>
+      <div id="klantenlijst"></div>
+      <div class="boohulp"><svg viewBox="0 0 100 104" width="34" height="35"><use href="#boo-coach"/></svg><span><b>Boo:</b> tip — selecteer de drie slaap-klanten en stuur ze samen de nieuwe microles. Scheelt je drie keer typen.</span></div>
+    </section>
+
+    <!-- ============ KLANTDETAIL ============ -->
+    <section class="view" id="v-detail">
+      <button class="terug" onclick="ga('klanten')">← alle klanten</button>
+      <div id="detailkop"></div>
+      <div class="card">
+        <b>Voorwaarden op dit plan</b>
+        <div class="chips" style="margin-top:8px" id="detailvw"></div>
+      </div>
+      <div class="card">
+        <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap"><b>Acties in het plan</b><span class="spacer" style="flex:1"></span><button class="wbtn" id="bulkok" onclick="keurAlles()">✓ Keur alle voorstellen goed</button></div>
+        <div id="detailacties" style="display:flex; flex-direction:column; gap:8px; margin-top:10px"></div>
+      </div>
+      <div class="card">
+        <b>Metingen — laatste 10 weken</b>
+        <div style="display:flex; align-items:center; gap:12px; margin-top:9px"><span class="weekstrip" id="detailweeks"></span><small id="detailweekstxt" style="color:var(--muted); font-size:.76rem"></small></div>
+      </div>
+      <div class="lock" id="detaillock"></div>
+    </section>
+
+    <!-- ============ KRINGEN ============ -->
+    <section class="view" id="v-kringen">
+      <h1>Kring-acties <small>Optimalisaties óver plannen heen — gevolg, niet oorzaak.</small></h1>
+      <div class="row" style="--pc:var(--yb)"><span class="av">P</span><span><b>Gezin P. — weekmenu</b><small>4 plannen, 1 menu · automatisch verzoend, geen conflict</small></span><span class="spacer"></span><span class="pill ok">loopt vanzelf</span></div>
+      <div class="row" style="--pc:var(--move)"><span class="av">P</span><span><b>Gezin P. — fietschallenge 100 km</b><small>75% en vóór op schema</small></span><span class="spacer"></span><span class="pill ok">loopt vanzelf</span></div>
+      <div class="row" style="--pc:var(--paars)" id="kringconflict"><span class="av">⚖️</span><span><b>Gezin D. — weekmenu met conflict</b><small>kcal-beperkt (mama) × groeispurt (Ilias, 16)</small></span><span class="spacer"></span><button class="wbtn" onclick="openConflict(this)">Beslecht</button></div>
+      <div id="conflictbox"></div>
+      <div class="row" style="--pc:var(--care)"><span class="av">W</span><span><b>Wandelclub apotheek St. Gilles</b><small>12 leden · donderdagse wandeling · Rosa doet mee</small></span><span class="spacer"></span><span class="pill info">nieuw</span></div>
+      <div class="boohulp"><svg viewBox="0 0 100 104" width="34" height="35"><use href="#boo-coach"/></svg><span><b>Boo:</b> ik verzoen wat te verzoenen valt. Botsen twee plannen écht — zoals bij gezin D. — dan is het aan jou. Ik hak geen knopen door over mensen.</span></div>
+    </section>
+
+    <!-- ============ BERICHTEN ============ -->
+    <section class="view" id="v-berichten">
+      <h1>Berichten <small>Kort en menselijk — geen ticketsysteem.</small></h1>
+      <div class="card">
+        <b>Aïcha D.</b><span class="pill warn" style="margin-left:8px">wacht op antwoord</span>
+        <div class="thread" style="margin-top:10px">
+          <span class="msg in">Moeilijke week… werk loopt uit en ik slaap er slecht van. Sorry dat de avondroutine er weer niet van kwam. (gisteren 22:41)</span>
+          <div id="aicha-reply" style="display:flex; gap:7px; flex-wrap:wrap; justify-content:flex-end">
+            <button class="wbtn ghost" onclick="antwoord(this,'Niks sorry — een moeilijke week ís een meting, geen mislukking. Klein stapje vandaag is genoeg. 💚')">"Klein stapje is genoeg 💚"</button>
+            <button class="wbtn ghost" onclick="antwoord(this,'Zullen we morgen om 12u30 tien minuutjes bellen? Dan maken we je avond samen lichter.')">"Zullen we even bellen?"</button>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <b>Jef T.</b><span class="pill info" style="margin-left:8px">info</span>
+        <div class="thread" style="margin-top:10px">
+          <span class="msg in">Afspraak bij de diëtiste is dinsdag 14u. Moet ik iets meenemen?</span>
+          <div id="jef-reply" style="display:flex; gap:7px; flex-wrap:wrap; justify-content:flex-end">
+            <button class="wbtn ghost" onclick="antwoord(this,'Alleen jezelf! Zij ziet je plan al — jullie schrijven straks in hetzelfde document. Succes dinsdag. 💪')">"Alleen jezelf — zij ziet je plan al"</button>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <b>Marc V.</b><span class="pill ok" style="margin-left:8px">afgerond</span>
+        <div class="thread" style="margin-top:10px">
+          <span class="msg in">Bedankt voor het gesprek daarnet. Ik start morgen met de lunchwandeling.</span>
+          <span class="msg uit">Top, Marc. Drie keer per week is het doel — de rest is bonus. Ik kijk volgende week mee. 👍</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ ACADEMY ============ -->
+    <section class="view" id="v-academy">
+      <h1>Academy <small>Jouw vakmanschap — de voorwaarde voor het endorsement van artsen.</small></h1>
+      <div class="row" style="--pc:var(--yb)"><span class="av">🎓</span><span><b>Certificaat holistische coach — CG Academy</b><small>behaald maart 2026 · hercertificering maart 2027</small></span><span class="spacer"></span><span class="pill ok">geldig</span></div>
+      <div class="row" style="--pc:var(--blauw)"><span class="av">🩺</span><span><b>Supervisie dr. Aerts</b><small>maandelijkse intervisie · volgende: 12 augustus</small></span><span class="spacer"></span><span class="pill info">gepland</span></div>
+      <div class="card">
+        <b>Microlessen voor jou</b>
+        <div class="sub">kort, praktisch, meteen te gebruiken in gesprekken</div>
+        <div class="row" style="margin-top:10px; --pc:var(--paars)"><span class="av">🌙</span><span><b>Slaap bespreekbaar maken zonder te moraliseren</b><small>6 min · nieuw</small></span><span class="spacer"></span><button class="wbtn ghost" onclick="lesStart(this)">Start</button></div>
+        <div class="row" style="--pc:var(--food)"><span class="av">🥗</span><span><b>De zoutarme keuken die niemand opvalt</b><small>4 min · gevolgd door 212 coaches</small></span><span class="spacer"></span><button class="wbtn ghost" onclick="lesStart(this)">Start</button></div>
+        <div class="row" style="--pc:var(--care)"><span class="av">⚖️</span><span><b>Wanneer verwijs je door? Hub &amp; spokes in de praktijk</b><small>8 min</small></span><span class="spacer"></span><button class="wbtn ghost" onclick="lesStart(this)">Start</button></div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script>
+/* ============ data ============ */
+const klanten = {
+  lena:  {ini:'LP', kleur:'var(--yb)',    naam:'Lena P.',  info:'gezin · food-lus, week 4', status:['ok','op koers'], vw:[['3 kleine stapjes per dag',false],['weekmenu voor het hele gezin',false]], weeks:[1,1,1,1,1,1,0,1,1,1], wtxt:'9/10 — sterke lus', lock:'Lena deelt haar plan en voortgang met jou. Haar check-ins met Boo blijven van haar.',
+    acties:[{t:'Weekmenu week 5 — iets meer variatie in de lunch', b:'AI', s:'voorstel'},{t:'Zaterdag als kookdag bevestigen (wokschotel)', b:'AI', s:'voorstel'},{t:'Challenge-badge vieren in de check-in van zondag', b:'AI', s:'voorstel'}]},
+  marc:  {ini:'MV', kleur:'var(--blauw)', naam:'Marc V.',  info:'plan-op-voorschrift · week 9', status:['alert','bel eerst'], vw:[['zoutarm 🔒',true],['30\' bewegen per dag 🔒',true],['gewicht wekelijks',false]], weeks:[1,1,1,0,0,1,1,1,1,1], wtxt:'8/10 — dip opgevangen', lock:'Waaróm zoutarm? Dat weet dit scherm niet. De diagnose blijft bij dr. Verhoeven — jij coacht op het gevolg.',
+    acties:[{t:'Wandelroute van 30\' op Marcs vaste traject', b:'AI', s:'voorstel'},{t:'Tempo: eerst 3×/week, opbouwen naar dagelijks', b:'Sam', s:'actief'},{t:'Broodbeleg-alternatieven (vraag van Marc)', b:'diëtist', s:'actief'},{t:'Herinnering weegmoment op zondagochtend', b:'AI', s:'voorstel'}]},
+  aicha: {ini:'AD', kleur:'var(--oranje)',naam:'Aïcha D.', info:'slaap & stress · week 2', status:['warn','extra aandacht'], vw:[['avondroutine, 3 stapjes',false],['microles slaap per week',false]], weeks:[1,1,0,0,0,0,0,0,0,0], wtxt:'week 2 — opstartfase', lock:'Aïcha deelt haar check-ins met jou. Haar werkgever weet van niets — en dat blijft zo.',
+    acties:[{t:'Avondroutine verlichten: 2 stapjes i.p.v. 3 deze week', b:'AI', s:'voorstel'},{t:'Microles "slapen bij stress" klaarzetten', b:'AI', s:'voorstel'}]},
+  jef:   {ini:'JT', kleur:'var(--paars)', naam:'Jef T.',   info:'gewicht · bij diëtist (spoke)', status:['info','bij diëtist'], vw:[['doel: gezond gewicht',false]], weeks:[1,1,1,1,0,1,1,1,1,0], wtxt:'8/10', lock:'De diëtiste schrijft binnen haar mandaat mee in ditzelfde plan. Eén plan, vele loketten.',
+    acties:[{t:'Wachten op intake diëtiste (di 14u)', b:'Sam', s:'actief'}]},
+  rosa:  {ini:'RC', kleur:'var(--care)',  naam:'Rosa C.',  info:'68 · medicatie + beweging · dochter kijkt mee', status:['ok','op koers'], vw:[['medicatieschema volgen',false],['2 wandelingen per week',false]], weeks:[1,1,1,1,1,0,1,1,1,1], wtxt:'9/10 — wandelclub helpt', lock:'Dochter An is meekijker: zij ziet voortgang ("2 wandelingen 💚"), nooit metingen of medicatie.',
+    acties:[{t:'Wandelclub-donderdag vast in het plan', b:'AI', s:'voorstel'}]},
+  omar:  {ini:'OB', kleur:'var(--move)',  naam:'Omar B.',  info:'werkgever-instap · stappenchallenge', status:['ok','op koers'], vw:[['8.000 stappen per dag',false]], weeks:[1,1,1,1,1,1,1,0,1,1], wtxt:'9/10', lock:'Omars werkgever ziet alleen groepstotalen van de challenge. Nooit Omar zelf.',
+    acties:[{t:'Lunchwandeling-reminder om 12u15', b:'AI', s:'actief'}]},
+  els:   {ini:'EV', kleur:'var(--leren)', naam:'Els V.',   info:'slaap · week 6', status:['ok','op koers'], vw:[['avondroutine',false],['schermvrij na 22u',false]], weeks:[1,0,1,1,1,1,1,1,1,1], wtxt:'9/10', lock:'Els deelt alleen haar slaaptrend — geen ruwe nachten.',
+    acties:[{t:'Volgende microles: cafeïne en slaap', b:'AI', s:'voorstel'}]},
+  piet:  {ini:'PD', kleur:'var(--food)',  naam:'Piet D.',  info:'voeding · week 1, net gestart', status:['info','onboarding'], vw:[['vertrekfoto gemaakt',false]], weeks:[1,0,0,0,0,0,0,0,0,0], wtxt:'week 1', lock:'Piet koos zelf wat hij deelt: voorlopig alleen zijn aankopen.',
+    acties:[{t:'Kennismakingsgesprek inplannen', b:'AI', s:'voorstel'},{t:'Eerste weekmenu klaarzetten', b:'AI', s:'voorstel'}]}
+};
+const sel = new Set();
+let huidige = null;
+
+/* ============ navigatie ============ */
+function ga(v){
+  document.querySelectorAll('.view').forEach(s=>s.classList.toggle('show', s.id==='v-'+v));
+  document.querySelectorAll('.navi').forEach(b=>b.classList.toggle('act', b.dataset.v===v));
+  document.querySelector('main').scrollTo({top:0});
+}
+
+/* ============ klantenlijst + selectie ============ */
+function renderKlanten(){
+  const el = document.getElementById('klantenlijst');
+  el.innerHTML = Object.entries(klanten).map(([id,k])=>`
+    <div class="row" style="--pc:${k.kleur}; margin-bottom:8px">
+      <span class="cb ${sel.has(id)?'on':''}" onclick="toggleSel('${id}',this)">${sel.has(id)?'✓':''}</span>
+      <span class="av">${k.ini}</span>
+      <span class="klik" style="cursor:pointer" onclick="openKlant('${id}')"><b>${k.naam}</b><small>${k.info}</small></span>
+      <span class="spacer"></span>
+      <span class="pill ${k.status[0]}">${k.status[1]}</span>
+      <button class="wbtn ghost" onclick="openKlant('${id}')">Open</button>
+    </div>`).join('');
+  const bar = document.getElementById('bulkbar');
+  bar.classList.toggle('show', sel.size>0);
+  document.getElementById('bulkn').textContent = sel.size + ' geselecteerd';
+}
+function toggleSel(id, el){ sel.has(id) ? sel.delete(id) : sel.add(id); renderKlanten(); }
+function bulkMsg(){
+  const n = sel.size;
+  document.getElementById('bulkbar').innerHTML = `<span>💬 Groepsbericht verstuurd naar ${n} klant${n>1?'en':''} — elk krijgt het als persoonlijk bericht van jou, niet als nieuwsbrief.</span>`;
+  setTimeout(()=>{ sel.clear(); renderKlanten(); }, 2600);
+}
+function bulkCheckin(){
+  const n = sel.size;
+  document.getElementById('bulkbar').innerHTML = `<span>📅 Wekelijkse check-in ingepland voor ${n} klant${n>1?'en':''} — Boo doet de opvolging, jij ziet alleen de uitschieters.</span>`;
+  setTimeout(()=>{ sel.clear(); renderKlanten(); }, 2600);
+}
+
+/* ============ klantdetail ============ */
+function openKlant(id){
+  huidige = id;
+  const k = klanten[id];
+  document.getElementById('detailkop').innerHTML =
+    `<h1>${k.naam} <small>${k.info} · <span class="pill ${k.status[0]}">${k.status[1]}</span></small></h1>`;
+  document.getElementById('detailvw').innerHTML =
+    k.vw.map(([v,lock])=>`<span class="chip ${lock?'sel':''}">${v}</span>`).join('') + '<span class="chip" style="cursor:pointer" onclick="alert(\'In de echte app: nieuwe afspraak toevoegen — binnen de voorwaarden van de arts.\')">+ voeg toe</span>';
+  renderActies();
+  document.getElementById('detailweeks').innerHTML = k.weeks.map(w=>`<i class="${w?'':'miss'}"></i>`).join('');
+  document.getElementById('detailweekstxt').textContent = k.wtxt;
+  document.getElementById('detaillock').innerHTML = '🔒 <span>'+k.lock+'</span>';
+  ga('detail');
+}
+function renderActies(){
+  const k = klanten[huidige];
+  const kleuren = {AI:'var(--paars)', Sam:'var(--oranje)', 'diëtist':'var(--yb)'};
+  document.getElementById('detailacties').innerHTML = k.acties.map((a,i)=>`
+    <div class="row" style="--pc:${kleuren[a.b]||'var(--yb)'}">
+      <span class="av">${a.b==='AI'?'AI':a.b==='Sam'?'S':'D'}</span>
+      <span><b>${a.t}</b><small>${a.b} · ${a.s==='voorstel'?'wacht op jouw fiat':'actief in het plan'}</small></span>
+      <span class="spacer"></span>
+      ${a.s==='voorstel' ? `<button class="wbtn" onclick="keurGoed(${i})">✓ Keur goed</button>` : '<span class="pill ok">actief</span>'}
+    </div>`).join('');
+  const open = k.acties.filter(a=>a.s==='voorstel').length;
+  const btn = document.getElementById('bulkok');
+  btn.style.display = open>1 ? '' : 'none';
+  btn.textContent = `✓ Keur alle voorstellen goed (${open})`;
+}
+function keurGoed(i){ klanten[huidige].acties[i].s='actief'; renderActies(); }
+function keurAlles(){ klanten[huidige].acties.forEach(a=>{ if(a.s==='voorstel') a.s='actief'; }); renderActies(); }
+
+/* ============ vandaag ============ */
+function waitDown(){
+  const k=document.getElementById('waitkpi');
+  const n=Math.max(0,parseInt(k.textContent)-1);
+  k.textContent=n; document.getElementById('waitn').textContent=n;
+  document.getElementById('waittxt').textContent = n===0 ? 'niets meer' : n+' ding'+(n>1?'en':'');
+}
+function belMarc(btn){
+  const row=btn.closest('.row');
+  row.querySelectorAll('button').forEach(b=>b.remove());
+  row.insertAdjacentHTML('beforeend','<span class="pill ok">✓ gebeld</span>');
+  row.querySelector('small').textContent='gebeld — Marc herstart met de lunchwandeling · notitie staat in zijn plan';
+  waitDown();
+}
+
+/* ============ kringen ============ */
+function openConflict(btn){
+  btn.remove();
+  document.getElementById('conflictbox').innerHTML =
+    `<div class="decide">⚖️ <b>Weekmenu gezin D.</b> — mama's plan vraagt kcal-beperkt, Ilias (16) zit in een groeispurt. De engine stelt voor: <b>één menu, twee portiegroottes</b>. De engine hakt geen knopen door over mensen — jij wel.
+    <div class="opts">
+      <button onclick="beslisConflict('Voorstel goedgekeurd: één menu, twee porties')">✓ Keur voorstel goed</button>
+      <button onclick="beslisConflict('Aangepast: extra tussendoortjes voor Ilias toegevoegd')">✏️ Pas zelf aan</button>
+      <button onclick="beslisConflict('Samen met de kring-planner beslist: voorstel + vrijdag friet (balans, hé)')">💬 Bespreek met kring-planner</button>
+    </div></div>`;
+}
+function beslisConflict(uitkomst){
+  document.getElementById('conflictbox').innerHTML='';
+  const row=document.getElementById('kringconflict');
+  row.querySelector('b').textContent='Gezin D. — weekmenu · beslecht';
+  row.querySelector('small').textContent=uitkomst+' · niemand aan tafel merkt er iets van';
+  row.insertAdjacentHTML('beforeend','<span class="pill ok">✓ beslist</span>');
+  waitDown();
+}
+
+/* ============ berichten ============ */
+function antwoord(btn, tekst){
+  const wrap = btn.parentElement;
+  const isAicha = wrap.id === 'aicha-reply';
+  wrap.outerHTML = `<span class="msg uit">${tekst}</span>`;
+  const n = Math.max(0, parseInt(document.getElementById('msgn').textContent)-1);
+  document.getElementById('msgn').textContent = n;
+  if(isAicha){
+    const row = document.getElementById('t-aicha');
+    row.querySelectorAll('button').forEach(b=>b.remove());
+    row.insertAdjacentHTML('beforeend','<span class="pill ok">✓ beantwoord</span>');
+    row.querySelector('small').textContent = 'jij: "'+tekst.slice(0,60)+'…"';
+    waitDown();
+  }
+}
+
+/* ============ academy ============ */
+function lesStart(btn){
+  const row=btn.closest('.row');
+  btn.outerHTML='<span class="pill ok">✓ gevolgd</span>';
+}
+
+renderKlanten();
+</script>
+</body>
+</html>
