@@ -80,6 +80,7 @@ h1 small{display:block; font-size:.8rem; color:var(--muted); font-weight:400; ma
 .uitleg{position:relative}
 .ibtn{margin-left:auto; width:20px; height:20px; border-radius:50%; border:1px solid var(--hair); background:var(--card); color:var(--muted); font-size:.68rem; font-weight:800; line-height:1; display:flex; align-items:center; justify-content:center}
 .ibtn:hover{border-color:var(--yb); color:var(--yb-deep)}
+.ibtn.big{width:30px; height:30px; font-size:.9rem; margin-left:0; flex:0 0 30px}
 .tip{display:none; position:absolute; top:27px; left:0; right:0; z-index:20; background:var(--card); border:1px solid var(--hair); border-radius:14px; padding:4px 14px; box-shadow:var(--shadow)}
 .tip.show{display:block}
 .checkrow{display:flex; gap:7px; margin-top:10px}
@@ -277,8 +278,11 @@ nav button.act{color:var(--yb-deep); background:var(--yb-soft)}
 
     <!-- ================= GEZIN ================= -->
     <section class="view" id="v-gezin">
-      <h1>Ons gezin <small>Samen gezond — ieder zijn eigen plan, één leuke laag erbovenop.</small></h1>
-      <div class="card">
+      <div style="display:flex; align-items:flex-start; gap:9px">
+        <h1 style="flex:1">Ons gezin <small>Samen gezond — ieder zijn eigen plan, één leuke laag erbovenop.</small></h1>
+        <button class="ibtn big" onclick="toggleGezinsPanel()" aria-label="Gezin beheren">⚙️</button>
+      </div>
+      <div class="card" id="gzpanel" style="display:none">
         <div class="h"><span class="ic" style="background:var(--yb-soft)">👨‍👩‍👧</span>Wie zit er in ons gezin?</div>
         <div class="gzlid" style="--pc:var(--yb)"><span class="av">L</span><span><b>Lena</b> — dat ben jij<small>eigen account · gezinsbeheerder — jij nodigt uit en beheert Fiens profiel</small></span><span class="tag">eigen account</span></div>
         <div class="gzlid" style="--pc:var(--blauw)"><span class="av">K</span><span><b>Koen</b> — partner<small>eigen account, op jouw uitnodiging gekoppeld · beheert Fiens profiel mee</small></span><span class="tag">eigen account</span></div>
@@ -334,8 +338,8 @@ nav button.act{color:var(--yb-deep); background:var(--yb-soft)}
         <div class="h"><span class="ic" style="background:var(--yb-soft)">🔄</span>Mijn kringen</div>
         <p>Een kring is elke groep waarmee je iets samen doet. Per kring kies je wat die van jou ziet.</p>
         <div class="tgl-row"><span><b>👨‍👩‍👧 Gezin</b><small>challenge: 100 km fietsen · ziet: challenges + weekmenu</small></span><span class="tag" style="margin-left:auto">actief</span></div>
-        <div class="tgl-row"><span><b>🏢 Werk — Colruyt Group</b><small>stappenchallenge september · je werkgever ziet alléén groepstotalen, nooit jou</small></span><span class="chip btn" style="margin-left:auto" onclick="kringAan(this,'werk')">Doe mee</span></div>
-        <div class="tgl-row"><span><b>🚴 Fietsclub De Trappers</b><small>rijdt dezelfde 100 km-challenge — je kilometers tellen in beide kringen mee</small></span><span class="chip btn" style="margin-left:auto" onclick="kringAan(this,'club')">Sluit aan</span></div>
+        <div class="tgl-row"><span><b>🏢 Werk — Colruyt Group</b><small>stappenchallenge september · je werkgever ziet alléén groepstotalen, nooit jou</small></span><span class="tag" style="margin-left:auto">actief</span></div>
+        <div class="tgl-row"><span><b>🚴 Fietsclub De Trappers</b><small>rijdt dezelfde 100 km-challenge — je kilometers tellen in beide kringen mee</small></span><span class="tag" style="margin-left:auto">actief</span></div>
       </div>
       <div class="miniboo" id="boo-gezin"><svg viewBox="0 0 100 104" width="34" height="35"><use href="#boo-fiets"/></svg><span><b>Boo:</b> jullie liggen vóór op schema! Zondagsritje naar de ijsjesboer? 🍦</span></div>
     </section>
@@ -508,6 +512,10 @@ function menuKanaal(k){
   addSparks(10);
   setBoo('boo-gezin','boo-eet', k==='cg' ? 'geregeld! Vrijdag staat alles klaar. 😉' : 'topkeuze — donderdag koken we samen Thais! 🍛');
 }
+function toggleGezinsPanel(){
+  const p=document.getElementById('gzpanel');
+  p.style.display = p.style.display==='none' ? '' : 'none';
+}
 function beheerGezin(){
   document.getElementById('gzbeheer').innerHTML='<div class="chips">'+
     ['👤 Volwassene uitnodigen','🧒 Kinderprofiel toevoegen','✂️ Lid of profiel verwijderen'].map(o=>`<span class="chip btn" onclick="gzActie('${o}')">${o}</span>`).join('')+'</div>';
@@ -523,10 +531,6 @@ function gezinsNiveau(el,n){
   const t=['Nu: je gezin ziet challenges en het weekmenu — nooit je check-ins, cijfers of plan. Ook Koen niet.','Nu: je gezin ziet ook je voortgang ("4 van 7 avonden 💚") — nog altijd geen cijfers of check-ins.','Nu: je gezin ziet alles — ook je doel en je plan. Terugschroeven kan altijd, met één tik.'];
   document.getElementById('nivtxt').textContent=t[n];
   setBoo('boo-gezin','boo-base', n===0?'terug naar de standaard: lekker privé. 🔒':n===1?'je voortgang staat nu open voor je gezin — handig voor een schouderklopje van Koen. 💚':'alles open voor je gezin. Jij blijft de baas — dichtzetten kan altijd.');
-}
-function kringAan(el,k){
-  el.outerHTML='<span class="tag" style="margin-left:auto">actief</span>';
-  setBoo('boo-gezin','boo-cheer', k==='werk' ? 'ingeschreven! In september tellen je stappen mee met je team — je werkgever ziet alleen groepstotalen, nooit jou. 🏢' : 'welkom bij De Trappers! Je 32 km tellen meteen mee in het clubklassement én thuis — dubbel plezier van dezelfde rit. 🚴');
 }
 let km=75, rit=0;
 function addRide(){
