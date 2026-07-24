@@ -88,6 +88,9 @@ h1 small{display:block; font-size:.8rem; color:var(--muted); font-weight:400; ma
 .zoekveld{width:100%; border:1px solid var(--hair); border-radius:12px; padding:10px 12px; font:inherit; font-size:.84rem; background:var(--card); color:var(--ink)}
 .zoekveld::placeholder{color:var(--muted)}
 .zoekveld:focus{outline:none; border-color:var(--yb)}
+.chatin{display:flex; gap:7px; margin-top:10px}
+.chatin .zoekveld{flex:1}
+.chatin .pbtn{width:auto; margin-top:0; flex:0 0 auto}
 .tip{display:none; position:absolute; top:27px; left:0; right:0; z-index:20; background:var(--card); border:1px solid var(--hair); border-radius:14px; padding:4px 14px; box-shadow:var(--shadow)}
 .tip.show{display:block}
 .checkrow{display:flex; gap:7px; margin-top:10px}
@@ -298,6 +301,10 @@ nav button.act{color:var(--yb-deep); background:var(--yb-soft)}
           <span class="chip btn" onclick="booVraag(this,'zin')">😮‍💨 Geen zin vandaag</span>
           <span class="chip btn" onclick="booVraag(this,'waarom')">🤔 Waarom stel je slaap voor?</span>
           <span class="chip btn" onclick="booVraag(this,'knie')">🩺 Mijn knie doet pijn</span>
+        </div>
+        <div class="chatin">
+          <input class="zoekveld" id="booin" placeholder="…of typ hier je eigen vraag" onkeydown="if(event.key==='Enter')booSend()">
+          <button class="pbtn" onclick="booSend()" aria-label="Verstuur">→</button>
         </div>
       </div>
       <div class="card">
@@ -704,7 +711,12 @@ function kiesBieb(s){
 function vraagHulp(){
   document.getElementById('hulpvraag').innerHTML=
     '<div class="chips">'+
-    ['Mijn week is te druk','Ik val stil, help','Mag ik meer uitdaging?'].map(v=>`<span class="chip btn" onclick="stuurSam('${v}')">${v}</span>`).join('')+'</div>';
+    ['Mijn week is te druk','Ik val stil, help','Mag ik meer uitdaging?'].map(v=>`<span class="chip btn" onclick="stuurSam('${v}')">${v}</span>`).join('')+'</div>'+
+    '<div class="chatin"><input class="zoekveld" id="samin" placeholder="…of typ je eigen vraag aan Sam" onkeydown="if(event.key===\'Enter\')samSend()"><button class="pbtn" onclick="samSend()" aria-label="Verstuur">→</button></div>';
+}
+function samSend(){
+  const v=document.getElementById('samin').value.trim();
+  if(v) stuurSam(esc(v));
 }
 function stuurSam(v){
   document.getElementById('hulpvraag').innerHTML=`<div class="pdone"><span class="chk">✓</span>Verstuurd naar Sam: "${v}" — hij antwoordt meestal binnen een dag</div>`;
@@ -880,6 +892,24 @@ function booVraag(chip,k){
   t.insertAdjacentHTML('beforeend',`<span class="bmsg mij">${v}</span>`);
   setTimeout(()=>t.insertAdjacentHTML('beforeend',`<span class="bmsg boo">${booSvg(gezicht)}<span>${a}</span></span>`),350);
   chip.remove();
+}
+function esc(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function booSend(){
+  const inp=document.getElementById('booin');
+  const v=inp.value.trim();
+  if(!v) return;
+  inp.value='';
+  const t=document.getElementById('boothread');
+  t.insertAdjacentHTML('beforeend',`<span class="bmsg mij">${esc(v)}</span>`);
+  const l=v.toLowerCase();
+  let g='boo-base', a;
+  if(/(pijn|ziek|dokter|medicatie|koorts)/.test(l)){ g='boo-plan'; a='Dat klinkt als iets voor een mens — ik speel geen dokter. Ik zet je vraag klaar bij coach Sam; die belt je of verwijst door. 🩺'; }
+  else if(/(eten|koken|menu|recept|mandje|honger|lunch)/.test(l)){ g='boo-eet'; a='Ik kijk meteen in je weekmenu — voorstel staat klaar en je mandje past mee. Zeg maar of het goed zit. 🥗'; }
+  else if(/(slaap|moe|bed|nacht|wakker)/.test(l)){ g='boo-plan'; a='Slaap is je laagste pijler — zullen we vanavond één piepklein stapje proberen? Schermen uit om 22u, meer niet. 🌙'; }
+  else if(/(geen zin|lukt niet|druk|stress|zwaar)/.test(l)){ a='Dan maken we vandaag kleiner — vijf minuten telt ook. Geen rode cijfers, beloofd. 💚'; }
+  else if(/(waarom|hoezo)/.test(l)){ g='boo-plan'; a='Goeie vraag — alles wat ik voorstel kan ik uitleggen. Kort: je foto en je check-ins wijzen die richting uit. Wil je het in detail, dan schrijf ik het voor je uit.'; }
+  else { a='Genoteerd! In de echte app denk ik hier vrijuit met je mee over álles — in deze demo hou ik het kort: komt in orde, ik verwerk het vannacht in je plan. 😉'; }
+  setTimeout(()=>t.insertAdjacentHTML('beforeend',`<span class="bmsg boo">${booSvg(g)}<span>${a}</span></span>`),400);
 }
 
 /* ik */
