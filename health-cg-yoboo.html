@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yoboo — Health Advisory App · POC</title>
+<style>
+/* ============ YOBOO TOKENS (uit yoboo.be) ============ */
+:root{
+  --yb:#27A577; --yb-deep:#17795A; --yb-soft:rgba(39,165,119,.12);
+  --ink:#191717; --muted:#5F5B57; --hair:#E4E1D8;
+  --cream:#F5F5EF; --paper:#FBFBF9; --card:#FFFFFF;
+  --sun:#FFCC00; --coral:#FD817A; --oranje:#E57C41; --blauw:#4188FF; --paars:#9938BC;
+  --food:#27A577; --move:#4188FF; --care:#FD817A; --leren:#E5A800;
+  --shadow:0 12px 34px rgba(25,23,23,.09);
+  --r:22px;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --yb:#34C08D; --yb-deep:#27A577; --yb-soft:rgba(52,192,141,.16);
+    --ink:#F0EDE8; --muted:#A8A29A; --hair:#38342E;
+    --cream:#14120F; --paper:#1A1713; --card:#211D18;
+    --sun:#FFD84D; --coral:#FF9A94; --oranje:#F0955C; --blauw:#7AA9FF; --paars:#C273E0;
+    --food:#34C08D; --move:#7AA9FF; --care:#FF9A94; --leren:#FFD84D;
+    --shadow:0 12px 34px rgba(0,0,0,.4);
+  }
+}
+:root[data-theme="dark"]{
+  --yb:#34C08D; --yb-deep:#27A577; --yb-soft:rgba(52,192,141,.16);
+  --ink:#F0EDE8; --muted:#A8A29A; --hair:#38342E;
+  --cream:#14120F; --paper:#1A1713; --card:#211D18;
+  --sun:#FFD84D; --coral:#FF9A94; --oranje:#F0955C; --blauw:#7AA9FF; --paars:#C273E0;
+  --food:#34C08D; --move:#7AA9FF; --care:#FF9A94; --leren:#FFD84D;
+  --shadow:0 12px 34px rgba(0,0,0,.4);
+}
+:root[data-theme="light"]{
+  --yb:#27A577; --yb-deep:#17795A; --yb-soft:rgba(39,165,119,.12);
+  --ink:#191717; --muted:#5F5B57; --hair:#E4E1D8;
+  --cream:#F5F5EF; --paper:#FBFBF9; --card:#FFFFFF;
+  --sun:#FFCC00; --coral:#FD817A; --oranje:#E57C41; --blauw:#4188FF; --paars:#9938BC;
+  --food:#27A577; --move:#4188FF; --care:#FD817A; --leren:#E5A800;
+  --shadow:0 12px 34px rgba(25,23,23,.09);
+}
+*{margin:0; padding:0; box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:-apple-system,"SF Pro Rounded","Segoe UI",Inter,Calibri,sans-serif;
+  background:var(--cream); color:var(--ink); line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,h4{line-height:1.15; letter-spacing:-.015em; font-weight:800}
+.wrap{max-width:1220px; margin:0 auto; padding:0 26px}
+section{padding:72px 0}
+a{color:var(--yb-deep)}
+
+/* reveal */
+.rv{opacity:0; transform:translateY(16px); transition:opacity .6s ease, transform .6s ease}
+.rv.in{opacity:1; transform:none}
+.stagger>*{opacity:0; transform:translateY(14px); transition:opacity .5s ease, transform .5s ease}
+.stagger.in>*{opacity:1; transform:none}
+.stagger.in>*:nth-child(2){transition-delay:.08s}
+.stagger.in>*:nth-child(3){transition-delay:.16s}
+.stagger.in>*:nth-child(4){transition-delay:.24s}
+.stagger.in>*:nth-child(5){transition-delay:.32s}
+@media (prefers-reduced-motion: reduce){
+  .rv,.stagger>*{opacity:1 !important; transform:none !important; transition:none !important}
+  html{scroll-behavior:auto}
+  *{animation:none !important}
+}
+
+/* ============ TOPBAR ============ */
+.topbar{
+  position:sticky; top:0; z-index:60; background:color-mix(in srgb, var(--paper) 92%, transparent);
+  backdrop-filter:blur(10px); border-bottom:1px solid var(--hair);
+}
+.topbar .wrap{display:flex; align-items:center; gap:14px; height:62px}
+.wordmark{font-size:1.45rem; font-weight:800; letter-spacing:-.03em; color:var(--ink)}
+.wordmark i{font-style:normal; color:var(--yb)}
+.pocchip{font-size:.68rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--yb-deep); background:var(--yb-soft); border-radius:99px; padding:5px 12px}
+.topbar .spacer{flex:1}
+.backlink{font-size:.82rem; font-weight:600; color:var(--muted); text-decoration:none}
+.backlink:hover{color:var(--yb-deep)}
+
+/* ============ HERO ============ */
+.hero{padding:84px 0 30px}
+.hero .grid{display:grid; grid-template-columns:1.25fr .75fr; gap:40px; align-items:center}
+@media(max-width:880px){.hero .grid{grid-template-columns:1fr}}
+.hero h1{font-size:clamp(2.2rem,5.2vw,3.6rem)}
+.hero h1 em{font-style:normal; color:var(--yb)}
+.hero .lead{margin-top:16px; font-size:1.12rem; color:var(--muted); max-width:34em}
+.badgestrip{display:flex; flex-wrap:wrap; gap:8px; margin-top:22px}
+.badgestrip span{font-size:.76rem; font-weight:700; border:1px solid var(--hair); background:var(--card); border-radius:99px; padding:6px 13px; color:var(--muted)}
+.heroboo{display:flex; flex-direction:column; align-items:center; gap:0}
+.bubble{
+  position:relative; background:var(--card); border:1px solid var(--hair); border-radius:18px;
+  padding:14px 18px; font-size:.95rem; box-shadow:var(--shadow); max-width:290px;
+}
+.bubble::after{
+  content:""; position:absolute; bottom:-9px; left:50%; transform:translateX(-50%) rotate(45deg);
+  width:16px; height:16px; background:var(--card); border-right:1px solid var(--hair); border-bottom:1px solid var(--hair);
+}
+.bubble b{color:var(--yb-deep)}
+.heroboo svg{margin-top:22px}
+@media (prefers-reduced-motion: no-preference){
+  .boo-float{animation:boofloat 3.4s ease-in-out infinite}
+  @keyframes boofloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+}
+
+/* ============ PERSPECTIEF-TABS ============ */
+.persnav{position:sticky; top:62px; z-index:50; background:var(--cream); padding:16px 0 12px; border-bottom:1px solid var(--hair)}
+.perscards{display:grid; grid-template-columns:repeat(4,1fr); gap:12px}
+@media(max-width:880px){.perscards{grid-template-columns:repeat(2,1fr)}}
+.pcard{
+  display:flex; align-items:center; gap:12px; text-align:left;
+  border:2px solid var(--hair); border-radius:16px; padding:12px 16px; background:var(--card);
+  cursor:pointer; font-family:inherit; color:var(--ink); transition:border-color .2s, box-shadow .2s;
+}
+.pcard:hover{border-color:color-mix(in srgb, var(--pc) 55%, transparent)}
+.pcard.act{border-color:var(--pc); box-shadow:var(--shadow)}
+.pcard .dot{flex:0 0 40px; width:40px; height:40px; border-radius:50%; background:color-mix(in srgb, var(--pc) 16%, transparent); display:flex; align-items:center; justify-content:center; font-size:1.25rem}
+.pcard b{display:block; font-size:.95rem}
+.pcard small{display:block; font-size:.74rem; color:var(--muted); margin-top:1px}
+.panel{display:none}
+.panel.show{display:block}
+
+.sec-eyebrow{font-size:.72rem; font-weight:800; letter-spacing:.16em; text-transform:uppercase; color:var(--yb-deep)}
+.sec-title{font-size:clamp(1.6rem,3.4vw,2.3rem); margin-top:8px}
+.sec-lead{margin-top:10px; color:var(--muted); max-width:46em; font-size:1.02rem}
+.note{font-size:.82rem; color:var(--muted); font-style:italic}
+
+/* ============ TELEFOONSCHERMEN ============ */
+.phonerow{display:grid; grid-template-columns:repeat(auto-fit,minmax(270px,1fr)); gap:26px; margin-top:40px; align-items:start}
+.phonecol{display:flex; flex-direction:column; align-items:center; gap:14px}
+.phonecap{font-size:.85rem; color:var(--muted); text-align:center; max-width:270px}
+.phonecap b{color:var(--ink)}
+.phone{
+  width:272px; border-radius:38px; background:var(--paper);
+  border:1px solid var(--hair); box-shadow:var(--shadow), inset 0 0 0 7px var(--ink);
+  padding:7px;
+}
+.pscr{border-radius:31px; overflow:hidden; background:var(--paper); min-height:520px; display:flex; flex-direction:column; font-size:.8rem}
+.pnotch{height:26px; display:flex; align-items:center; justify-content:space-between; padding:0 18px; font-size:.6rem; font-weight:700; color:var(--muted)}
+.pbody{padding:10px 14px 16px; flex:1; display:flex; flex-direction:column; gap:10px}
+.phello{display:flex; align-items:center; gap:9px}
+.phello .who{font-size:1.02rem; font-weight:800}
+.phello small{display:block; font-size:.68rem; color:var(--muted); font-weight:400}
+.sparkchip{margin-left:auto; font-size:.68rem; font-weight:800; color:#8a6d00; background:color-mix(in srgb, var(--sun) 30%, transparent); border-radius:99px; padding:4px 9px}
+@media (prefers-color-scheme: dark){ .sparkchip{color:var(--sun)} }
+:root[data-theme="dark"] .sparkchip{color:var(--sun)}
+.streak{display:flex; gap:4px; align-items:center; font-size:.68rem; color:var(--muted); font-weight:600}
+.streak .d{width:17px; height:17px; border-radius:50%; background:var(--hair); display:flex; align-items:center; justify-content:center; font-size:.58rem}
+.streak .d.on{background:var(--yb); color:#fff}
+.pcardui{background:var(--card); border:1px solid var(--hair); border-radius:15px; padding:11px 12px}
+.pcardui .h{display:flex; align-items:center; gap:7px; font-weight:800; font-size:.8rem}
+.pcardui .h .ic{width:22px; height:22px; border-radius:7px; display:flex; align-items:center; justify-content:center; font-size:.72rem; background:color-mix(in srgb, var(--ac) 16%, transparent)}
+.pcardui p{color:var(--muted); font-size:.73rem; margin-top:4px}
+.pbtn{
+  display:block; width:100%; margin-top:9px; border:none; border-radius:11px; padding:9px 10px;
+  background:var(--ac, var(--yb)); color:#fff; font-weight:800; font-size:.75rem; font-family:inherit; cursor:pointer; text-align:center;
+}
+.pbtn.ghost{background:transparent; color:var(--yb-deep); border:1.5px solid var(--yb); }
+.pdone{display:flex; align-items:center; gap:7px; margin-top:9px; font-size:.72rem; font-weight:700; color:var(--yb-deep)}
+.pdone .chk{width:19px; height:19px; border-radius:50%; background:var(--yb); color:#fff; display:flex; align-items:center; justify-content:center; font-size:.62rem}
+.pminiboo{display:flex; gap:8px; align-items:flex-start; background:var(--yb-soft); border-radius:13px; padding:9px 11px; font-size:.72rem}
+.pminiboo svg{flex:0 0 30px}
+.pring{display:flex; align-items:center; gap:12px}
+.pring svg{flex:0 0 74px}
+.pring .rtxt b{font-size:.92rem}
+.pring .rtxt small{display:block; color:var(--muted); font-size:.68rem; margin-top:2px}
+.pmenu td{padding:5px 4px; font-size:.71rem; border-bottom:1px dashed var(--hair)}
+.pmenu td:first-child{color:var(--muted); font-weight:700; font-size:.64rem; text-transform:uppercase}
+.pmenu tr:last-child td{border-bottom:none}
+.ptag{display:inline-block; font-size:.6rem; font-weight:800; border-radius:99px; padding:2px 7px; background:var(--yb-soft); color:var(--yb-deep)}
+.ptoggle{display:flex; align-items:center; gap:9px; padding:8px 0; border-bottom:1px dashed var(--hair); font-size:.73rem}
+.ptoggle:last-child{border-bottom:none}
+.ptoggle small{display:block; color:var(--muted); font-size:.64rem}
+.tgl{margin-left:auto; flex:0 0 34px; width:34px; height:20px; border-radius:99px; background:var(--hair); position:relative}
+.tgl::after{content:""; position:absolute; top:2.5px; left:3px; width:15px; height:15px; border-radius:50%; background:var(--card); box-shadow:0 1px 3px rgba(0,0,0,.25)}
+.tgl.on{background:var(--yb)}
+.tgl.on::after{left:16px}
+.pfoto{display:grid; grid-template-columns:1fr 1fr; gap:7px}
+.pfoto .pf{border:1px solid var(--hair); border-radius:11px; padding:8px 9px}
+.pfoto .pf b{font-size:.66rem; display:flex; justify-content:space-between}
+.pfoto .bar{height:6px; border-radius:4px; background:var(--hair); margin-top:6px; overflow:hidden}
+.pfoto .bar i{display:block; height:100%; border-radius:4px; background:var(--pc)}
+.members{display:flex; flex-direction:column; gap:6px}
+.members .m{display:flex; align-items:center; gap:8px; font-size:.72rem}
+.members .av{width:24px; height:24px; border-radius:50%; background:color-mix(in srgb, var(--pc) 22%, transparent); color:var(--pc); display:flex; align-items:center; justify-content:center; font-weight:800; font-size:.6rem}
+.members .mb{flex:1; height:7px; border-radius:5px; background:var(--hair); overflow:hidden}
+.members .mb i{display:block; height:100%; background:var(--pc); border-radius:5px}
+.members small{width:44px; text-align:right; color:var(--muted); font-size:.62rem}
+
+/* ============ JOURNEYS ============ */
+.journey{display:grid; grid-template-columns:repeat(6,1fr); gap:10px; margin-top:34px; counter-reset:jstep}
+@media(max-width:980px){.journey{grid-template-columns:repeat(2,1fr)}}
+.jstep{position:relative; background:var(--card); border:1px solid var(--hair); border-radius:16px; padding:38px 15px 15px}
+.jstep::before{
+  counter-increment:jstep; content:counter(jstep);
+  position:absolute; top:12px; left:15px; width:24px; height:24px; border-radius:50%;
+  background:var(--jc, var(--yb)); color:#fff; font-weight:800; font-size:.72rem;
+  display:flex; align-items:center; justify-content:center;
+}
+.jstep b{font-size:.88rem; display:block}
+.jstep p{font-size:.78rem; color:var(--muted); margin-top:5px; line-height:1.5}
+.jstep .app{margin-top:9px; font-size:.68rem; font-weight:700; color:var(--jc, var(--yb-deep)); background:color-mix(in srgb, var(--jc, var(--yb)) 10%, transparent); border-radius:9px; padding:5px 9px}
+
+/* ============ COACH & ARTS DASHBOARDS ============ */
+.dash{background:var(--card); border:1px solid var(--hair); border-radius:var(--r); box-shadow:var(--shadow); padding:26px; margin-top:36px}
+.dashhead{display:flex; align-items:center; gap:12px; flex-wrap:wrap}
+.dashhead .av{width:44px; height:44px; border-radius:50%; background:var(--yb-soft); display:flex; align-items:center; justify-content:center; font-size:1.3rem}
+.dashhead b{font-size:1.05rem}
+.dashhead small{display:block; color:var(--muted); font-size:.78rem}
+.dashhead .kchip{margin-left:auto; font-size:.7rem; font-weight:700; color:var(--yb-deep); background:var(--yb-soft); padding:5px 12px; border-radius:99px}
+.kpis{display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-top:20px}
+@media(max-width:820px){.kpis{grid-template-columns:repeat(2,1fr)}}
+.kpi{border:1px solid var(--hair); border-radius:14px; padding:13px 15px; background:var(--paper)}
+.kpi b{font-size:1.5rem; letter-spacing:-.02em}
+.kpi b em{font-style:normal; font-size:.8rem; color:var(--yb-deep)}
+.kpi small{display:block; color:var(--muted); font-size:.73rem; margin-top:2px}
+.clientlist{margin-top:20px; border:1px solid var(--hair); border-radius:14px; overflow:hidden}
+.crow{display:grid; grid-template-columns:auto 1.2fr 1fr 1fr auto; gap:12px; align-items:center; padding:11px 15px; border-bottom:1px solid var(--hair); background:var(--paper); font-size:.82rem}
+.crow:last-child{border-bottom:none}
+.crow.head{font-size:.66rem; font-weight:800; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); background:var(--card)}
+.crow .av{width:30px; height:30px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:.66rem; background:color-mix(in srgb, var(--pc) 20%, transparent); color:var(--pc)}
+.crow small{color:var(--muted); display:block; font-size:.7rem}
+.pill{display:inline-block; font-size:.66rem; font-weight:800; border-radius:99px; padding:3px 9px}
+.pill.ok{background:var(--yb-soft); color:var(--yb-deep)}
+.pill.warn{background:color-mix(in srgb, var(--oranje) 16%, transparent); color:var(--oranje)}
+.pill.alert{background:color-mix(in srgb, var(--coral) 18%, transparent); color:color-mix(in srgb, var(--coral) 70%, var(--ink))}
+.pill.info{background:color-mix(in srgb, var(--blauw) 14%, transparent); color:var(--blauw)}
+@media(max-width:820px){.crow{grid-template-columns:auto 1fr auto} .crow :nth-child(3),.crow :nth-child(4){display:none}}
+
+.planview{margin-top:22px; display:grid; grid-template-columns:1.1fr .9fr; gap:18px}
+@media(max-width:880px){.planview{grid-template-columns:1fr}}
+.planbox{border:1px solid var(--hair); border-radius:14px; background:var(--paper); padding:17px 18px}
+.planbox>b{font-size:.95rem}
+.planbox .sub{font-size:.75rem; color:var(--muted); margin-top:2px}
+.planline{display:flex; gap:10px; align-items:flex-start; padding:10px 0; border-bottom:1px dashed var(--hair); font-size:.82rem}
+.planline:last-child{border-bottom:none}
+.planline .who{flex:0 0 78px; font-size:.64rem; font-weight:800; text-transform:uppercase; letter-spacing:.06em; color:var(--wc); background:color-mix(in srgb, var(--wc) 11%, transparent); border-radius:8px; padding:4px 7px; text-align:center}
+.planline p{flex:1; color:var(--ink)}
+.planline small{display:block; color:var(--muted); font-size:.68rem; margin-top:2px}
+.conflict{
+  margin-top:14px; border:1.5px dashed var(--oranje); border-radius:13px; padding:13px 15px;
+  background:color-mix(in srgb, var(--oranje) 7%, transparent); font-size:.82rem;
+}
+.conflict b{color:var(--oranje)}
+.conflict .actions{display:flex; gap:8px; margin-top:9px; flex-wrap:wrap}
+.conflict .actions span{font-size:.7rem; font-weight:700; border:1px solid var(--hair); background:var(--card); border-radius:99px; padding:5px 11px; cursor:default}
+
+/* ============ RINGEN / MODEL ============ */
+.tweekol{display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-top:34px}
+@media(max-width:880px){.tweekol{grid-template-columns:1fr}}
+.ringcard{border:1px solid var(--hair); border-top:5px solid var(--rc); border-radius:var(--r); background:var(--card); padding:22px 24px; box-shadow:var(--shadow)}
+.ringcard .k{font-size:.68rem; font-weight:800; letter-spacing:.14em; text-transform:uppercase; color:var(--rc)}
+.ringcard h4{font-size:1.15rem; margin-top:4px}
+.ringcard p{font-size:.88rem; color:var(--muted); margin-top:8px}
+.ringcard ul{list-style:none; margin-top:12px; display:grid; gap:8px}
+.ringcard li{display:flex; gap:9px; font-size:.84rem; color:var(--muted)}
+.ringcard li::before{content:"●"; color:var(--rc); font-size:.6rem; line-height:1.9}
+.wetline{margin-top:20px; text-align:center; font-size:.88rem; font-style:italic; color:var(--muted)}
+.wetline b{color:var(--ink)}
+
+.lus{display:flex; flex-wrap:wrap; gap:10px; justify-content:center; margin-top:36px}
+.lus .stap{
+  display:flex; align-items:center; gap:10px; background:var(--card); border:1px solid var(--hair);
+  border-radius:99px; padding:10px 18px; font-weight:800; font-size:.9rem; box-shadow:var(--shadow);
+}
+.lus .stap i{font-style:normal; width:28px; height:28px; border-radius:50%; background:color-mix(in srgb, var(--lc) 16%, transparent); display:flex; align-items:center; justify-content:center; font-size:.85rem}
+.lus .pijl{align-self:center; color:var(--muted); font-weight:800}
+
+.entgrid{display:grid; grid-template-columns:repeat(auto-fit,minmax(215px,1fr)); gap:12px; margin-top:30px}
+.ent{border:1px solid var(--hair); border-left:4px solid var(--ec, var(--yb)); border-radius:13px; background:var(--card); padding:13px 15px}
+.ent b{font-size:.88rem}
+.ent.center{border:2px solid var(--yb); background:var(--yb-soft)}
+.ent p{font-size:.76rem; color:var(--muted); margin-top:4px; line-height:1.5}
+
+.guardrails{display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:30px}
+@media(max-width:880px){.guardrails{grid-template-columns:1fr}}
+.guard{border:1px solid var(--hair); border-radius:16px; background:var(--card); padding:19px 20px}
+.guard .n{width:30px; height:30px; border-radius:50%; background:var(--ink); color:var(--cream); font-weight:800; display:flex; align-items:center; justify-content:center; font-size:.85rem}
+.guard b{display:block; margin-top:11px; font-size:.94rem}
+.guard p{font-size:.81rem; color:var(--muted); margin-top:5px}
+
+.fasen{display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-top:30px}
+@media(max-width:880px){.fasen{grid-template-columns:repeat(2,1fr)}}
+.fase{border:1px solid var(--hair); border-radius:15px; background:var(--card); padding:16px 17px}
+.fase .fk{font-size:.66rem; font-weight:800; letter-spacing:.12em; text-transform:uppercase; color:var(--fc)}
+.fase b{display:block; font-size:.92rem; margin-top:4px}
+.fase p{font-size:.77rem; color:var(--muted); margin-top:5px}
+.fase.mvp{border:2px solid var(--yb)}
+
+.debatlijst{display:flex; flex-wrap:wrap; gap:9px; margin-top:24px}
+.debatlijst span{font-size:.78rem; font-weight:600; border:1px dashed var(--hair); border-radius:99px; padding:7px 14px; background:var(--paper); color:var(--muted)}
+
+/* ============ BAND & FOOTER ============ */
+.band{background:var(--paper); border-top:1px solid var(--hair); border-bottom:1px solid var(--hair)}
+footer{padding:44px 0 70px; text-align:center; color:var(--muted); font-size:.82rem}
+footer a{color:var(--yb-deep)}
+
+/* ============ BOO HELPER (vast) ============ */
+#boohelp{
+  position:fixed; right:22px; bottom:22px; z-index:80; display:flex; flex-direction:column; align-items:flex-end; gap:10px;
+}
+#boohelp .bubble{max-width:250px; font-size:.83rem; cursor:pointer}
+#boohelp .bubble::after{left:auto; right:26px; transform:rotate(45deg)}
+#boohelp button{border:none; background:none; cursor:pointer; padding:0; line-height:0}
+@media(max-width:700px){#boohelp .bubble{display:none}}
+</style>
+</head>
+<body>
+
+<!-- ============ BOO MASCOTTE (sprite) ============ -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <g id="boo-base">
+      <!-- blaadje -->
+      <path d="M50 8 C56 2 66 2 68 9 C64 15 55 16 50 12 Z" fill="#27A577" opacity=".9"/>
+      <path d="M50 13 C50 9 50 6 52 3" stroke="#17795A" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+      <!-- lijf -->
+      <ellipse cx="50" cy="58" rx="38" ry="42" fill="var(--boo, #27A577)"/>
+      <ellipse cx="50" cy="66" rx="26" ry="24" fill="#FFFFFF" opacity=".22"/>
+      <!-- ogen -->
+      <circle cx="38" cy="50" r="5.2" fill="#191717"/>
+      <circle cx="62" cy="50" r="5.2" fill="#191717"/>
+      <circle cx="39.8" cy="48.2" r="1.7" fill="#fff"/>
+      <circle cx="63.8" cy="48.2" r="1.7" fill="#fff"/>
+      <!-- blosjes -->
+      <circle cx="31" cy="60" r="4.5" fill="#FD817A" opacity=".55"/>
+      <circle cx="69" cy="60" r="4.5" fill="#FD817A" opacity=".55"/>
+      <!-- mond -->
+      <path d="M42 64 Q50 72 58 64" stroke="#191717" stroke-width="3" fill="none" stroke-linecap="round"/>
+    </g>
+    <g id="boo-cheer">
+      <use href="#boo-base"/>
+      <path d="M14 40 L22 30 M10 52 L20 48" stroke="#FFCC00" stroke-width="3.5" stroke-linecap="round"/>
+      <path d="M86 40 L78 30 M90 52 L80 48" stroke="#FFCC00" stroke-width="3.5" stroke-linecap="round"/>
+    </g>
+  </defs>
+</svg>
+
+<!-- ============ TOPBAR ============ -->
+<div class="topbar">
+  <div class="wrap">
+    <span class="wordmark">yoboo<i>.</i></span>
+    <span class="pocchip">POC · Health Advisory</span>
+    <span class="spacer"></span>
+    <a class="backlink" href="health-cg-organisatie.html">← Organisatie &amp; Advisory</a>
+  </div>
+</div>
+
+<!-- ============ HERO ============ -->
+<header class="hero">
+  <div class="wrap grid">
+    <div class="rv in">
+      <h1>Eén plan.<br>Elke dag <em>een stapje</em>.</h1>
+      <p class="lead">Dit is de POC van de <b>Health Advisory-app</b>: hetzelfde plan door vier paar ogen. Voor de klant voelt alles eenvoudig en menselijk; de coach en de arts kijken dieper; en onder de motorkap zit het volledige domeinmodel.</p>
+      <div class="badgestrip">
+        <span>Werkdocument · fictieve data</span>
+        <span>Gebaseerd op visie &amp; domeinmodel v0.2</span>
+        <span>Merknaam nog te bepalen — werktitel: yoboo</span>
+      </div>
+    </div>
+    <div class="heroboo rv in">
+      <div class="bubble"><b>Hoi, ik ben Boo!</b> Ik loop mee in de hele app. Kies hieronder door wiens ogen je wil kijken — ik wijs je de weg. 👇</div>
+      <svg class="boo-float" width="150" height="155" viewBox="0 0 100 104" role="img" aria-label="Boo, de yoboo-mascotte"><use href="#boo-base"/></svg>
+    </div>
+  </div>
+</header>
+
+<!-- ============ PERSPECTIEF-KIEZER ============ -->
+<div class="persnav">
+  <div class="wrap perscards">
+    <button class="pcard act" data-pers="klant" style="--pc:var(--yb)">
+      <span class="dot">👨‍👩‍👧</span>
+      <span><b>De klant</b><small>Lena (36) &amp; haar gezin — heel eenvoudig</small></span>
+    </button>
+    <button class="pcard" data-pers="coach" style="--pc:var(--oranje)">
+      <span class="dot">🤝</span>
+      <span><b>De coach</b><small>Sam — holistische hub</small></span>
+    </button>
+    <button class="pcard" data-pers="arts" style="--pc:var(--blauw)">
+      <span class="dot">🩺</span>
+      <span><b>De arts</b><small>Dr. Verhoeven — medische ring</small></span>
+    </button>
+    <button class="pcard" data-pers="model" style="--pc:var(--paars)">
+      <span class="dot">⚙️</span>
+      <span><b>Onder de motorkap</b><small>het team — domeinmodel &amp; lus</small></span>
+    </button>
+  </div>
+</div>
+
+<!-- ==================================================================== -->
+<!-- ============ PANEL 1 · KLANT ============ -->
+<!-- ==================================================================== -->
+<div class="panel show" id="p-klant">
+
+<section>
+  <div class="wrap">
+    <div class="rv">
+      <span class="sec-eyebrow">De klant · Lena, 36 — gezin met twee kinderen</span>
+      <h2 class="sec-title">Zo simpel voelt het voor Lena</h2>
+      <p class="sec-lead">Geen gezondheidsjargon, geen grafieken die je moet kunnen lezen. Eén plan, kleine stapjes, en elke stap heeft een knop. Boo viert mee als het lukt — en is mild als het even niet lukt.</p>
+    </div>
+
+    <div class="phonerow stagger">
+      <!-- SCHERM 1: VANDAAG -->
+      <div class="phonecol">
+        <div class="phone"><div class="pscr">
+          <div class="pnotch"><span>9:41</span><span>●●●</span></div>
+          <div class="pbody">
+            <div class="phello">
+              <svg width="34" height="35" viewBox="0 0 100 104"><use href="#boo-base"/></svg>
+              <div class="who">Dag Lena! <small>Dit is jouw dag in drie stapjes.</small></div>
+              <span class="sparkchip">⚡ 340</span>
+            </div>
+            <div class="streak"><span class="d on">✓</span><span class="d on">✓</span><span class="d on">✓</span><span class="d on">✓</span><span class="d on">✓</span><span class="d">·</span><span class="d">·</span>&nbsp;5 dagen op rij!</div>
+            <div class="pcardui" style="--ac:var(--food)">
+              <div class="h"><span class="ic">🥗</span>Vandaag op tafel: wokschotel</div>
+              <p>Alles wat je nodig hebt, in één keer in je winkelmandje.</p>
+              <button class="pbtn">Zet in mijn mandje</button>
+            </div>
+            <div class="pcardui" style="--ac:var(--move)">
+              <div class="h"><span class="ic">🚶</span>20 minuten buiten</div>
+              <p>Wandeling, fietstochtje, tikkertje met de kids — alles telt.</p>
+              <div class="pdone"><span class="chk">✓</span>Gedaan! +20 ⚡</div>
+            </div>
+            <div class="pcardui" style="--ac:var(--care)">
+              <div class="h"><span class="ic">💬</span>Hoe voel je je vandaag?</div>
+              <p>Twee vraagjes, tien seconden.</p>
+              <button class="pbtn ghost">Doe de check-in</button>
+            </div>
+            <div class="pminiboo"><svg viewBox="0 0 100 104" width="30" height="31"><use href="#boo-base"/></svg><span><b>Boo:</b> lekker bezig! Nog één stapje en je week is helemaal groen. 💚</span></div>
+          </div>
+        </div></div>
+        <p class="phonecap"><b>Vandaag.</b> Drie stapjes, elk met een knop. Geen advies zonder actie — dat is de regel.</p>
+      </div>
+
+      <!-- SCHERM 2: WEEKMENU / KRING -->
+      <div class="phonecol">
+        <div class="phone"><div class="pscr">
+          <div class="pnotch"><span>9:41</span><span>●●●</span></div>
+          <div class="pbody">
+            <div class="phello"><div class="who">Weekmenu van het gezin <small>Samen gepland, voor iedereen lekker.</small></div></div>
+            <div class="pcardui" style="--ac:var(--food)">
+              <table class="pmenu" style="width:100%; border-collapse:collapse">
+                <tr><td>ma</td><td>Wokschotel met kip</td></tr>
+                <tr><td>di</td><td>Pasta met veel groentjes</td></tr>
+                <tr><td>wo</td><td>Vis met puree <span class="ptag">favoriet van Wout</span></td></tr>
+                <tr><td>do</td><td>Foodbag: Thaise curry</td></tr>
+                <tr><td>vr</td><td>Zelfgemaakte pizza 🎉</td></tr>
+              </table>
+              <button class="pbtn">Alles in het mandje — Collect&amp;Go</button>
+              <button class="pbtn ghost">Of laat het thuisbrengen met Foodbag</button>
+            </div>
+            <div class="pcardui">
+              <div class="h"><span class="ic" style="background:var(--yb-soft)">✨</span>Op maat van jullie gezin</div>
+              <p>Dit menu past voor iedereen aan tafel — ook voor papa's hart en Wouts groeispurt. Meer moet je daar niet over weten. 😉</p>
+            </div>
+            <div class="pminiboo"><svg viewBox="0 0 100 104" width="30" height="31"><use href="#boo-base"/></svg><span><b>Boo:</b> ik heb wat minder zout gebruikt deze week. Proef je niks van, beloofd.</span></div>
+          </div>
+        </div></div>
+        <p class="phonecap"><b>Het gezinsmenu.</b> Eén knop naar het mandje. De reden áchter aanpassingen blijft privé — het menu klopt gewoon voor iedereen.</p>
+      </div>
+
+      <!-- SCHERM 3: CHALLENGE -->
+      <div class="phonecol">
+        <div class="phone"><div class="pscr">
+          <div class="pnotch"><span>9:41</span><span>●●●</span></div>
+          <div class="pbody">
+            <div class="phello"><div class="who">Gezinschallenge 🚴 <small>Samen 100 km fietsen deze maand</small></div></div>
+            <div class="pcardui" style="--ac:var(--move)">
+              <div class="pring">
+                <svg viewBox="0 0 80 80" width="74" height="74">
+                  <circle cx="40" cy="40" r="33" fill="none" stroke="var(--hair)" stroke-width="9"/>
+                  <circle cx="40" cy="40" r="33" fill="none" stroke="var(--move)" stroke-width="9" stroke-linecap="round" stroke-dasharray="207" stroke-dashoffset="52" transform="rotate(-90 40 40)"/>
+                  <text x="40" y="45" text-anchor="middle" font-size="16" font-weight="800" fill="var(--ink)">75%</text>
+                </svg>
+                <div class="rtxt"><b>75 van 100 km</b><small>Nog 25 km — dat is één zondagse rit!</small></div>
+              </div>
+            </div>
+            <div class="pcardui">
+              <div class="h"><span class="ic" style="background:color-mix(in srgb, var(--move) 14%, transparent)">👏</span>Wie trapte wat?</div>
+              <div class="members" style="margin-top:8px; --pc:var(--move)">
+                <div class="m"><span class="av">L</span><span class="mb"><i style="width:64%"></i></span><small>32 km</small></div>
+                <div class="m"><span class="av">K</span><span class="mb"><i style="width:56%"></i></span><small>28 km</small></div>
+                <div class="m"><span class="av">W</span><span class="mb"><i style="width:24%"></i></span><small>12 km</small></div>
+                <div class="m"><span class="av">F</span><span class="mb"><i style="width:6%"></i></span><small>3 km</small></div>
+              </div>
+              <p style="margin-top:8px">Fien (5) telt dubbel mee met haar loopfietsje. 🏆 Badge bij 100 km: <b>Gezin op wielen</b></p>
+            </div>
+            <div class="pminiboo"><svg viewBox="0 0 100 104" width="30" height="31"><use href="#boo-cheer"/></svg><span><b>Boo:</b> jullie liggen vóór op schema! Zondagsritje naar de ijsjesboer? 🍦</span></div>
+          </div>
+        </div></div>
+        <p class="phonecap"><b>De kring-challenge.</b> Ieder heeft zijn eigen plan; samen fietsen is de leuke laag erbovenop.</p>
+      </div>
+
+      <!-- SCHERM 4: GEZONDHEIDSFOTO -->
+      <div class="phonecol">
+        <div class="phone"><div class="pscr">
+          <div class="pnotch"><span>9:41</span><span>●●●</span></div>
+          <div class="pbody">
+            <div class="phello"><div class="who">Jouw vertrekfoto 📸 <small>Waar sta je vandaag? Alleen jij ziet dit.</small></div></div>
+            <div class="pcardui">
+              <div class="pfoto">
+                <div class="pf" style="--pc:var(--food)"><b>Voeding <span>😊</span></b><div class="bar"><i style="width:70%"></i></div></div>
+                <div class="pf" style="--pc:var(--move)"><b>Beweging <span>🙂</span></b><div class="bar"><i style="width:45%"></i></div></div>
+                <div class="pf" style="--pc:var(--paars)"><b>Slaap <span>😴</span></b><div class="bar"><i style="width:35%"></i></div></div>
+                <div class="pf" style="--pc:var(--care)"><b>Ontspanning <span>🙂</span></b><div class="bar"><i style="width:55%"></i></div></div>
+                <div class="pf" style="--pc:var(--leren)"><b>Samen <span>😊</span></b><div class="bar"><i style="width:80%"></i></div></div>
+                <div class="pf" style="--pc:var(--oranje)"><b>Gewoontes <span>🙂</span></b><div class="bar"><i style="width:60%"></i></div></div>
+              </div>
+              <p style="margin-top:9px">Gemaakt op basis van wat jij wilde delen: je aankopen en je vragenlijstje. Geen oordeel — gewoon je vertrekpunt.</p>
+              <button class="pbtn" style="--ac:var(--yb)">Kies waar je aan wil werken</button>
+            </div>
+            <div class="pminiboo"><svg viewBox="0 0 100 104" width="30" height="31"><use href="#boo-base"/></svg><span><b>Boo:</b> slaap lijkt me iets voor ons, wat denk je? Kleine stapjes, grote nachten. 🌙</span></div>
+          </div>
+        </div></div>
+        <p class="phonecap"><b>De gezondheidsfoto.</b> Op vraag van de klant, positief gebracht, per bron opt-in.</p>
+      </div>
+
+      <!-- SCHERM 5: PRIVACY -->
+      <div class="phonecol">
+        <div class="phone"><div class="pscr">
+          <div class="pnotch"><span>9:41</span><span>●●●</span></div>
+          <div class="pbody">
+            <div class="phello"><div class="who">Jij beslist. Altijd. <small>Wat mag Boo zien, en wie kijkt mee?</small></div></div>
+            <div class="pcardui">
+              <div class="h"><span class="ic" style="background:var(--yb-soft)">🛒</span>Wat ik deel</div>
+              <div class="ptoggle"><span>Mijn aankopen (Colruyt, Bio-Planet)<small>zo kan het menu écht op maat</small></span><span class="tgl on"></span></div>
+              <div class="ptoggle"><span>Mijn stappen (smartwatch)<small>voor de challenges</small></span><span class="tgl on"></span></div>
+              <div class="ptoggle"><span>Mijn apotheek-aankopen<small>uit, tot jij het aanzet</small></span><span class="tgl"></span></div>
+            </div>
+            <div class="pcardui">
+              <div class="h"><span class="ic" style="background:var(--yb-soft)">👀</span>Wie kijkt mee</div>
+              <div class="ptoggle"><span>Coach Sam<small>ziet mijn plan en voortgang</small></span><span class="tgl on"></span></div>
+              <div class="ptoggle"><span>Mijn gezin<small>ziet alleen challenges, nooit mijn cijfers</small></span><span class="tgl on"></span></div>
+              <div class="ptoggle"><span>Mijn huisarts<small>uit — aan te zetten wanneer jij wil</small></span><span class="tgl"></span></div>
+            </div>
+            <div class="pminiboo"><svg viewBox="0 0 100 104" width="30" height="31"><use href="#boo-base"/></svg><span><b>Boo:</b> alles staat standaard op privé. Elk knopje kan je altijd weer uitzetten — dan vergeet ik het meteen.</span></div>
+          </div>
+        </div></div>
+        <p class="phonecap"><b>Privacy in mensentaal.</b> Consent is geen kleine lettertjes maar knopjes die je begrijpt.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <div class="rv">
+      <span class="sec-eyebrow">User journey 1 · het gezin (fase 1 — de food-lus)</span>
+      <h2 class="sec-title">Lena's eerste maand</h2>
+      <p class="sec-lead">De volledige gedragslus, verteld zoals Lena ze beleeft. Elke stap gebeurt in de app of in een winkel die ze al kent.</p>
+    </div>
+    <div class="journey stagger" style="--jc:var(--yb)">
+      <div class="jstep"><b>"Ik wil 's avonds energie over hebben."</b><p>Lena installeert de app via haar Xtra-profiel en vertelt Boo wat ze wil. Dat is haar doel — in haar woorden.</p><span class="app">2 minuten, geen vragenlijst-marathon</span></div>
+      <div class="jstep"><b>Haar vertrekfoto</b><p>Op haar vraag maakt de app een foto van waar ze staat, op basis van wat zíj deelt. Positief gebracht.</p><span class="app">opt-in per bron</span></div>
+      <div class="jstep"><b>Een plan in mensentaal</b><p>Drie kleine stapjes per dag rond eten, bewegen en ontspannen. Niet meer. De AI-coach stelt voor, Lena kiest.</p><span class="app">Food eerst, dan Move, dan Care</span></div>
+      <div class="jstep"><b>Eén knop naar het mandje</b><p>Het weekmenu staat in één tik bij Collect&amp;Go of in de Foodbag-box. Het gezond mandje is geen huiswerk meer.</p><span class="app">de uitvoerende kracht van CG</span></div>
+      <div class="jstep"><b>Boo checkt vriendelijk in</b><p>Wekelijks: wat lukte, wat niet? De metingen (aankopen, stappen) doen de rest — Lena hoeft niks te loggen.</p><span class="app">de lus sluit zichzelf</span></div>
+      <div class="jstep"><b>Het plan stuurt bij</b><p>Woensdag bleek te druk om te koken? Dan wordt woensdag voortaan de makkelijke dag. Het plan volgt het leven, niet omgekeerd.</p><span class="app">bijsturing zonder schuldgevoel</span></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="rv">
+      <span class="sec-eyebrow">User journey 2 · de patiënt (fase 3 — de medische ring)</span>
+      <h2 class="sec-title">Marc, 56 — na een gezondheidssignaal</h2>
+      <p class="sec-lead">Marc komt niet binnen via een app-store maar via zijn arts. Voor hem voelt het als: <i>mijn dokter heeft me dit aangeraden, en het werkt gewoon in mijn dagelijks leven.</i></p>
+    </div>
+    <div class="journey stagger" style="--jc:var(--blauw)">
+      <div class="jstep"><b>Het consult</b><p>De cardioloog van Marc raadt na zijn opname een leefstijlplan aan — en schrijft het voor, zoals een medicijn.</p><span class="app">de arts levert de geloofwaardigheid</span></div>
+      <div class="jstep"><b>Het voorschrift, vertaald</b><p>In Marcs app verschijnt géén diagnose, wel de gevolgen: zoutarm eten, elke dag rustig bewegen. Meer hoeft de app niet te weten.</p><span class="app">enkel het gevolg steekt over</span></div>
+      <div class="jstep"><b>De coach belt</b><p>Coach Sam start mens-gedreven: een gesprek, geen dashboard. Samen maken ze het plan haalbaar: wandelen naar de bakker telt.</p><span class="app">hub-coach, menselijk gezicht</span></div>
+      <div class="jstep"><b>Boodschappen die kloppen</b><p>Marcs mandje bij Colruyt kleurt vanzelf zoutarm; de apotheker ziet zijn schema en denkt mee. Niemand ziet waaróm.</p><span class="app">uitvoering in zijn gewone leven</span></div>
+      <div class="jstep"><b>De arts ziet dat het lukt</b><p>Bij de controle ziet de arts: het plan wordt gevolgd, 8 van 10 weken groen. Geen winkeldata — alleen therapietrouw.</p><span class="app">terugkoppeling, geen inkijk</span></div>
+      <div class="jstep"><b>Marc blijft</b><p>Na zes maanden is het geen behandeling meer maar een gewoonte — en Marc en zijn vrouw doen samen de wandelchallenge.</p><span class="app">van patiënt naar gebruiker</span></div>
+    </div>
+    <p class="note" style="margin-top:26px; text-align:center">Doelgroepvolgorde uit de visie: eerst het gezin (volumemotor), parallel de patiënt via zorgpartners (geloofwaardigheidsmotor), later de preventieve dertiger.</p>
+  </div>
+</section>
+</div>
+
+<!-- ==================================================================== -->
+<!-- ============ PANEL 2 · COACH ============ -->
+<!-- ==================================================================== -->
+<div class="panel" id="p-coach">
+<section>
+  <div class="wrap">
+    <div class="rv">
+      <span class="sec-eyebrow">De coach · Sam — holistische hub, specialisten als spokes</span>
+      <h2 class="sec-title">Eén plan, vele loketten — Sam bewaakt het geheel</h2>
+      <p class="sec-lead">Sam kijkt over food, move en care heen. De AI bereidt voor, Sam beslist en verwijst door naar diëtist, JIMS-trainer of apotheker — die allemaal in <b>hetzelfde plan</b> schrijven.</p>
+    </div>
+
+    <div class="dash rv">
+      <div class="dashhead">
+        <span class="av">🤝</span>
+        <span><b>Goeiemorgen Sam</b><small>Holistische coach · CG Academy-gecertifieerd · supervisie dr. Aerts</small></span>
+        <span class="kchip">mandaat op 34 plannen</span>
+      </div>
+      <div class="kpis">
+        <div class="kpi"><b>34</b><small>actieve klanten</small></div>
+        <div class="kpi"><b>27 <em>▲ 4</em></b><small>gesloten weeklussen</small></div>
+        <div class="kpi"><b>86%</b><small>therapietrouw medische plannen</small></div>
+        <div class="kpi"><b>3</b><small>vragen die op jou wachten</small></div>
+      </div>
+
+      <div class="clientlist">
+        <div class="crow head"><span></span><span>Klant</span><span>Plan</span><span>Laatste meting</span><span>Status</span></div>
+        <div class="crow" style="--pc:var(--yb)"><span class="av">LP</span><span><b>Lena P.</b><small>gezin · food-lus, week 4</small></span><span>3 stapjes/dag · streak 5</span><span>check-in gisteren 😊</span><span class="pill ok">op koers</span></div>
+        <div class="crow" style="--pc:var(--blauw)"><span class="av">MV</span><span><b>Marc V.</b><small>plan-op-voorschrift · week 9</small></span><span>zoutarm + dagelijks bewegen</span><span>2 weken geen beweegdata</span><span class="pill alert">bel Marc</span></div>
+        <div class="crow" style="--pc:var(--oranje)"><span class="av">AD</span><span><b>Aïcha D.</b><small>slaap &amp; stress · week 2</small></span><span>avondroutine, microlessen</span><span>check-in: "moeilijke week"</span><span class="pill warn">extra aandacht</span></div>
+        <div class="crow" style="--pc:var(--paars)"><span class="av">JT</span><span><b>Jef T.</b><small>gewicht · wacht op diëtist</small></span><span>doorverwezen (spoke)</span><span>afspraak di 14u</span><span class="pill info">bij diëtist</span></div>
+      </div>
+    </div>
+
+    <div class="planview rv">
+      <div class="planbox">
+        <b>Het plan van Marc — iedereen schrijft in hetzelfde plan</b>
+        <div class="sub">Versie 7 · eigenaar: Marc · auteurs met mandaat: AI-coach, Sam, diëtist, dr. Verhoeven</div>
+        <div class="planline" style="--wc:var(--blauw)"><span class="who">Arts</span><p>Voorwaarde: zoutarm, dagelijks 30' matige inspanning.<small>via voorschrift — de reden blijft in de medische ring</small></p></div>
+        <div class="planline" style="--wc:var(--paars)"><span class="who">AI-coach</span><p>Weekmenu herrekend op zoutarm; wandelroute van 30' voorgesteld op Marcs gewone traject.<small>voorstel, telkens ter bevestiging</small></p></div>
+        <div class="planline" style="--wc:var(--oranje)"><span class="who">Sam</span><p>Tempo verlaagd na gesprek: eerst 3× per week, opbouwen naar dagelijks. Doel haalbaar houden.<small>menselijke beslissing verslaat het algoritme</small></p></div>
+        <div class="planline" style="--wc:var(--yb)"><span class="who">Diëtist</span><p>Broodbeleg-alternatieven toegevoegd na vraag van Marc.<small>spoke, schrijft mee binnen zijn domein</small></p></div>
+      </div>
+      <div class="planbox">
+        <b>Kring-acties deze week</b>
+        <div class="sub">Optimalisaties óver plannen heen — gevolg, niet oorzaak</div>
+        <div class="planline" style="--wc:var(--yb)"><span class="who">Gezin P.</span><p>Weekmenu verzoend: 4 plannen, 1 menu. Automatisch gelukt.</p></div>
+        <div class="planline" style="--wc:var(--move)"><span class="who">Gezin P.</span><p>Fietschallenge 100 km — 75% en vóór op schema.</p></div>
+        <div class="conflict">
+          <b>⚖️ Conflict om te beslechten</b><br>
+          Weekmenu gezin D.: mama's plan wil kcal-beperkt, tiener Ilias zit in een groeispurt. De engine stelt twee porties-groottes voor uit één menu.
+          <div class="actions"><span>✓ Voorstel engine goedkeuren</span><span>Zelf aanpassen</span><span>Bespreken met kring-planner</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tweekol rv">
+      <div class="ringcard" style="--rc:var(--oranje)">
+        <span class="k">Wat Sam wél ziet</span>
+        <h4>Het plan en de uitvoering</h4>
+        <ul>
+          <li>Plannen waar hij mandaat op kreeg — leesbaar én schrijfbaar, met historiek</li>
+          <li>Voortgang en check-ins: wat lukt, wat blokkeert</li>
+          <li>Voorwaarden uit voorschriften (zoutarm) — nooit de diagnose erachter</li>
+          <li>Signalen van de engine: wie dreigt af te haken, waar knelt een kring-actie</li>
+        </ul>
+      </div>
+      <div class="ringcard" style="--rc:var(--muted)">
+        <span class="k">Wat Sam níet ziet</span>
+        <h4>De ringen blijven dicht</h4>
+        <ul>
+          <li>Medische data of diagnoses — die blijven bij de zorgpartner</li>
+          <li>Commerciële data: marges, promoties, omzet — de coach adviseert, verkoopt niet</li>
+          <li>Kringleden die niet delen: meekijken is opt-in van het individu</li>
+          <li>Alles wat de klant intrekt: consent weg = zicht weg, ook met terugwerkende kracht</li>
+        </ul>
+      </div>
+    </div>
+    <p class="wetline rv">Ontwerpeis uit de visie: het advies moet af en toe zichtbaar <b>tégen het commerciële belang</b> ingaan — anders gelooft niemand de coach.</p>
+  </div>
+</section>
+</div>
+
+<!-- ==================================================================== -->
+<!-- ============ PANEL 3 · ARTS ============ -->
+<!-- ==================================================================== -->
+<div class="panel" id="p-arts">
+<section>
+  <div class="wrap">
+    <div class="rv">
+      <span class="sec-eyebrow">De arts · Dr. Verhoeven — de medische ring</span>
+      <h2 class="sec-title">De arts schrijft voor, wij voeren uit</h2>
+      <p class="sec-lead">"Gezondheidsadvies van uw supermarkt" heeft een geloofwaardigheidsprobleem — tot de arts het voorschrijft. De arts houdt de medische data, ziet de therapietrouw, en leent zijn geloofwaardigheid alleen aan wat gecertificeerd is.</p>
+    </div>
+
+    <div class="dash rv">
+      <div class="dashhead">
+        <span class="av" style="background:color-mix(in srgb, var(--blauw) 14%, transparent)">🩺</span>
+        <span><b>Dr. Verhoeven — leefstijlvoorschriften</b><small>AZ Sint-Lucas · cardiologie · 12 patiënten met plan-op-voorschrift</small></span>
+        <span class="kchip" style="color:var(--blauw); background:color-mix(in srgb, var(--blauw) 12%, transparent)">medische ring · blijft hier</span>
+      </div>
+
+      <div class="planview" style="margin-top:22px">
+        <div class="planbox">
+          <b>Nieuw voorschrift — 2 minuten</b>
+          <div class="sub">Patiënt: Marc V. · na revalidatie</div>
+          <div class="planline" style="--wc:var(--blauw)"><span class="who">Stap 1</span><p>Kies de voorwaarden voor het plan: <b>zoutarm</b> · <b>dagelijks 30' matige inspanning</b> · <b>gewichtsopvolging wekelijks</b><small>uit een gevalideerde bibliotheek, of vrij</small></p></div>
+          <div class="planline" style="--wc:var(--blauw)"><span class="who">Stap 2</span><p>Wat oversteekt naar de app: alléén deze voorwaarden. De diagnose blijft in het patiëntendossier.<small>het gevolg steekt over, nooit de oorzaak</small></p></div>
+          <div class="planline" style="--wc:var(--blauw)"><span class="who">Stap 3</span><p>Marc geeft consent op zijn eigen toestel, bij u in de consultatie.<small>de patiënt blijft eigenaar van zijn plan</small></p></div>
+        </div>
+        <div class="planbox">
+          <b>Opvolging — therapietrouw, geen winkeldata</b>
+          <div class="sub">Wat u terugziet bij de controle</div>
+          <div class="planline" style="--wc:var(--yb)"><span class="who">Marc V.</span><p>Plan gevolgd: 8 van 10 weken groen. Beweging stokte 2 weken; coach heeft bijgestuurd.<small>signaal kwam van de coach, niet van u</small></p></div>
+          <div class="planline" style="--wc:var(--yb)"><span class="who">Rita C.</span><p>Zoutarm menu loopt; gewicht −3,2 kg over 12 weken.</p></div>
+          <div class="planline" style="--wc:var(--oranje)"><span class="who">Jos B.</span><p>Haakt af na week 3. Voorstel: mens-gedreven herstart via coach-gesprek.</p></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tweekol rv">
+      <div class="ringcard" style="--rc:var(--blauw)">
+        <span class="k">De medische ring</span>
+        <h4>Blijft bij de zorgpartner</h4>
+        <p>Diagnoses, labo, dossier. CG ziet hier <b>nooit</b> iets van — het plan kent enkel de gevolgen ("zoutarm"), nooit de reden.</p>
+        <ul>
+          <li>Voorschrift = voorwaarden voor het plan</li>
+          <li>Terugkoppeling = therapietrouw, niets anders</li>
+          <li>GDPR art. 9: consent alleen volstaat niet — de scheiding is architectuur</li>
+        </ul>
+      </div>
+      <div class="ringcard" style="--rc:var(--yb)">
+        <span class="k">De lifestyle-ring</span>
+        <h4>Bij CG, met consent</h4>
+        <p>Aankopen, beweging, gewicht, check-ins. Per bron aan of uit, altijd intrekbaar, met historiek.</p>
+        <ul>
+          <li>Voedt het plan en de gezondheidsfoto</li>
+          <li>Raakt de medische ring nooit rechtstreeks</li>
+          <li>Commercieel en medisch blijven gescheiden werelden</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="guardrails rv">
+      <div class="guard"><span class="n">✓</span><b>Gecertificeerde coaches</b><p>CG Academy als coach-school, supervisie door artsen — de voorwaarde voor uw endorsement.</p></div>
+      <div class="guard"><span class="n">✓</span><b>Engine op gezondheid</b><p>Het advies optimaliseert aantoonbaar op gezondheidsuitkomst, nooit op marge.</p></div>
+      <div class="guard"><span class="n">✓</span><b>Uw patiënt, uw data</b><p>De patiënt wordt app-gebruiker, maar het medisch dossier blijft waar het hoort: bij u.</p></div>
+    </div>
+  </div>
+</section>
+</div>
+
+<!-- ==================================================================== -->
+<!-- ============ PANEL 4 · MOTORKAP ============ -->
+<!-- ==================================================================== -->
+<div class="panel" id="p-model">
+<section>
+  <div class="wrap">
+    <div class="rv">
+      <span class="sec-eyebrow">Onder de motorkap · voor het team</span>
+      <h2 class="sec-title">Alles sluit dezelfde lus</h2>
+      <p class="sec-lead">Elke feature hierboven is een verschijningsvorm van één gedragslus en twaalf entiteiten rond één centraal object: <b>het plan</b>. Geen feature-buffet — telkens één volledig gesloten lus.</p>
+    </div>
+
+    <div class="lus rv">
+      <span class="stap" style="--lc:var(--yb)"><i>🎯</i>Doel</span><span class="pijl">→</span>
+      <span class="stap" style="--lc:var(--yb)"><i>🗺️</i>Plan</span><span class="pijl">→</span>
+      <span class="stap" style="--lc:var(--oranje)"><i>👆</i>Actie</span><span class="pijl">→</span>
+      <span class="stap" style="--lc:var(--food)"><i>🛒</i>Uitvoering</span><span class="pijl">→</span>
+      <span class="stap" style="--lc:var(--blauw)"><i>📈</i>Meting</span><span class="pijl">→</span>
+      <span class="stap" style="--lc:var(--paars)"><i>🔁</i>Bijsturing</span>
+    </div>
+    <p class="note rv" style="text-align:center; margin-top:14px">Uitvoering = de executietroef: mandje (Collect&amp;Go), box (Foodbag), gym (JIMS), apotheek (Newpharma), les (Academy). Geen advies zonder knop.</p>
+
+    <div class="entgrid stagger">
+      <div class="ent center"><b>Plan ⭐</b><p>Het centrale object. Strikt persoonlijk, met versies en auteurs. Iedereen — AI, coach, diëtist, arts — leest en schrijft in hetzelfde plan (D1).</p></div>
+      <div class="ent" style="--ec:var(--yb)"><b>Persoon</b><p>Het atoom: eigen identiteit (Xtra-ID), data en consent-instellingen.</p></div>
+      <div class="ent" style="--ec:var(--yb)"><b>Doel</b><p>Wát iemand wil; overleeft meerdere plannen. Ook strikt persoonlijk (D7).</p></div>
+      <div class="ent" style="--ec:var(--oranje)"><b>Actie</b><p>Altijd uitvoerbaar — het kanaal zit in het datamodel (D3).</p></div>
+      <div class="ent" style="--ec:var(--paars)"><b>Kring</b><p>Gezin, koppel, sportvrienden, zorgkring. Bezit géén plannen of doelen — enkel arena en optimalisatie (D6).</p></div>
+      <div class="ent" style="--ec:var(--paars)"><b>Kring-actie</b><p>Weekmenu, challenge, fietsreis: verzoend over de plannen van de leden heen — gevolg, niet oorzaak.</p></div>
+      <div class="ent" style="--ec:var(--blauw)"><b>Meting</b><p>Elk datapunt dat de lus sluit; draagt bron + ring-label (D4).</p></div>
+      <div class="ent" style="--ec:var(--coral)"><b>Consent</b><p>Volwaardige entiteit met historiek — per bron, per gebruik, per kring-deling; intrekbaar (D5).</p></div>
+      <div class="ent" style="--ec:var(--oranje)"><b>Coach</b><p>Holistische hub (AI of mens), specialisten als spokes; mandaat op plannen.</p></div>
+      <div class="ent" style="--ec:var(--blauw)"><b>Voorschrift</b><p>Input van de arts: enkel het gevolg steekt over, nooit de diagnose.</p></div>
+      <div class="ent" style="--ec:var(--leren)"><b>Gezondheidsfoto</b><p>Afgeleide nulmeting, opt-in per bron, op vraag van de klant, positief geframed.</p></div>
+      <div class="ent" style="--ec:var(--food)"><b>Merk/Kanaal</b><p>Uitvoeringspunt: Collect&amp;Go, Foodbag, JIMS, Newpharma, Academy, coach-corner.</p></div>
+    </div>
+
+    <div class="tweekol rv">
+      <div class="ringcard" style="--rc:var(--blauw)">
+        <span class="k">Ringen — over data</span>
+        <h4>Medisch ↔ lifestyle, nooit vermengd</h4>
+        <p>De medische ring blijft bij zorgpartners; de lifestyle-ring zit bij CG met consent. De scheiding is architectuur, geen instelling — consent alleen volstaat niet (GDPR art. 9).</p>
+      </div>
+      <div class="ringcard" style="--rc:var(--paars)">
+        <span class="k">Kringen — over mensen</span>
+        <h4>Het individu is het atoom</h4>
+        <p>De kring is elke groep rond een persoon. Delen is altijd expliciete opt-in, liefst als gevolg: het gezinsmenu kan zoutarm zijn zonder dat iemand de diagnose ziet.</p>
+      </div>
+    </div>
+
+    <div class="rv" style="margin-top:56px">
+      <span class="sec-eyebrow">Businessmodel</span>
+      <h3 class="sec-title" style="font-size:1.5rem">CG verdient niet aan het advies</h3>
+      <p class="sec-lead">De waarde zit in toeleiding naar de merken en een gezondere, meer geëngageerde klant. Drie guardrails maken dat geloofwaardig én verdedigbaar in de budgetronde.</p>
+    </div>
+    <div class="guardrails stagger">
+      <div class="guard"><span class="n">1</span><b>Engine optimaliseert op gezondheid</b><p>Nooit op marge — en dat moet aantoonbaar zijn, tot in het advies dat tégen de verkoop ingaat.</p></div>
+      <div class="guard"><span class="n">2</span><b>KPI-model vanaf de MVP</b><p>Share-of-wallet, retentie, cross-brand-instroom — anders overleeft "gratis" geen budgetronde.</p></div>
+      <div class="guard"><span class="n">3</span><b>Fysieke coach is premium</b><p>De digitale laag is gratis; de mens kost geld. Financiering nog open — bewust een debatpunt.</p></div>
+    </div>
+
+    <div class="rv" style="margin-top:56px">
+      <span class="sec-eyebrow">Fasering</span>
+      <h3 class="sec-title" style="font-size:1.5rem">Telkens één gesloten lus erbij</h3>
+    </div>
+    <div class="fasen stagger">
+      <div class="fase" style="--fc:var(--leren)"><span class="fk">Fase 0</span><b>Gezondheidsfoto</b><p>Nulmeting uit aankoopdata van álle merken, opt-in per bron, op vraag van de klant.</p></div>
+      <div class="fase mvp" style="--fc:var(--yb)"><span class="fk">Fase 1 · MVP</span><b>De food-lus</b><p>Gezinskring: weekmenu → mandje/Foodbag → AI-check-in → kring-challenge. Hier worden de KPI's bewezen.</p></div>
+      <div class="fase" style="--fc:var(--move)"><span class="fk">Fase 2</span><b>Move + leren</b><p>Wearables, JIMS, Academy-microlessen aan het plan, meer kringtypes.</p></div>
+      <div class="fase" style="--fc:var(--blauw)"><span class="fk">Fase 3</span><b>De medische ring</b><p>Zorgpartners en plan-op-voorschrift: de patiënt wordt app-gebruiker.</p></div>
+    </div>
+
+    <div class="rv" style="margin-top:50px">
+      <span class="sec-eyebrow">Nog in debat</span>
+      <h3 class="sec-title" style="font-size:1.5rem">Open punten — bewust niet weggemoffeld</h3>
+    </div>
+    <div class="debatlijst rv">
+      <span>⚖️ Conflictresolutie in kring-acties: engine, kring-planner of coach?</span>
+      <span>💶 Financiering van de fysieke coach + KPI-model voor de budgetronde</span>
+      <span>🏷️ De merknaam (yoboo is de werktitel in deze POC)</span>
+      <span>⚕️ Juridische toets: Newpharma-aankopen in de gezondheidsfoto (GDPR art. 9)</span>
+      <span>🎓 Certificering holistische coach: rol CG Academy, supervisie artsen</span>
+      <span>🏠 Health house: pas na bewijs via coach-corners</span>
+      <span>🔑 Mandaat: hoe krijgt/verliest een coach (of de AI) schrijfrecht op een plan?</span>
+      <span>👀 Meekijker-rol mantelzorg: voortgang ja, metingen nee?</span>
+    </div>
+  </div>
+</section>
+</div>
+
+<footer>
+  <div class="wrap">
+    <p><b>yoboo · Health Advisory POC</b> — werkdocument met fictieve data, ter ondersteuning van het strategisch debat.</p>
+    <p style="margin-top:6px">Gebaseerd op <i>visie-en-strategie.md</i> en <i>domeinmodel.md</i> (v0.2, 23 juli 2026) · zie ook <a href="health-cg-organisatie.html">Organisatie &amp; Advisory</a></p>
+  </div>
+</footer>
+
+<!-- ============ BOO HELPER ============ -->
+<div id="boohelp">
+  <div class="bubble" id="boobubble" role="status">Kies bovenaan een bril: klant, coach, arts of motorkap. 👓</div>
+  <button id="boobtn" aria-label="Tip van Boo">
+    <svg width="84" height="87" viewBox="0 0 100 104"><use href="#boo-base"/></svg>
+  </button>
+</div>
+
+<script>
+/* ============ reveal on scroll ============ */
+const io = new IntersectionObserver(es=>{
+  es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+},{threshold:.12});
+document.querySelectorAll('.rv,.stagger').forEach(el=>io.observe(el));
+
+/* ============ perspectief-tabs ============ */
+const tips = {
+  klant: ["Alles wat Lena ziet heeft een knop. Advies zonder actie bestaat hier niet.","Zie je het weekmenu? Het is zoutarm — maar dat zegt de app nergens. Gevolg, niet oorzaak.","Standaard staat álles op privé. Lena zette zelf drie knopjes aan."],
+  coach: ["Sam beslist, de AI bereidt voor. De volgorde is bewust.","Iedereen schrijft in hetzelfde plan van Marc — dat is beslissing D1.","Het oranje conflict? Dáár is de coach voor. De engine hakt geen knopen door over mensen."],
+  arts: ["De diagnose steekt nooit over. Alleen 'zoutarm' — het gevolg.","Therapietrouw terug naar de arts, winkeldata nooit. Zo blijft het endorsement geloofwaardig.","GDPR artikel 9: de scheiding is architectuur, geen vinkje."],
+  model: ["Twaalf entiteiten, één centrale: het plan.","De kring bezit niets — geen plan, geen doel. Enkel arena en optimalisatie.","Geen feature-buffet: elke fase sluit één volledige lus."]
+};
+let tipIdx = 0, curPers = 'klant';
+const bubble = document.getElementById('boobubble');
+function setPers(p){
+  curPers = p; tipIdx = 0;
+  document.querySelectorAll('.pcard').forEach(c=>c.classList.toggle('act', c.dataset.pers===p));
+  document.querySelectorAll('.panel').forEach(pl=>pl.classList.toggle('show', pl.id==='p-'+p));
+  bubble.textContent = tips[p][0];
+  document.querySelectorAll('.panel.show .rv, .panel.show .stagger').forEach(el=>{ el.classList.add('in'); });
+  window.scrollTo({top:document.querySelector('.persnav').offsetTop - 70, behavior:'smooth'});
+}
+document.querySelectorAll('.pcard').forEach(c=>c.addEventListener('click',()=>setPers(c.dataset.pers)));
+bubble.addEventListener('click',()=>{ tipIdx=(tipIdx+1)%tips[curPers].length; bubble.textContent=tips[curPers][tipIdx]; });
+document.getElementById('boobtn').addEventListener('click',()=>{ tipIdx=(tipIdx+1)%tips[curPers].length; bubble.textContent=tips[curPers][tipIdx]; });
+</script>
+</body>
+</html>
