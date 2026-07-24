@@ -216,6 +216,23 @@ a{color:var(--yb-deep)}
 .persona .step p{color:var(--muted); line-height:1.5}
 .persona .res{display:block; margin-top:12px; font-size:.79rem; font-weight:700; color:var(--yb-deep); background:var(--yb-soft); border-radius:10px; padding:9px 13px}
 
+/* ============ INTERACTIE (werkende POC) ============ */
+.pbtn,.wbtn,.tgl{cursor:pointer}
+.pbtn:active,.wbtn:active{transform:scale(.97)}
+#sparks{transition:transform .3s ease}
+#sparks.pop{transform:scale(1.3)}
+.checkrow{display:flex; gap:6px; margin-top:9px}
+.checkrow button{flex:1; font-size:1.15rem; padding:7px 0; border-radius:10px; border:1px solid var(--hair); background:var(--card); cursor:pointer; font-family:inherit}
+.checkrow button:hover{border-color:var(--yb); background:var(--yb-soft)}
+.badgeban{margin-top:9px; background:linear-gradient(120deg,var(--yb),var(--yb-deep)); color:#fff; border-radius:12px; padding:10px 12px; font-weight:800; font-size:.75rem; text-align:center}
+.pillrow{display:flex; flex-wrap:wrap; gap:5px; margin-top:9px}
+.pillrow button,.decidebox .opts button{font-size:.66rem; font-weight:700; border:1px solid var(--hair); border-radius:99px; padding:5px 10px; background:var(--card); color:var(--ink); cursor:pointer; font-family:inherit}
+.pillrow button:hover,.decidebox .opts button:hover{border-color:var(--yb); color:var(--yb-deep)}
+.decidebox{border:1.5px dashed var(--oranje); border-radius:10px; padding:9px 11px; font-size:.7rem; background:color-mix(in srgb, var(--oranje) 6%, transparent); line-height:1.5}
+.decidebox .opts{display:flex; gap:6px; flex-wrap:wrap; margin-top:7px}
+.demohint{display:inline-flex; align-items:center; gap:7px; margin-top:14px; font-size:.78rem; font-weight:700; color:var(--yb-deep); background:var(--yb-soft); border:1px dashed color-mix(in srgb, var(--yb) 50%, transparent); border-radius:99px; padding:6px 14px}
+@media (prefers-reduced-motion: reduce){#sparks{transition:none} .pbtn:active,.wbtn:active{transform:none}}
+
 /* ============ BOO-GALERIJ ============ */
 .boorow{display:grid; grid-template-columns:repeat(auto-fit,minmax(105px,1fr)); gap:10px; margin-top:32px}
 .boorow .b{display:flex; flex-direction:column; align-items:center; gap:7px; border:1px solid var(--hair); border-radius:14px; background:var(--card); padding:16px 8px 12px}
@@ -586,6 +603,7 @@ footer a{color:var(--yb-deep)}
       <span class="sec-eyebrow">De klant · Lena, 36 — gezin met twee kinderen</span>
       <h2 class="sec-title">Zo simpel voelt het voor Lena</h2>
       <p class="sec-lead">Geen gezondheidsjargon, geen grafieken die je moet kunnen lezen. Eén plan, kleine stapjes, en elke stap heeft een knop. Boo viert mee als het lukt — en is mild als het even niet lukt.</p>
+      <span class="demohint">👆 Dit is een wérkende demo — druk gerust op alle knoppen</span>
     </div>
 
     <div class="phonerow stagger">
@@ -597,25 +615,25 @@ footer a{color:var(--yb-deep)}
             <div class="phello">
               <svg width="34" height="35" viewBox="0 0 100 104"><use href="#boo-base"/></svg>
               <div class="who">Dag Lena! <small>Dit is jouw dag in drie stapjes.</small></div>
-              <span class="sparkchip">⚡ 340</span>
+              <span class="sparkchip" id="sparks">⚡ 340</span>
             </div>
-            <div class="streak"><span class="d on">✓</span><span class="d on">✓</span><span class="d on">✓</span><span class="d on">✓</span><span class="d on">✓</span><span class="d">·</span><span class="d">·</span>&nbsp;5 dagen op rij!</div>
+            <div class="streak" id="streak1"><span class="d on">✓</span><span class="d on">✓</span><span class="d on">✓</span><span class="d on">✓</span><span class="d on">✓</span><span class="d">·</span><span class="d">·</span>&nbsp;<span id="streaktxt">5 dagen op rij!</span></div>
             <div class="pcardui" style="--ac:var(--food)">
               <div class="h"><span class="ic">🥗</span>Vandaag op tafel: wokschotel</div>
               <p>Alles wat je nodig hebt, in één keer in je winkelmandje.</p>
-              <button class="pbtn">Zet in mijn mandje</button>
+              <button class="pbtn" onclick="klantMandje(this)">Zet in mijn mandje</button>
             </div>
             <div class="pcardui" style="--ac:var(--move)">
               <div class="h"><span class="ic">🚶</span>20 minuten buiten</div>
               <p>Wandeling, fietstochtje, tikkertje met de kids — alles telt.</p>
               <div class="pdone"><span class="chk">✓</span>Gedaan! +20 ⚡</div>
             </div>
-            <div class="pcardui" style="--ac:var(--care)">
+            <div class="pcardui" style="--ac:var(--care)" id="checkincard">
               <div class="h"><span class="ic">💬</span>Hoe voel je je vandaag?</div>
-              <p>Twee vraagjes, tien seconden.</p>
-              <button class="pbtn ghost">Doe de check-in</button>
+              <p>Eén vraagje, vijf seconden.</p>
+              <button class="pbtn ghost" onclick="startCheckin()">Doe de check-in</button>
             </div>
-            <div class="pminiboo"><svg viewBox="0 0 100 104" width="30" height="31"><use href="#boo-base"/></svg><span><b>Boo:</b> lekker bezig! Nog één stapje en je week is helemaal groen. 💚</span></div>
+            <div class="pminiboo" id="boo1"><svg viewBox="0 0 100 104" width="30" height="31"><use href="#boo-base"/></svg><span><b>Boo:</b> lekker bezig! Nog twee stapjes en je week is helemaal groen. 💚</span></div>
           </div>
         </div></div>
         <p class="phonecap"><b>Vandaag.</b> Drie stapjes, elk met een knop. Geen advies zonder actie — dat is de regel.</p>
@@ -635,14 +653,14 @@ footer a{color:var(--yb-deep)}
                 <tr><td>do</td><td>Foodbag: Thaise curry</td></tr>
                 <tr><td>vr</td><td>Zelfgemaakte pizza 🎉</td></tr>
               </table>
-              <button class="pbtn">Alles in het mandje — Collect&amp;Go</button>
-              <button class="pbtn ghost">Of laat het thuisbrengen met Foodbag</button>
+              <button class="pbtn" onclick="menuKanaal(this,'Collect&amp;Go','✓ 23 producten in je mandje — vrijdag af te halen in Halle')">Alles in het mandje — Collect&amp;Go</button>
+              <button class="pbtn ghost" onclick="menuKanaal(this,'Foodbag','✓ Foodbag-box besteld — donderdag aan je deur')">Of laat het thuisbrengen met Foodbag</button>
             </div>
             <div class="pcardui">
               <div class="h"><span class="ic" style="background:var(--yb-soft)">✨</span>Op maat van jullie gezin</div>
               <p>Dit menu past voor iedereen aan tafel — ook voor papa's hart en Wouts groeispurt. Meer moet je daar niet over weten. 😉</p>
             </div>
-            <div class="pminiboo"><svg viewBox="0 0 100 104" width="30" height="31"><use href="#boo-eet"/></svg><span><b>Boo:</b> ik heb wat minder zout gebruikt deze week. Proef je niks van, beloofd.</span></div>
+            <div class="pminiboo" id="boo2"><svg viewBox="0 0 100 104" width="30" height="31"><use href="#boo-eet"/></svg><span><b>Boo:</b> ik heb wat minder zout gebruikt deze week. Proef je niks van, beloofd.</span></div>
           </div>
         </div></div>
         <p class="phonecap"><b>Het gezinsmenu.</b> Eén knop naar het mandje. De reden áchter aanpassingen blijft privé — het menu klopt gewoon voor iedereen.</p>
@@ -658,23 +676,24 @@ footer a{color:var(--yb-deep)}
               <div class="pring">
                 <svg viewBox="0 0 80 80" width="74" height="74">
                   <circle cx="40" cy="40" r="33" fill="none" stroke="var(--hair)" stroke-width="9"/>
-                  <circle cx="40" cy="40" r="33" fill="none" stroke="var(--move)" stroke-width="9" stroke-linecap="round" stroke-dasharray="207" stroke-dashoffset="52" transform="rotate(-90 40 40)"/>
-                  <text x="40" y="45" text-anchor="middle" font-size="16" font-weight="800" fill="var(--ink)">75%</text>
+                  <circle id="ringc" cx="40" cy="40" r="33" fill="none" stroke="var(--move)" stroke-width="9" stroke-linecap="round" stroke-dasharray="207" stroke-dashoffset="52" transform="rotate(-90 40 40)" style="transition:stroke-dashoffset .5s ease"/>
+                  <text id="ringt" x="40" y="45" text-anchor="middle" font-size="16" font-weight="800" fill="var(--ink)">75%</text>
                 </svg>
-                <div class="rtxt"><b>75 van 100 km</b><small>Nog 25 km — dat is één zondagse rit!</small></div>
+                <div class="rtxt"><b id="ringb">75 van 100 km</b><small id="rings">Nog 25 km — dat is één zondagse rit!</small></div>
               </div>
+              <button class="pbtn" style="--ac:var(--move)" id="ridebtn" onclick="addRide()">➕ Rit van vandaag toevoegen (8 km)</button>
             </div>
             <div class="pcardui">
               <div class="h"><span class="ic" style="background:color-mix(in srgb, var(--move) 14%, transparent)">👏</span>Wie trapte wat?</div>
               <div class="members" style="margin-top:8px; --pc:var(--move)">
-                <div class="m"><span class="av">L</span><span class="mb"><i style="width:64%"></i></span><small>32 km</small></div>
+                <div class="m"><span class="av">L</span><span class="mb"><i id="barL" style="width:64%; transition:width .5s ease"></i></span><small id="kmL">32 km</small></div>
                 <div class="m"><span class="av">K</span><span class="mb"><i style="width:56%"></i></span><small>28 km</small></div>
                 <div class="m"><span class="av">W</span><span class="mb"><i style="width:24%"></i></span><small>12 km</small></div>
                 <div class="m"><span class="av">F</span><span class="mb"><i style="width:6%"></i></span><small>3 km</small></div>
               </div>
               <p style="margin-top:8px">Fien (5) telt dubbel mee met haar loopfietsje. 🏆 Badge bij 100 km: <b>Gezin op wielen</b></p>
             </div>
-            <div class="pminiboo"><svg viewBox="0 0 100 104" width="30" height="31"><use href="#boo-fiets"/></svg><span><b>Boo:</b> jullie liggen vóór op schema! Zondagsritje naar de ijsjesboer? 🍦</span></div>
+            <div class="pminiboo" id="boo3"><svg viewBox="0 0 100 104" width="30" height="31"><use href="#boo-fiets"/></svg><span><b>Boo:</b> jullie liggen vóór op schema! Zondagsritje naar de ijsjesboer? 🍦</span></div>
           </div>
         </div></div>
         <p class="phonecap"><b>De kring-challenge.</b> Ieder heeft zijn eigen plan; samen fietsen is de leuke laag erbovenop.</p>
@@ -696,9 +715,9 @@ footer a{color:var(--yb-deep)}
                 <div class="pf" style="--pc:var(--oranje)"><b>Gewoontes <span>🙂</span></b><div class="bar"><i style="width:60%"></i></div></div>
               </div>
               <p style="margin-top:9px">Gemaakt op basis van wat jij wilde delen: je aankopen en je vragenlijstje. Geen oordeel — gewoon je vertrekpunt.</p>
-              <button class="pbtn" style="--ac:var(--yb)">Kies waar je aan wil werken</button>
+              <div id="fotokies"><button class="pbtn" style="--ac:var(--yb)" onclick="toonPijlers()">Kies waar je aan wil werken</button></div>
             </div>
-            <div class="pminiboo"><svg viewBox="0 0 100 104" width="30" height="31"><use href="#boo-plan"/></svg><span><b>Boo:</b> slaap lijkt me iets voor ons, wat denk je? Kleine stapjes, grote nachten. 🌙</span></div>
+            <div class="pminiboo" id="boo4"><svg viewBox="0 0 100 104" width="30" height="31"><use href="#boo-plan"/></svg><span><b>Boo:</b> slaap lijkt me iets voor ons, wat denk je? Kleine stapjes, grote nachten. 🌙</span></div>
           </div>
         </div></div>
         <p class="phonecap"><b>De gezondheidsfoto.</b> Op vraag van de klant, positief gebracht, per bron opt-in.</p>
@@ -712,17 +731,17 @@ footer a{color:var(--yb-deep)}
             <div class="phello"><div class="who">Jij beslist. Altijd. <small>Wat mag Boo zien, en wie kijkt mee?</small></div></div>
             <div class="pcardui">
               <div class="h"><span class="ic" style="background:var(--yb-soft)">🛒</span>Wat ik deel</div>
-              <div class="ptoggle"><span>Mijn aankopen (Colruyt, Bio-Planet)<small>zo kan het menu écht op maat</small></span><span class="tgl on"></span></div>
-              <div class="ptoggle"><span>Mijn stappen (smartwatch)<small>voor de challenges</small></span><span class="tgl on"></span></div>
-              <div class="ptoggle"><span>Mijn apotheek-aankopen<small>uit, tot jij het aanzet</small></span><span class="tgl"></span></div>
+              <div class="ptoggle"><span>Mijn aankopen (Colruyt, Bio-Planet)<small>zo kan het menu écht op maat</small></span><span class="tgl on" onclick="tgl(this,'aankopen')"></span></div>
+              <div class="ptoggle"><span>Mijn stappen (smartwatch)<small>voor de challenges</small></span><span class="tgl on" onclick="tgl(this,'stappen')"></span></div>
+              <div class="ptoggle"><span>Mijn apotheek-aankopen<small>uit, tot jij het aanzet</small></span><span class="tgl" onclick="tgl(this,'apotheek')" data-lock="1"></span></div>
             </div>
             <div class="pcardui">
               <div class="h"><span class="ic" style="background:var(--yb-soft)">👀</span>Wie kijkt mee</div>
-              <div class="ptoggle"><span>Coach Sam<small>ziet mijn plan en voortgang</small></span><span class="tgl on"></span></div>
-              <div class="ptoggle"><span>Mijn gezin<small>ziet alleen challenges, nooit mijn cijfers</small></span><span class="tgl on"></span></div>
-              <div class="ptoggle"><span>Mijn huisarts<small>uit — aan te zetten wanneer jij wil</small></span><span class="tgl"></span></div>
+              <div class="ptoggle"><span>Coach Sam<small>ziet mijn plan en voortgang</small></span><span class="tgl on" onclick="tgl(this,'coach Sam')"></span></div>
+              <div class="ptoggle"><span>Mijn gezin<small>ziet alleen challenges, nooit mijn cijfers</small></span><span class="tgl on" onclick="tgl(this,'je gezin')"></span></div>
+              <div class="ptoggle"><span>Mijn huisarts<small>uit — aan te zetten wanneer jij wil</small></span><span class="tgl" onclick="tgl(this,'je huisarts')"></span></div>
             </div>
-            <div class="pminiboo"><svg viewBox="0 0 100 104" width="30" height="31"><use href="#boo-base"/></svg><span><b>Boo:</b> alles staat standaard op privé. Elk knopje kan je altijd weer uitzetten — dan vergeet ik het meteen.</span></div>
+            <div class="pminiboo" id="boo5"><svg viewBox="0 0 100 104" width="30" height="31"><use href="#boo-base"/></svg><span><b>Boo:</b> alles staat standaard op privé. Elk knopje kan je altijd weer uitzetten — dan vergeet ik het meteen.</span></div>
           </div>
         </div></div>
         <p class="phonecap"><b>Privacy in mensentaal.</b> Consent is geen kleine lettertjes maar knopjes die je begrijpt.</p>
@@ -905,6 +924,7 @@ footer a{color:var(--yb-deep)}
       <span class="sec-eyebrow">De coach · Sam — holistische hub, specialisten als spokes</span>
       <h2 class="sec-title">Eén plan, vele loketten — Sam bewaakt het geheel</h2>
       <p class="sec-lead">Sam kijkt over food, move en care heen. De AI bereidt voor, Sam beslist en verwijst door naar diëtist, JIMS-trainer of apotheker — die allemaal in <b>hetzelfde plan</b> schrijven.</p>
+      <span class="demohint">👆 Werkende demo — handel Sams ochtend zelf af</span>
     </div>
 
     <div class="winrow rv">
@@ -925,11 +945,11 @@ footer a{color:var(--yb-deep)}
               <div class="wkpis">
                 <div class="wkpi"><b>27</b><small>weeklussen gesloten</small></div>
                 <div class="wkpi"><b>86%</b><small>therapietrouw</small></div>
-                <div class="wkpi"><b>3</b><small>wacht op jou</small></div>
+                <div class="wkpi"><b id="waitkpi">3</b><small>wacht op jou</small></div>
               </div>
-              <div class="wrowi" style="--pc:var(--care)"><span class="av">MV</span><span><b>Marc V. — 2 weken geen beweegdata</b><small>plan-op-voorschrift · voorstel: bellen, geen pushbericht</small></span><span class="spacer"></span><button class="wbtn">Bel Marc</button></div>
-              <div class="wrowi" style="--pc:var(--oranje)"><span class="av">AD</span><span><b>Aïcha D. — "moeilijke week"</b><small>check-in gisteren 22:41 · slaap &amp; stress, week 2</small></span><span class="spacer"></span><button class="wbtn ghost">Stuur bericht</button></div>
-              <div class="wrowi" style="--pc:var(--paars)"><span class="av">⚖️</span><span><b>Kring-conflict gezin D. wacht op jouw beslissing</b><small>engine-voorstel klaar: één menu, twee portiegroottes</small></span><span class="spacer"></span><button class="wbtn">Bekijk</button></div>
+              <div class="wrowi" style="--pc:var(--care)"><span class="av">MV</span><span><b>Marc V. — 2 weken geen beweegdata</b><small>plan-op-voorschrift · voorstel: bellen, geen pushbericht</small></span><span class="spacer"></span><button class="wbtn" onclick="coachDoe(this,'📞 Gebeld — Marc herstart met de lunchwandeling. Notitie in het plan.')">Bel Marc</button></div>
+              <div class="wrowi" style="--pc:var(--oranje)"><span class="av">AD</span><span><b>Aïcha D. — "moeilijke week"</b><small>check-in gisteren 22:41 · slaap &amp; stress, week 2</small></span><span class="spacer"></span><button class="wbtn ghost" onclick="msgAicha(this)">Stuur bericht</button></div>
+              <div class="wrowi" style="--pc:var(--paars)" id="conflictrow"><span class="av">⚖️</span><span><b>Kring-conflict gezin D. wacht op jouw beslissing</b><small>engine-voorstel klaar: één menu, twee portiegroottes</small></span><span class="spacer"></span><button class="wbtn" onclick="conflictOpen(this)">Bekijk</button></div>
               <div class="wrowi" style="--pc:var(--yb)"><span class="av">LP</span><span><b>Lena P. — streak 5, week bijna groen</b><small>geen actie nodig, Boo doet zijn ding</small></span><span class="spacer"></span><span class="pill ok">op koers</span></div>
               <div class="wrowi" style="--pc:var(--blauw)"><span class="av">JT</span><span><b>Jef T. — bij de diëtist (spoke)</b><small>afspraak di 14u · komt daarna terug bij jou</small></span><span class="spacer"></span><span class="pill info">doorverwezen</span></div>
             </div>
@@ -950,9 +970,13 @@ footer a{color:var(--yb-deep)}
               <span class="wsi">🎓 Academy</span>
             </div>
             <div class="winmain">
-              <div class="wh"><b>Plan — Marc V.</b><small>versie 7 · eigenaar: Marc</small><span class="spacer"></span><button class="wbtn ghost">Historiek</button></div>
+              <div class="wh"><b>Plan — Marc V.</b><small id="planv">versie 7 · eigenaar: Marc</small><span class="spacer"></span><button class="wbtn ghost" onclick="histToggle(this)">Historiek</button></div>
+              <div id="hist" style="display:none" class="wlog"><span class="t">v7</span>  Sam       tempo verlaagd na gesprek
+<span class="t">v6</span>  diëtist   broodbeleg-alternatieven
+<span class="t">v5</span>  AI-coach  weekmenu herrekend (zoutarm)
+<span class="t">v4</span>  arts      voorwaarden via voorschrift 🔒</div>
               <div class="wchips"><span class="wchip sel">🔒 zoutarm</span><span class="wchip sel">🔒 30' bewegen per dag</span><span class="wchip sel">gewicht wekelijks</span><span class="wchip">+ voeg toe</span></div>
-              <div class="wrowi" style="--pc:var(--paars)"><span class="av">AI</span><span><b>Voorstel: wandelroute van 30' op Marcs vaste traject</b><small>past binnen de voorwaarden · wacht op jouw fiat</small></span><span class="spacer"></span><button class="wbtn">Neem over</button></div>
+              <div class="wrowi" style="--pc:var(--paars)"><span class="av">AI</span><span><b>Voorstel: wandelroute van 30' op Marcs vaste traject</b><small>past binnen de voorwaarden · wacht op jouw fiat</small></span><span class="spacer"></span><button class="wbtn" onclick="neemOver(this)">Neem over</button></div>
               <div class="wrowi" style="--pc:var(--oranje)"><span class="av">SAM</span><span><b>Tempo verlaagd: eerst 3×/week, dan opbouwen</b><small>jouw wijziging na het telefoongesprek — mens verslaat algoritme</small></span><span class="spacer"></span><span class="pill ok">actief</span></div>
               <div class="wrowi" style="--pc:var(--yb)"><span class="av">DIË</span><span><b>Broodbeleg-alternatieven toegevoegd</b><small>diëtist (spoke), binnen haar mandaat</small></span><span class="spacer"></span><span class="pill ok">actief</span></div>
               <div class="wlock">🔒 <span><b>Waaróm zoutarm?</b> Dat weet dit scherm niet. De diagnose blijft bij dr. Verhoeven — Sam coacht op het gevolg, nooit op de oorzaak.</span></div>
@@ -1000,6 +1024,7 @@ footer a{color:var(--yb-deep)}
       <span class="sec-eyebrow">De arts · Dr. Verhoeven — de medische ring</span>
       <h2 class="sec-title">De arts schrijft voor, wij voeren uit</h2>
       <p class="sec-lead">"Gezondheidsadvies van uw supermarkt" heeft een geloofwaardigheidsprobleem — tot de arts het voorschrijft. De arts houdt de medische data, ziet de therapietrouw, en leent zijn geloofwaardigheid alleen aan wat gecertificeerd is.</p>
+      <span class="demohint">👆 Werkende demo — stel zelf het voorschrift samen en verstuur het</span>
     </div>
 
     <div class="winrow rv">
@@ -1016,22 +1041,21 @@ footer a{color:var(--yb-deep)}
             </div>
             <div class="winmain">
               <div class="wh"><b>Leefstijlvoorschrift — Marc V. (°1970)</b><small>na revalidatie</small></div>
-              <span style="font-size:.66rem; font-weight:700; color:var(--muted)">Kies voorwaarden (gevalideerde bibliotheek):</span>
-              <div class="wchips">
-                <span class="wchip sel">✓ zoutarm</span>
-                <span class="wchip sel">✓ 30' matige inspanning per dag</span>
-                <span class="wchip sel">✓ gewichtsopvolging wekelijks</span>
-                <span class="wchip">rookstop</span>
-                <span class="wchip">slaaphygiëne</span>
-                <span class="wchip">alcohol beperken</span>
-                <span class="wchip">+ vrije voorwaarde</span>
+              <span style="font-size:.66rem; font-weight:700; color:var(--muted)">Kies voorwaarden (gevalideerde bibliotheek) — klik om te (de)selecteren:</span>
+              <div class="wchips" id="rxlib">
+                <span class="wchip sel" onclick="artsChip(this)" data-v="zoutarm">zoutarm</span>
+                <span class="wchip sel" onclick="artsChip(this)" data-v="30' bewegen">30' matige inspanning per dag</span>
+                <span class="wchip sel" onclick="artsChip(this)" data-v="gewicht wekelijks">gewichtsopvolging wekelijks</span>
+                <span class="wchip" onclick="artsChip(this)" data-v="rookstop">rookstop</span>
+                <span class="wchip" onclick="artsChip(this)" data-v="slaaphygiëne">slaaphygiëne</span>
+                <span class="wchip" onclick="artsChip(this)" data-v="alcohol beperken">alcohol beperken</span>
               </div>
               <div class="wchart">
                 <b>Wat de app ontvangt — en niets meer</b>
-                <div class="wchips" style="margin-top:7px"><span class="wchip sel">zoutarm</span><span class="wchip sel">30' bewegen</span><span class="wchip sel">gewicht wekelijks</span></div>
+                <div class="wchips" style="margin-top:7px" id="rxprev"><span class="wchip sel">zoutarm</span><span class="wchip sel">30' bewegen</span><span class="wchip sel">gewicht wekelijks</span></div>
               </div>
               <div class="wlock">🔒 <span><b>De diagnose blijft in dit dossier.</b> Het voorschrift draagt alleen de gevolgen over — de app en de coach kennen de reden nooit.</span></div>
-              <div class="wh"><span class="spacer"></span><button class="wbtn ghost">Bewaar concept</button><button class="wbtn" style="background:var(--blauw)">Verstuur naar Marcs toestel</button></div>
+              <div class="wh" id="rxact"><span class="spacer"></span><button class="wbtn ghost" onclick="rxDraft(this)">Bewaar concept</button><button class="wbtn" style="background:var(--blauw)" onclick="rxSend(this)">Verstuur naar Marcs toestel</button></div>
             </div>
           </div>
         </div>
@@ -1053,7 +1077,7 @@ footer a{color:var(--yb-deep)}
               <div class="wrowi" style="--pc:var(--yb)"><span class="av">MV</span><span><b>Marc V.</b><small>8/10 weken groen · dip opgevangen door coach</small></span><span class="spacer"></span><span class="weekstrip"><i></i><i></i><i></i><i class="miss"></i><i class="miss"></i><i></i><i></i><i></i><i></i><i></i></span></div>
               <div class="wrowi" style="--pc:var(--yb)"><span class="av">RC</span><span><b>Rita C.</b><small>zoutarm loopt · −3,2 kg in 12 weken</small></span><span class="spacer"></span><span class="weekstrip"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i class="miss"></i><i></i></span></div>
               <div class="wrowi" style="--pc:var(--care)"><span class="av">JB</span><span><b>Jos B.</b><small>afgehaakt na week 3</small></span><span class="spacer"></span><span class="weekstrip"><i></i><i></i><i></i><i class="miss"></i><i class="miss"></i><i class="miss"></i><i class="miss"></i><i class="miss"></i><i class="miss"></i><i class="miss"></i></span></div>
-              <div class="wrowi" style="--pc:var(--oranje)"><span class="av">→</span><span><b>Voorstel voor Jos: mens-gedreven herstart</b><small>coach belt eerst, app volgt — u beslist</small></span><span class="spacer"></span><button class="wbtn" style="background:var(--blauw)">Vraag coach-contact</button></div>
+              <div class="wrowi" style="--pc:var(--oranje)"><span class="av">→</span><span><b>Voorstel voor Jos: mens-gedreven herstart</b><small>coach belt eerst, app volgt — u beslist</small></span><span class="spacer"></span><button class="wbtn" style="background:var(--blauw)" onclick="coachDoe(this,'✓ Aangevraagd — coach Sam belt Jos deze week en koppelt terug.')">Vraag coach-contact</button></div>
               <div class="wlock">🔒 <span><b>U ziet therapietrouw, nooit winkeldata.</b> Wat Marc koopt of waar hij sport blijft bij hem — u ziet alleen of het plan gevolgd wordt.</span></div>
             </div>
           </div>
@@ -1545,6 +1569,186 @@ function setPers(p){
 document.querySelectorAll('.pcard').forEach(c=>c.addEventListener('click',()=>setPers(c.dataset.pers)));
 bubble.addEventListener('click',()=>{ tipIdx=(tipIdx+1)%tips[curPers].length; bubble.textContent=tips[curPers][tipIdx]; });
 document.getElementById('boobtn').addEventListener('click',()=>{ tipIdx=(tipIdx+1)%tips[curPers].length; bubble.textContent=tips[curPers][tipIdx]; });
+
+/* ============ WERKENDE POC: klant ============ */
+const booSvg = (v,s=30)=>`<svg viewBox="0 0 100 104" width="${s}" height="${Math.round(s*1.04)}"><use href="#${v}"/></svg>`;
+function setBoo(id, variant, html){ const el=document.getElementById(id); if(el) el.innerHTML = booSvg(variant)+`<span><b>Boo:</b> ${html}</span>`; }
+let sparks = 340;
+function addSparks(n){
+  sparks += n;
+  const el = document.getElementById('sparks');
+  el.textContent = '⚡ ' + sparks;
+  el.classList.remove('pop'); void el.offsetWidth; el.classList.add('pop');
+}
+let mandjeDone=false, checkinDone=false;
+function maybeStreak(){
+  if(mandjeDone && checkinDone){
+    const dots = document.querySelectorAll('#streak1 .d');
+    dots[5].classList.add('on'); dots[5].textContent='✓';
+    document.getElementById('streaktxt').textContent = '6 dagen op rij!';
+    setBoo('boo1','boo-cheer','JA! Week helemaal groen — zes dagen op rij. Morgen maken we er zeven van. 🎉');
+  }
+}
+function klantMandje(btn){
+  btn.outerHTML = '<div class="pdone"><span class="chk">✓</span>In je mandje! Morgen 16u klaar in Halle. +15 ⚡</div>';
+  addSparks(15); mandjeDone=true;
+  if(!checkinDone) setBoo('boo1','boo-eet','mmm, wokschotel. Nog één stapje en je week is helemaal groen!');
+  maybeStreak();
+}
+function startCheckin(){
+  document.getElementById('checkincard').innerHTML =
+    '<div class="h"><span class="ic">💬</span>Hoe voel je je vandaag?</div>'+
+    '<div class="checkrow">'+
+    '<button onclick="doCheckin(\'😴\')" aria-label="moe">😴</button>'+
+    '<button onclick="doCheckin(\'😐\')" aria-label="matig">😐</button>'+
+    '<button onclick="doCheckin(\'🙂\')" aria-label="goed">🙂</button>'+
+    '<button onclick="doCheckin(\'🤩\')" aria-label="super">🤩</button>'+
+    '</div>';
+}
+function doCheckin(mood){
+  document.getElementById('checkincard').innerHTML =
+    '<div class="h"><span class="ic">💬</span>Hoe voel je je vandaag?</div>'+
+    `<div class="pdone"><span class="chk">✓</span>Genoteerd: ${mood} · +10 ⚡</div>`;
+  addSparks(10); checkinDone=true;
+  const reacties = {'😴':'Zachtjes aan vandaag dan. Je wandeling telt dubbel als frisse-neus-moment. 🌿','😐':'Oké, gewoon een gewone dag. Kleine stapjes zijn dan precies goed.','🙂':'Fijn! Dan is het een goede dag om de wokschotel te proberen.','🤩':'Kijk eens aan! Zin om vandaag een extra stapje te doen?'};
+  if(!(mandjeDone)) setBoo('boo1','boo-base', reacties[mood]);
+  maybeStreak();
+}
+function menuKanaal(btn, kanaal, msg){
+  const card = btn.closest('.pcardui');
+  card.querySelectorAll('.pbtn').forEach(b=>b.remove());
+  card.insertAdjacentHTML('beforeend', `<div class="pdone"><span class="chk">✓</span>${msg.replace('✓ ','')} · +10 ⚡</div>`);
+  addSparks(10);
+  setBoo('boo2','boo-cheer', kanaal==='Foodbag' ? 'topkeuze — donderdag koken we samen Thais! 🍛' : 'geregeld! Vrijdag staat alles klaar. Tot dan hou ik het menu warm. 😉');
+}
+let km = 75; const ritten = [8,9,8];
+let rit = 0;
+function addRide(){
+  km = Math.min(100, km + ritten[Math.min(rit, ritten.length-1)]); rit++;
+  const p = km/100;
+  document.getElementById('ringc').style.strokeDashoffset = 207*(1-p);
+  document.getElementById('ringt').textContent = km>=100 ? '🏆' : Math.round(p*100)+'%';
+  document.getElementById('ringb').textContent = km>=100 ? '100 km — gehaald!' : `${km} van 100 km`;
+  document.getElementById('rings').textContent = km>=100 ? 'Badge verdiend — dik verdiend zelfs.' : `Nog ${100-km} km — bijna, hé!`;
+  const lkm = 32 + [8,17,25][Math.min(rit-1,2)];
+  document.getElementById('barL').style.width = Math.min(100, Math.round(lkm/50*100))+'%';
+  document.getElementById('kmL').textContent = lkm+' km';
+  if(km>=100){
+    document.getElementById('ridebtn').outerHTML = '<div class="badgeban">🏆 Badge ontgrendeld: Gezin op wielen · +50 ⚡</div>';
+    addSparks(50);
+    setBoo('boo3','boo-cheer','100 KM! Jullie zijn officieel een Gezin op wielen! IJsjes verdiend — zeg maar tegen papa dat ik het zei. 🍦🎉');
+  } else {
+    setBoo('boo3','boo-fiets', km>=90 ? `${km} km… ik ruik de finish (en het ijsjeskraam). Nog ${100-km} km!` : `${km} km al! Lekker tempo, familie P. 🚴`);
+  }
+}
+function toonPijlers(){
+  document.getElementById('fotokies').innerHTML =
+    '<div class="pillrow">'+
+    ['🌙 Slaap','🥗 Voeding','🚶 Beweging','🧘 Ontspanning','🤝 Samen','🔄 Gewoontes'].map(p=>`<button onclick="kiesFocus('${p}')">${p}</button>`).join('')+
+    '</div>';
+}
+function kiesFocus(p){
+  document.getElementById('fotokies').innerHTML = `<div class="pdone"><span class="chk">✓</span>Nieuw doel: ${p} — je plan wordt bijgewerkt</div>`;
+  const naam = p.split(' ')[1];
+  setBoo('boo4','boo-cheer', naam==='Slaap' ? 'goeie keuze! Vanavond je eerste mini-stapje: schermen uit om 22u. Ik onthou het voor je. 🌙' : `${naam} it is! Ik zet vanavond je eerste kleine stapje klaar. Kleine stapjes, grote sprongen.`);
+}
+function tgl(el, naam){
+  if(el.dataset.lock){
+    setBoo('boo5','boo-plan','deze bron is gevoeliger — die vraagt een aparte, uitgebreide toestemming. Daar zijn de juristen nog mee bezig, dus hij blijft nog even uit. 🔍');
+    return;
+  }
+  el.classList.toggle('on');
+  const aan = el.classList.contains('on');
+  if(aan){
+    setBoo('boo5','boo-base',`aan! Vanaf nu telt ${naam} mee. Uitzetten kan altijd — één tik.`);
+  } else {
+    setBoo('boo5','boo-boos',`uitgezet — stroom gestopt, historiek bevroren. En nee, ik ben niet boos op jou, ik kijk zo streng naar wie er tóch om zou vragen. 😤`);
+  }
+}
+
+/* ============ WERKENDE POC: coach ============ */
+function waitDown(){
+  const k = document.getElementById('waitkpi');
+  const n = Math.max(0, parseInt(k.textContent)-1);
+  k.textContent = n;
+  if(n===0){
+    const main = k.closest('.winmain');
+    main.insertAdjacentHTML('beforeend','<div class="wlock" style="border-color:color-mix(in srgb, var(--yb) 50%, transparent); background:var(--yb-soft)">🎉 <span><b>Alles afgehandeld.</b> Sams ochtendlijst is leeg — de rest van de dag is voor de gesprekken zelf.</span></div>');
+  }
+}
+function coachDoe(btn, msg){
+  const row = btn.closest('.wrowi');
+  btn.remove();
+  row.insertAdjacentHTML('beforeend','<span class="pill ok">✓ gedaan</span>');
+  row.querySelector('small').textContent = msg;
+  if(row.closest('#p-coach')) waitDown();
+}
+function msgAicha(btn){
+  const row = btn.closest('.wrowi');
+  btn.outerHTML =
+    '<span class="wchips">'+
+    '<button class="wbtn ghost" onclick="stuurMsg(this,\'Ik denk aan je. Klein stapje vandaag is genoeg. 💚\')">"Klein stapje is genoeg 💚"</button>'+
+    '<button class="wbtn ghost" onclick="stuurMsg(this,\'Zullen we morgen even bellen?\')">"Zullen we bellen?"</button>'+
+    '</span>';
+}
+function stuurMsg(btn, tekst){
+  const row = btn.closest('.wrowi');
+  row.querySelector('.wchips').remove();
+  row.insertAdjacentHTML('beforeend','<span class="pill ok">✓ verstuurd</span>');
+  row.querySelector('small').textContent = 'jij: "'+tekst+'"';
+  waitDown();
+}
+function conflictOpen(btn){
+  btn.remove();
+  document.getElementById('conflictrow').insertAdjacentHTML('afterend',
+    '<div class="decidebox" id="decide">⚖️ <b>Weekmenu gezin D.</b> — mama\'s plan vraagt kcal-beperkt, tiener Ilias zit in een groeispurt. De engine stelt voor: <b>één menu, twee portiegroottes</b>. De engine hakt geen knopen door over mensen — jij wel.'+
+    '<div class="opts">'+
+    '<button onclick="conflictDecide(\'Voorstel goedgekeurd: één menu, twee porties\')">✓ Keur voorstel goed</button>'+
+    '<button onclick="conflictDecide(\'Aangepast: extra tussendoortjes voor Ilias toegevoegd\')">✏️ Pas zelf aan</button>'+
+    '<button onclick="conflictDecide(\'Overlegd met kring-planner — samen beslist: voorstel plus vrijdag friet (balans, hé)\')">💬 Bespreek met kring-planner</button>'+
+    '</div></div>');
+}
+function conflictDecide(uitkomst){
+  document.getElementById('decide').outerHTML = '';
+  const row = document.getElementById('conflictrow');
+  row.querySelector('b').textContent = 'Kring-conflict gezin D. — beslecht';
+  row.querySelector('small').textContent = uitkomst + ' · niemand aan tafel merkt er iets van';
+  row.insertAdjacentHTML('beforeend','<span class="pill ok">✓ beslist</span>');
+  waitDown();
+}
+function neemOver(btn){
+  const row = btn.closest('.wrowi');
+  btn.remove();
+  row.insertAdjacentHTML('beforeend','<span class="pill ok">actief</span>');
+  row.querySelector('small').textContent = 'overgenomen door Sam · staat vanaf morgen in Marcs app';
+  const pv = document.getElementById('planv'); if(pv) pv.textContent = 'versie 8 · eigenaar: Marc';
+}
+function histToggle(btn){
+  const h = document.getElementById('hist');
+  h.style.display = h.style.display==='none' ? 'block' : 'none';
+}
+
+/* ============ WERKENDE POC: arts ============ */
+function artsChip(el){
+  el.classList.toggle('sel');
+  const sel = [...document.querySelectorAll('#rxlib .wchip.sel')];
+  document.getElementById('rxprev').innerHTML = sel.length
+    ? sel.map(c=>`<span class="wchip sel">${c.dataset.v}</span>`).join('')
+    : '<span class="wchip">nog geen voorwaarden gekozen</span>';
+}
+function rxDraft(btn){
+  btn.textContent = '✓ concept bewaard';
+  setTimeout(()=>{ btn.textContent = 'Bewaar concept'; }, 1600);
+}
+function rxSend(btn){
+  const n = document.querySelectorAll('#rxlib .wchip.sel').length;
+  if(!n){ btn.textContent = 'Kies eerst een voorwaarde'; setTimeout(()=>{btn.textContent='Verstuur naar Marcs toestel';},1600); return; }
+  const act = document.getElementById('rxact');
+  act.innerHTML = '<span class="wchip">📲 wachten op consent van Marc…</span>';
+  setTimeout(()=>{
+    act.innerHTML = `<span class="pill ok">✓ Marc gaf consent — plan aangemaakt met ${n} voorwaarde${n>1?'n':''}</span> <span class="wchip">coach Sam belt binnen 48 u</span>`;
+  }, 1400);
+}
 
 /* ============ thema-schakelaar ============ */
 const themeBtn = document.getElementById('themebtn');
