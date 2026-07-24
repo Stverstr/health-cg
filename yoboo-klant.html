@@ -81,6 +81,10 @@ h1 small{display:block; font-size:.8rem; color:var(--muted); font-weight:400; ma
 .ibtn{margin-left:auto; width:20px; height:20px; border-radius:50%; border:1px solid var(--hair); background:var(--card); color:var(--muted); font-size:.68rem; font-weight:800; line-height:1; display:flex; align-items:center; justify-content:center}
 .ibtn:hover{border-color:var(--yb); color:var(--yb-deep)}
 .ibtn.big{width:30px; height:30px; font-size:.9rem; margin-left:0; flex:0 0 30px}
+.terug{border:none; background:none; color:var(--yb-deep); font-weight:800; font-size:.8rem; text-align:left; padding:0}
+.zoekveld{width:100%; border:1px solid var(--hair); border-radius:12px; padding:10px 12px; font:inherit; font-size:.84rem; background:var(--card); color:var(--ink)}
+.zoekveld::placeholder{color:var(--muted)}
+.zoekveld:focus{outline:none; border-color:var(--yb)}
 .tip{display:none; position:absolute; top:27px; left:0; right:0; z-index:20; background:var(--card); border:1px solid var(--hair); border-radius:14px; padding:4px 14px; box-shadow:var(--shadow)}
 .tip.show{display:block}
 .checkrow{display:flex; gap:7px; margin-top:10px}
@@ -148,6 +152,11 @@ h1 small{display:block; font-size:.8rem; color:var(--muted); font-weight:400; ma
 .wrow .dots i.open{background:var(--hair)}
 .wrow small{margin-left:auto; color:var(--muted); font-size:.7rem}
 .wrow.today{background:var(--yb-soft); border-radius:9px; padding:4px 7px; margin:0 -7px}
+.wrow{cursor:pointer}
+.wrow:hover .dag{color:var(--yb-deep)}
+.dagdet{background:var(--paper); border:1px dashed var(--hair); border-radius:10px; padding:8px 11px; margin:2px 0 4px; font-size:.78rem; display:flex; flex-direction:column; gap:4px}
+.dagdet .st{color:var(--muted)}
+.dagdet .st.ok{color:var(--yb-deep); font-weight:700}
 
 /* tabbalk */
 nav{
@@ -245,15 +254,26 @@ nav button.act{color:var(--yb-deep); background:var(--yb-soft)}
       </div>
       <div class="card">
         <div class="h"><span class="ic" style="background:var(--yb-soft)">📅</span>Deze week</div>
+        <p style="font-size:.72rem">Tik op een dag om de stapjes van die dag te zien.</p>
         <div class="week">
-          <div class="wrow"><span class="dag">ma</span><span class="dots"><i></i><i></i><i></i></span><small>alles gedaan 🎉</small></div>
-          <div class="wrow"><span class="dag">di</span><span class="dots"><i></i><i></i><i></i></span><small>alles gedaan</small></div>
-          <div class="wrow"><span class="dag">wo</span><span class="dots"><i></i><i class="half"></i><i></i></span><small>drukke dag — telt toch</small></div>
-          <div class="wrow"><span class="dag">do</span><span class="dots"><i></i><i></i><i></i></span><small>alles gedaan</small></div>
-          <div class="wrow"><span class="dag">vr</span><span class="dots"><i></i><i></i><i></i></span><small>alles gedaan</small></div>
-          <div class="wrow today"><span class="dag">za</span><span class="dots" id="zadots"><i class="open"></i><i></i><i class="open"></i></span><small>vandaag — 1 van 3</small></div>
-          <div class="wrow"><span class="dag">zo</span><span class="dots"><i class="open"></i><i class="open"></i><i class="open"></i></span><small>morgen</small></div>
+          <div class="wrow" onclick="toonDag('ma',this)"><span class="dag">ma</span><span class="dots"><i></i><i></i><i></i></span><small>alles gedaan 🎉</small></div>
+          <div class="wrow" onclick="toonDag('di',this)"><span class="dag">di</span><span class="dots"><i></i><i></i><i></i></span><small>alles gedaan</small></div>
+          <div class="wrow" onclick="toonDag('wo',this)"><span class="dag">wo</span><span class="dots"><i></i><i class="half"></i><i></i></span><small>drukke dag — telt toch</small></div>
+          <div class="wrow" onclick="toonDag('do',this)"><span class="dag">do</span><span class="dots"><i></i><i></i><i></i></span><small>alles gedaan</small></div>
+          <div class="wrow" onclick="toonDag('vr',this)"><span class="dag">vr</span><span class="dots"><i></i><i></i><i></i></span><small>alles gedaan</small></div>
+          <div class="wrow today" onclick="toonDag('za',this)"><span class="dag">za</span><span class="dots" id="zadots"><i class="open"></i><i></i><i class="open"></i></span><small>vandaag — 1 van 3</small></div>
+          <div class="wrow" onclick="toonDag('zo',this)"><span class="dag">zo</span><span class="dots"><i class="open"></i><i class="open"></i><i class="open"></i></span><small>morgen</small></div>
         </div>
+      </div>
+      <div class="card">
+        <div class="h"><span class="ic" style="background:var(--yb-soft)">🎛️</span>Jouw tempo, jouw stapjes</div>
+        <p><b>Waarom drie per dag?</b> Klein genoeg om vol te houden, groot genoeg om vooruit te gaan. Maar jij kiest — Boo bewaakt alleen de haalbaarheid.</p>
+        <div class="chips" id="aantalchips">
+          <span class="chip btn" onclick="kiesAantal(this,2)">2 per dag</span>
+          <span class="chip btn sel" onclick="kiesAantal(this,3)">3 per dag</span>
+          <span class="chip btn" onclick="kiesAantal(this,4)">4 per dag</span>
+        </div>
+        <div id="bieb"><button class="pbtn ghost" onclick="toonBieb()">➕ Zelf een stapje kiezen uit de bibliotheek</button></div>
       </div>
       <div class="card">
         <div class="h"><span class="ic" style="background:var(--yb-soft)">🤝</span>Wie helpt mee</div>
@@ -393,6 +413,7 @@ nav button.act{color:var(--yb-deep); background:var(--yb-soft)}
         <div class="tgl-row"><span>Coach Sam<small>ziet mijn plan en voortgang</small></span><span class="tgl on" onclick="tgl(this,'coach Sam')"></span></div>
         <div class="tgl-row"><span>Mijn gezin<small>niveau kies je in het Gezin-tabblad · nu: alleen challenges</small></span><span class="tgl on" onclick="tgl(this,'je gezin')"></span></div>
         <div class="tgl-row"><span>Mijn huisarts<small>uit — aan te zetten wanneer jij wil</small></span><span class="tgl" onclick="tgl(this,'je huisarts')"></span></div>
+        <button class="pbtn ghost" onclick="ga('zoek')">➕ Zoek een coach of specialist</button>
       </div>
       <div class="card">
         <div class="h"><span class="ic" style="background:var(--yb-soft)">🗂️</span>Mijn data</div>
@@ -402,6 +423,30 @@ nav button.act{color:var(--yb-deep); background:var(--yb-soft)}
         </div>
       </div>
       <div class="miniboo" id="boo-ik"><svg viewBox="0 0 100 104" width="34" height="35"><use href="#boo-base"/></svg><span><b>Boo:</b> alles staat standaard op privé. Elk knopje kan je altijd weer uitzetten — dan vergeet ik het meteen.</span></div>
+    </section>
+
+    <!-- ================= ZOEK & VOEG TOE ================= -->
+    <section class="view" id="v-zoek">
+      <button class="terug" onclick="ga('ik')">← terug naar Ik</button>
+      <h1>Iemand toevoegen <small>Coach, zorgverlener of specialist — niemand ziet iets zonder jouw fiat.</small></h1>
+      <input class="zoekveld" id="zoekq" placeholder="🔍 Zoek op naam of specialiteit…" oninput="filterHulp()">
+      <div class="chips" id="zoekcats">
+        <span class="chip btn sel" data-c="alle" onclick="katHulp(this)">alle</span>
+        <span class="chip btn" data-c="coach" onclick="katHulp(this)">coach</span>
+        <span class="chip btn" data-c="dietist" onclick="katHulp(this)">diëtist</span>
+        <span class="chip btn" data-c="kine" onclick="katHulp(this)">kinesist</span>
+        <span class="chip btn" data-c="slaap" onclick="katHulp(this)">slaap</span>
+        <span class="chip btn" data-c="arts" onclick="katHulp(this)">huisarts</span>
+      </div>
+      <div class="card" id="hulplijst">
+        <div class="gzlid" data-cat="coach" style="--pc:var(--yb)"><span class="av">SV</span><span><b>Sam V.</b> — holistische coach<small>CG Academy-gecertificeerd · supervisie dr. Aerts · jouw coach sinds juni</small></span><span class="tag">jouw coach</span></div>
+        <div class="gzlid" data-cat="dietist" style="--pc:var(--food)"><span class="av">ND</span><span><b>Nele D.</b> — diëtiste<small>Newpharma St. Gilles · ook online · schrijft mee in jouw plan</small></span><span class="chip btn" style="margin-left:auto" onclick="voegToe(this,'Nele')">Voeg toe</span></div>
+        <div class="gzlid" data-cat="kine" style="--pc:var(--move)"><span class="av">KB</span><span><b>Karim B.</b> — kinesist<small>groepspraktijk Halle · knie &amp; rug · samenwerking met Jims</small></span><span class="chip btn" style="margin-left:auto" onclick="voegToe(this,'Karim')">Voeg toe</span></div>
+        <div class="gzlid" data-cat="slaap" style="--pc:var(--paars)"><span class="av">MS</span><span><b>Mira S.</b> — slaapcoach<small>online · microlessen &amp; 1-op-1 · CG Academy-gecertificeerd</small></span><span class="chip btn" style="margin-left:auto" onclick="voegToe(this,'Mira')">Voeg toe</span></div>
+        <div class="gzlid" data-cat="arts" style="--pc:var(--care)"><span class="av">DJ</span><span><b>Dr. Janssens</b> — jouw huisarts<small>koppelt via je eHealth-profiel · ziet alleen wat jij openzet</small></span><span class="chip btn" style="margin-left:auto" onclick="voegToe(this,'dr. Janssens')">Koppel</span></div>
+      </div>
+      <div id="zoekfiat"></div>
+      <div class="miniboo"><svg viewBox="0 0 100 104" width="34" height="35"><use href="#boo-base"/></svg><span><b>Boo:</b> iedereen hier is gecertificeerd — CG Academy of erkend zorgverlener. En wie je ook toevoegt: jij kiest wat die ziet.</span></div>
     </section>
   </main>
 
@@ -495,6 +540,35 @@ function fiatWeek5(ok){
     : '<div class="pdone"><span class="chk">✓</span>Genoteerd — Boo houdt week 4 nog even aan en vraagt het later opnieuw</div>';
   setBoo('boo-plan-v','boo-plan', ok ? 'week 5 staat klaar! Het slaapstapje begint piepklein: schermen uit om 22u. Meer niet. 🌙' : 'helemaal oké — jouw tempo is hét tempo. Ik vraag het volgende week gewoon nog eens.');
 }
+const weekacties={
+  ma:[['🥗 Wokschotel gekookt','✓'],['🚶 20 min buiten','✓'],['💬 Check-in gedaan','✓']],
+  di:[['🥗 Pasta met veel groentjes','✓'],['🚶 Lunchwandeling','✓'],['💬 Check-in gedaan','✓']],
+  wo:[['🥗 Vis met puree','✓'],['🚶 Lunchwandeling — halve, drukke dag','◐'],['💬 Check-in gedaan','✓']],
+  do:[['🥗 Foodbag: Thaise curry','✓'],['🚶 Met de fiets naar het werk','✓'],['💬 Check-in gedaan','✓']],
+  vr:[['🥗 Zelfgemaakte pizza','✓'],['🚶 20 min buiten','✓'],['💬 Check-in gedaan','✓']],
+  za:[['🛒 Mandje voor volgende week','○'],['🚶 20 min buiten','✓'],['💬 Check-in','○']],
+  zo:[['🥗 Zondagse soep maken','○'],['🚴 Gezinsrit — telt mee voor de challenge','○'],['💬 Check-in','○']]
+};
+function toonDag(d,row){
+  const vol=row.nextElementSibling;
+  if(vol && vol.classList.contains('dagdet')){ vol.remove(); return; }
+  document.querySelectorAll('.dagdet').forEach(e=>e.remove());
+  row.insertAdjacentHTML('afterend','<div class="dagdet">'+
+    weekacties[d].map(([t,s])=>`<span class="st ${s==='✓'?'ok':''}">${s} ${t}</span>`).join('')+'</div>');
+}
+function kiesAantal(el,n){
+  document.querySelectorAll('#aantalchips .chip').forEach(c=>c.classList.remove('sel'));
+  el.classList.add('sel');
+  setBoo('boo-plan-v','boo-plan', n===2?'rustiger tempo — heel verstandig. Ik hou de twee stapjes die het meest opbrengen; de rest parkeer ik.':n===3?'terug naar drie — de gulden middenweg. Vanaf morgen staat je dag weer zo klaar.':'ambitieus! Ik voeg er vanaf morgen eentje bij. Maar beloof me: wordt het te veel, dan zeg je het gewoon. 💪');
+}
+function toonBieb(){
+  document.getElementById('bieb').innerHTML='<div class="chips">'+
+    ['🍎 Fruit bij het ontbijt','🚶 10.000 stappen','🧘 5 min ademhaling','🌙 Schermen uit om 22u','💧 2 liter water','🚴 Fietsen naar het werk'].map(s=>`<span class="chip btn" onclick="kiesBieb('${s}')">${s}</span>`).join('')+'</div>';
+}
+function kiesBieb(s){
+  document.getElementById('bieb').innerHTML=`<div class="pdone"><span class="chk">✓</span>Toegevoegd: ${s} — vanaf morgen in je plan</div>`;
+  setBoo('boo-plan-v','boo-cheer',`goeie keuze! Ik plan "${s}" in op de dagen waar hij het best past. En wordt het te veel — dan zeg ik het eerlijk. 😉`);
+}
 function vraagHulp(){
   document.getElementById('hulpvraag').innerHTML=
     '<div class="chips">'+
@@ -564,6 +638,32 @@ function kiesFocus(p){
 }
 function nieuweFoto(){
   document.getElementById('nieuwfoto').innerHTML='<div class="pdone"><span class="chk">✓</span>Extra foto gevraagd — morgen klaar. De automatische van 1 augustus komt er gewoon bij</div>';
+}
+
+/* zoek & voeg toe */
+function katHulp(el){
+  document.querySelectorAll('#zoekcats .chip').forEach(c=>c.classList.remove('sel'));
+  el.classList.add('sel');
+  filterHulp();
+}
+function filterHulp(){
+  const q=document.getElementById('zoekq').value.toLowerCase();
+  const cat=document.querySelector('#zoekcats .sel').dataset.c;
+  document.querySelectorAll('#hulplijst .gzlid').forEach(r=>{
+    r.style.display = (cat==='alle'||r.dataset.cat===cat) && r.textContent.toLowerCase().includes(q) ? '' : 'none';
+  });
+}
+function voegToe(el,naam){
+  el.outerHTML='<span class="tag" style="margin-left:auto">gevraagd</span>';
+  document.getElementById('zoekfiat').innerHTML=
+    `<div class="card"><div class="h"><span class="ic" style="background:var(--yb-soft)">🔑</span>Wat mag ${naam} van jou zien?</div>
+    <div class="chips" style="margin-top:8px">`+
+    ['alleen mijn plan','plan + voortgang','alles, ook mijn check-ins'].map(z=>`<span class="chip btn" onclick="kiesZicht('${naam}','${z}')">${z}</span>`).join('')+
+    '</div></div>';
+}
+function kiesZicht(naam,z){
+  document.getElementById('zoekfiat').innerHTML=
+    `<div class="pdone"><span class="chk">✓</span>${naam} toegevoegd — ziet: ${z}. Je vindt dit terug bij <b>Ik → Wie kijkt mee</b>, en uitzetten kan daar altijd.</div>`;
 }
 
 /* Boo-chat */
