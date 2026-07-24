@@ -7,12 +7,12 @@
 <style>
 /* ============ YOBOO TOKENS (uit yoboo.be) ============ */
 :root{
-  --yb:#27A577; --yb-deep:#17795A; --yb-soft:rgba(39,165,119,.12);
-  --ink:#191717; --muted:#5F5B57; --hair:#E4E1D8;
+  --yb:#27A577; --yb-deep:#157258; --yb-soft:rgba(39,165,119,.13);
+  --ink:#141212; --muted:#4C4843; --hair:#D9D4C7;
   --cream:#F5F5EF; --paper:#FBFBF9; --card:#FFFFFF;
-  --sun:#FFCC00; --coral:#FD817A; --oranje:#E57C41; --blauw:#4188FF; --paars:#9938BC;
-  --food:#27A577; --move:#4188FF; --care:#FD817A; --leren:#E5A800;
-  --shadow:0 12px 34px rgba(25,23,23,.09);
+  --sun:#FFCC00; --coral:#FD817A; --oranje:#D96A2E; --blauw:#2F6FE4; --paars:#8A2FAC;
+  --food:#1E9066; --move:#2F6FE4; --care:#E8615A; --leren:#B98800;
+  --shadow:0 12px 34px rgba(25,23,23,.12);
   --r:22px;
 }
 @media (prefers-color-scheme: dark){
@@ -34,12 +34,12 @@
   --shadow:0 12px 34px rgba(0,0,0,.4);
 }
 :root[data-theme="light"]{
-  --yb:#27A577; --yb-deep:#17795A; --yb-soft:rgba(39,165,119,.12);
-  --ink:#191717; --muted:#5F5B57; --hair:#E4E1D8;
+  --yb:#27A577; --yb-deep:#157258; --yb-soft:rgba(39,165,119,.13);
+  --ink:#141212; --muted:#4C4843; --hair:#D9D4C7;
   --cream:#F5F5EF; --paper:#FBFBF9; --card:#FFFFFF;
-  --sun:#FFCC00; --coral:#FD817A; --oranje:#E57C41; --blauw:#4188FF; --paars:#9938BC;
-  --food:#27A577; --move:#4188FF; --care:#FD817A; --leren:#E5A800;
-  --shadow:0 12px 34px rgba(25,23,23,.09);
+  --sun:#FFCC00; --coral:#FD817A; --oranje:#D96A2E; --blauw:#2F6FE4; --paars:#8A2FAC;
+  --food:#1E9066; --move:#2F6FE4; --care:#E8615A; --leren:#B98800;
+  --shadow:0 12px 34px rgba(25,23,23,.12);
 }
 *{margin:0; padding:0; box-sizing:border-box}
 html{scroll-behavior:smooth}
@@ -108,18 +108,17 @@ a{color:var(--yb-deep)}
 
 /* ============ PERSPECTIEF-TABS ============ */
 .persnav{position:sticky; top:62px; z-index:50; background:var(--cream); padding:16px 0 12px; border-bottom:1px solid var(--hair)}
-.perscards{display:grid; grid-template-columns:repeat(4,1fr); gap:12px}
-@media(max-width:880px){.perscards{grid-template-columns:repeat(2,1fr)}}
+.perscards{display:flex; flex-wrap:wrap; gap:10px}
 .pcard{
-  display:flex; align-items:center; gap:12px; text-align:left;
-  border:2px solid var(--hair); border-radius:16px; padding:12px 16px; background:var(--card);
+  flex:1 1 150px; display:flex; align-items:center; gap:10px; text-align:left;
+  border:2px solid var(--hair); border-radius:14px; padding:10px 13px; background:var(--card);
   cursor:pointer; font-family:inherit; color:var(--ink); transition:border-color .2s, box-shadow .2s;
 }
 .pcard:hover{border-color:color-mix(in srgb, var(--pc) 55%, transparent)}
 .pcard.act{border-color:var(--pc); box-shadow:var(--shadow)}
-.pcard .dot{flex:0 0 40px; width:40px; height:40px; border-radius:50%; background:color-mix(in srgb, var(--pc) 16%, transparent); display:flex; align-items:center; justify-content:center; font-size:1.25rem}
-.pcard b{display:block; font-size:.95rem}
-.pcard small{display:block; font-size:.74rem; color:var(--muted); margin-top:1px}
+.pcard .dot{flex:0 0 34px; width:34px; height:34px; border-radius:50%; background:color-mix(in srgb, var(--pc) 16%, transparent); display:flex; align-items:center; justify-content:center; font-size:1.05rem}
+.pcard b{display:block; font-size:.85rem; line-height:1.2}
+.pcard small{display:block; font-size:.68rem; color:var(--muted); margin-top:1px; line-height:1.3}
 .panel{display:none}
 .panel.show{display:block}
 
@@ -189,6 +188,38 @@ a{color:var(--yb-deep)}
 .members .mb{flex:1; height:7px; border-radius:5px; background:var(--hair); overflow:hidden}
 .members .mb i{display:block; height:100%; background:var(--pc); border-radius:5px}
 .members small{width:44px; text-align:right; color:var(--muted); font-size:.62rem}
+
+/* ============ ONBOARDING-DEUREN ============ */
+.onb{display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-top:36px}
+@media(max-width:980px){.onb{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.onb{grid-template-columns:1fr}}
+.flow{border:1px solid var(--hair); border-top:5px solid var(--fc); border-radius:16px; background:var(--card); padding:18px 19px; display:flex; flex-direction:column; box-shadow:var(--shadow)}
+.flow .fk{font-size:.64rem; font-weight:800; letter-spacing:.12em; text-transform:uppercase; color:var(--fc)}
+.flow h4{font-size:1.02rem; margin-top:3px}
+.flow ol{list-style:none; margin-top:13px; display:grid; gap:9px}
+.flow li{display:flex; gap:9px; font-size:.8rem; color:var(--muted); line-height:1.45}
+.flow li i{font-style:normal; flex:0 0 20px; width:20px; height:20px; border-radius:50%; background:color-mix(in srgb, var(--fc) 14%, transparent); color:var(--fc); font-weight:800; font-size:.62rem; display:flex; align-items:center; justify-content:center; margin-top:1px}
+.flow li b{color:var(--ink)}
+.flow .conv{margin-top:auto; padding-top:12px; font-size:.72rem; font-weight:800; color:var(--yb-deep); border-top:1px dashed var(--hair)}
+
+/* ============ PERSONA-NUDGES (loyalty-stijl) ============ */
+.personas{display:grid; grid-template-columns:repeat(2,1fr); gap:16px; margin-top:36px}
+@media(max-width:880px){.personas{grid-template-columns:1fr}}
+.persona{border:1px solid var(--hair); border-radius:18px; background:var(--card); padding:20px 22px; box-shadow:var(--shadow)}
+.persona .top{display:flex; gap:12px; align-items:center}
+.persona .pav{flex:0 0 46px; width:46px; height:46px; border-radius:50%; background:color-mix(in srgb, var(--pc) 16%, transparent); display:flex; align-items:center; justify-content:center; font-size:1.35rem}
+.persona .top b{font-size:1rem}
+.persona .top small{display:block; font-size:.76rem; color:var(--muted)}
+.persona .steps{margin-top:15px; display:grid; gap:9px}
+.persona .step{display:flex; gap:10px; font-size:.83rem; align-items:flex-start}
+.persona .step .lbl{flex:0 0 76px; font-size:.6rem; font-weight:800; text-transform:uppercase; letter-spacing:.06em; color:var(--pc); background:color-mix(in srgb, var(--pc) 10%, transparent); border-radius:8px; padding:4px 6px; text-align:center; margin-top:1px}
+.persona .step p{color:var(--muted); line-height:1.5}
+.persona .res{display:block; margin-top:12px; font-size:.79rem; font-weight:700; color:var(--yb-deep); background:var(--yb-soft); border-radius:10px; padding:9px 13px}
+
+/* ============ BOO-GALERIJ ============ */
+.boorow{display:grid; grid-template-columns:repeat(auto-fit,minmax(105px,1fr)); gap:10px; margin-top:32px}
+.boorow .b{display:flex; flex-direction:column; align-items:center; gap:7px; border:1px solid var(--hair); border-radius:14px; background:var(--card); padding:16px 8px 12px}
+.boorow .b small{font-size:.66rem; font-weight:700; color:var(--muted); text-align:center; line-height:1.35}
 
 /* ============ JOURNEYS ============ */
 .journey{display:grid; grid-template-columns:repeat(6,1fr); gap:10px; margin-top:34px; counter-reset:jstep}
@@ -313,28 +344,119 @@ footer a{color:var(--yb-deep)}
 <!-- ============ BOO MASCOTTE (sprite) ============ -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <defs>
-    <g id="boo-base">
-      <!-- blaadje -->
+    <!-- gedeeld lijf: blaadje + romp + glans + blosjes (gezicht komt per variant) -->
+    <g id="boo-body">
       <path d="M50 8 C56 2 66 2 68 9 C64 15 55 16 50 12 Z" fill="#27A577" opacity=".9"/>
       <path d="M50 13 C50 9 50 6 52 3" stroke="#17795A" stroke-width="2.4" fill="none" stroke-linecap="round"/>
-      <!-- lijf -->
       <ellipse cx="50" cy="58" rx="38" ry="42" fill="var(--boo, #27A577)"/>
       <ellipse cx="50" cy="66" rx="26" ry="24" fill="#FFFFFF" opacity=".22"/>
-      <!-- ogen -->
+      <circle cx="31" cy="60" r="4.5" fill="#FD817A" opacity=".55"/>
+      <circle cx="69" cy="60" r="4.5" fill="#FD817A" opacity=".55"/>
+    </g>
+    <g id="boo-eyes">
       <circle cx="38" cy="50" r="5.2" fill="#191717"/>
       <circle cx="62" cy="50" r="5.2" fill="#191717"/>
       <circle cx="39.8" cy="48.2" r="1.7" fill="#fff"/>
       <circle cx="63.8" cy="48.2" r="1.7" fill="#fff"/>
-      <!-- blosjes -->
-      <circle cx="31" cy="60" r="4.5" fill="#FD817A" opacity=".55"/>
-      <circle cx="69" cy="60" r="4.5" fill="#FD817A" opacity=".55"/>
-      <!-- mond -->
+    </g>
+
+    <!-- 1 · blij (default) -->
+    <g id="boo-base">
+      <use href="#boo-body"/><use href="#boo-eyes"/>
       <path d="M42 64 Q50 72 58 64" stroke="#191717" stroke-width="3" fill="none" stroke-linecap="round"/>
     </g>
+
+    <!-- 2 · zeer blij / juichend -->
     <g id="boo-cheer">
-      <use href="#boo-base"/>
+      <use href="#boo-body"/>
+      <path d="M32 50 Q38 44 44 50" stroke="#191717" stroke-width="3.2" fill="none" stroke-linecap="round"/>
+      <path d="M56 50 Q62 44 68 50" stroke="#191717" stroke-width="3.2" fill="none" stroke-linecap="round"/>
+      <path d="M40 62 Q50 76 60 62 Z" fill="#191717"/>
+      <path d="M45 69 Q50 73 55 69 Q50 71 45 69 Z" fill="#FD817A"/>
       <path d="M14 40 L22 30 M10 52 L20 48" stroke="#FFCC00" stroke-width="3.5" stroke-linecap="round"/>
       <path d="M86 40 L78 30 M90 52 L80 48" stroke="#FFCC00" stroke-width="3.5" stroke-linecap="round"/>
+    </g>
+
+    <!-- 3 · coachend: pet + fluitje -->
+    <g id="boo-coach">
+      <use href="#boo-body"/><use href="#boo-eyes"/>
+      <path d="M42 64 Q50 72 58 64" stroke="#191717" stroke-width="3" fill="none" stroke-linecap="round"/>
+      <path d="M27 33 Q50 10 73 33 L73 28 Q50 6 27 28 Z" fill="#191717"/>
+      <path d="M70 31 L88 27 L88 33 L71 36 Z" fill="#191717"/>
+      <circle cx="50" cy="9" r="4" fill="#FFCC00"/>
+      <path d="M58 66 Q66 70 70 76" stroke="#191717" stroke-width="2" fill="none"/>
+      <rect x="66" y="74" width="12" height="8" rx="3" fill="#FFCC00" stroke="#191717" stroke-width="1.6"/>
+    </g>
+
+    <!-- 4 · zwetend: zweetband + druppels -->
+    <g id="boo-zweet">
+      <use href="#boo-body"/>
+      <rect x="24" y="33" width="52" height="8" rx="4" fill="#FD817A"/>
+      <path d="M33 48 L41 51 M41 51 L33 54" stroke="#191717" stroke-width="2.8" fill="none" stroke-linecap="round"/>
+      <path d="M67 48 L59 51 M59 51 L67 54" stroke="#191717" stroke-width="2.8" fill="none" stroke-linecap="round"/>
+      <path d="M41 66 Q45.5 62 50 66 Q54.5 70 59 66" stroke="#191717" stroke-width="2.8" fill="none" stroke-linecap="round"/>
+      <path d="M80 34 Q84 40 80 43 Q76 40 80 34 Z" fill="#4188FF"/>
+      <path d="M88 48 Q91 53 88 55.5 Q85 53 88 48 Z" fill="#4188FF"/>
+      <path d="M16 42 Q19 47 16 49.5 Q13 47 16 42 Z" fill="#4188FF"/>
+    </g>
+
+    <!-- 5 · etend: appeltje -->
+    <g id="boo-eet">
+      <use href="#boo-body"/><use href="#boo-eyes"/>
+      <ellipse cx="50" cy="67" rx="7" ry="5.5" fill="#191717"/>
+      <ellipse cx="50" cy="69.5" rx="4" ry="2.4" fill="#FD817A"/>
+      <ellipse cx="79" cy="74" rx="9" ry="8.5" fill="#E62C32" opacity=".92"/>
+      <path d="M79 66 Q80 62 84 61" stroke="#17795A" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+      <path d="M72.5 69 A7 7 0 0 1 72.5 79 A9 8.5 0 0 0 72.5 69 Z" fill="var(--boo,#27A577)"/>
+      <path d="M64 70 Q70 70 73 73" stroke="#17795A" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+    </g>
+
+    <!-- 6 · fietsend -->
+    <g id="boo-fiets">
+      <g transform="translate(10,-12) scale(.8)">
+        <use href="#boo-body"/><use href="#boo-eyes"/>
+        <path d="M42 64 Q50 72 58 64" stroke="#191717" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <path d="M24 34 Q50 8 76 34 L74 42 Q50 22 26 42 Z" fill="#FFCC00" stroke="#191717" stroke-width="1.6"/>
+      </g>
+      <circle cx="28" cy="90" r="11" fill="none" stroke="#191717" stroke-width="3"/>
+      <circle cx="76" cy="90" r="11" fill="none" stroke="#191717" stroke-width="3"/>
+      <path d="M28 90 L46 74 L64 90 M46 74 L52 90 M76 90 L66 72 L58 72" stroke="#191717" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+      <path d="M2 78 L12 78 M0 86 L10 86 M4 94 L13 94" stroke="#27A577" stroke-width="2.6" stroke-linecap="round" opacity=".6"/>
+    </g>
+
+    <!-- 7 · wandelend -->
+    <g id="boo-wandel">
+      <use href="#boo-body"/><use href="#boo-eyes"/>
+      <path d="M42 64 Q50 72 58 64" stroke="#191717" stroke-width="3" fill="none" stroke-linecap="round"/>
+      <ellipse cx="36" cy="99" rx="9" ry="4.5" fill="#191717"/>
+      <ellipse cx="63" cy="94" rx="9" ry="4.5" fill="#191717" transform="rotate(-14 63 94)"/>
+      <path d="M6 60 L15 60 M3 70 L13 70 M7 80 L16 80" stroke="#27A577" stroke-width="2.6" stroke-linecap="round" opacity=".6"/>
+    </g>
+
+    <!-- 8 · boos -->
+    <g id="boo-boos">
+      <use href="#boo-body"/>
+      <path d="M30 41 L44 47 M70 41 L56 47" stroke="#191717" stroke-width="3.2" stroke-linecap="round"/>
+      <circle cx="39" cy="52" r="4.4" fill="#191717"/>
+      <circle cx="61" cy="52" r="4.4" fill="#191717"/>
+      <path d="M42 71 Q50 63 58 71" stroke="#191717" stroke-width="3" fill="none" stroke-linecap="round"/>
+      <path d="M79 30 Q83 26 81 22 M85 34 Q89 32 89 27" stroke="#5F5B57" stroke-width="2.2" fill="none" stroke-linecap="round" opacity=".7"/>
+    </g>
+
+    <!-- 9 · plan aan het lezen: brilletje + papier -->
+    <g id="boo-plan">
+      <use href="#boo-body"/>
+      <circle cx="38" cy="51" r="4.6" fill="#191717"/>
+      <circle cx="62" cy="51" r="4.6" fill="#191717"/>
+      <circle cx="38" cy="51" r="8" fill="none" stroke="#191717" stroke-width="2"/>
+      <circle cx="62" cy="51" r="8" fill="none" stroke="#191717" stroke-width="2"/>
+      <path d="M46 51 L54 51" stroke="#191717" stroke-width="2"/>
+      <path d="M44 66 Q50 70 56 66" stroke="#191717" stroke-width="2.8" fill="none" stroke-linecap="round"/>
+      <g transform="rotate(-5 50 84)">
+        <rect x="29" y="72" width="42" height="28" rx="4" fill="#FFFFFF" stroke="#D9D9D9" stroke-width="1.6"/>
+        <path d="M34 80 L52 80 M34 86 L58 86 M34 92 L48 92" stroke="#B9B5AD" stroke-width="2" stroke-linecap="round"/>
+        <path d="M59 78 L62 81 L67 75" stroke="#27A577" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+      </g>
     </g>
   </defs>
 </svg>
@@ -345,6 +467,7 @@ footer a{color:var(--yb-deep)}
     <span class="wordmark">yoboo<i>.</i></span>
     <span class="pocchip">POC · Health Advisory</span>
     <span class="spacer"></span>
+    <button id="themebtn" aria-label="Wissel licht/donker" title="Licht / donker" style="border:1px solid var(--hair); background:var(--card); color:var(--ink); border-radius:99px; width:34px; height:34px; cursor:pointer; font-size:1rem; line-height:1">🌙</button>
     <a class="backlink" href="health-cg-organisatie.html">← Organisatie &amp; Advisory</a>
   </div>
 </div>
@@ -354,7 +477,7 @@ footer a{color:var(--yb-deep)}
   <div class="wrap grid">
     <div class="rv in">
       <h1>Eén plan.<br>Elke dag <em>een stapje</em>.</h1>
-      <p class="lead">Dit is de POC van de <b>Health Advisory-app</b>: hetzelfde plan door vier paar ogen. Voor de klant voelt alles eenvoudig en menselijk; de coach en de arts kijken dieper; en onder de motorkap zit het volledige domeinmodel.</p>
+      <p class="lead">Dit is de POC van de <b>Health Advisory-app</b>: hetzelfde plan door de ogen van élke speler in het ecosysteem. Voor de klant voelt alles eenvoudig en menselijk; coach, arts, merken, meetpartners en middenveld kijken elk door hun eigen venster — en onder de motorkap zit het volledige domeinmodel.</p>
       <div class="badgestrip">
         <span>Werkdocument · fictieve data</span>
         <span>Gebaseerd op visie &amp; domeinmodel v0.2</span>
@@ -373,19 +496,31 @@ footer a{color:var(--yb-deep)}
   <div class="wrap perscards">
     <button class="pcard act" data-pers="klant" style="--pc:var(--yb)">
       <span class="dot">👨‍👩‍👧</span>
-      <span><b>De klant</b><small>Lena (36) &amp; haar gezin — heel eenvoudig</small></span>
+      <span><b>De klant</b><small>heel eenvoudig</small></span>
     </button>
     <button class="pcard" data-pers="coach" style="--pc:var(--oranje)">
       <span class="dot">🤝</span>
-      <span><b>De coach</b><small>Sam — holistische hub</small></span>
+      <span><b>De coach</b><small>holistische hub</small></span>
     </button>
     <button class="pcard" data-pers="arts" style="--pc:var(--blauw)">
       <span class="dot">🩺</span>
-      <span><b>De arts</b><small>Dr. Verhoeven — medische ring</small></span>
+      <span><b>De arts</b><small>medische ring</small></span>
+    </button>
+    <button class="pcard" data-pers="merk" style="--pc:var(--food)">
+      <span class="dot">🛒</span>
+      <span><b>De merken</b><small>uitvoerende kracht</small></span>
+    </button>
+    <button class="pcard" data-pers="data" style="--pc:var(--leren)">
+      <span class="dot">⌚</span>
+      <span><b>Meetpartners</b><small>wearables &amp; apps</small></span>
+    </button>
+    <button class="pcard" data-pers="midden" style="--pc:var(--coral)">
+      <span class="dot">🏛️</span>
+      <span><b>Middenveld</b><small>werkgever &amp; mutualiteit</small></span>
     </button>
     <button class="pcard" data-pers="model" style="--pc:var(--paars)">
       <span class="dot">⚙️</span>
-      <span><b>Onder de motorkap</b><small>het team — domeinmodel &amp; lus</small></span>
+      <span><b>Motorkap</b><small>domeinmodel &amp; lus</small></span>
     </button>
   </div>
 </div>
@@ -457,7 +592,7 @@ footer a{color:var(--yb-deep)}
               <div class="h"><span class="ic" style="background:var(--yb-soft)">✨</span>Op maat van jullie gezin</div>
               <p>Dit menu past voor iedereen aan tafel — ook voor papa's hart en Wouts groeispurt. Meer moet je daar niet over weten. 😉</p>
             </div>
-            <div class="pminiboo"><svg viewBox="0 0 100 104" width="30" height="31"><use href="#boo-base"/></svg><span><b>Boo:</b> ik heb wat minder zout gebruikt deze week. Proef je niks van, beloofd.</span></div>
+            <div class="pminiboo"><svg viewBox="0 0 100 104" width="30" height="31"><use href="#boo-eet"/></svg><span><b>Boo:</b> ik heb wat minder zout gebruikt deze week. Proef je niks van, beloofd.</span></div>
           </div>
         </div></div>
         <p class="phonecap"><b>Het gezinsmenu.</b> Eén knop naar het mandje. De reden áchter aanpassingen blijft privé — het menu klopt gewoon voor iedereen.</p>
@@ -489,7 +624,7 @@ footer a{color:var(--yb-deep)}
               </div>
               <p style="margin-top:8px">Fien (5) telt dubbel mee met haar loopfietsje. 🏆 Badge bij 100 km: <b>Gezin op wielen</b></p>
             </div>
-            <div class="pminiboo"><svg viewBox="0 0 100 104" width="30" height="31"><use href="#boo-cheer"/></svg><span><b>Boo:</b> jullie liggen vóór op schema! Zondagsritje naar de ijsjesboer? 🍦</span></div>
+            <div class="pminiboo"><svg viewBox="0 0 100 104" width="30" height="31"><use href="#boo-fiets"/></svg><span><b>Boo:</b> jullie liggen vóór op schema! Zondagsritje naar de ijsjesboer? 🍦</span></div>
           </div>
         </div></div>
         <p class="phonecap"><b>De kring-challenge.</b> Ieder heeft zijn eigen plan; samen fietsen is de leuke laag erbovenop.</p>
@@ -513,7 +648,7 @@ footer a{color:var(--yb-deep)}
               <p style="margin-top:9px">Gemaakt op basis van wat jij wilde delen: je aankopen en je vragenlijstje. Geen oordeel — gewoon je vertrekpunt.</p>
               <button class="pbtn" style="--ac:var(--yb)">Kies waar je aan wil werken</button>
             </div>
-            <div class="pminiboo"><svg viewBox="0 0 100 104" width="30" height="31"><use href="#boo-base"/></svg><span><b>Boo:</b> slaap lijkt me iets voor ons, wat denk je? Kleine stapjes, grote nachten. 🌙</span></div>
+            <div class="pminiboo"><svg viewBox="0 0 100 104" width="30" height="31"><use href="#boo-plan"/></svg><span><b>Boo:</b> slaap lijkt me iets voor ons, wat denk je? Kleine stapjes, grote nachten. 🌙</span></div>
           </div>
         </div></div>
         <p class="phonecap"><b>De gezondheidsfoto.</b> Op vraag van de klant, positief gebracht, per bron opt-in.</p>
@@ -549,6 +684,62 @@ footer a{color:var(--yb-deep)}
 <section class="band">
   <div class="wrap">
     <div class="rv">
+      <span class="sec-eyebrow">Vier deuren naar binnen</span>
+      <h2 class="sec-title">Onboarding: waar je ook start, je komt bij jouw plan uit</h2>
+      <p class="sec-lead">Niemand "downloadt een gezondheidsapp" zomaar. Mensen komen binnen via een moment dat er al is: de winkel, de dokter, hun telefoon of hun werk. Elke deur voelt anders — daarna is het pad hetzelfde.</p>
+    </div>
+    <div class="onb stagger">
+      <div class="flow" style="--fc:var(--food)">
+        <span class="fk">Deur 1 · in de winkel</span>
+        <h4>🛒 Aan de coach-corner</h4>
+        <ol>
+          <li><i>1</i><span>Lena ziet de <b>coach-corner</b> in Bio-Planet (of de apotheek in St. Gilles) en doet er de gratis vertrekfoto.</span></li>
+          <li><i>2</i><span>De coach overloopt de foto <b>ter plekke</b>, op papier én op een scherm — vijf minuten, geen verkooppraatje.</span></li>
+          <li><i>3</i><span>QR-code mee naar huis: de app staat klaar <b>met de foto er al in</b>.</span></li>
+          <li><i>4</i><span>Thuis kiest ze haar eerste stapje — Boo neemt het over.</span></li>
+        </ol>
+        <span class="conv">→ zelfde vertrekpunt: jouw foto, jouw plan</span>
+      </div>
+      <div class="flow" style="--fc:var(--blauw)">
+        <span class="fk">Deur 2 · bij de dokter</span>
+        <h4>🩺 Op voorschrift</h4>
+        <ol>
+          <li><i>1</i><span>De arts raadt een leefstijlplan aan en <b>schrijft het voor</b> — zoals een medicijn.</span></li>
+          <li><i>2</i><span>In de wachtzaal of aan de balie: app geïnstalleerd <b>met de code van de arts</b>.</span></li>
+          <li><i>3</i><span>Consent op je eigen toestel, bij de arts. Alleen de <b>gevolgen</b> van het voorschrift steken over.</span></li>
+          <li><i>4</i><span>Binnen 48 uur belt een coach: menselijk eerst, app daarna.</span></li>
+        </ol>
+        <span class="conv">→ zelfde vertrekpunt: jouw foto, jouw plan</span>
+      </div>
+      <div class="flow" style="--fc:var(--paars)">
+        <span class="fk">Deur 3 · gewoon online</span>
+        <h4>📱 Vanuit je zetel</h4>
+        <ol>
+          <li><i>1</i><span>Via de Xtra-app of de app store — <b>inloggen met Xtra</b>, niks nieuws te onthouden.</span></li>
+          <li><i>2</i><span>Boo vraagt één ding: <b>"wat wil jij?"</b> — in je eigen woorden, geen vragenlijst-marathon.</span></li>
+          <li><i>3</i><span>Vertrekfoto op basis van wat jíj deelt (aankopen aan/uit per knopje).</span></li>
+          <li><i>4</i><span>Vandaag nog je eerste stapje, met knop.</span></li>
+        </ol>
+        <span class="conv">→ zelfde vertrekpunt: jouw foto, jouw plan</span>
+      </div>
+      <div class="flow" style="--fc:var(--oranje)">
+        <span class="fk">Deur 4 · via je werkgever</span>
+        <h4>💼 Met de collega's</h4>
+        <ol>
+          <li><i>1</i><span>De preventiedienst biedt yoboo aan; je krijgt een <b>activatiecode</b> van het werk.</span></li>
+          <li><i>2</i><span>Je account is <b>van jou</b>, niet van je baas: de werkgever ziet nooit wie meedoet of wat je doet.</span></li>
+          <li><i>3</i><span>Optioneel: de <b>bedrijfschallenge</b> met je team — alleen groepstotalen tellen.</span></li>
+          <li><i>4</i><span>Je plan zelf blijft 100% privé — ook na je ontslag neem je het gewoon mee.</span></li>
+        </ol>
+        <span class="conv">→ zelfde vertrekpunt: jouw foto, jouw plan</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="rv">
       <span class="sec-eyebrow">User journey 1 · het gezin (fase 1 — de food-lus)</span>
       <h2 class="sec-title">Lena's eerste maand</h2>
       <p class="sec-lead">De volledige gedragslus, verteld zoals Lena ze beleeft. Elke stap gebeurt in de app of in een winkel die ze al kent.</p>
@@ -564,7 +755,7 @@ footer a{color:var(--yb-deep)}
   </div>
 </section>
 
-<section>
+<section class="band">
   <div class="wrap">
     <div class="rv">
       <span class="sec-eyebrow">User journey 2 · de patiënt (fase 3 — de medische ring)</span>
@@ -580,6 +771,76 @@ footer a{color:var(--yb-deep)}
       <div class="jstep"><b>Marc blijft</b><p>Na zes maanden is het geen behandeling meer maar een gewoonte — en Marc en zijn vrouw doen samen de wandelchallenge.</p><span class="app">van patiënt naar gebruiker</span></div>
     </div>
     <p class="note" style="margin-top:26px; text-align:center">Doelgroepvolgorde uit de visie: eerst het gezin (volumemotor), parallel de patiënt via zorgpartners (geloofwaardigheidsmotor), later de preventieve dertiger.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="rv">
+      <span class="sec-eyebrow">Vier keer een duwtje</span>
+      <h2 class="sec-title">Zo voelt hyperpersonalisatie — zonder dat het eng wordt</h2>
+      <p class="sec-lead">We kennen de klant: wie slecht slaapt, wie stilviel, wie een schema volgt. Dat wordt nooit een verwijt — altijd een goed getimed, vriendelijk duwtje mét knop. Vier voorbeelden.</p>
+    </div>
+    <div class="personas stagger">
+      <div class="persona" style="--pc:var(--paars)">
+        <div class="top"><span class="pav">🌙</span><span><b>Jana, 29 — alleen, druk werk</b><small>kwam binnen via deur 3: gewoon online</small></span></div>
+        <div class="steps">
+          <div class="step"><span class="lbl">Signaal</span><p>Mandje vol energiedrank, check-ins zeggen "moe". Het patroon is duidelijk — voor Boo, niet voor een verkoper.</p></div>
+          <div class="step"><span class="lbl">Duwtje</span><p>"Zullen we je avond eens fixen?" — avondroutine van 3 stapjes plus een microles slaap van 4 minuten.</p></div>
+          <div class="step"><span class="lbl">Knop</span><p>Kruidenthee en havermout staan al in haar voorstelmandje; energiedrank krijgt géén promo meer in haar app.</p></div>
+        </div>
+        <span class="res">🌙 Na 3 weken: slaapscore van 😴 naar 🙂 — en Jana zette zelf haar wearable aan om het te volgen.</span>
+      </div>
+      <div class="persona" style="--pc:var(--move)">
+        <div class="top"><span class="pav">👟</span><span><b>Koen, 45 — ploegleider</b><small>kwam binnen via deur 4: de werkgever</small></span></div>
+        <div class="steps">
+          <div class="step"><span class="lbl">Signaal</span><p>Twee weken geen stappen na een drukke shiftperiode. De streak is gebroken — hét moment waarop mensen afhaken.</p></div>
+          <div class="step"><span class="lbl">Duwtje</span><p>Geen schuldgevoel: "Je ploeg mist je in de challenge — de lunchwandeling start om 12u30." Sociale trek, geen preek.</p></div>
+          <div class="step"><span class="lbl">Knop</span><p>Eén tik: "ik wandel mee". De streak herstart met een verse teller — de oude blijft als record staan.</p></div>
+        </div>
+        <span class="res">👟 Routine terug na 4 dagen. De ploeg haalde +20.000 stappen die maand — de werkgever ziet alleen dat groepstotaal.</span>
+      </div>
+      <div class="persona" style="--pc:var(--care)">
+        <div class="top"><span class="pav">🌸</span><span><b>Rosa, 68 — medicatie, dochter kijkt mee</b><small>kwam binnen via deur 1: de apotheek</small></span></div>
+        <div class="steps">
+          <div class="step"><span class="lbl">Signaal</span><p>Medicatieschema loopt, maar beweging valt stil en de check-ins worden korter. De apotheker kent Rosa.</p></div>
+          <div class="step"><span class="lbl">Duwtje</span><p>Bij het afhalen: "er wandelt op donderdag een groepje vanuit de apotheek — iets voor u?" Mens eerst, app als geheugen.</p></div>
+          <div class="step"><span class="lbl">Knop</span><p>Dochter An is <b>meekijker</b>: ze ziet Rosa's voortgang ("deze week 2 wandelingen 💚"), nooit haar metingen of medicatie.</p></div>
+        </div>
+        <span class="res">🌸 Therapietrouw blijft op peil én Rosa heeft een wandelclubje — verbondenheid is ook een pijler.</span>
+      </div>
+      <div class="persona" style="--pc:var(--oranje)">
+        <div class="top"><span class="pav">⚽</span><span><b>Ilias, 16 — groeispurt, voetbalt</b><small>zit in de gezinskring van gezin D.</small></span></div>
+        <div class="steps">
+          <div class="step"><span class="lbl">Signaal</span><p>Mama's plan is kcal-beperkt; Ilias heeft net méér nodig. Twee plannen die botsen in één weekmenu.</p></div>
+          <div class="step"><span class="lbl">Duwtje</span><p>De engine stelt één menu met twee portiegroottes voor; coach Sam keurt het goed. Niemand aan tafel merkt iets.</p></div>
+          <div class="step"><span class="lbl">Knop</span><p>Ilias krijgt zijn eigen laag: een microles sportvoeding en een hersteldrankje in het mandje na de match.</p></div>
+        </div>
+        <span class="res">⚽ Eén gezinsmenu, twee doelen gehaald — het conflict is opgelost zonder dat het ooit een conflict werd.</span>
+      </div>
+    </div>
+    <p class="note rv" style="margin-top:24px; text-align:center">Spelregel uit het domeinmodel: nudges optimaliseren op gezondheidsuitkomst, nooit op marge — en gaan zichtbaar tégen de verkoop in als het moet (zie Jana's energiedrank).</p>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <div class="rv">
+      <span class="sec-eyebrow">De mascotte</span>
+      <h2 class="sec-title">Boo leeft met je mee</h2>
+      <p class="sec-lead">Eén herkenbaar figuurtje in elke flow, elke e-mail en elke winkelhoek — de gezondheidstaal krijgt er een gezicht bij. Boo is nooit een politieagent: hij viert, helpt en moppert hooguit heel even.</p>
+    </div>
+    <div class="boorow stagger">
+      <div class="b"><svg viewBox="0 0 100 104" width="64" height="66"><use href="#boo-base"/></svg><small>blij — de standaard</small></div>
+      <div class="b"><svg viewBox="0 0 100 104" width="64" height="66"><use href="#boo-cheer"/></svg><small>supertrots — doel gehaald</small></div>
+      <div class="b"><svg viewBox="0 0 100 104" width="64" height="66"><use href="#boo-coach"/></svg><small>coach-modus — kom op!</small></div>
+      <div class="b"><svg viewBox="0 0 100 104" width="64" height="66"><use href="#boo-zweet"/></svg><small>zwetend — samen afzien</small></div>
+      <div class="b"><svg viewBox="0 0 100 104" width="64" height="66"><use href="#boo-eet"/></svg><small>smullend — bij elk menu</small></div>
+      <div class="b"><svg viewBox="0 0 100 104" width="64" height="66"><use href="#boo-fiets"/></svg><small>fietsend — challenges</small></div>
+      <div class="b"><svg viewBox="0 0 100 104" width="64" height="66"><use href="#boo-wandel"/></svg><small>wandelend — elke dag</small></div>
+      <div class="b"><svg viewBox="0 0 100 104" width="64" height="66"><use href="#boo-boos"/></svg><small>boos — als data misbruikt zou worden</small></div>
+      <div class="b"><svg viewBox="0 0 100 104" width="64" height="66"><use href="#boo-plan"/></svg><small>studerend — leest jouw plan</small></div>
+    </div>
   </div>
 </section>
 </div>
@@ -737,7 +998,210 @@ footer a{color:var(--yb-deep)}
 </div>
 
 <!-- ==================================================================== -->
-<!-- ============ PANEL 4 · MOTORKAP ============ -->
+<!-- ============ PANEL 4 · MERKEN ============ -->
+<!-- ==================================================================== -->
+<div class="panel" id="p-merk">
+<section>
+  <div class="wrap">
+    <div class="rv">
+      <span class="sec-eyebrow">De merken · Collect&amp;Go, Foodbag, JIMS, Newpharma, Academy — én partners buiten de groep</span>
+      <h2 class="sec-title">Toeleiding, geen inkijk</h2>
+      <p class="sec-lead">Voor een merk is yoboo een kanaal dat <b>klaargemaakte vraag</b> aanlevert: acties uit duizenden plannen worden bestellingen, boekingen en bezoeken. Wat het merk nooit krijgt: zicht op wie welk plan heeft of waarom.</p>
+    </div>
+
+    <div class="dash rv">
+      <div class="dashhead">
+        <span class="av" style="background:color-mix(in srgb, var(--food) 14%, transparent)">🛒</span>
+        <span><b>Collect&amp;Go — health-instroom</b><small>weekoverzicht · alles geaggregeerd, nooit individueel</small></span>
+        <span class="kchip" style="color:var(--food); background:color-mix(in srgb, var(--food) 12%, transparent)">week 30</span>
+      </div>
+      <div class="kpis">
+        <div class="kpi"><b>2.340</b><small>mandjes rechtstreeks uit plannen</small></div>
+        <div class="kpi"><b>184</b><small>nieuwe klanten via cross-brand (o.a. JIMS → food)</small></div>
+        <div class="kpi"><b>+6%</b><small>share-of-wallet bij health-klanten</small></div>
+        <div class="kpi"><b>+9%</b><small>retentie t.o.v. vergelijkbare klanten</small></div>
+      </div>
+
+      <div class="planview" style="margin-top:22px">
+        <div class="planbox">
+          <b>Vraagsignalen — wat de plannen deze week vragen</b>
+          <div class="sub">Geaggregeerde voorspelling voor assortiment en voorraad</div>
+          <div class="planline" style="--wc:var(--food)"><span class="who">▲ +12%</span><p>Zoutarme alternatieven (charcuterie, kant-en-klaar)<small>vooral regio Antwerpen — plan-op-voorschrift groeit daar</small></p></div>
+          <div class="planline" style="--wc:var(--food)"><span class="who">▲ +8%</span><p>Volkoren en peulvruchten</p></div>
+          <div class="planline" style="--wc:var(--move)"><span class="who">▲ +5%</span><p>Hersteldrank &amp; sportvoeding (JIMS-koppeling)</p></div>
+          <div class="planline" style="--wc:var(--coral)"><span class="who">▼ −7%</span><p>Energiedrank bij health-klanten<small>ja, ook dat: het advies gaat zichtbaar tegen de verkoop in — dat is de geloofwaardigheidsgarantie</small></p></div>
+        </div>
+        <div class="planbox">
+          <b>Zo wordt een planactie een bestelling</b>
+          <div class="sub">Het kanaal zit in het datamodel — geen advies zonder knop</div>
+          <div class="planline" style="--wc:var(--yb)"><span class="who">Plan</span><p>Actie in Lena's plan: "weekmenu in het mandje" — kanaal: Collect&amp;Go.</p></div>
+          <div class="planline" style="--wc:var(--food)"><span class="who">Merk</span><p>Bij Collect&amp;Go komt een gewone bestelling binnen, met een health-tag. Geen naamkaartje "dieetklant".</p></div>
+          <div class="planline" style="--wc:var(--blauw)"><span class="who">Meting</span><p>Het kasticket wordt — met consent — een meting die de lus sluit: het plan wéét dat het menu gekocht is.</p></div>
+          <div class="planline" style="--wc:var(--paars)"><span class="who">Waarde</span><p>Share-of-wallet, retentie en cross-brand-instroom voeden het KPI-model — het bewijs voor de budgetronde.</p></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tweekol rv">
+      <div class="ringcard" style="--rc:var(--food)">
+        <span class="k">Wat het merk wél krijgt</span>
+        <h4>Vraag, klanten en bewijs</h4>
+        <ul>
+          <li>Bestellingen en boekingen uit planacties — als gewone orders met health-tag</li>
+          <li>Geaggregeerde vraagsignalen voor assortiment en voorraad</li>
+          <li>Cross-brand-instroom: de gym-klant die foodklant wordt en omgekeerd</li>
+          <li>KPI's per merk in het gedeelde waardemodel</li>
+        </ul>
+      </div>
+      <div class="ringcard" style="--rc:var(--muted)">
+        <span class="k">Wat het merk níet krijgt</span>
+        <h4>Geen gezondheidsdata, geen targeting</h4>
+        <ul>
+          <li>Nooit zicht op individuele plannen, doelen of gezondheidsfoto's</li>
+          <li>Geen promo's richten op gezondheidsprofielen — de engine adviseert, het merk verkoopt</li>
+          <li>Geen ruwe metingen: alleen de bestelling die eruit volgt</li>
+          <li>Zelfde spelregels voor merken búiten de groep die op het plankanaal aansluiten: gezondheidstaal spreken + dezelfde datadiscipline</li>
+        </ul>
+      </div>
+    </div>
+    <p class="wetline rv">Het businessmodel in één zin: <b>CG verdient niet aan het advies</b> — de waarde zit in toeleiding en een gezondere, trouwere klant.</p>
+  </div>
+</section>
+</div>
+
+<!-- ==================================================================== -->
+<!-- ============ PANEL 5 · MEETPARTNERS ============ -->
+<!-- ==================================================================== -->
+<div class="panel" id="p-data">
+<section>
+  <div class="wrap">
+    <div class="rv">
+      <span class="sec-eyebrow">Data &amp; meetinstrumenten · Apple Watch, Strava, slimme weegschaal, …</span>
+      <h2 class="sec-title">Hun data krijgt betekenis</h2>
+      <p class="sec-lead">Data koppelen is commodity — betekenis is dat niet. Voor de meetpartner is yoboo de plek waar zijn metingen eindelijk iets <b>doen</b>: ze sluiten de lus van een echt plan. De klant koppelt in twee tikken en blijft baas.</p>
+    </div>
+
+    <div class="dash rv">
+      <div class="dashhead">
+        <span class="av" style="background:color-mix(in srgb, var(--leren) 18%, transparent)">⌚</span>
+        <span><b>Bronnenregister — consent per bron</b><small>elke meting draagt bron + ring-label (lifestyle of medisch)</small></span>
+        <span class="kchip" style="color:var(--leren); background:color-mix(in srgb, var(--leren) 14%, transparent)">D4 &amp; D5 uit het domeinmodel</span>
+      </div>
+      <div class="clientlist">
+        <div class="crow head"><span></span><span>Bron</span><span>Ring-label</span><span>Gebruikt voor</span><span>Status</span></div>
+        <div class="crow" style="--pc:var(--move)"><span class="av">⌚</span><span><b>Smartwatch</b><small>stappen, hartslag, slaap</small></span><span>lifestyle</span><span>challenges &amp; beweegdoelen</span><span class="pill ok">actief · consent 12-03</span></div>
+        <div class="crow" style="--pc:var(--oranje)"><span class="av">🚴</span><span><b>Strava</b><small>ritten en loopjes</small></span><span>lifestyle</span><span>gezinschallenge</span><span class="pill ok">actief · consent 04-05</span></div>
+        <div class="crow" style="--pc:var(--paars)"><span class="av">⚖️</span><span><b>Slimme weegschaal</b><small>gewicht, wekelijks</small></span><span>lifestyle</span><span>opvolging plan</span><span class="pill ok">actief · alleen trend zichtbaar</span></div>
+        <div class="crow" style="--pc:var(--food)"><span class="av">🛒</span><span><b>Aankopen CG-merken</b><small>de winkelkar — dé troef</small></span><span>lifestyle</span><span>menu &amp; gezondheidsfoto</span><span class="pill ok">actief · per merk instelbaar</span></div>
+        <div class="crow" style="--pc:var(--blauw)"><span class="av">💊</span><span><b>Apotheek (Newpharma)</b><small>afgeleide gezondheidsdata</small></span><span>gevoelig — apart regime</span><span>enkel na aparte, expliciete opt-in</span><span class="pill warn">uit — juridische toets loopt</span></div>
+      </div>
+    </div>
+
+    <div class="rv" style="margin-top:44px">
+      <span class="sec-eyebrow">Journey · een bron koppelen en weer loskoppelen</span>
+    </div>
+    <div class="journey stagger" style="--jc:var(--leren)">
+      <div class="jstep"><b>Twee tikken</b><p>Lena tikt "koppel mijn horloge". Geen formulieren — de partner-API doet het werk.</p><span class="app">drempel ≈ nul</span></div>
+      <div class="jstep"><b>Consent met doel</b><p>"Je stappen tellen mee voor je challenges." Per bron, per gebruik — Lena weet wat waarvoor dient.</p><span class="app">consent = entiteit, geen vinkje</span></div>
+      <div class="jstep"><b>Ring-label erop</b><p>Elke meting komt binnen met bron + label <i>lifestyle</i>. Gevoelige bronnen volgen een apart regime.</p><span class="app">gevoeligheid op datapuntniveau</span></div>
+      <div class="jstep"><b>Betekenis</b><p>"Je rit van gisteren telt: nog 25 km!" De meting duwt het plan vooruit — dáár wordt de partner relevant.</p><span class="app">de lus sluit</span></div>
+      <div class="jstep"><b>Partner ziet context</b><p>De partner krijgt geaggregeerd gebruik terug ("41.000 actieve koppelingen") en zichtbaarheid in acties.</p><span class="app">what's in it for them</span></div>
+      <div class="jstep"><b>Uitzetten = uit</b><p>Lena zet het knopje uit: de stroom stopt meteen, historiek wordt bevroren, de partner merkt het alleen aan het getal.</p><span class="app">intrekbaar, met historiek</span></div>
+    </div>
+
+    <div class="tweekol rv">
+      <div class="ringcard" style="--rc:var(--leren)">
+        <span class="k">Wat de meetpartner wél krijgt</span>
+        <h4>Relevantie en bereik</h4>
+        <ul>
+          <li>Zijn metingen krijgen betekenis in een plan — de reden waarom gebruikers de koppeling áánzetten</li>
+          <li>Zichtbaarheid in acties ("start je rit in Strava")</li>
+          <li>Geaggregeerde gebruikscijfers voor zijn eigen product</li>
+        </ul>
+      </div>
+      <div class="ringcard" style="--rc:var(--muted)">
+        <span class="k">Wat de meetpartner níet krijgt</span>
+        <h4>Geen doorstroom</h4>
+        <ul>
+          <li>Geen toegang tot het plan, het doel of andere bronnen van de gebruiker</li>
+          <li>Geen commercieel hergebruik van wat via yoboo passeert — contractueel dicht</li>
+          <li>Nooit iets uit de medische ring</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+</div>
+
+<!-- ==================================================================== -->
+<!-- ============ PANEL 6 · MIDDENVELD & WERKGEVER ============ -->
+<!-- ==================================================================== -->
+<div class="panel" id="p-midden">
+<section>
+  <div class="wrap">
+    <div class="rv">
+      <span class="sec-eyebrow">Het middenveld · mutualiteiten, verzekeraars, werkgevers, preventiediensten</span>
+      <h2 class="sec-title">Een aantoonbaar gezondere populatie — nooit individuen</h2>
+      <p class="sec-lead">Het middenveld heeft één vraag: <i>werkt het?</i> Zij financieren en ondersteunen, en krijgen bewijs op groepsniveau terug. De regel is hard: groepen kleiner dan 20 bestaan niet in onze rapporten.</p>
+    </div>
+
+    <div class="dash rv">
+      <div class="dashhead">
+        <span class="av" style="background:color-mix(in srgb, var(--coral) 16%, transparent)">💼</span>
+        <span><b>Bedrijfsrapport Q3 — Fabriek Noord (340 medewerkers)</b><small>voor de preventiedienst · uitsluitend groepstotalen</small></span>
+        <span class="kchip" style="color:color-mix(in srgb, var(--coral) 70%, var(--ink)); background:color-mix(in srgb, var(--coral) 14%, transparent)">k-anonimiteit ≥ 20</span>
+      </div>
+      <div class="kpis">
+        <div class="kpi"><b>62%</b><small>medewerkers doet mee (opt-in)</small></div>
+        <div class="kpi"><b>+14%</b><small>beweegscore van de groep vs. Q2</small></div>
+        <div class="kpi"><b>12</b><small>teams in de bedrijfschallenge</small></div>
+        <div class="kpi"><b>−9%</b><small>zelfgerapporteerde stress (groepstrend)</small></div>
+      </div>
+      <div class="conflict" style="border-color:var(--coral); background:color-mix(in srgb, var(--coral) 6%, transparent)">
+        <b style="color:color-mix(in srgb, var(--coral) 70%, var(--ink))">🔒 Wat de werkgever nooit ziet</b><br>
+        Wie meedoet, wie niet, en wat iemand doet. De activatiecode komt van het werk; het account is van de mens. Ook na ontslag loopt het plan gewoon door — zonder de werkgever.
+      </div>
+    </div>
+
+    <div class="rv" style="margin-top:44px">
+      <span class="sec-eyebrow">Journey · de mutualiteit als financier</span>
+    </div>
+    <div class="journey stagger" style="--jc:var(--coral)">
+      <div class="jstep"><b>Het voordeel</b><p>De mutualiteit betaalt coachsessies en het premium-luik deels terug — zoals ze vandaag al doet voor de sportclub.</p><span class="app">bestaand mechanisme, nieuw kanaal</span></div>
+      <div class="jstep"><b>Lid activeert</b><p>In de app: "jouw mutualiteit betaalt 10 sessies terug". Eén tik, attest geregeld — geen papiertjes (dank je, Alan-les).</p><span class="app">nul administratie</span></div>
+      <div class="jstep"><b>Coaching loopt</b><p>Het lid volgt zijn plan; de fysieke coach — het premium-stuk — wordt zo betaalbaar.</p><span class="app">antwoord op guardrail 3</span></div>
+      <div class="jstep"><b>Cohort-rapport</b><p>De mutualiteit ziet per cohort (≥ 20): therapietrouw, beweging, uitkomsten. Nooit leden-namen naast gezondheidsdata.</p><span class="app">geaggregeerd bewijs</span></div>
+      <div class="jstep"><b>De rekensom</b><p>Gezondere leden = lagere kosten. Het cohortbewijs maakt de terugbetaling verdedigbaar in hun eigen budgetronde.</p><span class="app">win-win, zwart op wit</span></div>
+      <div class="jstep"><b>Opschalen</b><p>Van pilootcohort naar heel het ledenbestand — en de preventiedienst, verzekeraar en werkgever volgen hetzelfde pad.</p><span class="app">het ecosysteem groeit</span></div>
+    </div>
+
+    <div class="tweekol rv">
+      <div class="ringcard" style="--rc:var(--coral)">
+        <span class="k">Wat het middenveld wél krijgt</span>
+        <h4>Bewijs en bereik</h4>
+        <ul>
+          <li>Cohort-rapporten: deelname, gedrag, uitkomsten — altijd ≥ 20 personen</li>
+          <li>Een kanaal om preventie écht tot in de keuken en de winkelkar te krijgen</li>
+          <li>Co-branding op programma's die ze financieren</li>
+        </ul>
+      </div>
+      <div class="ringcard" style="--rc:var(--muted)">
+        <span class="k">Wat het middenveld níet krijgt</span>
+        <h4>Geen namen, geen selectie</h4>
+        <ul>
+          <li>Nooit individuele data — ook niet "geanonimiseerd op te vragen"</li>
+          <li>Geen risicoselectie: een verzekeraar kan yoboo-data niet gebruiken om premies te differentiëren</li>
+          <li>Geen rechtstreekse lijn naar leden: communicatie loopt via het plan, met consent</li>
+        </ul>
+      </div>
+    </div>
+    <p class="wetline rv">Naast deze business-ruil loopt een tweede spoor: overheid en middenveld <b>meekrijgen in het verhaal</b> via public affairs — draagvlak en endorsement, geen transactie. Zie het <a href="health-cg-organisatie.html#ecosysteem">ecosysteem in het hoofddocument</a>.</p>
+  </div>
+</section>
+</div>
+
+<!-- ==================================================================== -->
+<!-- ============ PANEL 7 · MOTORKAP ============ -->
 <!-- ==================================================================== -->
 <div class="panel" id="p-model">
 <section>
@@ -835,7 +1299,7 @@ footer a{color:var(--yb-deep)}
 
 <!-- ============ BOO HELPER ============ -->
 <div id="boohelp">
-  <div class="bubble" id="boobubble" role="status">Kies bovenaan een bril: klant, coach, arts of motorkap. 👓</div>
+  <div class="bubble" id="boobubble" role="status">Kies bovenaan door wiens ogen je kijkt — van klant tot middenveld. Klik op mij voor tips! 👓</div>
   <button id="boobtn" aria-label="Tip van Boo">
     <svg width="84" height="87" viewBox="0 0 100 104"><use href="#boo-base"/></svg>
   </button>
@@ -850,24 +1314,44 @@ document.querySelectorAll('.rv,.stagger').forEach(el=>io.observe(el));
 
 /* ============ perspectief-tabs ============ */
 const tips = {
-  klant: ["Alles wat Lena ziet heeft een knop. Advies zonder actie bestaat hier niet.","Zie je het weekmenu? Het is zoutarm — maar dat zegt de app nergens. Gevolg, niet oorzaak.","Standaard staat álles op privé. Lena zette zelf drie knopjes aan."],
+  klant: ["Alles wat Lena ziet heeft een knop. Advies zonder actie bestaat hier niet.","Zie je het weekmenu? Het is zoutarm — maar dat zegt de app nergens. Gevolg, niet oorzaak.","Vier deuren naar binnen — maar iedereen komt bij hetzelfde uit: jouw foto, jouw plan.","Standaard staat álles op privé. Lena zette zelf drie knopjes aan."],
   coach: ["Sam beslist, de AI bereidt voor. De volgorde is bewust.","Iedereen schrijft in hetzelfde plan van Marc — dat is beslissing D1.","Het oranje conflict? Dáár is de coach voor. De engine hakt geen knopen door over mensen."],
   arts: ["De diagnose steekt nooit over. Alleen 'zoutarm' — het gevolg.","Therapietrouw terug naar de arts, winkeldata nooit. Zo blijft het endorsement geloofwaardig.","GDPR artikel 9: de scheiding is architectuur, geen vinkje."],
+  merk: ["Het merk krijgt bestellingen, geen gezondheidsprofielen.","Energiedrank −7% bij health-klanten: het advies gaat zichtbaar tegen de verkoop in. Bewust.","Ook merken buiten de groep mogen aansluiten — als ze de gezondheidstaal spreken."],
+  data: ["Elke meting draagt een bron én een ring-label. Gevoeligheid zit op datapuntniveau.","Koppelen is twee tikken; loskoppelen ook. Anders is 'de klant in de driving seat' een slogan.","De winkelkar is de troef — Strava koppelen kan iedereen."],
+  midden: ["Groepen kleiner dan 20 bestaan niet in onze rapporten. Punt.","De werkgever betaalt mee maar ziet nooit wie meedoet.","Risicoselectie door verzekeraars? Contractueel én technisch onmogelijk gemaakt."],
   model: ["Twaalf entiteiten, één centrale: het plan.","De kring bezit niets — geen plan, geen doel. Enkel arena en optimalisatie.","Geen feature-buffet: elke fase sluit één volledige lus."]
 };
+const booPer = { klant:'#boo-base', coach:'#boo-coach', arts:'#boo-plan', merk:'#boo-eet', data:'#boo-zweet', midden:'#boo-wandel', model:'#boo-plan' };
 let tipIdx = 0, curPers = 'klant';
 const bubble = document.getElementById('boobubble');
+const booUse = document.querySelector('#boobtn use');
 function setPers(p){
   curPers = p; tipIdx = 0;
   document.querySelectorAll('.pcard').forEach(c=>c.classList.toggle('act', c.dataset.pers===p));
   document.querySelectorAll('.panel').forEach(pl=>pl.classList.toggle('show', pl.id==='p-'+p));
   bubble.textContent = tips[p][0];
+  booUse.setAttribute('href', booPer[p]);
   document.querySelectorAll('.panel.show .rv, .panel.show .stagger').forEach(el=>{ el.classList.add('in'); });
   window.scrollTo({top:document.querySelector('.persnav').offsetTop - 70, behavior:'smooth'});
 }
 document.querySelectorAll('.pcard').forEach(c=>c.addEventListener('click',()=>setPers(c.dataset.pers)));
 bubble.addEventListener('click',()=>{ tipIdx=(tipIdx+1)%tips[curPers].length; bubble.textContent=tips[curPers][tipIdx]; });
 document.getElementById('boobtn').addEventListener('click',()=>{ tipIdx=(tipIdx+1)%tips[curPers].length; bubble.textContent=tips[curPers][tipIdx]; });
+
+/* ============ thema-schakelaar ============ */
+const themeBtn = document.getElementById('themebtn');
+function applyTheme(t){
+  if(t){ document.documentElement.dataset.theme = t; } else { delete document.documentElement.dataset.theme; }
+  const dark = t ? t==='dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+  themeBtn.textContent = dark ? '☀️' : '🌙';
+}
+applyTheme(localStorage.getItem('yb-theme') || null);
+themeBtn.addEventListener('click', ()=>{
+  const dark = document.documentElement.dataset.theme==='dark' || (!document.documentElement.dataset.theme && matchMedia('(prefers-color-scheme: dark)').matches);
+  const next = dark ? 'light' : 'dark';
+  localStorage.setItem('yb-theme', next); applyTheme(next);
+});
 </script>
 </body>
 </html>
