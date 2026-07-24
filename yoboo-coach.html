@@ -146,8 +146,8 @@ h1 small{display:block; font-size:.82rem; color:var(--muted); font-weight:400; m
       <div class="row" style="--pc:var(--care)" id="t-marc"><span class="av">MV</span><span><b>Marc V. — 2 weken geen beweegdata</b><small>plan-op-voorschrift · voorstel: bellen, geen pushbericht</small></span><span class="spacer"></span><button class="wbtn" onclick="openKlant('marc')">Open dossier</button><button class="wbtn warn" onclick="belMarc(this)">Bel Marc</button></div>
       <div class="row" style="--pc:var(--oranje)" id="t-aicha"><span class="av">AD</span><span><b>Aïcha D. — "moeilijke week"</b><small>check-in gisteren 22:41 · slaap &amp; stress, week 2</small></span><span class="spacer"></span><button class="wbtn ghost" onclick="ga('berichten')">Beantwoord in Berichten</button></div>
       <div class="row" style="--pc:var(--paars)" id="t-conflict"><span class="av">⚖️</span><span><b>Kring-conflict gezin D. wacht op jouw beslissing</b><small>engine-voorstel klaar: één menu, twee portiegroottes</small></span><span class="spacer"></span><button class="wbtn" onclick="ga('kringen')">Naar kring-acties</button></div>
-      <div class="row" style="--pc:var(--yb)"><span class="av">LP</span><span><b>Lena P. — streak 6, week helemaal groen</b><small>geen actie nodig — Boo doet zijn ding</small></span><span class="spacer"></span><span class="pill ok">op koers</span></div>
-      <div class="boohulp"><svg viewBox="0 0 100 104" width="34" height="35"><use href="#boo-coach"/></svg><span><b>Boo:</b> ik heb vannacht 34 plannen doorlopen. Drie dingen vragen een mens — de rest heb ik klaargezet als voorstellen. Jij beslist.</span></div>
+      <div class="row" style="--pc:var(--yb)"><span class="av">LP</span><span><b>Lena P. — streak 6, week helemaal groen</b><small>geen actie nodig — Yobi doet zijn ding</small></span><span class="spacer"></span><span class="pill ok">op koers</span></div>
+      <div class="boohulp"><svg viewBox="0 0 100 104" width="34" height="35"><use href="#boo-coach"/></svg><span><b>Yobi:</b> ik heb vannacht 34 plannen doorlopen. Drie dingen vragen een mens — de rest heb ik klaargezet als voorstellen. Jij beslist.</span></div>
     </section>
 
     <!-- ============ KLANTEN ============ -->
@@ -155,7 +155,7 @@ h1 small{display:block; font-size:.82rem; color:var(--muted); font-weight:400; m
       <h1>Klanten <small>Vink meerdere klanten aan voor groepsacties, of open een dossier.</small></h1>
       <div class="bulk" id="bulkbar"><span id="bulkn">0 geselecteerd</span><span style="flex:1"></span><button class="wbtn" onclick="bulkMsg()">💬 Stuur groepsbericht</button><button class="wbtn ghost" onclick="bulkCheckin()">📅 Plan wekelijkse check-in</button></div>
       <div id="klantenlijst"></div>
-      <div class="boohulp"><svg viewBox="0 0 100 104" width="34" height="35"><use href="#boo-coach"/></svg><span><b>Boo:</b> tip — selecteer de drie slaap-klanten en stuur ze samen de nieuwe microles. Scheelt je drie keer typen.</span></div>
+      <div class="boohulp"><svg viewBox="0 0 100 104" width="34" height="35"><use href="#boo-coach"/></svg><span><b>Yobi:</b> tip — selecteer de drie slaap-klanten en stuur ze samen de nieuwe microles. Scheelt je drie keer typen.</span></div>
     </section>
 
     <!-- ============ KLANTDETAIL ============ -->
@@ -186,7 +186,7 @@ h1 small{display:block; font-size:.82rem; color:var(--muted); font-weight:400; m
       <div class="row" style="--pc:var(--paars)" id="kringconflict"><span class="av">⚖️</span><span><b>Gezin D. — weekmenu met conflict</b><small>kcal-beperkt (mama) × groeispurt (Ilias, 16)</small></span><span class="spacer"></span><button class="wbtn" onclick="openConflict(this)">Beslecht</button></div>
       <div id="conflictbox"></div>
       <div class="row" style="--pc:var(--care)"><span class="av">W</span><span><b>Wandelclub apotheek St. Gilles</b><small>12 leden · donderdagse wandeling · Rosa doet mee</small></span><span class="spacer"></span><span class="pill info">nieuw</span></div>
-      <div class="boohulp"><svg viewBox="0 0 100 104" width="34" height="35"><use href="#boo-coach"/></svg><span><b>Boo:</b> ik verzoen wat te verzoenen valt. Botsen twee plannen écht — zoals bij gezin D. — dan is het aan jou. Ik hak geen knopen door over mensen.</span></div>
+      <div class="boohulp"><svg viewBox="0 0 100 104" width="34" height="35"><use href="#boo-coach"/></svg><span><b>Yobi:</b> ik verzoen wat te verzoenen valt. Botsen twee plannen écht — zoals bij gezin D. — dan is het aan jou. Ik hak geen knopen door over mensen.</span></div>
     </section>
 
     <!-- ============ BERICHTEN ============ -->
@@ -239,7 +239,7 @@ h1 small{display:block; font-size:.82rem; color:var(--muted); font-weight:400; m
 <script>
 /* ============ data ============ */
 const klanten = {
-  lena:  {ini:'LP', kleur:'var(--yb)',    naam:'Lena P.',  info:'gezin · food-lus, week 4', status:['ok','op koers'], vw:[['3 kleine stapjes per dag',false],['weekmenu voor het hele gezin',false]], weeks:[1,1,1,1,1,1,0,1,1,1], wtxt:'9/10 — sterke lus', lock:'Lena deelt haar plan en voortgang met jou. Haar check-ins met Boo blijven van haar.',
+  lena:  {ini:'LP', kleur:'var(--yb)',    naam:'Lena P.',  info:'gezin · food-lus, week 4', status:['ok','op koers'], vw:[['3 kleine stapjes per dag',false],['weekmenu voor het hele gezin',false]], weeks:[1,1,1,1,1,1,0,1,1,1], wtxt:'9/10 — sterke lus', lock:'Lena deelt haar plan en voortgang met jou. Haar check-ins met Yobi blijven van haar.',
     acties:[{t:'Weekmenu week 5 — iets meer variatie in de lunch', b:'AI', s:'voorstel'},{t:'Zaterdag als kookdag bevestigen (wokschotel)', b:'AI', s:'voorstel'},{t:'Challenge-badge vieren in de check-in van zondag', b:'AI', s:'voorstel'}]},
   marc:  {ini:'MV', kleur:'var(--blauw)', naam:'Marc V.',  info:'plan-op-voorschrift · week 9', status:['alert','bel eerst'], vw:[['zoutarm 🔒',true],['30\' bewegen per dag 🔒',true],['gewicht wekelijks',false]], weeks:[1,1,1,0,0,1,1,1,1,1], wtxt:'8/10 — dip opgevangen', lock:'Waaróm zoutarm? Dat weet dit scherm niet. De diagnose blijft bij dr. Verhoeven — jij coacht op het gevolg.',
     acties:[{t:'Wandelroute van 30\' op Marcs vaste traject', b:'AI', s:'voorstel'},{t:'Tempo: eerst 3×/week, opbouwen naar dagelijks', b:'Sam', s:'actief'},{t:'Broodbeleg-alternatieven (vraag van Marc)', b:'diëtist', s:'actief'},{t:'Herinnering weegmoment op zondagochtend', b:'AI', s:'voorstel'}]},
@@ -290,7 +290,7 @@ function bulkMsg(){
 }
 function bulkCheckin(){
   const n = sel.size;
-  document.getElementById('bulkbar').innerHTML = `<span>📅 Wekelijkse check-in ingepland voor ${n} klant${n>1?'en':''} — Boo doet de opvolging, jij ziet alleen de uitschieters.</span>`;
+  document.getElementById('bulkbar').innerHTML = `<span>📅 Wekelijkse check-in ingepland voor ${n} klant${n>1?'en':''} — Yobi doet de opvolging, jij ziet alleen de uitschieters.</span>`;
   setTimeout(()=>{ sel.clear(); renderKlanten(); }, 2600);
 }
 

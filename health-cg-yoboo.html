@@ -264,8 +264,10 @@ a{color:var(--yb-deep)}
 .winside{flex:0 0 128px; background:var(--cream); border-right:1px solid var(--hair); padding:10px 7px; display:flex; flex-direction:column; gap:3px}
 .winside .wlogo{font-weight:800; font-size:.78rem; padding:4px 8px 8px; letter-spacing:-.02em}
 .winside .wlogo i{font-style:normal; color:var(--yb)}
-.wsi{font-size:.65rem; font-weight:700; color:var(--muted); border-radius:8px; padding:6px 8px; display:flex; gap:6px; align-items:center}
+.wsi{font-size:.65rem; font-weight:700; color:var(--muted); border-radius:8px; padding:6px 8px; display:flex; gap:6px; align-items:center; cursor:pointer}
+.wsi:hover{color:var(--yb-deep)}
 .wsi.act{background:var(--yb-soft); color:var(--yb-deep)}
+.wpane{display:flex; flex-direction:column; gap:9px}
 @media(max-width:560px){.winside{display:none}}
 .winmain{flex:1; padding:13px 15px; display:flex; flex-direction:column; gap:9px; font-size:.76rem; min-width:0}
 .wh{display:flex; align-items:center; gap:8px; flex-wrap:wrap}
@@ -563,8 +565,8 @@ footer a{color:var(--yb-deep)}
       </div>
     </div>
     <div class="heroboo rv in">
-      <div class="bubble"><b>Hoi, ik ben Boo!</b> Ik loop mee in de hele app. Kies hieronder door wiens ogen je wil kijken — ik wijs je de weg. 👇</div>
-      <svg class="boo-float" width="150" height="155" viewBox="0 0 100 104" role="img" aria-label="Boo, de yoboo-mascotte"><use href="#boo-base"/></svg>
+      <div class="bubble"><b>Hoi, ik ben Yobi!</b> Ik loop mee in de hele app. Kies hieronder door wiens ogen je wil kijken — ik wijs je de weg. 👇</div>
+      <svg class="boo-float" width="150" height="155" viewBox="0 0 100 104" role="img" aria-label="Yobi, de yoboo-mascotte"><use href="#boo-base"/></svg>
     </div>
   </div>
 </header>
@@ -613,7 +615,7 @@ footer a{color:var(--yb-deep)}
     <div class="rv">
       <span class="sec-eyebrow">De klant · Lena, 36 — gezin met twee kinderen</span>
       <h2 class="sec-title">Zo simpel voelt het voor Lena</h2>
-      <p class="sec-lead">Geen gezondheidsjargon, geen grafieken die je moet kunnen lezen. Eén plan, kleine stapjes, en elke stap heeft een knop. Boo viert mee als het lukt — en is mild als het even niet lukt.</p>
+      <p class="sec-lead">Geen gezondheidsjargon, geen grafieken die je moet kunnen lezen. Eén plan, kleine stapjes, en elke stap heeft een knop. Yobi viert mee als het lukt — en is mild als het even niet lukt.</p>
       <div><a class="applink" href="yoboo-klant.html">📱 Open de volledige klant-app <span>→</span></a></div>
       <span class="demohint">👇 Hieronder: losse schermen als voorproef — de echte app met navigatie zit achter de groene knop</span>
     </div>
@@ -645,7 +647,7 @@ footer a{color:var(--yb-deep)}
               <p>Eén vraagje, vijf seconden.</p>
               <button class="pbtn ghost" onclick="startCheckin()">Doe de check-in</button>
             </div>
-            <div class="pminiboo" id="boo1"><svg viewBox="0 0 100 104" width="30" height="31"><use href="#boo-base"/></svg><span><b>Boo:</b> lekker bezig! Nog twee stapjes en je week is helemaal groen. 💚</span></div>
+            <div class="pminiboo" id="boo1"><svg viewBox="0 0 100 104" width="30" height="31"><use href="#boo-base"/></svg><span><b>Yobi:</b> lekker bezig! Nog twee stapjes en je week is helemaal groen. 💚</span></div>
           </div>
         </div></div>
         <p class="phonecap"><b>Vandaag.</b> Drie stapjes, elk met een knop. Geen advies zonder actie — dat is de regel.</p>
@@ -672,7 +674,7 @@ footer a{color:var(--yb-deep)}
               <div class="h"><span class="ic" style="background:var(--yb-soft)">✨</span>Op maat van jullie gezin</div>
               <p>Dit menu past voor iedereen aan tafel — ook voor papa's hart en Wouts groeispurt. Meer moet je daar niet over weten. 😉</p>
             </div>
-            <div class="pminiboo" id="boo2"><svg viewBox="0 0 100 104" width="30" height="31"><use href="#boo-eet"/></svg><span><b>Boo:</b> ik heb wat minder zout gebruikt deze week. Proef je niks van, beloofd.</span></div>
+            <div class="pminiboo" id="boo2"><svg viewBox="0 0 100 104" width="30" height="31"><use href="#boo-eet"/></svg><span><b>Yobi:</b> ik heb wat minder zout gebruikt deze week. Proef je niks van, beloofd.</span></div>
           </div>
         </div></div>
         <p class="phonecap"><b>Het gezinsmenu.</b> Eén knop naar het mandje. De reden áchter aanpassingen blijft privé — het menu klopt gewoon voor iedereen.</p>
@@ -705,7 +707,7 @@ footer a{color:var(--yb-deep)}
               </div>
               <p style="margin-top:8px">Fien (5) telt dubbel mee met haar loopfietsje. 🏆 Badge bij 100 km: <b>Gezin op wielen</b></p>
             </div>
-            <div class="pminiboo" id="boo3"><svg viewBox="0 0 100 104" width="30" height="31"><use href="#boo-fiets"/></svg><span><b>Boo:</b> jullie liggen vóór op schema! Zondagsritje naar de ijsjesboer? 🍦</span></div>
+            <div class="pminiboo" id="boo3"><svg viewBox="0 0 100 104" width="30" height="31"><use href="#boo-fiets"/></svg><span><b>Yobi:</b> jullie liggen vóór op schema! Zondagsritje naar de ijsjesboer? 🍦</span></div>
           </div>
         </div></div>
         <p class="phonecap"><b>De kring-challenge.</b> Ieder heeft zijn eigen plan; samen fietsen is de leuke laag erbovenop.</p>
@@ -729,7 +731,7 @@ footer a{color:var(--yb-deep)}
               <p style="margin-top:9px">Gemaakt op basis van wat jij wilde delen: je aankopen en je vragenlijstje. Geen oordeel — gewoon je vertrekpunt.</p>
               <div id="fotokies"><button class="pbtn" style="--ac:var(--yb)" onclick="toonPijlers()">Kies waar je aan wil werken</button></div>
             </div>
-            <div class="pminiboo" id="boo4"><svg viewBox="0 0 100 104" width="30" height="31"><use href="#boo-plan"/></svg><span><b>Boo:</b> slaap lijkt me iets voor ons, wat denk je? Kleine stapjes, grote nachten. 🌙</span></div>
+            <div class="pminiboo" id="boo4"><svg viewBox="0 0 100 104" width="30" height="31"><use href="#boo-plan"/></svg><span><b>Yobi:</b> slaap lijkt me iets voor ons, wat denk je? Kleine stapjes, grote nachten. 🌙</span></div>
           </div>
         </div></div>
         <p class="phonecap"><b>De gezondheidsfoto.</b> Op vraag van de klant, positief gebracht, per bron opt-in.</p>
@@ -740,7 +742,7 @@ footer a{color:var(--yb-deep)}
         <div class="phone"><div class="pscr">
           <div class="pnotch"><span>9:41</span><span>●●●</span></div>
           <div class="pbody">
-            <div class="phello"><div class="who">Jij beslist. Altijd. <small>Wat mag Boo zien, en wie kijkt mee?</small></div></div>
+            <div class="phello"><div class="who">Jij beslist. Altijd. <small>Wat mag Yobi zien, en wie kijkt mee?</small></div></div>
             <div class="pcardui">
               <div class="h"><span class="ic" style="background:var(--yb-soft)">🛒</span>Wat ik deel</div>
               <div class="ptoggle"><span>Mijn aankopen (Colruyt, Bio-Planet)<small>zo kan het menu écht op maat</small></span><span class="tgl on" onclick="tgl(this,'aankopen')"></span></div>
@@ -753,7 +755,7 @@ footer a{color:var(--yb-deep)}
               <div class="ptoggle"><span>Mijn gezin<small>ziet alleen challenges, nooit mijn cijfers</small></span><span class="tgl on" onclick="tgl(this,'je gezin')"></span></div>
               <div class="ptoggle"><span>Mijn huisarts<small>uit — aan te zetten wanneer jij wil</small></span><span class="tgl" onclick="tgl(this,'je huisarts')"></span></div>
             </div>
-            <div class="pminiboo" id="boo5"><svg viewBox="0 0 100 104" width="30" height="31"><use href="#boo-base"/></svg><span><b>Boo:</b> alles staat standaard op privé. Elk knopje kan je altijd weer uitzetten — dan vergeet ik het meteen.</span></div>
+            <div class="pminiboo" id="boo5"><svg viewBox="0 0 100 104" width="30" height="31"><use href="#boo-base"/></svg><span><b>Yobi:</b> alles staat standaard op privé. Elk knopje kan je altijd weer uitzetten — dan vergeet ik het meteen.</span></div>
           </div>
         </div></div>
         <p class="phonecap"><b>Privacy in mensentaal.</b> Consent is geen kleine lettertjes maar knopjes die je begrijpt.</p>
@@ -777,7 +779,7 @@ footer a{color:var(--yb-deep)}
           <li><i>1</i><span>Lena ziet de <b>coach-corner</b> in Bio-Planet (of de apotheek in St. Gilles) en doet er de gratis vertrekfoto.</span></li>
           <li><i>2</i><span>De coach overloopt de foto <b>ter plekke</b>, op papier én op een scherm — vijf minuten, geen verkooppraatje.</span></li>
           <li><i>3</i><span>QR-code mee naar huis: de app staat klaar <b>met de foto er al in</b>.</span></li>
-          <li><i>4</i><span>Thuis kiest ze haar eerste stapje — Boo neemt het over.</span></li>
+          <li><i>4</i><span>Thuis kiest ze haar eerste stapje — Yobi neemt het over.</span></li>
         </ol>
         <span class="conv">→ zelfde vertrekpunt: jouw foto, jouw plan</span>
       </div>
@@ -797,7 +799,7 @@ footer a{color:var(--yb-deep)}
         <h4>📱 Vanuit je zetel</h4>
         <ol>
           <li><i>1</i><span>Via de Xtra-app of de app store — <b>inloggen met Xtra</b>, niks nieuws te onthouden.</span></li>
-          <li><i>2</i><span>Boo vraagt één ding: <b>"wat wil jij?"</b> — in je eigen woorden, geen vragenlijst-marathon.</span></li>
+          <li><i>2</i><span>Yobi vraagt één ding: <b>"wat wil jij?"</b> — in je eigen woorden, geen vragenlijst-marathon.</span></li>
           <li><i>3</i><span>Vertrekfoto op basis van wat jíj deelt (aankopen aan/uit per knopje).</span></li>
           <li><i>4</i><span>Vandaag nog je eerste stapje, met knop.</span></li>
         </ol>
@@ -826,11 +828,11 @@ footer a{color:var(--yb-deep)}
       <p class="sec-lead">De volledige gedragslus, verteld zoals Lena ze beleeft. Elke stap gebeurt in de app of in een winkel die ze al kent.</p>
     </div>
     <div class="journey stagger" style="--jc:var(--yb)">
-      <div class="jstep"><b>"Ik wil 's avonds energie over hebben."</b><p>Lena installeert de app via haar Xtra-profiel en vertelt Boo wat ze wil. Dat is haar doel — in haar woorden.</p><span class="app">2 minuten, geen vragenlijst-marathon</span></div>
+      <div class="jstep"><b>"Ik wil 's avonds energie over hebben."</b><p>Lena installeert de app via haar Xtra-profiel en vertelt Yobi wat ze wil. Dat is haar doel — in haar woorden.</p><span class="app">2 minuten, geen vragenlijst-marathon</span></div>
       <div class="jstep"><b>Haar vertrekfoto</b><p>Op haar vraag maakt de app een foto van waar ze staat, op basis van wat zíj deelt. Positief gebracht.</p><span class="app">opt-in per bron</span></div>
       <div class="jstep"><b>Een plan in mensentaal</b><p>Drie kleine stapjes per dag rond eten, bewegen en ontspannen. Niet meer. De AI-coach stelt voor, Lena kiest.</p><span class="app">Food eerst, dan Move, dan Care</span></div>
       <div class="jstep"><b>Eén knop naar het mandje</b><p>Het weekmenu staat in één tik bij Collect&amp;Go of in de Foodbag-box. Het gezond mandje is geen huiswerk meer.</p><span class="app">de uitvoerende kracht van CG</span></div>
-      <div class="jstep"><b>Boo checkt vriendelijk in</b><p>Wekelijks: wat lukte, wat niet? De metingen (aankopen, stappen) doen de rest — Lena hoeft niks te loggen.</p><span class="app">de lus sluit zichzelf</span></div>
+      <div class="jstep"><b>Yobi checkt vriendelijk in</b><p>Wekelijks: wat lukte, wat niet? De metingen (aankopen, stappen) doen de rest — Lena hoeft niks te loggen.</p><span class="app">de lus sluit zichzelf</span></div>
       <div class="jstep"><b>Het plan stuurt bij</b><p>Woensdag bleek te druk om te koken? Dan wordt woensdag voortaan de makkelijke dag. Het plan volgt het leven, niet omgekeerd.</p><span class="app">bijsturing zonder schuldgevoel</span></div>
     </div>
   </div>
@@ -866,7 +868,7 @@ footer a{color:var(--yb-deep)}
       <div class="persona" style="--pc:var(--paars)">
         <div class="top"><span class="pav">🌙</span><span><b>Jana, 29 — alleen, druk werk</b><small>kwam binnen via deur 3: gewoon online</small></span></div>
         <div class="steps">
-          <div class="step"><span class="lbl">Signaal</span><p>Mandje vol energiedrank, check-ins zeggen "moe". Het patroon is duidelijk — voor Boo, niet voor een verkoper.</p></div>
+          <div class="step"><span class="lbl">Signaal</span><p>Mandje vol energiedrank, check-ins zeggen "moe". Het patroon is duidelijk — voor Yobi, niet voor een verkoper.</p></div>
           <div class="step"><span class="lbl">Duwtje</span><p>"Zullen we je avond eens fixen?" — avondroutine van 3 stapjes plus een microles slaap van 4 minuten.</p></div>
           <div class="step"><span class="lbl">Knop</span><p>Kruidenthee en havermout staan al in haar voorstelmandje; energiedrank krijgt géén promo meer in haar app.</p></div>
         </div>
@@ -908,8 +910,8 @@ footer a{color:var(--yb-deep)}
   <div class="wrap">
     <div class="rv">
       <span class="sec-eyebrow">De mascotte</span>
-      <h2 class="sec-title">Boo leeft met je mee</h2>
-      <p class="sec-lead">Eén herkenbaar figuurtje in elke flow, elke e-mail en elke winkelhoek — de gezondheidstaal krijgt er een gezicht bij. Boo is nooit een politieagent: hij viert, helpt en moppert hooguit heel even.</p>
+      <h2 class="sec-title">Yobi leeft met je mee</h2>
+      <p class="sec-lead">Eén herkenbaar figuurtje in elke flow, elke e-mail en elke winkelhoek — de gezondheidstaal krijgt er een gezicht bij. Yobi is nooit een politieagent: hij viert, helpt en moppert hooguit heel even.</p>
     </div>
     <div class="boorow stagger">
       <div class="b"><svg viewBox="0 0 100 104" width="64" height="66"><use href="#boo-base"/></svg><small>blij — de standaard</small></div>
@@ -963,7 +965,7 @@ footer a{color:var(--yb-deep)}
               <div class="wrowi" style="--pc:var(--care)"><span class="av">MV</span><span><b>Marc V. — 2 weken geen beweegdata</b><small>plan-op-voorschrift · voorstel: bellen, geen pushbericht</small></span><span class="spacer"></span><button class="wbtn" onclick="coachDoe(this,'📞 Gebeld — Marc herstart met de lunchwandeling. Notitie in het plan.')">Bel Marc</button></div>
               <div class="wrowi" style="--pc:var(--oranje)"><span class="av">AD</span><span><b>Aïcha D. — "moeilijke week"</b><small>check-in gisteren 22:41 · slaap &amp; stress, week 2</small></span><span class="spacer"></span><button class="wbtn ghost" onclick="msgAicha(this)">Stuur bericht</button></div>
               <div class="wrowi" style="--pc:var(--paars)" id="conflictrow"><span class="av">⚖️</span><span><b>Kring-conflict gezin D. wacht op jouw beslissing</b><small>engine-voorstel klaar: één menu, twee portiegroottes</small></span><span class="spacer"></span><button class="wbtn" onclick="conflictOpen(this)">Bekijk</button></div>
-              <div class="wrowi" style="--pc:var(--yb)"><span class="av">LP</span><span><b>Lena P. — streak 5, week bijna groen</b><small>geen actie nodig, Boo doet zijn ding</small></span><span class="spacer"></span><span class="pill ok">op koers</span></div>
+              <div class="wrowi" style="--pc:var(--yb)"><span class="av">LP</span><span><b>Lena P. — streak 5, week bijna groen</b><small>geen actie nodig, Yobi doet zijn ding</small></span><span class="spacer"></span><span class="pill ok">op koers</span></div>
               <div class="wrowi" style="--pc:var(--blauw)"><span class="av">JT</span><span><b>Jef T. — bij de diëtist (spoke)</b><small>afspraak di 14u · komt daarna terug bij jou</small></span><span class="spacer"></span><span class="pill info">doorverwezen</span></div>
             </div>
           </div>
@@ -1359,22 +1361,41 @@ footer a{color:var(--yb-deep)}
           <div class="winbody">
             <div class="winside">
               <span class="wlogo">yoboo<i>.</i> rapport</span>
-              <span class="wsi act">📊 Cohorten</span>
-              <span class="wsi">💶 Terugbetaling</span>
-              <span class="wsi">📄 Export</span>
+              <span class="wsi act" onclick="wsel(this,'rap-cohorten')">📊 Cohorten</span>
+              <span class="wsi" onclick="wsel(this,'rap-terug')">💶 Terugbetaling</span>
+              <span class="wsi" onclick="wsel(this,'rap-export')">📄 Export</span>
             </div>
             <div class="winmain">
-              <div class="wh"><b>Cohortrapport Q3</b><small>Mutualiteit X · terugbetaalprogramma coaching</small><span class="spacer"></span><span class="wchip">k-anonimiteit ≥ 20</span></div>
-              <div class="wchart">
-                <b>Therapietrouw per cohort — trend 12 weken</b>
-                <svg viewBox="0 0 248 64" role="img" aria-label="Trendlijnen therapietrouw">
-                  <polyline points="6,44 40,40 74,38 108,34 142,30 176,26 210,24 242,20" fill="none" stroke="var(--yb)" stroke-width="3" stroke-linecap="round"/>
-                  <polyline points="6,50 40,49 74,45 108,44 142,40 176,39 210,36 242,34" fill="none" stroke="var(--blauw)" stroke-width="3" stroke-linecap="round" opacity=".7"/>
-                </svg>
+              <div class="wpane" id="rap-cohorten">
+                <div class="wh"><b>Cohortrapport Q3</b><small>Mutualiteit X · terugbetaalprogramma coaching</small><span class="spacer"></span><span class="wchip">k-anonimiteit ≥ 20</span></div>
+                <div class="wchart">
+                  <b>Therapietrouw per cohort — trend 12 weken</b>
+                  <svg viewBox="0 0 248 64" role="img" aria-label="Trendlijnen therapietrouw">
+                    <polyline points="6,44 40,40 74,38 108,34 142,30 176,26 210,24 242,20" fill="none" stroke="var(--yb)" stroke-width="3" stroke-linecap="round"/>
+                    <polyline points="6,50 40,49 74,45 108,44 142,40 176,39 210,36 242,34" fill="none" stroke="var(--blauw)" stroke-width="3" stroke-linecap="round" opacity=".7"/>
+                  </svg>
+                </div>
+                <div class="wrowi" style="--pc:var(--yb)"><span class="av">A</span><span><b>Cohort hartrevalidatie</b><small>n = 412 · therapietrouw 84% · uitkomst ↑</small></span><span class="spacer"></span><span class="pill ok">gezond op koers</span></div>
+                <div class="wrowi" style="--pc:var(--blauw)"><span class="av">B</span><span><b>Cohort diabetes-preventie</b><small>n = 268 · therapietrouw 79%</small></span><span class="spacer"></span><span class="pill ok">op koers</span></div>
+                <div class="wrowi" style="--pc:var(--care)"><span class="av">🔒</span><span><b>Cohort rugrevalidatie</b><small>n = 14 — te klein: niet beschikbaar, ook niet op aanvraag</small></span><span class="spacer"></span><span class="pill alert">verborgen</span></div>
               </div>
-              <div class="wrowi" style="--pc:var(--yb)"><span class="av">A</span><span><b>Cohort hartrevalidatie</b><small>n = 412 · therapietrouw 84% · uitkomst ↑</small></span><span class="spacer"></span><span class="pill ok">gezond op koers</span></div>
-              <div class="wrowi" style="--pc:var(--blauw)"><span class="av">B</span><span><b>Cohort diabetes-preventie</b><small>n = 268 · therapietrouw 79%</small></span><span class="spacer"></span><span class="pill ok">op koers</span></div>
-              <div class="wrowi" style="--pc:var(--care)"><span class="av">🔒</span><span><b>Cohort rugrevalidatie</b><small>n = 14 — te klein: niet beschikbaar, ook niet op aanvraag</small></span><span class="spacer"></span><span class="pill alert">verborgen</span></div>
+              <div class="wpane" id="rap-terug" style="display:none">
+                <div class="wh"><b>Terugbetaling Q3</b><small>programma coaching · alleen totalen</small></div>
+                <div class="wkpis">
+                  <div class="wkpi"><b>1.240</b><small>sessies terugbetaald</small></div>
+                  <div class="wkpi"><b>4,2</b><small>sessies gem. per lid</small></div>
+                  <div class="wkpi"><b>€ 38k</b><small>uitgekeerd dit kwartaal</small></div>
+                </div>
+                <div class="wrowi" style="--pc:var(--yb)"><span class="av">✓</span><span><b>Attesten volautomatisch</b><small>het lid tikt één keer in de app — geen papiertjes, geen loket</small></span><span class="spacer"></span><span class="pill ok">loopt</span></div>
+                <div class="wrowi" style="--pc:var(--blauw)"><span class="av">📈</span><span><b>Kost per gezond resultaat −11%</b><small>vs. Q2 — het cohortbewijs voor de eigen budgetronde</small></span></div>
+                <div class="wlock">🔒 <span>Hier staan programmatotalen. Wie welke sessie volgde, zie je in dit portaal nooit.</span></div>
+              </div>
+              <div class="wpane" id="rap-export" style="display:none">
+                <div class="wh"><b>Export</b><small>voor je eigen rapportering</small></div>
+                <div class="wrowi" style="--pc:var(--yb)"><span class="av">📄</span><span><b>Cohortrapport Q3 (PDF)</b><small>exact wat je hier ziet — niets meer</small></span><span class="spacer"></span><span class="pill ok">klaar</span></div>
+                <div class="wrowi" style="--pc:var(--blauw)"><span class="av">🧮</span><span><b>Cohortdata (CSV)</b><small>geaggregeerd per cohort · k ≥ 20 in de export afgedwongen</small></span><span class="spacer"></span><span class="pill ok">klaar</span></div>
+                <div class="wlock">🔒 <span>Elke export passeert dezelfde k-anonimiteitsfilter. Een kleinere groep exporteren kan technisch niet.</span></div>
+              </div>
             </div>
           </div>
         </div>
@@ -1386,21 +1407,43 @@ footer a{color:var(--yb-deep)}
           <div class="winbody">
             <div class="winside">
               <span class="wlogo">yoboo<i>.</i> preventie</span>
-              <span class="wsi act">🏆 Challenge</span>
-              <span class="wsi">📊 Groepstrends</span>
-              <span class="wsi">📣 Campagnes</span>
+              <span class="wsi act" onclick="wsel(this,'prev-challenge')">🏆 Challenge</span>
+              <span class="wsi" onclick="wsel(this,'prev-trends')">📊 Groepstrends</span>
+              <span class="wsi" onclick="wsel(this,'prev-camp')">📣 Campagnes</span>
             </div>
             <div class="winmain">
-              <div class="wh"><b>Bedrijfschallenge — Fabriek Noord</b><small>340 medewerkers · voor de preventiedienst</small></div>
-              <div class="wkpis">
-                <div class="wkpi"><b>62%</b><small>doet mee (opt-in)</small></div>
-                <div class="wkpi"><b>+14%</b><small>beweegscore vs. Q2</small></div>
-                <div class="wkpi"><b>−9%</b><small>stress (groepstrend)</small></div>
+              <div class="wpane" id="prev-challenge">
+                <div class="wh"><b>Bedrijfschallenge — Fabriek Noord</b><small>340 medewerkers · voor de preventiedienst</small></div>
+                <div class="wkpis">
+                  <div class="wkpi"><b>62%</b><small>doet mee (opt-in)</small></div>
+                  <div class="wkpi"><b>+14%</b><small>beweegscore vs. Q2</small></div>
+                  <div class="wkpi"><b>−9%</b><small>stress (groepstrend)</small></div>
+                </div>
+                <div class="wrowi" style="--pc:var(--yb)"><span class="av">🥇</span><span><b>Team Logistiek</b><small>412.300 stappen deze maand</small></span><span class="spacer"></span><span class="weekstrip"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span></div>
+                <div class="wrowi" style="--pc:var(--move)"><span class="av">🥈</span><span><b>Team Productie B</b><small>391.850 stappen</small></span><span class="spacer"></span><span class="weekstrip"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i class="miss"></i><i></i></span></div>
+                <div class="wrowi" style="--pc:var(--oranje)"><span class="av">🥉</span><span><b>Team Kantoor</b><small>287.400 stappen — de lunchwandeling helpt</small></span><span class="spacer"></span><span class="weekstrip"><i></i><i></i><i class="miss"></i><i></i><i></i><i></i><i class="miss"></i><i></i><i></i><i></i></span></div>
+                <div class="wlock">🔒 <span><b>Namen bestaan niet in dit portaal.</b> Wie meedoet, wie niet, wat iemand doet: onzichtbaar voor de werkgever. Het account is van de mens — ook na ontslag loopt het plan gewoon door.</span></div>
               </div>
-              <div class="wrowi" style="--pc:var(--yb)"><span class="av">🥇</span><span><b>Team Logistiek</b><small>412.300 stappen deze maand</small></span><span class="spacer"></span><span class="weekstrip"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span></div>
-              <div class="wrowi" style="--pc:var(--move)"><span class="av">🥈</span><span><b>Team Productie B</b><small>391.850 stappen</small></span><span class="spacer"></span><span class="weekstrip"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i class="miss"></i><i></i></span></div>
-              <div class="wrowi" style="--pc:var(--oranje)"><span class="av">🥉</span><span><b>Team Kantoor</b><small>287.400 stappen — de lunchwandeling helpt</small></span><span class="spacer"></span><span class="weekstrip"><i></i><i></i><i class="miss"></i><i></i><i></i><i></i><i class="miss"></i><i></i><i></i><i></i></span></div>
-              <div class="wlock">🔒 <span><b>Namen bestaan niet in dit portaal.</b> Wie meedoet, wie niet, wat iemand doet: onzichtbaar voor de werkgever. Het account is van de mens — ook na ontslag loopt het plan gewoon door.</span></div>
+              <div class="wpane" id="prev-trends" style="display:none">
+                <div class="wh"><b>Groepstrends — Fabriek Noord</b><small>hoe de gróep evolueert, kwartaal na kwartaal</small></div>
+                <div class="wchart">
+                  <b>Beweegscore ↑ en stress ↓ — 4 kwartalen</b>
+                  <svg viewBox="0 0 248 64" role="img" aria-label="Trendlijnen beweegscore en stress">
+                    <polyline points="6,46 86,40 166,30 242,22" fill="none" stroke="var(--yb)" stroke-width="3" stroke-linecap="round"/>
+                    <polyline points="6,26 86,30 166,34 242,40" fill="none" stroke="var(--coral)" stroke-width="3" stroke-linecap="round" opacity=".7"/>
+                  </svg>
+                </div>
+                <div class="wrowi" style="--pc:var(--yb)"><span class="av">🚶</span><span><b>Beweegscore +14%</b><small>sterkste stijging in de ploegendienst — de middagwandeling pakt</small></span></div>
+                <div class="wrowi" style="--pc:var(--paars)"><span class="av">🌙</span><span><b>Slaapscore stabiel</b><small>kandidaat voor de volgende campagne</small></span></div>
+                <div class="wlock">🔒 <span>Trends bestaan alleen per groep van ≥ 20 mensen. Een team van 12? Dat bestaat hier niet.</span></div>
+              </div>
+              <div class="wpane" id="prev-camp" style="display:none">
+                <div class="wh"><b>Campagnes</b><small>opt-in acties, samen met de preventiedienst opgezet</small></div>
+                <div class="wrowi" style="--pc:var(--yb)"><span class="av">🚶</span><span><b>"Elke middag buiten" — mei</b><small>58% deed mee · beweegscore +9% die maand</small></span><span class="spacer"></span><span class="pill ok">afgerond</span></div>
+                <div class="wrowi" style="--pc:var(--food)"><span class="av">🍎</span><span><b>"Fruit op het werk" — juni</b><small>54% opt-in · gezonder mandje ook thuis</small></span><span class="spacer"></span><span class="pill ok">afgerond</span></div>
+                <div class="wrowi" style="--pc:var(--paars)"><span class="av">😴</span><span><b>"Offline om 22u" — september</b><small>slaapcampagne · voorstel op basis van de groepstrend</small></span><span class="spacer"></span><span class="pill info">gepland</span></div>
+                <div class="wlock">🔒 <span>Een campagne is altijd opt-in. De werkgever ziet deelname en groepseffect — nooit wie wél of niet meedoet.</span></div>
+              </div>
             </div>
           </div>
         </div>
@@ -1545,7 +1588,7 @@ footer a{color:var(--yb-deep)}
 <!-- ============ BOO HELPER ============ -->
 <div id="boohelp">
   <div class="bubble" id="boobubble" role="status">Kies bovenaan door wiens ogen je kijkt — van klant tot middenveld. Klik op mij voor tips! 👓</div>
-  <button id="boobtn" aria-label="Tip van Boo">
+  <button id="boobtn" aria-label="Tip van Yobi">
     <svg width="84" height="87" viewBox="0 0 100 104"><use href="#boo-base"/></svg>
   </button>
 </div>
@@ -1586,7 +1629,7 @@ document.getElementById('boobtn').addEventListener('click',()=>{ tipIdx=(tipIdx+
 
 /* ============ WERKENDE POC: klant ============ */
 const booSvg = (v,s=30)=>`<svg viewBox="0 0 100 104" width="${s}" height="${Math.round(s*1.04)}"><use href="#${v}"/></svg>`;
-function setBoo(id, variant, html){ const el=document.getElementById(id); if(el) el.innerHTML = booSvg(variant)+`<span><b>Boo:</b> ${html}</span>`; }
+function setBoo(id, variant, html){ const el=document.getElementById(id); if(el) el.innerHTML = booSvg(variant)+`<span><b>Yobi:</b> ${html}</span>`; }
 let sparks = 340;
 function addSparks(n){
   sparks += n;
@@ -1777,6 +1820,13 @@ themeBtn.addEventListener('click', ()=>{
   const next = dark ? 'light' : 'dark';
   localStorage.setItem('yb-theme', next); applyTheme(next);
 });
+
+/* portaal-mockups: zijbalk-tabs */
+function wsel(el, paneId){
+  el.parentElement.querySelectorAll('.wsi').forEach(s=>s.classList.toggle('act', s===el));
+  const main=el.closest('.winbody').querySelector('.winmain');
+  main.querySelectorAll('.wpane').forEach(p=>p.style.display = p.id===paneId ? '' : 'none');
+}
 </script>
 </body>
 </html>
