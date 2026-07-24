@@ -11,6 +11,7 @@
   --ink:#1C2422; --muted:#5A6663; --hair:#D9E2E0;
   --bg:#FFFFFF; --band:#F2F6F5; --card:#FFFFFF;
   --accent:var(--teal); --accent-soft:rgba(0,136,123,.10);
+  --lt:var(--blue);
   --on-dark:#F2F7F6;
   --shadow:0 10px 30px rgba(12,51,47,.08);
   --food:#009A3E; --move:#224396; --care:#00887B; --know:#C29200;
@@ -21,6 +22,7 @@
     --ink:#E8EFED; --muted:#9AA8A4; --hair:#283533;
     --bg:#0E1514; --band:#131C1A; --card:#17211F;
     --accent:#2BB3A3; --accent-soft:rgba(43,179,163,.14);
+    --lt:#7E9BEB;
     --shadow:0 10px 30px rgba(0,0,0,.35);
     --food:#3BC878; --move:#7E9BEB; --care:#2BB3A3; --know:#E5C558;
     --p1:#3BC878; --p2:#7E9BEB; --p3:#3FB3A5; --p4:#A9B6B2; --p5:#E5C558; --p6:#2BB3A3;
@@ -416,30 +418,41 @@ header.hero::after{
 .ecocard b{font-size:.98rem}
 .ecocard p{font-size:.85rem; color:var(--muted); margin-top:7px; line-height:1.5}
 .ecocard p b{font-size:.78rem; text-transform:uppercase; letter-spacing:.08em; color:var(--pc)}
+.stakesplit{display:grid; grid-template-columns:1fr 1.15fr; gap:14px; margin-top:26px}
+@media(max-width:820px){.stakesplit{grid-template-columns:1fr}}
+.ss{border:1px solid var(--hair); border-left:4px solid var(--sc); border-radius:14px; padding:18px 22px; background:var(--card)}
+.ss .k{font-size:.66rem; font-weight:700; letter-spacing:.13em; text-transform:uppercase; color:var(--sc)}
+.ss>b{display:block; font-size:1.02rem; margin-top:4px}
+.ss p{font-size:.86rem; color:var(--muted); margin-top:7px; line-height:1.55}
+.ss .mits{color:var(--ink); font-weight:600; font-style:italic; border-top:1px dashed var(--hair); padding-top:10px; margin-top:12px}
 @media(max-width:900px){.eco{display:none} .ecowrap{padding:18px}}
 
-/* ============ ROUTES: van vandaag naar het plan ============ */
-.vandaagstrip{
-  margin-top:44px; border:1px dashed var(--hair); border-radius:14px; padding:16px 20px;
-  background:var(--card); font-size:.92rem; color:var(--muted); line-height:1.6;
+/* ============ TERMIJNEN: kort (dit jaar) vs lang (vanaf 2027) ============ */
+.termijnen{display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-top:44px}
+@media(max-width:900px){.termijnen{grid-template-columns:1fr}}
+.termijn{
+  border:1px solid var(--hair); border-top:5px solid var(--tc); border-radius:16px;
+  padding:24px 26px; background:var(--card); box-shadow:var(--shadow);
 }
-.vandaagstrip b{color:var(--ink)}
-.routes{display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:16px}
-@media(max-width:900px){.routes{grid-template-columns:1fr}}
-.route{
-  border:1px solid var(--hair); border-top:4px solid var(--rtc); border-radius:14px;
-  padding:18px 20px; background:var(--card); display:flex; flex-direction:column;
+.termijn.kort{background:color-mix(in srgb, var(--tc) 5%, var(--card))}
+.termijn .k{font-size:.68rem; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--tc)}
+.termijn h4{font-size:1.3rem; margin-top:4px}
+.termijn .tlead{font-size:.86rem; color:var(--muted); margin-top:6px}
+.termijn ul{list-style:none; margin-top:16px; display:grid; gap:11px; padding:0}
+.termijn li{display:flex; gap:12px; align-items:flex-start; font-size:.89rem; color:var(--muted); line-height:1.55}
+.termijn li b{color:var(--ink)}
+.termijn .n{
+  flex:0 0 auto; width:23px; height:23px; border-radius:50%; background:var(--tc); color:#fff;
+  font-size:.72rem; font-weight:700; display:flex; align-items:center; justify-content:center;
+  margin-top:1px;
 }
-.route .k{font-size:.68rem; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--rtc)}
-.route h4{font-size:1.05rem; margin-top:4px}
-.route ul{margin:10px 0 14px; padding-left:17px; font-size:.88rem; color:var(--muted); line-height:1.55}
-.route li{margin:5px 0}
-.route .gevolg{
-  margin-top:auto; padding:10px 13px; border-radius:0 10px 10px 0;
-  border-left:4px solid var(--rtc); background:color-mix(in srgb, var(--rtc) 9%, transparent);
-  font-size:.86rem; line-height:1.5;
+.termijn .jr{
+  flex:0 0 96px; text-align:center; font-size:.64rem; font-weight:700; letter-spacing:.07em; text-transform:uppercase;
+  color:var(--tc); border:1px solid color-mix(in srgb, var(--tc) 45%, transparent); border-radius:99px;
+  padding:4px 2px; margin-top:2px;
 }
-.route .gevolg b{color:var(--rtc)}
+.termijn .daarnaast{margin-top:18px; border-top:1px dashed var(--hair); padding-top:13px; font-size:.85rem; color:var(--muted); line-height:1.6}
+.termijn .daarnaast b{color:var(--tc); font-size:.68rem; letter-spacing:.14em; text-transform:uppercase; margin-right:6px}
 @media(max-width:900px){
   .wheel{display:none}
   .ringlist{display:grid; gap:10px; margin-top:4px}
@@ -812,6 +825,14 @@ button.instap p{font-size:.72rem; color:var(--muted); margin:0}
 .rmbar .ph span+span{border-left:1px dashed var(--accent)}
 .rmbar.hl{background:linear-gradient(90deg,var(--teal-dark),var(--accent)); border:none; color:#fff}
 .rmbar.hl small{color:rgba(255,255,255,.85)}
+.rmlane{
+  grid-column:1/span 6; margin:16px 0 2px; font-size:.7rem; font-weight:700; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--tc); display:flex; align-items:center; gap:12px;
+}
+.rmlane::after{content:""; flex:1; border-top:1px dashed color-mix(in srgb, var(--tc) 40%, transparent)}
+.rmbar.lt{background:color-mix(in srgb, var(--lt) 9%, transparent); border-color:var(--lt)}
+.rmbar.tent{border-style:dashed; background:transparent}
+.rmnote{margin-top:14px; font-size:.78rem; color:var(--muted); font-style:italic; text-align:center}
 
 /* ============ AAN DE SLAG ============ */
 .acties{display:grid; grid-template-columns:repeat(2,1fr); gap:14px; margin-top:44px}
@@ -840,6 +861,18 @@ button.instap p{font-size:.72rem; color:var(--muted); margin:0}
 .mile p{color:var(--muted); font-size:.94rem; margin-top:6px; max-width:36em}
 .mile .subchips{display:flex; flex-wrap:wrap; gap:7px; margin-top:12px}
 .mile .subchips span{font-size:.78rem; font-weight:600; border:1px solid var(--hair); border-radius:99px; padding:4px 11px; background:var(--card)}
+.mile.lt .yr{color:var(--lt)}
+.mile.lt.in::before{border-color:var(--lt); background:var(--lt); box-shadow:0 0 0 6px color-mix(in srgb, var(--lt) 15%, transparent)}
+.tlera{position:relative; padding:6px 0 30px 26px}
+.tlera span{
+  display:inline-block; font-size:.72rem; font-weight:700; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--tc); background:color-mix(in srgb, var(--tc) 8%, transparent);
+  border:1px solid color-mix(in srgb, var(--tc) 40%, transparent); border-radius:99px; padding:7px 16px;
+}
+.tlera::before{
+  content:""; position:absolute; left:-36px; top:13px; width:15px; height:15px; border-radius:50%;
+  background:var(--tc); z-index:1; margin-left:2px; box-shadow:0 0 0 5px color-mix(in srgb, var(--tc) 15%, transparent);
+}
 .mile.launch{padding-bottom:0}
 .mile.launch .card100{
   background:linear-gradient(140deg,var(--teal-deep),var(--teal-dark)); color:var(--on-dark);
@@ -1292,6 +1325,20 @@ window.addEventListener('DOMContentLoaded',()=>{if(localStorage.getItem('auth')=
       </div>
 
       <p class="wheelcaption">Elke speler is én klant én bijdrager: wie iets aan het ecosysteem geeft, moet er ook iets uithalen. Precies dat maakt het een platform — geen kanaal.</p>
+
+      <div class="stakesplit rv">
+        <div class="ss" style="--sc:var(--accent)">
+          <span class="k">Business-stakeholders</span>
+          <b>Geven én krijgen</b>
+          <p>De spelers hierboven zitten in het ecosysteem omdat de ruil klopt: elk geeft iets aan het geheel en haalt er iets uit. Hun "what's in it for me" is concreet en zakelijk.</p>
+        </div>
+        <div class="ss" style="--sc:var(--p4)">
+          <span class="k">Draagvlak-stakeholders · via public affairs</span>
+          <b>Meekrijgen in het verhaal</b>
+          <p>Het middenveld, de overheid en de verschillende overheden nemen we via public affairs mee in ons verhaal — niet voor een ruil, maar voor draagvlak en endorsement: zo bouwen we in de hele samenleving het nodige draagvlak op rond gezondheid.</p>
+          <p class="mits">Maar dan moet ons verhaal wél sterk genoeg zijn.</p>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -1546,50 +1593,38 @@ window.addEventListener('DOMContentLoaded',()=>{if(localStorage.getItem('auth')=
     <div class="rv">
       <span class="eyebrow">07 · Strategische roadmap</span>
       <h2 class="sec-title">Van vandaag naar 2028</h2>
-      <p class="sec-lead">Dit plan landt niet op een leeg blad. Eerst de vraag wat we doen met alles wat vandaag al loopt — drie routes liggen op tafel. Het plan daaronder is bijgestuurd volgens route C: <b>de sprint als stuur</b>.</p>
+      <p class="sec-lead">Het plan kent twee sporen, duidelijk gescheiden. <b>Korte termijn:</b> dit jaar nog bewijzen met wat er staat. <b>Lange termijn:</b> vanaf 2027 — voorbereid dit jaar, met als scharnier het Health Retail concept dat we eind oktober afkloppen. <a href="https://stverstr.github.io/Roadmap-Tool/" target="_blank" rel="noopener">Bekijk alle lopende acties in de roadmap-tool →</a></p>
     </div>
 
-    <div class="vandaagstrip rv">
-      <b>Vandaag lopen drie dingen naast elkaar.</b> Yoboo focust op B2B-sales van een beperkt Yoboo-aanbod. Centraal werken we volop aan de opening van een winkel in november rond health advisory — grotendeels los van Yoboo. En daarnaast lopen vele initiatieven parallel: de health box, Sri Sri, het strategisch plan health advisory… — zonder veel focus. <a href="https://stverstr.github.io/Roadmap-Tool/" target="_blank" rel="noopener">Bekijk alle lopende acties in de roadmap-tool →</a>
-    </div>
-
-    <div class="routes stagger">
-      <div class="route" style="--rtc:var(--red)">
-        <span class="k">Route A</span>
-        <h4>Alles loopt door</h4>
+    <div class="termijnen stagger">
+      <div class="termijn kort" style="--tc:var(--accent)">
+        <span class="k">Korte termijn</span>
+        <h4>Dit jaar nog</h4>
+        <p class="tlead">De focus ligt op vier zaken:</p>
         <ul>
-          <li>De winkel opent in november zoals gepland</li>
-          <li>B2B-sales loopt gewoon verder</li>
-          <li>De AI-sprint voor de health advisory start ernaast</li>
+          <li><span class="n">1</span><div><b>KT-organisatie &amp; governance</b> — de afgesproken organisatie en governance uitvoeren</div></li>
+          <li><span class="n">2</span><div><b>St. Gilles</b> — de apotheek openen, mét services</div></li>
+          <li><span class="n">3</span><div><b>Noorderlaan</b> — de apotheek operationeel efficiënt inrichten en rendabel maken</div></li>
+          <li><span class="n">4</span><div><b>Yoboo</b> — als B2C-applicatie doen werken en in dienst nemen bij St. Gilles</div></li>
         </ul>
-        <div class="gevolg"><b>Gevolg:</b> weinig focus en geen alignment — B2B, de winkel en de advisory lopen verder uit elkaar.</div>
+        <div class="daarnaast"><b>Daarnaast</b> B2B verder verkopen · de health box uitrollen voor pre-/post-operatie</div>
       </div>
-      <div class="route" style="--rtc:var(--blue)">
-        <span class="k">Route B</span>
-        <h4>Eerst stoppen, dan bouwen</h4>
+      <div class="termijn lang" style="--tc:var(--lt)">
+        <span class="k">Lange termijn</span>
+        <h4>Vanaf 2027</h4>
+        <p class="tlead">Daarvoor gaan we dit jaar al aan de slag:</p>
         <ul>
-          <li>B2B en de winkel worden stopgezet</li>
-          <li>We organiseren ons en doen de sprint</li>
-          <li>Daarna herstarten we met één gealigneerde strategie</li>
+          <li><span class="jr">Eind oktober</span><div><b>Het Health Retail concept afkloppen</b> — dé beslissing waar de verdere planning uit volgt</div></li>
+          <li><span class="jr">Dit jaar</span><div><b>Klaarmaken voor een nieuwe organisatie</b> vanaf 2027</div></li>
+          <li><span class="jr">2027 →</span><div><b>De planning die daarna volgt</b> is een gevolg van het afgeklopte Health Retail concept</div></li>
+          <li><span class="jr">2028</span><div><b>Opschalen</b> — in het jaar dat Colruyt 100 wordt</div></li>
         </ul>
-        <div class="gevolg"><b>Gevolg:</b> maximale alignment, maar we verliezen momentum, omzet en de novemberdatum — en goodwill bij wie vandaag bouwt.</div>
-      </div>
-      <div class="route" style="--rtc:var(--accent)">
-        <span class="k">Route C · de tussenweg — stuurt het plan hieronder</span>
-        <h4>De sprint als stuur</h4>
-        <ul>
-          <li>De sprint start meteen en wordt hét aligneringsinstrument: élk lopend initiatief komt erin samen</li>
-          <li>De winkel opent in november — maar herijkt als eerste fysieke test van de advisory; de sprint levert vóór de opening het verhaal en de gezondheidstaal</li>
-          <li>B2B loopt door op laag vuur, als kasstroom en acquisitiekanaal — zonder nieuwe engagementen die het eindbeeld hypothekeren</li>
-          <li>De overige initiatieven worden bevroren of kantelen in: wat niet in de sprint-backlog past, stopt</li>
-        </ul>
-        <div class="gevolg"><b>Gevolg:</b> het momentum blijft, en alles komt onder één stuur — de novemberwinkel wordt het eerste bewijs van de gealigneerde strategie in plaats van een los concept.</div>
       </div>
     </div>
 
     <div class="rv" style="margin-top:56px">
-      <h3 class="sec-title" style="font-size:1.5rem">Zes bouwstenen naar 2028</h3>
-      <p class="sec-lead" style="margin-top:8px">Elke bouwsteen stapelt op de vorige. Het eindpunt ligt vast: opschalen in het jaar dat Colruyt 100 wordt.</p>
+      <h3 class="sec-title" style="font-size:1.5rem">Twee sporen naar 2028</h3>
+      <p class="sec-lead" style="margin-top:8px">Het korte spoor bewijst dit jaar met wat er staat. Het lange spoor start ook nu, maar krijgt zijn definitieve invulling pas als het Health Retail concept is afgeklopt. Het eindpunt ligt vast: opschalen in het jaar dat Colruyt 100 wordt.</p>
     </div>
 
     <div class="rmap rv">
@@ -1597,66 +1632,75 @@ window.addEventListener('DOMContentLoaded',()=>{if(localStorage.getItem('auth')=
         <span class="rmyr" style="grid-column:1/span 2">2026</span>
         <span class="rmyr" style="grid-column:3/span 2">2027</span>
         <span class="rmyr" style="grid-column:5/span 2">2028</span>
-        <div class="rmbar" style="grid-column:1/span 1; grid-row:2"><b>AI-sprint</b><small>de start — alles kantelt in</small></div>
-        <div class="rmbar" style="grid-column:1/span 2; grid-row:3"><b>Organisatie opzetten</b></div>
-        <div class="rmbar" style="grid-column:1/span 2; grid-row:4"><b>Gezondheidsvakmanschap</b><small>klaar vóór 2027</small></div>
-        <div class="rmbar" style="grid-column:1/span 4; grid-row:5"><b>Health advisory</b><div class="ph"><span>POC</span><span>testen met klanten</span></div></div>
-        <div class="rmbar" style="grid-column:1/span 4; grid-row:6"><b>Stores</b><div class="ph"><span>nov: winkel als advisory-test</span><span>testen mét advisory</span></div></div>
-        <div class="rmbar" style="grid-column:4/span 1; grid-row:7"><b>Piloot</b><small>ziekenhuis · apotheek · omgeving</small></div>
-        <div class="rmbar hl" style="grid-column:5/span 2; grid-row:8"><b>Opschalen</b><small>100 jaar Colruyt</small></div>
+
+        <div class="rmlane" style="--tc:var(--accent); grid-row:2">Korte termijn · dit jaar nog</div>
+        <div class="rmbar" style="grid-column:1/span 2; grid-row:3"><b>KT-organisatie &amp; governance uitvoeren</b></div>
+        <div class="rmbar" style="grid-column:1/span 2; grid-row:4"><b>St. Gilles openen</b><small>mét services</small></div>
+        <div class="rmbar" style="grid-column:1/span 2; grid-row:5"><b>Noorderlaan efficiënt &amp; rendabel</b></div>
+        <div class="rmbar" style="grid-column:1/span 2; grid-row:6"><b>Yoboo als B2C-app</b><small>in dienst bij St. Gilles</small></div>
+        <div class="rmbar" style="grid-column:1/span 2; grid-row:7"><b>B2B verkopen · health box</b><small>pre-/post-operatie</small></div>
+
+        <div class="rmlane" style="--tc:var(--lt); grid-row:8">Lange termijn · vanaf 2027 — voorbereid dit jaar</div>
+        <div class="rmbar lt" style="grid-column:1/span 2; grid-row:9"><b>Health Retail concept afkloppen</b><small>eind oktober — bepaalt de planning hierna</small></div>
+        <div class="rmbar lt" style="grid-column:1/span 2; grid-row:10"><b>Klaarmaken voor de nieuwe organisatie</b></div>
+        <div class="rmbar lt tent" style="grid-column:3/span 2; grid-row:9"><b>Nieuwe organisatie</b><small>invulling volgt uit het concept</small></div>
+        <div class="rmbar hl" style="grid-column:5/span 2; grid-row:9"><b>Opschalen</b><small>100 jaar Colruyt</small></div>
       </div>
+      <p class="rmnote">De planning vanaf 2027 is een gevolg van het Health Retail concept dat we eind oktober afkloppen.</p>
     </div>
 
     <div class="timeline">
       <div class="prog" id="tlprog"></div>
+
+      <div class="tlera rv" style="--tc:var(--accent)"><span>Korte termijn · dit jaar nog</span></div>
       <div class="mile">
         <span class="yr">Nu</span>
-        <h3>De AI-sprint als stuur</h3>
-        <p>De sprint start meteen en aligneert alles wat vandaag loopt: de health box, Sri Sri, de doorlichting en het strategisch plan kantelen erin of worden bevroren. B2B loopt door op laag vuur — zonder nieuwe engagementen die het eindbeeld hypothekeren.</p>
-        <div class="subchips"><span>4 weken</span><span>alle initiatieven kantelen in</span><span>B2B op laag vuur</span><span>levert verhaal + gezondheidstaal vóór november</span></div>
+        <h3>De KT-organisatie en governance uitvoeren</h3>
+        <p>Geen nieuwe discussie: de organisatie en governance die zijn afgesproken, worden uitgevoerd — rollen, mandaat en overlegritme staan.</p>
       </div>
       <div class="mile">
-        <span class="yr">2026</span>
-        <h3>Organisatie opzetten</h3>
-        <p>De gekozen variant implementeren: mandaat, eigenaar, team. Yoboo en de fysieke poot krijgen hun thuis.</p>
-        <div class="subchips"><span>beslissing directiecomité</span><span>Health-directie bemand</span></div>
+        <span class="yr">Dit jaar</span>
+        <h3>St. Gilles openen, mét services</h3>
+        <p>De apotheek in St. Gilles opent dit jaar nog — met services vanaf dag één: de eerste plek waar het gezondheidsverhaal voor de klant tastbaar wordt.</p>
       </div>
       <div class="mile">
-        <span class="yr">2026</span>
-        <h3>Gezondheidsvakmanschap uitbouwen</h3>
-        <p>De pijlers van gezondheid definiëren en er één gedragen CG-gezondheidsvisie van maken — het fundament onder alles. Klaar vóór 2027.</p>
-        <div class="pillarstrip" style="margin-top:12px">
-          <span class="pill-badge" style="--pc:var(--p1)"><span class="ic sm"><svg class="pic"><use href="#ic-voeding"/></svg></span>Voeding</span>
-          <span class="pill-badge" style="--pc:var(--p2)"><span class="ic sm"><svg class="pic"><use href="#ic-beweging"/></svg></span>Beweging</span>
-          <span class="pill-badge" style="--pc:var(--p3)"><span class="ic sm"><svg class="pic"><use href="#ic-slaap"/></svg></span>Slaap</span>
-          <span class="pill-badge" style="--pc:var(--p4)"><span class="ic sm"><svg class="pic"><use href="#ic-mentaal"/></svg></span>Mentale veerkracht</span>
-          <span class="pill-badge" style="--pc:var(--p5)"><span class="ic sm"><svg class="pic"><use href="#ic-verbondenheid"/></svg></span>Sociale verbondenheid</span>
-          <span class="pill-badge" style="--pc:var(--p6)"><span class="ic sm"><svg class="pic"><use href="#ic-middelen"/></svg></span>Schadelijke middelen vermijden</span>
-        </div>
+        <span class="yr">Dit jaar</span>
+        <h3>Noorderlaan efficiënt en rendabel</h3>
+        <p>De apotheek aan de Noorderlaan wordt operationeel efficiënt ingericht en rendabel gemaakt.</p>
       </div>
       <div class="mile">
-        <span class="yr">2026 → 2027</span>
-        <h3>Health advisory uitwerken</h3>
-        <p>Van visie naar werkend product: assessment, persoonlijk plan, digitale opvolging én coaching. De POC staat in 2026; in 2027 testen we met echte klanten. Yoboo herlanceren als de motor.</p>
-        <div class="subchips"><span>POC in 2026</span><span>getest in 2027</span><span>eerste cross-sell bewijs</span></div>
+        <span class="yr">Dit jaar</span>
+        <h3>Yoboo als B2C-applicatie</h3>
+        <p>Yoboo doen werken als B2C-applicatie en in dienst nemen bij St. Gilles — digitaal en fysiek versterken elkaar vanaf de eerste dag.</p>
       </div>
       <div class="mile">
-        <span class="yr">2026 → 2027</span>
-        <h3>Stores mét advisory</h3>
-        <p>De novemberwinkel opent als <b>eerste fysieke test van de advisory</b> — herijkt, geen los concept: de sprint levert vóór de opening het verhaal en de gezondheidstaal. In 2027 testen we voluit, in combinatie met de advisory: de drie experimenten convergeren naar één blauwdruk, van leefstijlapotheek tot health store.</p>
-        <div class="subchips"><span>november: winkel als advisory-test</span><span>2027: winkel × advisory testen</span><span>3 experimenten → 1 blauwdruk</span></div>
+        <span class="yr">Daarnaast</span>
+        <h3>B2B verder verkopen · de health box uitrollen</h3>
+        <p>B2B blijft verkopen, en de health box wordt uitgerold voor pre-/post-operatie.</p>
       </div>
-      <div class="mile">
-        <span class="yr">Medio 2027</span>
-        <h3>Piloot in één omgeving</h3>
-        <p>Halverwege 2027 draait een piloot in combinatie met een ziekenhuis, een bestaande apotheek en één omgeving — álle merken samen, één gezondheidsverhaal. Meten, leren, bewijzen.</p>
-        <div class="subchips"><span>ziekenhuis</span><span>bestaande apotheek</span><span>één omgeving</span><span>go/no-go om op te schalen via het plankanaal</span></div>
+
+      <div class="tlera rv" style="--tc:var(--lt)"><span>Lange termijn · vanaf 2027</span></div>
+      <div class="mile lt">
+        <span class="yr">Eind oktober</span>
+        <h3>Het Health Retail concept afkloppen</h3>
+        <p>Dé beslissing van dit najaar. De planning die daarna volgt is een gevolg van dit concept — niet omgekeerd.</p>
+        <div class="subchips"><span>bepaalt de invulling van 2027–2028</span></div>
       </div>
-      <div class="mile launch">
+      <div class="mile lt">
+        <span class="yr">Dit jaar → 2027</span>
+        <h3>Klaarmaken voor de nieuwe organisatie</h3>
+        <p>We bereiden ons dit jaar al voor op een nieuwe organisatie die vanaf 2027 start.</p>
+      </div>
+      <div class="mile lt">
+        <span class="yr">2027</span>
+        <h3>De planning volgt uit het concept</h3>
+        <p>De concrete invulling van 2027 — nieuwe organisatie, testen met klanten, piloot — wordt vastgelegd zodra het Health Retail concept is afgeklopt.</p>
+      </div>
+      <div class="mile lt launch">
         <span class="yr">2028</span>
         <div class="card100">
           <h3>Opschalen — <em>100 jaar Colruyt</em></h3>
-          <p>De piloot bewees het model — in 2028 schalen we op: meer winkels, merken aankoppelen op het plankanaal, mogelijk franchise. De volledige health-poot gaat live: winkels, advisory en merken spreken met één stem.</p>
+          <p>In 2028 schalen we op: meer winkels, merken aankoppelen op het plankanaal, mogelijk franchise. De volledige health-poot gaat live: winkels, advisory en merken spreken met één stem.</p>
           <span class="loy">★ Gekoppeld aan het loyalty-verhaal dat CG in 2028 naar buiten duwt</span>
         </div>
       </div>
