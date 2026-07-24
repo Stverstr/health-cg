@@ -81,6 +81,7 @@ h1 small{display:block; font-size:.82rem; color:var(--muted); font-weight:400; m
 .pill.alert{background:color-mix(in srgb, var(--coral) 18%, transparent); color:color-mix(in srgb, var(--coral) 70%, var(--ink))}
 .pill.info{background:color-mix(in srgb, var(--blauw) 14%, transparent); color:var(--blauw)}
 .pill.uit{background:color-mix(in srgb, var(--muted) 15%, transparent); color:var(--muted)}
+.pill.ai{background:color-mix(in srgb, var(--paars) 14%, transparent); color:var(--paars)}
 .chip{font-size:.7rem; font-weight:700; border:1px solid var(--hair); border-radius:99px; padding:4px 11px; background:var(--card); color:var(--muted)}
 .chip.sel{background:var(--yb-soft); border-color:var(--yb); color:var(--yb-deep)}
 .chips{display:flex; flex-wrap:wrap; gap:6px}
@@ -165,6 +166,11 @@ h1 small{display:block; font-size:.82rem; color:var(--muted); font-weight:400; m
       <div class="card">
         <b>Voorwaarden op dit plan</b>
         <div class="chips" style="margin-top:8px" id="detailvw"></div>
+      </div>
+      <div class="card">
+        <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap"><b>Wie draagt bij aan dit plan</b><span class="pill info" style="margin-left:auto">hub &amp; spokes</span></div>
+        <div id="detailteam" style="display:flex; flex-direction:column; gap:8px; margin-top:10px"></div>
+        <div class="lock" style="margin-top:10px">🔒 <span>Iedereen schrijft in hetzélfde plan, binnen het eigen mandaat. Jij bent de hub: jij ziet álle bijdragen en adviezen. Een specialist (spoke) ziet alleen het eigen luik, de arts alleen therapietrouw — en de klant kiest wie er aan boord komt.</span></div>
       </div>
       <div class="card">
         <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap"><b>Acties in het plan</b><span class="spacer" style="flex:1"></span><button class="wbtn" id="bulkok" onclick="keurAlles()">✓ Keur alle voorstellen goed</button></div>
@@ -258,6 +264,38 @@ const klanten = {
   nadia: {ini:'NK', kleur:'var(--care)',  naam:'Nadia K.', info:'prehab knieprothese · operatie 14-08', status:['info','prehab week 2'], vw:[['eiwitrijk (herstel) 🔒',true],['prehab-oefeningen dagelijks 🔒',true],['ademhalingsoefening 5\' per dag',false]], weeks:[0,0,0,0,0,0,0,0,1,1], wtxt:'prehab week 2 van 3 — alles groen', lock:'Waaróm deze prehab? Dat weet dit scherm niet. De ingreep staat bij dr. Wouters — jij coacht naar 14 augustus toe, en na de operatie schuift het plan vanzelf naar revalidatie.',
     acties:[{t:'Prehab-schema week 3 (iets zwaarder)', b:'AI', s:'voorstel'},{t:'Health box post-operatie klaarzetten voor thuislevering', b:'AI', s:'voorstel'},{t:'Kine Karim sluit aan na de ingreep', b:'Sam', s:'actief'}]}
 };
+const teams = {
+  lena:  [["AI","Yobi (AI)","stelt de dagelijkse stapjes voor · vannacht: voorstel weekmenu week 5","var(--paars)","AI"],
+          ["S","Sam — hub-coach (holistisch)","bewaakt het geheel · advies: zaterdag als vaste kookdag","var(--yb)","hub"]],
+  marc:  [["AI","Yobi (AI)","plant de dagelijkse stapjes binnen de voorwaarden","var(--paars)","AI"],
+          ["S","Sam — hub-coach (holistisch)","belde bij de dip in week 4 · tempo-opbouw beweging","var(--yb)","hub"],
+          ["D","Diëtiste M. Claes — spoke voeding","broodbeleg-alternatieven, rechtstreeks in het plan","var(--food)","spoke"],
+          ["🩺","Dr. Verhoeven — cardioloog","zette de voorwaarden (zoutarm, 30 min bewegen) · ziet therapietrouw","var(--blauw)","arts"]],
+  aicha: [["AI","Yobi (AI)","verlicht de avondroutine als de week zwaar is","var(--paars)","AI"],
+          ["S","Sam — hub-coach (holistisch)","houdt de lijn warm · antwoordde gisteravond op haar bericht","var(--yb)","hub"],
+          ["M","Mira S. — spoke slaap","microlessen en avondroutine-opbouw","var(--paars)","spoke"],
+          ["🩺","Huisarts","koos leefstijl boven slaapmedicatie · herevaluatie 19-08","var(--blauw)","arts"]],
+  jef:   [["AI","Yobi (AI)","weekmenu en weegmoment · toont alleen de weektrend","var(--paars)","AI"],
+          ["S","Sam — hub-coach (holistisch)","bewaakt motivatie en beweging","var(--yb)","hub"],
+          ["N","Nele Claes — spoke voeding","eiwitontbijt-regel · schrijft mee in het voedingsluik","var(--food)","spoke"],
+          ["🩺","Huisarts","afspraak leefstijl vóór medicatie · kwartaaltrend met consent","var(--blauw)","arts"]],
+  nadia: [["AI","Yobi (AI)","prehab-stapjes richting 14-08 · schuift daarna naar revalidatie","var(--paars)","AI"],
+          ["S","Sam — hub-coach (holistisch)","volgt de prehab op en houdt de moed erin","var(--yb)","hub"],
+          ["K","Kine Bensaïd — spoke beweging","prehab-schema · quadricepskracht +15%","var(--move)","spoke"],
+          ["🩺","Dr. Wouters — chirurg","prehab-voorschrift · ingreep 14-08","var(--blauw)","arts"]],
+  rosa:  [["AI","Yobi (AI)","medicatieherinnering en wandelritme","var(--paars)","AI"],
+          ["S","Sam — hub-coach (holistisch)","bewaakt het geheel","var(--yb)","hub"],
+          ["A","Apotheek St. Gilles — spoke","wandelclub op donderdag · medicatieschema","var(--care)","spoke"],
+          ["An","Dochter An","ziet voortgang, nooit metingen of medicatie","var(--muted)","meekijker"]],
+  omar:  [["AI","Yobi (AI)","doseert training en herstel","var(--paars)","AI"],
+          ["S","Sam — hub-coach (holistisch)","bewaakt het geheel over de pijlers heen","var(--yb)","hub"],
+          ["J","Driss — Jims-fitnesscoach (spoke)","krachtschema week 3 · gespecialiseerde coaching","var(--move)","spoke"]],
+  els:   [["AI","Yobi (AI)","avondroutine-stapjes","var(--paars)","AI"],
+          ["S","Sam — hub-coach (holistisch)","wekelijkse opvolging","var(--yb)","hub"],
+          ["M","Mira S. — spoke slaap","microles cafeïne en slaap","var(--paars)","spoke"]],
+  piet:  [["AI","Yobi (AI)","eerste weekmenu staat klaar","var(--paars)","AI"],
+          ["S","Sam — hub-coach (holistisch)","kennismakingsgesprek deze week","var(--yb)","hub"]]
+};
 const sel = new Set();
 let huidige = null;
 
@@ -304,6 +342,9 @@ function openKlant(id){
     `<h1>${k.naam} <small>${k.info} · <span class="pill ${k.status[0]}">${k.status[1]}</span></small></h1>`;
   document.getElementById('detailvw').innerHTML =
     k.vw.map(([v,lock])=>`<span class="chip ${lock?'sel':''}">${v}</span>`).join('') + '<span class="chip" style="cursor:pointer" onclick="alert(\'In de echte app: nieuwe afspraak toevoegen — binnen de voorwaarden van de arts.\')">+ voeg toe</span>';
+  const tagcls = {hub:'ok', spoke:'info', arts:'uit', AI:'ai', meekijker:'uit'};
+  document.getElementById('detailteam').innerHTML = (teams[id]||[]).map(([ini,naam,wat,kleur,tag])=>
+    `<div class="row" style="--pc:${kleur}"><span class="av">${ini}</span><span><b>${naam}</b><small>${wat}</small></span><span class="spacer"></span><span class="pill ${tagcls[tag]||'info'}">${tag}</span></div>`).join('');
   renderActies();
   document.getElementById('detailweeks').innerHTML = k.weeks.map(w=>`<i class="${w?'':'miss'}"></i>`).join('');
   document.getElementById('detailweekstxt').textContent = k.wtxt;
