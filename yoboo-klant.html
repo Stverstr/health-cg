@@ -55,11 +55,14 @@ header{display:flex; align-items:center; gap:10px; padding:18px 20px 12px}
 :root[data-theme="dark"] .sparkchip{color:var(--sun)}
 @media (prefers-color-scheme: dark){.sparkchip{color:var(--sun)}}
 .sparkchip.pop{transform:scale(1.25)}
+.eurochip{font-size:.78rem; font-weight:800; color:var(--yb-deep); background:var(--yb-soft); border:none; border-radius:99px; padding:5px 12px; cursor:pointer}
 .avatar{width:34px; height:34px; border-radius:50%; background:var(--yb-soft); color:var(--yb-deep); font-weight:800; font-size:.8rem; display:flex; align-items:center; justify-content:center; border:none; cursor:pointer}
 
 main{flex:1; overflow-y:auto; padding:4px 16px 18px}
 .view{display:none; flex-direction:column; gap:12px}
 .view.show{display:flex}
+.obstep{display:none; flex-direction:column; gap:12px}
+.obstep.show{display:flex}
 h1{font-size:1.35rem; letter-spacing:-.015em; line-height:1.2}
 h1 small{display:block; font-size:.8rem; color:var(--muted); font-weight:400; margin-top:3px}
 .card{background:var(--card); border:1px solid var(--hair); border-radius:16px; padding:14px 15px}
@@ -186,12 +189,13 @@ nav button.act{color:var(--yb-deep); background:var(--yb-soft)}
 <g id="boo-plan"><use href="#boo-body"/><circle cx="38" cy="51" r="4.6" fill="#191717"/><circle cx="62" cy="51" r="4.6" fill="#191717"/><circle cx="38" cy="51" r="8" fill="none" stroke="#191717" stroke-width="2"/><circle cx="62" cy="51" r="8" fill="none" stroke="#191717" stroke-width="2"/><path d="M46 51 L54 51" stroke="#191717" stroke-width="2"/><path d="M44 66 Q50 70 56 66" stroke="#191717" stroke-width="2.8" fill="none" stroke-linecap="round"/><g transform="rotate(-5 50 84)"><rect x="29" y="72" width="42" height="28" rx="4" fill="#FFFFFF" stroke="#D9D9D9" stroke-width="1.6"/><path d="M34 80 L52 80 M34 86 L58 86 M34 92 L48 92" stroke="#B9B5AD" stroke-width="2" stroke-linecap="round"/><path d="M59 78 L62 81 L67 75" stroke="#27A577" stroke-width="2.6" fill="none" stroke-linecap="round"/></g></g>
 </defs></svg>
 
-<div class="pocbar"><span>POC · fictieve data · Lena P.</span><a href="health-cg-yoboo.html">← terug naar de POC-hub</a></div>
+<div class="pocbar"><span style="display:flex; gap:5px; align-items:center; flex-wrap:wrap">POC · gebruiker: <span class="chip btn sel" id="u-lena" onclick="switchUser('lena')">Lena (lid)</span><span class="chip btn" id="u-tom" onclick="switchUser('tom')">Tom (nieuw)</span></span><a href="health-cg-yoboo.html">← terug naar de POC-hub</a></div>
 
 <div class="app">
   <header>
     <span class="wordmark">yoboo<i>.</i></span>
     <span class="sparkchip" id="sparks">⚡ 340</span>
+    <button class="eurochip" id="budgetchip" onclick="ga('budget')" aria-label="Mijn gezondheidsbudget">💶 € 50</button>
     <button class="avatar" onclick="ga('ik')" aria-label="Mijn profiel en privacy">L</button>
   </header>
 
@@ -241,6 +245,13 @@ nav button.act{color:var(--yb-deep); background:var(--yb-soft)}
           <div class="wrow" onclick="toonDag('zo',this)"><span class="dag">zo</span><span class="dots"><i class="open"></i><i class="open"></i><i class="open"></i></span><small>morgen</small></div>
         </div>
       </div>
+      <div class="card" id="aanbodkaart">
+        <div class="h"><span class="ic" style="background:var(--yb-soft)">🎁</span>Past bij jouw doel</div>
+        <p>Geen reclame — dit staat hier alleen omdat het je doel dient. Yobi stelt voor, jij beslist.</p>
+        <div class="tgl-row"><span>😴 Workshop "Slapen kan je leren"<small>di 20u online · Mira S. · sluit aan op je slaapstapje · € 15 — je werkgeversbudget dekt alles</small></span><span class="chip btn" style="margin-left:auto" onclick="koopWorkshop(this)">Boek</span></div>
+        <div class="tgl-row"><span>🏋️ Jims-dagpas zaterdag<small>groepsles "start to move", samen met Koen · € 12 — je werkgeversbudget dekt alles</small></span><span class="chip btn" style="margin-left:auto" onclick="koopJims(this)">Boek</span></div>
+        <p style="font-size:.72rem; margin-top:8px"><span class="chip btn" onclick="verbergAanbod()">liever geen voorstellen? verberg dit</span></p>
+      </div>
       <div class="card">
         <div class="h"><span class="ic" style="background:var(--yb-soft)">🎛️</span>Jouw tempo, jouw stapjes</div>
         <p><b>Waarom drie per dag?</b> Klein genoeg om vol te houden, groot genoeg om vooruit te gaan. Maar jij kiest — Yobi bewaakt alleen de haalbaarheid.</p>
@@ -270,6 +281,7 @@ nav button.act{color:var(--yb-deep); background:var(--yb-soft)}
         <p style="font-size:.9rem; color:var(--ink); font-style:italic">"Sterke week, Lena. Eén tip: hang je wandeling aan een vast moment — na het middageten werkt bij jou het best. En die zaterdagse kookdag? Houden zo."</p>
         <p style="font-size:.76rem">zondagavond · Sam kijkt elke week naar je voortgang</p>
         <div id="hulpvraag"><button class="pbtn ghost" onclick="vraagHulp()">Stel Sam een vraag</button></div>
+        <div id="boeksam"><button class="pbtn" onclick="boekSam(this)">📅 Boek een sessie — € 25 · € 5 terug van je mutualiteit</button></div>
       </div>
       <div class="card">
         <div class="h"><span class="ic" style="background:var(--yb-soft)">💬</span>Vraag het aan Yobi</div>
@@ -425,6 +437,7 @@ nav button.act{color:var(--yb-deep); background:var(--yb-soft)}
       <div class="card">
         <div class="h"><span class="ic" style="background:var(--yb-soft)">🙋</span>Lena Peeters</div>
         <p>Aangemeld met je Xtra-profiel · lid sinds juni · gezin: Koen, Wout (16) en Fien (5) — beheren doe je in het tabblad <b>Gezin</b></p>
+        <button class="pbtn ghost" onclick="ga('budget')">💶 Mijn budget &amp; aankopen</button>
       </div>
       <div class="card">
         <div class="h"><span class="ic" style="background:var(--yb-soft)">🛒</span>Wat ik deel</div>
@@ -446,6 +459,32 @@ nav button.act{color:var(--yb-deep); background:var(--yb-soft)}
         </div>
       </div>
       <div class="miniboo" id="boo-ik"><svg viewBox="0 0 100 104" width="34" height="35"><use href="#boo-base"/></svg><span><b>Yobi:</b> alles staat standaard op privé. Elk knopje kan je altijd weer uitzetten — dan vergeet ik het meteen.</span></div>
+    </section>
+
+    <!-- ================= BUDGET ================= -->
+    <section class="view" id="v-budget">
+      <button class="terug" onclick="ga('vandaag')">← terug</button>
+      <h1>Mijn gezondheidsbudget <small>Voor alles wat je doelen dient — gesponsord of van jezelf.</small></h1>
+      <div class="card">
+        <div class="h"><span class="ic" style="background:var(--yb-soft)">💶</span>Beschikbaar</div>
+        <div class="tgl-row"><span>🏢 Werkgever — Colruyt Group<small>voor beweging, opleiding &amp; preventie · dit jaar</small></span><b id="bwerk" style="margin-left:auto; color:var(--yb-deep)">€ 30</b></div>
+        <div class="tgl-row"><span>🤝 Mutualiteit X<small>terugbetaling coachsessies — € 5 per sessie, attest automatisch</small></span><b id="bmut" style="margin-left:auto; color:var(--yb-deep)">€ 20</b></div>
+        <div class="tgl-row"><span>💳 Je eigen kaart<small>voor de rest — betalen met één tik</small></span><span class="tag" style="margin-left:auto">gekoppeld</span></div>
+        <div class="tgl-row"><span>⭐ Xtra-punten<small>1.240 punten ≈ € 6,20 · rechtstreeks uit je Xtra-app — betalen zoals aan de kassa</small></span><span class="tag" style="margin-left:auto">gekoppeld</span></div>
+        <div class="tgl-row"><span>🎉 Septemberbonus<small>+€ 25 van je werkgever als de stappenchallenge lukt</small></span><span class="tag" style="margin-left:auto">belofte</span></div>
+        <p style="font-size:.76rem">🔒 Een sponsor ziet nooit wát jij koopt — alleen dat het binnen gezondheid valt. De afrekening loopt via yoboo, per categorie, zonder kassaticket.</p>
+      </div>
+      <div class="card">
+        <div class="h"><span class="ic" style="background:var(--yb-soft)">🧾</span>Historiek</div>
+        <div id="historiek">
+          <div class="tgl-row"><span>Coachsessie Sam<small>18 jul · € 25</small></span><span class="tag" style="margin-left:auto">€ 5 mutualiteit · € 20 zelf</span></div>
+          <div class="tgl-row"><span>Foodbag gezinsbox<small>10 jul · € 64 · +30 ⚡</small></span><span class="tag" style="margin-left:auto">zelf</span></div>
+          <div class="tgl-row"><span>Newpharma vitamine D-check<small>3 jul · € 25 · besproken met Sam</small></span><span class="tag" style="margin-left:auto">werkgeversbudget</span></div>
+          <div class="tgl-row"><span>Opleiding "Gezond koken voor gezinnen"<small>28 jun · € 45</small></span><span class="tag" style="margin-left:auto">werkgeversbudget</span></div>
+          <div class="tgl-row"><span>Jims groepsles yoga<small>21 jun · € 8 — betaald met 1.600 Xtra-punten</small></span><span class="tag" style="margin-left:auto">Xtra-punten</span></div>
+        </div>
+      </div>
+      <div class="miniboo"><svg viewBox="0 0 100 104" width="34" height="35"><use href="#boo-base"/></svg><span><b>Yobi:</b> geld praat nooit mee in mijn voorstellen — eerst je doel, dan pas de prijs. En de meeste stapjes blijven gewoon gratis.</span></div>
     </section>
 
     <!-- ================= ZOEK & VOEG TOE ================= -->
@@ -470,6 +509,76 @@ nav button.act{color:var(--yb-deep); background:var(--yb-soft)}
       </div>
       <div id="zoekfiat"></div>
       <div class="miniboo"><svg viewBox="0 0 100 104" width="34" height="35"><use href="#boo-base"/></svg><span><b>Yobi:</b> iedereen hier is gecertificeerd — CG Academy of erkend zorgverlener. En wie je ook toevoegt: jij kiest wat die ziet.</span></div>
+    </section>
+
+    <!-- ================= ONBOARDING (nieuwe gebruiker Tom) ================= -->
+    <section class="view" id="v-onboard">
+      <div class="streak" id="obdots"><span class="d on">•</span><span class="d">·</span><span class="d">·</span><span class="d">·</span><span class="d">·</span><span class="d">·</span>&nbsp;<span>je start in 6 stapjes</span></div>
+
+      <div class="obstep show" id="ob1">
+        <h1>Welkom bij yoboo! <small>Zes vraagjes en je bent vertrokken — een minuutje, meer niet.</small></h1>
+        <div class="card">
+          <div class="h"><span class="ic" style="background:var(--yb-soft)">🔐</span>Aanmelden</div>
+          <p>Met je Xtra-profiel — geen nieuw wachtwoord, geen formulieren. Je punten en voordelen hangen er meteen aan vast.</p>
+          <button class="pbtn" onclick="obGo(2)">Meld aan met Xtra</button>
+          <p style="font-size:.72rem; margin-top:8px">Nog geen Xtra? Dan maken we er eentje aan — 30 seconden.</p>
+        </div>
+        <div class="miniboo"><svg viewBox="0 0 100 104" width="34" height="35"><use href="#boo-base"/></svg><span><b>Yobi:</b> hey Tom! Ik ben Yobi. Ik help je straks elke dag een beetje — maar eerst: jij bepaalt de regels.</span></div>
+      </div>
+
+      <div class="obstep" id="ob2">
+        <h1>Wat wil je delen? <small>Alles staat standaard uit. Hoe meer je deelt, hoe beter het plan — maar jij kiest.</small></h1>
+        <div class="card">
+          <div class="tgl-row"><span>🛒 Mijn aankopen (Colruyt, Bio-Planet)<small>zo kan het menu écht op maat</small></span><span class="tgl" onclick="this.classList.toggle('on')"></span></div>
+          <div class="tgl-row"><span>⌚ Mijn stappen &amp; slaap (smartwatch)<small>voor challenges en je foto</small></span><span class="tgl" onclick="this.classList.toggle('on')"></span></div>
+          <div class="tgl-row"><span>💊 Mijn apotheek-aankopen<small>gevoeliger — kan ook later nog</small></span><span class="tgl" onclick="this.classList.toggle('on')"></span></div>
+          <p style="font-size:.72rem; margin-top:6px">Elk knopje kan je later weer uitzetten — dan stopt de stroom meteen.</p>
+          <button class="pbtn" onclick="obGo(3)">Verder →</button>
+        </div>
+      </div>
+
+      <div class="obstep" id="ob3">
+        <h1>Wat is je doel? <small>Eén ding maar — klein beginnen werkt het best.</small></h1>
+        <div class="card">
+          <div class="chips" id="obdoelen">
+            <span class="chip btn" onclick="obDoel(this,'⚡ Meer energie')">⚡ Meer energie</span>
+            <span class="chip btn" onclick="obDoel(this,'😴 Beter slapen')">😴 Beter slapen</span>
+            <span class="chip btn" onclick="obDoel(this,'💪 Fitter worden')">💪 Fitter worden</span>
+            <span class="chip btn" onclick="obDoel(this,'⚖️ Gezond gewicht')">⚖️ Gezond gewicht</span>
+          </div>
+          <p style="font-size:.76rem; margin-top:8px" id="obdoelmeet">Kies er eentje — Yobi hangt er meteen een meetlat aan.</p>
+          <div id="obdoelnext"></div>
+        </div>
+      </div>
+
+      <div class="obstep" id="ob4">
+        <h1>Met wie doe je het? <small>Een gezin of kring maakt het leuker — maar solo mag ook.</small></h1>
+        <div class="card">
+          <div class="tgl-row"><span>👨‍👩‍👧 Gezin S.<small>je hebt een uitnodiging van Sara — challenges &amp; weekmenu samen</small></span><span class="chip btn" style="margin-left:auto" onclick="obKring(this,'gezin')">Verbind</span></div>
+          <div class="tgl-row"><span>🏢 Werk — Colruyt Group<small>stappenchallenge in september · werkgever ziet alleen groepstotalen</small></span><span class="chip btn" style="margin-left:auto" onclick="obKring(this,'werk')">Doe mee</span></div>
+          <button class="pbtn ghost" onclick="obGo(5)">Verder →</button>
+        </div>
+      </div>
+
+      <div class="obstep" id="ob5">
+        <h1>Wil je een coach? <small>Yobi is er sowieso, elke dag en gratis. Een mens erbij kan altijd — ook later.</small></h1>
+        <div class="card">
+          <div class="gzlid" style="--pc:var(--yb)"><span class="av">SV</span><span><b>Sam V.</b> — holistische coach<small>CG Academy-gecertificeerd · past bij jouw doel, zegt Yobi</small></span><span class="chip btn" style="margin-left:auto" onclick="obCoach(this,'sam')">Kies Sam</span></div>
+          <div class="gzlid" style="--pc:var(--paars)"><span class="av">MS</span><span><b>Mira S.</b> — slaapcoach<small>online · sterk in avondroutines</small></span><span class="chip btn" style="margin-left:auto" onclick="obCoach(this,'mira')">Kies Mira</span></div>
+          <button class="pbtn ghost" onclick="obGo(6)">Voorlopig alleen met Yobi →</button>
+        </div>
+      </div>
+
+      <div class="obstep" id="ob6">
+        <h1>Je bent vertrokken! <small>Je eerste drie stapjes staan klaar — vandaag nog.</small></h1>
+        <div class="card">
+          <div class="tgl-row"><span>📸 Maak je vertrekfoto<small>vragenlijstje van 2 minuten — alleen jij ziet het</small></span><span class="tag" style="margin-left:auto">2 min</span></div>
+          <div class="tgl-row"><span>🚶 10 minuten buiten<small>gewoon een blokje om — alles telt</small></span><span class="tag" style="margin-left:auto">vandaag</span></div>
+          <div class="tgl-row"><span>💬 Je eerste check-in<small>één smiley, vijf seconden</small></span><span class="tag" style="margin-left:auto">nu</span></div>
+          <div id="obfirst"><button class="pbtn" onclick="obKlaar()">Doe je eerste check-in nu ✓</button></div>
+        </div>
+        <div class="miniboo" id="boo-onb"><svg viewBox="0 0 100 104" width="34" height="35"><use href="#boo-cheer"/></svg><span><b>Yobi:</b> drie kleine stapjes en je dag is groen. Morgen sta ik hier weer — zelfde plek, nieuwe stapjes. 💚</span></div>
+      </div>
     </section>
   </main>
 
@@ -660,6 +769,76 @@ function kiesFocus(p){
 }
 function nieuweFoto(){
   document.getElementById('nieuwfoto').innerHTML='<div class="pdone"><span class="chk">✓</span>Extra foto gevraagd — morgen klaar. De automatische van 1 augustus komt er gewoon bij</div>';
+}
+
+/* gebruikerswissel & onboarding */
+function switchUser(u){
+  const isTom = u==='tom';
+  document.getElementById('u-lena').classList.toggle('sel', !isTom);
+  document.getElementById('u-tom').classList.toggle('sel', isTom);
+  document.querySelector('nav').style.display = isTom ? 'none' : '';
+  document.getElementById('sparks').style.display = isTom ? 'none' : '';
+  document.getElementById('budgetchip').style.display = isTom ? 'none' : '';
+  document.querySelector('.avatar').textContent = isTom ? 'T' : 'L';
+  if(isTom){ ga('onboard'); obGo(1); } else { ga('vandaag'); }
+}
+function obGo(n){
+  document.querySelectorAll('.obstep').forEach(s=>s.classList.toggle('show', s.id==='ob'+n));
+  document.querySelectorAll('#obdots .d').forEach((el,i)=>{
+    el.classList.toggle('on', i<n);
+    el.textContent = i<n-1 ? '✓' : (i===n-1 ? '•' : '·');
+  });
+  document.querySelector('main').scrollTo({top:0});
+}
+function obDoel(el,d){
+  const lat={'⚡ Meer energie':'avond-check-in 🙂 of beter op 5 van de 7 avonden','😴 Beter slapen':'gemiddeld 7 uur slaap · 5 avonden vóór 23u naar bed','💪 Fitter worden':'van 6.000 naar 8.000 stappen per dag','⚖️ Gezond gewicht':'−4 kg tegen december — de weektrend telt'};
+  document.querySelectorAll('#obdoelen .chip').forEach(c=>c.classList.remove('sel'));
+  el.classList.add('sel');
+  document.getElementById('obdoelmeet').innerHTML = '📏 Meetlat: <b>'+lat[d]+'</b>';
+  document.getElementById('obdoelnext').innerHTML = '<button class="pbtn" onclick="obGo(4)">Verder →</button>';
+}
+function obKring(el,k){
+  el.outerHTML = '<span class="tag" style="margin-left:auto">✓ verbonden</span>';
+}
+function obCoach(el,c){
+  el.outerHTML = '<span class="tag" style="margin-left:auto">✓ gevraagd</span>';
+  setTimeout(()=>obGo(6), 700);
+}
+function obKlaar(){
+  document.getElementById('obfirst').innerHTML = '<div class="pdone"><span class="chk">✓</span>Genoteerd: 🙂 · +10 ⚡ — je eerste vonken zijn binnen, Tom!</div>';
+  setBoo('boo-onb','boo-cheer','YES — eerste stapje gezet! Nog twee en dag één is meteen groen. Zo begint álles. 🎉');
+}
+
+/* budget & aankopen */
+let budgetWerk=30, budgetMut=20;
+function updBudget(){
+  document.getElementById('budgetchip').textContent='💶 € '+(budgetWerk+budgetMut);
+  document.getElementById('bwerk').textContent='€ '+budgetWerk;
+  document.getElementById('bmut').textContent='€ '+budgetMut;
+}
+function logKoop(titel, detail, bron){
+  document.getElementById('historiek').insertAdjacentHTML('afterbegin',
+    `<div class="tgl-row"><span>${titel}<small>vandaag · ${detail}</small></span><span class="tag" style="margin-left:auto">${bron}</span></div>`);
+}
+function koopWorkshop(el){
+  budgetWerk-=15; updBudget();
+  el.outerHTML='<span class="tag" style="margin-left:auto">✓ geboekt</span>';
+  logKoop('Workshop "Slapen kan je leren"','€ 15','werkgeversbudget');
+  setBoo('boo-plan-v','boo-cheer','geboekt voor dinsdag 20u — en het kostte je zelf niks. Dit wordt de opstap naar je slaapstapje. 🌙');
+}
+function koopJims(el){
+  budgetWerk-=12; updBudget();
+  el.outerHTML='<span class="tag" style="margin-left:auto">✓ geboekt</span>';
+  logKoop('Jims-dagpas (zaterdag)','€ 12','werkgeversbudget');
+  setBoo('boo-plan-v','boo-cheer','zaterdag 10u, samen met Koen! Je werkgeversbudget dekt het helemaal. 💪');
+}
+function boekSam(el){
+  budgetMut-=5; updBudget();
+  el.outerHTML='<div class="pdone"><span class="chk">✓</span>Geboekt: dinsdag 18u30 — € 20 via je kaart, € 5 van je mutualiteit. Attest? Al geregeld, geen papiertjes.</div>';
+  logKoop('Coachsessie Sam','€ 25','€ 5 mutualiteit · € 20 zelf');
+}
+function verbergAanbod(){
+  document.getElementById('aanbodkaart').innerHTML='<div class="pdone"><span class="chk">✓</span>Oké — geen voorstellen meer deze week. Jij vraagt, Yobi zwijgt. 👍</div>';
 }
 
 /* zoek & voeg toe */
