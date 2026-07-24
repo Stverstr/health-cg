@@ -221,6 +221,56 @@ a{color:var(--yb-deep)}
 .boorow .b{display:flex; flex-direction:column; align-items:center; gap:7px; border:1px solid var(--hair); border-radius:14px; background:var(--card); padding:16px 8px 12px}
 .boorow .b small{font-size:.66rem; font-weight:700; color:var(--muted); text-align:center; line-height:1.35}
 
+/* ============ DESKTOP-SCHERMEN (browservensters) ============ */
+.winrow{display:grid; grid-template-columns:1fr 1fr; gap:26px; margin-top:40px; align-items:start}
+@media(max-width:1020px){.winrow{grid-template-columns:1fr}}
+.wincol{display:flex; flex-direction:column; gap:12px}
+.wincap{font-size:.85rem; color:var(--muted); text-align:center; padding:0 12px}
+.wincap b{color:var(--ink)}
+.win{border-radius:14px; border:1px solid var(--hair); box-shadow:var(--shadow); overflow:hidden; background:var(--paper)}
+.winbar{display:flex; align-items:center; gap:10px; padding:9px 13px; background:var(--card); border-bottom:1px solid var(--hair)}
+.windots{display:flex; gap:5px}
+.windots i{width:9px; height:9px; border-radius:50%; background:var(--hair)}
+.winbar .url{flex:1; font-size:.66rem; color:var(--muted); background:var(--cream); border:1px solid var(--hair); border-radius:7px; padding:3px 12px; text-align:center; white-space:nowrap; overflow:hidden}
+.winbody{display:flex; min-height:350px}
+.winside{flex:0 0 128px; background:var(--cream); border-right:1px solid var(--hair); padding:10px 7px; display:flex; flex-direction:column; gap:3px}
+.winside .wlogo{font-weight:800; font-size:.78rem; padding:4px 8px 8px; letter-spacing:-.02em}
+.winside .wlogo i{font-style:normal; color:var(--yb)}
+.wsi{font-size:.65rem; font-weight:700; color:var(--muted); border-radius:8px; padding:6px 8px; display:flex; gap:6px; align-items:center}
+.wsi.act{background:var(--yb-soft); color:var(--yb-deep)}
+@media(max-width:560px){.winside{display:none}}
+.winmain{flex:1; padding:13px 15px; display:flex; flex-direction:column; gap:9px; font-size:.76rem; min-width:0}
+.wh{display:flex; align-items:center; gap:8px; flex-wrap:wrap}
+.wh b{font-size:.9rem}
+.wh small{color:var(--muted); font-size:.68rem}
+.wh .spacer,.wrowi .spacer{flex:1}
+.wbtn{border:none; border-radius:8px; padding:6px 11px; background:var(--yb); color:#fff; font-weight:800; font-size:.64rem; font-family:inherit; cursor:default; white-space:nowrap}
+.wbtn.ghost{background:transparent; border:1.5px solid var(--yb); color:var(--yb-deep)}
+.wrowi{display:flex; align-items:center; gap:9px; background:var(--card); border:1px solid var(--hair); border-radius:10px; padding:8px 10px}
+.wrowi>.av{flex:0 0 26px; width:26px; height:26px; border-radius:50%; font-size:.58rem; font-weight:800; display:flex; align-items:center; justify-content:center; background:color-mix(in srgb, var(--pc, var(--yb)) 18%, transparent); color:var(--pc, var(--yb))}
+.wrowi b{font-size:.73rem; line-height:1.3}
+.wrowi small{display:block; color:var(--muted); font-size:.63rem; margin-top:1px}
+.wkpis{display:grid; grid-template-columns:repeat(3,1fr); gap:8px}
+.wkpi{background:var(--card); border:1px solid var(--hair); border-radius:10px; padding:8px 10px}
+.wkpi b{font-size:1.05rem}
+.wkpi small{display:block; color:var(--muted); font-size:.61rem; margin-top:1px}
+.wchart{background:var(--card); border:1px solid var(--hair); border-radius:10px; padding:10px 12px}
+.wchart b{font-size:.68rem}
+.wchart svg{width:100%; height:auto; display:block; margin-top:6px}
+.weekstrip{display:flex; gap:3px; flex:0 0 auto}
+.weekstrip i{width:11px; height:11px; border-radius:3px; background:var(--yb)}
+.weekstrip i.miss{background:var(--hair)}
+.wlock{display:flex; gap:8px; align-items:flex-start; background:color-mix(in srgb, var(--coral) 8%, transparent); border:1px dashed color-mix(in srgb, var(--coral) 50%, transparent); border-radius:10px; padding:8px 11px; font-size:.67rem; color:var(--muted); line-height:1.5}
+.wlock b{color:var(--ink)}
+.wtag{display:inline-block; font-size:.54rem; font-weight:800; text-transform:uppercase; letter-spacing:.05em; border-radius:99px; padding:2px 7px; background:var(--yb-soft); color:var(--yb-deep)}
+.wchips{display:flex; flex-wrap:wrap; gap:5px}
+.wchip{font-size:.63rem; font-weight:700; border:1px solid var(--hair); border-radius:99px; padding:3px 9px; background:var(--card); color:var(--muted)}
+.wchip.sel{background:var(--yb-soft); border-color:var(--yb); color:var(--yb-deep)}
+.wlog{background:#12100D; color:#9FE8CF; border-radius:10px; padding:10px 12px; font-family:ui-monospace,Menlo,Consolas,monospace; font-size:.6rem; line-height:1.75; overflow-x:auto; white-space:pre}
+.wlog .t{color:#6E6A64}
+.wlog .warn{color:#FFD84D}
+.wlog .err{color:#FF9A94}
+
 /* ============ JOURNEYS ============ */
 .journey{display:grid; grid-template-columns:repeat(6,1fr); gap:10px; margin-top:34px; counter-reset:jstep}
 @media(max-width:980px){.journey{grid-template-columns:repeat(2,1fr)}}
@@ -857,47 +907,59 @@ footer a{color:var(--yb-deep)}
       <p class="sec-lead">Sam kijkt over food, move en care heen. De AI bereidt voor, Sam beslist en verwijst door naar diëtist, JIMS-trainer of apotheker — die allemaal in <b>hetzelfde plan</b> schrijven.</p>
     </div>
 
-    <div class="dash rv">
-      <div class="dashhead">
-        <span class="av">🤝</span>
-        <span><b>Goeiemorgen Sam</b><small>Holistische coach · CG Academy-gecertifieerd · supervisie dr. Aerts</small></span>
-        <span class="kchip">mandaat op 34 plannen</span>
-      </div>
-      <div class="kpis">
-        <div class="kpi"><b>34</b><small>actieve klanten</small></div>
-        <div class="kpi"><b>27 <em>▲ 4</em></b><small>gesloten weeklussen</small></div>
-        <div class="kpi"><b>86%</b><small>therapietrouw medische plannen</small></div>
-        <div class="kpi"><b>3</b><small>vragen die op jou wachten</small></div>
-      </div>
-
-      <div class="clientlist">
-        <div class="crow head"><span></span><span>Klant</span><span>Plan</span><span>Laatste meting</span><span>Status</span></div>
-        <div class="crow" style="--pc:var(--yb)"><span class="av">LP</span><span><b>Lena P.</b><small>gezin · food-lus, week 4</small></span><span>3 stapjes/dag · streak 5</span><span>check-in gisteren 😊</span><span class="pill ok">op koers</span></div>
-        <div class="crow" style="--pc:var(--blauw)"><span class="av">MV</span><span><b>Marc V.</b><small>plan-op-voorschrift · week 9</small></span><span>zoutarm + dagelijks bewegen</span><span>2 weken geen beweegdata</span><span class="pill alert">bel Marc</span></div>
-        <div class="crow" style="--pc:var(--oranje)"><span class="av">AD</span><span><b>Aïcha D.</b><small>slaap &amp; stress · week 2</small></span><span>avondroutine, microlessen</span><span>check-in: "moeilijke week"</span><span class="pill warn">extra aandacht</span></div>
-        <div class="crow" style="--pc:var(--paars)"><span class="av">JT</span><span><b>Jef T.</b><small>gewicht · wacht op diëtist</small></span><span>doorverwezen (spoke)</span><span>afspraak di 14u</span><span class="pill info">bij diëtist</span></div>
-      </div>
-    </div>
-
-    <div class="planview rv">
-      <div class="planbox">
-        <b>Het plan van Marc — iedereen schrijft in hetzelfde plan</b>
-        <div class="sub">Versie 7 · eigenaar: Marc · auteurs met mandaat: AI-coach, Sam, diëtist, dr. Verhoeven</div>
-        <div class="planline" style="--wc:var(--blauw)"><span class="who">Arts</span><p>Voorwaarde: zoutarm, dagelijks 30' matige inspanning.<small>via voorschrift — de reden blijft in de medische ring</small></p></div>
-        <div class="planline" style="--wc:var(--paars)"><span class="who">AI-coach</span><p>Weekmenu herrekend op zoutarm; wandelroute van 30' voorgesteld op Marcs gewone traject.<small>voorstel, telkens ter bevestiging</small></p></div>
-        <div class="planline" style="--wc:var(--oranje)"><span class="who">Sam</span><p>Tempo verlaagd na gesprek: eerst 3× per week, opbouwen naar dagelijks. Doel haalbaar houden.<small>menselijke beslissing verslaat het algoritme</small></p></div>
-        <div class="planline" style="--wc:var(--yb)"><span class="who">Diëtist</span><p>Broodbeleg-alternatieven toegevoegd na vraag van Marc.<small>spoke, schrijft mee binnen zijn domein</small></p></div>
-      </div>
-      <div class="planbox">
-        <b>Kring-acties deze week</b>
-        <div class="sub">Optimalisaties óver plannen heen — gevolg, niet oorzaak</div>
-        <div class="planline" style="--wc:var(--yb)"><span class="who">Gezin P.</span><p>Weekmenu verzoend: 4 plannen, 1 menu. Automatisch gelukt.</p></div>
-        <div class="planline" style="--wc:var(--move)"><span class="who">Gezin P.</span><p>Fietschallenge 100 km — 75% en vóór op schema.</p></div>
-        <div class="conflict">
-          <b>⚖️ Conflict om te beslechten</b><br>
-          Weekmenu gezin D.: mama's plan wil kcal-beperkt, tiener Ilias zit in een groeispurt. De engine stelt twee porties-groottes voor uit één menu.
-          <div class="actions"><span>✓ Voorstel engine goedkeuren</span><span>Zelf aanpassen</span><span>Bespreken met kring-planner</span></div>
+    <div class="winrow rv">
+      <div class="wincol">
+        <div class="win">
+          <div class="winbar"><span class="windots"><i></i><i></i><i></i></span><span class="url">coach.yoboo.be/vandaag</span></div>
+          <div class="winbody">
+            <div class="winside">
+              <span class="wlogo">yoboo<i>.</i> coach</span>
+              <span class="wsi act">☀️ Vandaag</span>
+              <span class="wsi">👥 Klanten <span class="wtag">34</span></span>
+              <span class="wsi">🔄 Kring-acties</span>
+              <span class="wsi">💬 Berichten <span class="wtag">3</span></span>
+              <span class="wsi">🎓 Academy</span>
+            </div>
+            <div class="winmain">
+              <div class="wh"><b>Goeiemorgen, Sam</b><small>di 24 juli · supervisie dr. Aerts</small><span class="spacer"></span><span class="wchip">mandaat: 34 plannen</span></div>
+              <div class="wkpis">
+                <div class="wkpi"><b>27</b><small>weeklussen gesloten</small></div>
+                <div class="wkpi"><b>86%</b><small>therapietrouw</small></div>
+                <div class="wkpi"><b>3</b><small>wacht op jou</small></div>
+              </div>
+              <div class="wrowi" style="--pc:var(--care)"><span class="av">MV</span><span><b>Marc V. — 2 weken geen beweegdata</b><small>plan-op-voorschrift · voorstel: bellen, geen pushbericht</small></span><span class="spacer"></span><button class="wbtn">Bel Marc</button></div>
+              <div class="wrowi" style="--pc:var(--oranje)"><span class="av">AD</span><span><b>Aïcha D. — "moeilijke week"</b><small>check-in gisteren 22:41 · slaap &amp; stress, week 2</small></span><span class="spacer"></span><button class="wbtn ghost">Stuur bericht</button></div>
+              <div class="wrowi" style="--pc:var(--paars)"><span class="av">⚖️</span><span><b>Kring-conflict gezin D. wacht op jouw beslissing</b><small>engine-voorstel klaar: één menu, twee portiegroottes</small></span><span class="spacer"></span><button class="wbtn">Bekijk</button></div>
+              <div class="wrowi" style="--pc:var(--yb)"><span class="av">LP</span><span><b>Lena P. — streak 5, week bijna groen</b><small>geen actie nodig, Boo doet zijn ding</small></span><span class="spacer"></span><span class="pill ok">op koers</span></div>
+              <div class="wrowi" style="--pc:var(--blauw)"><span class="av">JT</span><span><b>Jef T. — bij de diëtist (spoke)</b><small>afspraak di 14u · komt daarna terug bij jou</small></span><span class="spacer"></span><span class="pill info">doorverwezen</span></div>
+            </div>
+          </div>
         </div>
+        <p class="wincap"><b>Sams ochtend.</b> Geen dashboard-kerstboom maar een triagelijst: wat vandaag ménselijke aandacht vraagt, staat bovenaan. De rest doet de AI.</p>
+      </div>
+      <div class="wincol">
+        <div class="win">
+          <div class="winbar"><span class="windots"><i></i><i></i><i></i></span><span class="url">coach.yoboo.be/plan/marc-v</span></div>
+          <div class="winbody">
+            <div class="winside">
+              <span class="wlogo">yoboo<i>.</i> coach</span>
+              <span class="wsi">☀️ Vandaag</span>
+              <span class="wsi act">👥 Klanten <span class="wtag">34</span></span>
+              <span class="wsi">🔄 Kring-acties</span>
+              <span class="wsi">💬 Berichten</span>
+              <span class="wsi">🎓 Academy</span>
+            </div>
+            <div class="winmain">
+              <div class="wh"><b>Plan — Marc V.</b><small>versie 7 · eigenaar: Marc</small><span class="spacer"></span><button class="wbtn ghost">Historiek</button></div>
+              <div class="wchips"><span class="wchip sel">🔒 zoutarm</span><span class="wchip sel">🔒 30' bewegen per dag</span><span class="wchip sel">gewicht wekelijks</span><span class="wchip">+ voeg toe</span></div>
+              <div class="wrowi" style="--pc:var(--paars)"><span class="av">AI</span><span><b>Voorstel: wandelroute van 30' op Marcs vaste traject</b><small>past binnen de voorwaarden · wacht op jouw fiat</small></span><span class="spacer"></span><button class="wbtn">Neem over</button></div>
+              <div class="wrowi" style="--pc:var(--oranje)"><span class="av">SAM</span><span><b>Tempo verlaagd: eerst 3×/week, dan opbouwen</b><small>jouw wijziging na het telefoongesprek — mens verslaat algoritme</small></span><span class="spacer"></span><span class="pill ok">actief</span></div>
+              <div class="wrowi" style="--pc:var(--yb)"><span class="av">DIË</span><span><b>Broodbeleg-alternatieven toegevoegd</b><small>diëtist (spoke), binnen haar mandaat</small></span><span class="spacer"></span><span class="pill ok">actief</span></div>
+              <div class="wlock">🔒 <span><b>Waaróm zoutarm?</b> Dat weet dit scherm niet. De diagnose blijft bij dr. Verhoeven — Sam coacht op het gevolg, nooit op de oorzaak.</span></div>
+            </div>
+          </div>
+        </div>
+        <p class="wincap"><b>De plan-editor.</b> Iedereen schrijft in hetzélfde plan (D1); de voorwaarden van de arts zijn vergrendeld, de AI stelt voor, Sam beslist.</p>
       </div>
     </div>
 
@@ -940,28 +1002,63 @@ footer a{color:var(--yb-deep)}
       <p class="sec-lead">"Gezondheidsadvies van uw supermarkt" heeft een geloofwaardigheidsprobleem — tot de arts het voorschrijft. De arts houdt de medische data, ziet de therapietrouw, en leent zijn geloofwaardigheid alleen aan wat gecertificeerd is.</p>
     </div>
 
-    <div class="dash rv">
-      <div class="dashhead">
-        <span class="av" style="background:color-mix(in srgb, var(--blauw) 14%, transparent)">🩺</span>
-        <span><b>Dr. Verhoeven — leefstijlvoorschriften</b><small>AZ Sint-Lucas · cardiologie · 12 patiënten met plan-op-voorschrift</small></span>
-        <span class="kchip" style="color:var(--blauw); background:color-mix(in srgb, var(--blauw) 12%, transparent)">medische ring · blijft hier</span>
+    <div class="winrow rv">
+      <div class="wincol">
+        <div class="win">
+          <div class="winbar"><span class="windots"><i></i><i></i><i></i></span><span class="url">epd.azsintlucas.be — module leefstijlvoorschrift</span></div>
+          <div class="winbody">
+            <div class="winside">
+              <span class="wlogo" style="color:var(--blauw)">EPD</span>
+              <span class="wsi">📋 Dossier</span>
+              <span class="wsi">💊 Medicatie</span>
+              <span class="wsi act">🌱 Leefstijl</span>
+              <span class="wsi">✉️ Brieven</span>
+            </div>
+            <div class="winmain">
+              <div class="wh"><b>Leefstijlvoorschrift — Marc V. (°1970)</b><small>na revalidatie</small></div>
+              <span style="font-size:.66rem; font-weight:700; color:var(--muted)">Kies voorwaarden (gevalideerde bibliotheek):</span>
+              <div class="wchips">
+                <span class="wchip sel">✓ zoutarm</span>
+                <span class="wchip sel">✓ 30' matige inspanning per dag</span>
+                <span class="wchip sel">✓ gewichtsopvolging wekelijks</span>
+                <span class="wchip">rookstop</span>
+                <span class="wchip">slaaphygiëne</span>
+                <span class="wchip">alcohol beperken</span>
+                <span class="wchip">+ vrije voorwaarde</span>
+              </div>
+              <div class="wchart">
+                <b>Wat de app ontvangt — en niets meer</b>
+                <div class="wchips" style="margin-top:7px"><span class="wchip sel">zoutarm</span><span class="wchip sel">30' bewegen</span><span class="wchip sel">gewicht wekelijks</span></div>
+              </div>
+              <div class="wlock">🔒 <span><b>De diagnose blijft in dit dossier.</b> Het voorschrift draagt alleen de gevolgen over — de app en de coach kennen de reden nooit.</span></div>
+              <div class="wh"><span class="spacer"></span><button class="wbtn ghost">Bewaar concept</button><button class="wbtn" style="background:var(--blauw)">Verstuur naar Marcs toestel</button></div>
+            </div>
+          </div>
+        </div>
+        <p class="wincap"><b>Voorschrijven in twee minuten.</b> Voorwaarden aanvinken, klaar — Marc geeft consent op zijn eigen telefoon, hier in de consultatie.</p>
       </div>
-
-      <div class="planview" style="margin-top:22px">
-        <div class="planbox">
-          <b>Nieuw voorschrift — 2 minuten</b>
-          <div class="sub">Patiënt: Marc V. · na revalidatie</div>
-          <div class="planline" style="--wc:var(--blauw)"><span class="who">Stap 1</span><p>Kies de voorwaarden voor het plan: <b>zoutarm</b> · <b>dagelijks 30' matige inspanning</b> · <b>gewichtsopvolging wekelijks</b><small>uit een gevalideerde bibliotheek, of vrij</small></p></div>
-          <div class="planline" style="--wc:var(--blauw)"><span class="who">Stap 2</span><p>Wat oversteekt naar de app: alléén deze voorwaarden. De diagnose blijft in het patiëntendossier.<small>het gevolg steekt over, nooit de oorzaak</small></p></div>
-          <div class="planline" style="--wc:var(--blauw)"><span class="who">Stap 3</span><p>Marc geeft consent op zijn eigen toestel, bij u in de consultatie.<small>de patiënt blijft eigenaar van zijn plan</small></p></div>
+      <div class="wincol">
+        <div class="win">
+          <div class="winbar"><span class="windots"><i></i><i></i><i></i></span><span class="url">epd.azsintlucas.be — leefstijl · opvolging</span></div>
+          <div class="winbody">
+            <div class="winside">
+              <span class="wlogo" style="color:var(--blauw)">EPD</span>
+              <span class="wsi">📋 Dossier</span>
+              <span class="wsi">💊 Medicatie</span>
+              <span class="wsi act">🌱 Leefstijl</span>
+              <span class="wsi">✉️ Brieven</span>
+            </div>
+            <div class="winmain">
+              <div class="wh"><b>Opvolging — 12 patiënten met plan</b><small>therapietrouw per week, laatste 10 weken</small></div>
+              <div class="wrowi" style="--pc:var(--yb)"><span class="av">MV</span><span><b>Marc V.</b><small>8/10 weken groen · dip opgevangen door coach</small></span><span class="spacer"></span><span class="weekstrip"><i></i><i></i><i></i><i class="miss"></i><i class="miss"></i><i></i><i></i><i></i><i></i><i></i></span></div>
+              <div class="wrowi" style="--pc:var(--yb)"><span class="av">RC</span><span><b>Rita C.</b><small>zoutarm loopt · −3,2 kg in 12 weken</small></span><span class="spacer"></span><span class="weekstrip"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i class="miss"></i><i></i></span></div>
+              <div class="wrowi" style="--pc:var(--care)"><span class="av">JB</span><span><b>Jos B.</b><small>afgehaakt na week 3</small></span><span class="spacer"></span><span class="weekstrip"><i></i><i></i><i></i><i class="miss"></i><i class="miss"></i><i class="miss"></i><i class="miss"></i><i class="miss"></i><i class="miss"></i><i class="miss"></i></span></div>
+              <div class="wrowi" style="--pc:var(--oranje)"><span class="av">→</span><span><b>Voorstel voor Jos: mens-gedreven herstart</b><small>coach belt eerst, app volgt — u beslist</small></span><span class="spacer"></span><button class="wbtn" style="background:var(--blauw)">Vraag coach-contact</button></div>
+              <div class="wlock">🔒 <span><b>U ziet therapietrouw, nooit winkeldata.</b> Wat Marc koopt of waar hij sport blijft bij hem — u ziet alleen of het plan gevolgd wordt.</span></div>
+            </div>
+          </div>
         </div>
-        <div class="planbox">
-          <b>Opvolging — therapietrouw, geen winkeldata</b>
-          <div class="sub">Wat u terugziet bij de controle</div>
-          <div class="planline" style="--wc:var(--yb)"><span class="who">Marc V.</span><p>Plan gevolgd: 8 van 10 weken groen. Beweging stokte 2 weken; coach heeft bijgestuurd.<small>signaal kwam van de coach, niet van u</small></p></div>
-          <div class="planline" style="--wc:var(--yb)"><span class="who">Rita C.</span><p>Zoutarm menu loopt; gewicht −3,2 kg over 12 weken.</p></div>
-          <div class="planline" style="--wc:var(--oranje)"><span class="who">Jos B.</span><p>Haakt af na week 3. Voorstel: mens-gedreven herstart via coach-gesprek.</p></div>
-        </div>
+        <p class="wincap"><b>De controle-afspraak.</b> Tien blokjes zeggen meer dan een anamnese: het plan wordt gevolgd, en waar het stokte heeft de coach al bijgestuurd.</p>
       </div>
     </div>
 
@@ -1009,36 +1106,67 @@ footer a{color:var(--yb-deep)}
       <p class="sec-lead">Voor een merk is yoboo een kanaal dat <b>klaargemaakte vraag</b> aanlevert: acties uit duizenden plannen worden bestellingen, boekingen en bezoeken. Wat het merk nooit krijgt: zicht op wie welk plan heeft of waarom.</p>
     </div>
 
-    <div class="dash rv">
-      <div class="dashhead">
-        <span class="av" style="background:color-mix(in srgb, var(--food) 14%, transparent)">🛒</span>
-        <span><b>Collect&amp;Go — health-instroom</b><small>weekoverzicht · alles geaggregeerd, nooit individueel</small></span>
-        <span class="kchip" style="color:var(--food); background:color-mix(in srgb, var(--food) 12%, transparent)">week 30</span>
-      </div>
-      <div class="kpis">
-        <div class="kpi"><b>2.340</b><small>mandjes rechtstreeks uit plannen</small></div>
-        <div class="kpi"><b>184</b><small>nieuwe klanten via cross-brand (o.a. JIMS → food)</small></div>
-        <div class="kpi"><b>+6%</b><small>share-of-wallet bij health-klanten</small></div>
-        <div class="kpi"><b>+9%</b><small>retentie t.o.v. vergelijkbare klanten</small></div>
-      </div>
-
-      <div class="planview" style="margin-top:22px">
-        <div class="planbox">
-          <b>Vraagsignalen — wat de plannen deze week vragen</b>
-          <div class="sub">Geaggregeerde voorspelling voor assortiment en voorraad</div>
-          <div class="planline" style="--wc:var(--food)"><span class="who">▲ +12%</span><p>Zoutarme alternatieven (charcuterie, kant-en-klaar)<small>vooral regio Antwerpen — plan-op-voorschrift groeit daar</small></p></div>
-          <div class="planline" style="--wc:var(--food)"><span class="who">▲ +8%</span><p>Volkoren en peulvruchten</p></div>
-          <div class="planline" style="--wc:var(--move)"><span class="who">▲ +5%</span><p>Hersteldrank &amp; sportvoeding (JIMS-koppeling)</p></div>
-          <div class="planline" style="--wc:var(--coral)"><span class="who">▼ −7%</span><p>Energiedrank bij health-klanten<small>ja, ook dat: het advies gaat zichtbaar tegen de verkoop in — dat is de geloofwaardigheidsgarantie</small></p></div>
+    <div class="winrow rv">
+      <div class="wincol">
+        <div class="win">
+          <div class="winbar"><span class="windots"><i></i><i></i><i></i></span><span class="url">partner.yoboo.be/collectgo — instroom</span></div>
+          <div class="winbody">
+            <div class="winside">
+              <span class="wlogo">yoboo<i>.</i> partner</span>
+              <span class="wsi act">📈 Instroom</span>
+              <span class="wsi">🔮 Vraagsignalen</span>
+              <span class="wsi">📦 Orders</span>
+              <span class="wsi">🎯 KPI's</span>
+            </div>
+            <div class="winmain">
+              <div class="wh"><b>Health-instroom — Collect&amp;Go</b><small>week 30</small><span class="spacer"></span><span class="wchip">geaggregeerd · nooit individueel</span></div>
+              <div class="wkpis">
+                <div class="wkpi"><b>2.340</b><small>mandjes uit plannen</small></div>
+                <div class="wkpi"><b>184</b><small>nieuw via cross-brand</small></div>
+                <div class="wkpi"><b>+6%</b><small>share-of-wallet</small></div>
+              </div>
+              <div class="wchart">
+                <b>Mandjes uit plannen — laatste 8 weken</b>
+                <svg viewBox="0 0 248 74" role="img" aria-label="Staafgrafiek instroom">
+                  <rect x="6"   y="44" width="22" height="26" rx="4" fill="var(--food)" opacity=".45"/>
+                  <rect x="36"  y="40" width="22" height="30" rx="4" fill="var(--food)" opacity=".5"/>
+                  <rect x="66"  y="42" width="22" height="28" rx="4" fill="var(--food)" opacity=".55"/>
+                  <rect x="96"  y="34" width="22" height="36" rx="4" fill="var(--food)" opacity=".6"/>
+                  <rect x="126" y="28" width="22" height="42" rx="4" fill="var(--food)" opacity=".7"/>
+                  <rect x="156" y="24" width="22" height="46" rx="4" fill="var(--food)" opacity=".8"/>
+                  <rect x="186" y="14" width="22" height="56" rx="4" fill="var(--food)" opacity=".9"/>
+                  <rect x="216" y="6"  width="22" height="64" rx="4" fill="var(--yb)"/>
+                </svg>
+              </div>
+              <div class="wrowi" style="--pc:var(--food)"><span class="av">▲</span><span><b>Zoutarm +12% · volkoren +8% · sportvoeding +5%</b><small>voorspelling voor assortiment en voorraad, per regio</small></span></div>
+              <div class="wrowi" style="--pc:var(--care)"><span class="av">▼</span><span><b>Energiedrank −7% bij health-klanten</b><small>het advies gaat zichtbaar tegen de verkoop in — de geloofwaardigheidsgarantie</small></span></div>
+            </div>
+          </div>
         </div>
-        <div class="planbox">
-          <b>Zo wordt een planactie een bestelling</b>
-          <div class="sub">Het kanaal zit in het datamodel — geen advies zonder knop</div>
-          <div class="planline" style="--wc:var(--yb)"><span class="who">Plan</span><p>Actie in Lena's plan: "weekmenu in het mandje" — kanaal: Collect&amp;Go.</p></div>
-          <div class="planline" style="--wc:var(--food)"><span class="who">Merk</span><p>Bij Collect&amp;Go komt een gewone bestelling binnen, met een health-tag. Geen naamkaartje "dieetklant".</p></div>
-          <div class="planline" style="--wc:var(--blauw)"><span class="who">Meting</span><p>Het kasticket wordt — met consent — een meting die de lus sluit: het plan wéét dat het menu gekocht is.</p></div>
-          <div class="planline" style="--wc:var(--paars)"><span class="who">Waarde</span><p>Share-of-wallet, retentie en cross-brand-instroom voeden het KPI-model — het bewijs voor de budgetronde.</p></div>
+        <p class="wincap"><b>Het partnerportaal.</b> Het merk ziet vraag en volume — als weerbericht, nooit als personenlijst.</p>
+      </div>
+      <div class="wincol">
+        <div class="win">
+          <div class="winbar"><span class="windots"><i></i><i></i><i></i></span><span class="url">partner.yoboo.be/collectgo — order #38 291</span></div>
+          <div class="winbody">
+            <div class="winside">
+              <span class="wlogo">yoboo<i>.</i> partner</span>
+              <span class="wsi">📈 Instroom</span>
+              <span class="wsi">🔮 Vraagsignalen</span>
+              <span class="wsi act">📦 Orders</span>
+              <span class="wsi">🎯 KPI's</span>
+            </div>
+            <div class="winmain">
+              <div class="wh"><b>Order #38 291 — afhaalpunt Halle</b><small>vandaag 16:40</small><span class="spacer"></span><span class="wtag">health-tag</span></div>
+              <div class="wrowi"><span class="av">🥦</span><span><b>Wokgroenten vers, 2×</b><small>uit planactie "weekmenu"</small></span><span class="spacer"></span><span class="wchip">€ 7,98</span></div>
+              <div class="wrowi"><span class="av">🍗</span><span><b>Kipfilet, 600 g</b><small>uit planactie "weekmenu"</small></span><span class="spacer"></span><span class="wchip">€ 8,45</span></div>
+              <div class="wrowi"><span class="av">🍜</span><span><b>Volkorennoedels + sojasaus natriumarm</b><small>zoutarm alternatief, automatisch geswapt</small></span><span class="spacer"></span><span class="wchip">€ 5,20</span></div>
+              <div class="wrowi"><span class="av">🫐</span><span><b>Havermout &amp; vers fruit</b><small>ontbijt-stapje van het plan</small></span><span class="spacer"></span><span class="wchip">€ 6,75</span></div>
+              <div class="wlock">🔒 <span><b>Geen klantprofiel bij deze order.</b> De health-tag zegt wát er gebeurt (planactie), nooit wie of waarom. Het kasticket sluit straks — met consent — de lus in het plan van de klant.</span></div>
+            </div>
+          </div>
         </div>
+        <p class="wincap"><b>Een order als alle andere.</b> Voor de picker in Halle is dit een gewoon mandje — de gezondheidslaag is onzichtbaar op de werkvloer.</p>
       </div>
     </div>
 
@@ -1081,19 +1209,60 @@ footer a{color:var(--yb-deep)}
       <p class="sec-lead">Data koppelen is commodity — betekenis is dat niet. Voor de meetpartner is yoboo de plek waar zijn metingen eindelijk iets <b>doen</b>: ze sluiten de lus van een echt plan. De klant koppelt in twee tikken en blijft baas.</p>
     </div>
 
-    <div class="dash rv">
-      <div class="dashhead">
-        <span class="av" style="background:color-mix(in srgb, var(--leren) 18%, transparent)">⌚</span>
-        <span><b>Bronnenregister — consent per bron</b><small>elke meting draagt bron + ring-label (lifestyle of medisch)</small></span>
-        <span class="kchip" style="color:var(--leren); background:color-mix(in srgb, var(--leren) 14%, transparent)">D4 &amp; D5 uit het domeinmodel</span>
+    <div class="winrow rv">
+      <div class="wincol">
+        <div class="win">
+          <div class="winbar"><span class="windots"><i></i><i></i><i></i></span><span class="url">yoboo-app — instellingen · mijn bronnen (wat Lena beheert)</span></div>
+          <div class="winbody">
+            <div class="winside">
+              <span class="wlogo">yoboo<i>.</i></span>
+              <span class="wsi">🏠 Vandaag</span>
+              <span class="wsi">🗺️ Mijn plan</span>
+              <span class="wsi act">🔗 Mijn bronnen</span>
+              <span class="wsi">🔒 Privacy</span>
+            </div>
+            <div class="winmain">
+              <div class="wh"><b>Mijn bronnen</b><small>elke meting draagt bron + ring-label (D4 &amp; D5)</small></div>
+              <div class="wrowi" style="--pc:var(--move)"><span class="av">⌚</span><span><b>Smartwatch</b><small>stappen, hartslag, slaap · voor challenges &amp; beweegdoelen</small></span><span class="spacer"></span><span class="pill ok">actief · 12-03</span></div>
+              <div class="wrowi" style="--pc:var(--oranje)"><span class="av">🚴</span><span><b>Strava</b><small>ritten en loopjes · voor de gezinschallenge</small></span><span class="spacer"></span><span class="pill ok">actief · 04-05</span></div>
+              <div class="wrowi" style="--pc:var(--paars)"><span class="av">⚖️</span><span><b>Slimme weegschaal</b><small>alleen de trend is zichtbaar, nooit losse cijfers</small></span><span class="spacer"></span><span class="pill ok">actief</span></div>
+              <div class="wrowi" style="--pc:var(--food)"><span class="av">🛒</span><span><b>Aankopen CG-merken</b><small>de winkelkar, dé troef · per merk instelbaar</small></span><span class="spacer"></span><span class="pill ok">actief</span></div>
+              <div class="wrowi" style="--pc:var(--blauw)"><span class="av">💊</span><span><b>Apotheek (Newpharma)</b><small>gevoelig — apart regime, aparte expliciete opt-in</small></span><span class="spacer"></span><span class="pill warn">uit</span></div>
+              <div class="wlock">🔒 <span><b>Uitzetten mag altijd.</b> De stroom stopt meteen en de historiek wordt bevroren — ook met terugwerkende kracht uit modellen.</span></div>
+            </div>
+          </div>
+        </div>
+        <p class="wincap"><b>Wat de klant beheert.</b> Bronnen zijn knopjes, geen kleine lettertjes — en de apotheekbron staat bewust uit tot de juridische toets rond is.</p>
       </div>
-      <div class="clientlist">
-        <div class="crow head"><span></span><span>Bron</span><span>Ring-label</span><span>Gebruikt voor</span><span>Status</span></div>
-        <div class="crow" style="--pc:var(--move)"><span class="av">⌚</span><span><b>Smartwatch</b><small>stappen, hartslag, slaap</small></span><span>lifestyle</span><span>challenges &amp; beweegdoelen</span><span class="pill ok">actief · consent 12-03</span></div>
-        <div class="crow" style="--pc:var(--oranje)"><span class="av">🚴</span><span><b>Strava</b><small>ritten en loopjes</small></span><span>lifestyle</span><span>gezinschallenge</span><span class="pill ok">actief · consent 04-05</span></div>
-        <div class="crow" style="--pc:var(--paars)"><span class="av">⚖️</span><span><b>Slimme weegschaal</b><small>gewicht, wekelijks</small></span><span>lifestyle</span><span>opvolging plan</span><span class="pill ok">actief · alleen trend zichtbaar</span></div>
-        <div class="crow" style="--pc:var(--food)"><span class="av">🛒</span><span><b>Aankopen CG-merken</b><small>de winkelkar — dé troef</small></span><span>lifestyle</span><span>menu &amp; gezondheidsfoto</span><span class="pill ok">actief · per merk instelbaar</span></div>
-        <div class="crow" style="--pc:var(--blauw)"><span class="av">💊</span><span><b>Apotheek (Newpharma)</b><small>afgeleide gezondheidsdata</small></span><span>gevoelig — apart regime</span><span>enkel na aparte, expliciete opt-in</span><span class="pill warn">uit — juridische toets loopt</span></div>
+      <div class="wincol">
+        <div class="win">
+          <div class="winbar"><span class="windots"><i></i><i></i><i></i></span><span class="url">developers.yoboo.be/console — wat de partner ziet</span></div>
+          <div class="winbody">
+            <div class="winside">
+              <span class="wlogo">yoboo<i>.</i> dev</span>
+              <span class="wsi act">🖥️ Console</span>
+              <span class="wsi">📡 Webhooks</span>
+              <span class="wsi">🧪 Sandbox</span>
+              <span class="wsi">📚 Docs</span>
+            </div>
+            <div class="winmain">
+              <div class="wh"><b>Integratie — Strava</b><small>productie</small><span class="spacer"></span><span class="wchip">sync 99,2% ✓</span></div>
+              <div class="wkpis">
+                <div class="wkpi"><b>41.203</b><small>actieve koppelingen</small></div>
+                <div class="wkpi"><b>+2.180</b><small>nieuw deze maand</small></div>
+                <div class="wkpi"><b>1,2 mln</b><small>metingen/week</small></div>
+              </div>
+              <div class="wlog"><span class="t">09:41:02</span>  consent.granted   bron=smartwatch  ring=lifestyle
+<span class="t">09:41:05</span>  data.push         1.284 datapunten  ✓
+<span class="t">10:02:19</span>  data.push         weegschaal  ✓  (trend-only)
+<span class="t">11:37:44</span>  <span class="warn">consent.revoked</span>   bron=strava → stream gestopt
+<span class="t">11:37:44</span>  <span class="warn">purge.scheduled</span>   strava-cache &lt; 24 u
+<span class="t">13:05:01</span>  <span class="err">data.push geweigerd</span>  bron=apotheek (apart regime)</div>
+              <div class="wlock">🔒 <span><b>De partner ziet events en totalen</b> — nooit het plan, het doel of andere bronnen van de gebruiker. Hergebruik is contractueel dicht.</span></div>
+            </div>
+          </div>
+        </div>
+        <p class="wincap"><b>De developer-console van de partner.</b> Consent is hier geen beleid maar runtime: intrekken = stream stopt, binnen de seconde.</p>
       </div>
     </div>
 
@@ -1145,21 +1314,59 @@ footer a{color:var(--yb-deep)}
       <p class="sec-lead">Het middenveld heeft één vraag: <i>werkt het?</i> Zij financieren en ondersteunen, en krijgen bewijs op groepsniveau terug. De regel is hard: groepen kleiner dan 20 bestaan niet in onze rapporten.</p>
     </div>
 
-    <div class="dash rv">
-      <div class="dashhead">
-        <span class="av" style="background:color-mix(in srgb, var(--coral) 16%, transparent)">💼</span>
-        <span><b>Bedrijfsrapport Q3 — Fabriek Noord (340 medewerkers)</b><small>voor de preventiedienst · uitsluitend groepstotalen</small></span>
-        <span class="kchip" style="color:color-mix(in srgb, var(--coral) 70%, var(--ink)); background:color-mix(in srgb, var(--coral) 14%, transparent)">k-anonimiteit ≥ 20</span>
+    <div class="winrow rv">
+      <div class="wincol">
+        <div class="win">
+          <div class="winbar"><span class="windots"><i></i><i></i><i></i></span><span class="url">rapport.yoboo.be/mutualiteit-x — cohorten Q3</span></div>
+          <div class="winbody">
+            <div class="winside">
+              <span class="wlogo">yoboo<i>.</i> rapport</span>
+              <span class="wsi act">📊 Cohorten</span>
+              <span class="wsi">💶 Terugbetaling</span>
+              <span class="wsi">📄 Export</span>
+            </div>
+            <div class="winmain">
+              <div class="wh"><b>Cohortrapport Q3</b><small>Mutualiteit X · terugbetaalprogramma coaching</small><span class="spacer"></span><span class="wchip">k-anonimiteit ≥ 20</span></div>
+              <div class="wchart">
+                <b>Therapietrouw per cohort — trend 12 weken</b>
+                <svg viewBox="0 0 248 64" role="img" aria-label="Trendlijnen therapietrouw">
+                  <polyline points="6,44 40,40 74,38 108,34 142,30 176,26 210,24 242,20" fill="none" stroke="var(--yb)" stroke-width="3" stroke-linecap="round"/>
+                  <polyline points="6,50 40,49 74,45 108,44 142,40 176,39 210,36 242,34" fill="none" stroke="var(--blauw)" stroke-width="3" stroke-linecap="round" opacity=".7"/>
+                </svg>
+              </div>
+              <div class="wrowi" style="--pc:var(--yb)"><span class="av">A</span><span><b>Cohort hartrevalidatie</b><small>n = 412 · therapietrouw 84% · uitkomst ↑</small></span><span class="spacer"></span><span class="pill ok">gezond op koers</span></div>
+              <div class="wrowi" style="--pc:var(--blauw)"><span class="av">B</span><span><b>Cohort diabetes-preventie</b><small>n = 268 · therapietrouw 79%</small></span><span class="spacer"></span><span class="pill ok">op koers</span></div>
+              <div class="wrowi" style="--pc:var(--care)"><span class="av">🔒</span><span><b>Cohort rugrevalidatie</b><small>n = 14 — te klein: niet beschikbaar, ook niet op aanvraag</small></span><span class="spacer"></span><span class="pill alert">verborgen</span></div>
+            </div>
+          </div>
+        </div>
+        <p class="wincap"><b>Het cohortrapport.</b> De mutualiteit ziet dat het werkt — per groep van minstens 20, nooit per lid. Cohort C bestaat gewoon niet in dit portaal.</p>
       </div>
-      <div class="kpis">
-        <div class="kpi"><b>62%</b><small>medewerkers doet mee (opt-in)</small></div>
-        <div class="kpi"><b>+14%</b><small>beweegscore van de groep vs. Q2</small></div>
-        <div class="kpi"><b>12</b><small>teams in de bedrijfschallenge</small></div>
-        <div class="kpi"><b>−9%</b><small>zelfgerapporteerde stress (groepstrend)</small></div>
-      </div>
-      <div class="conflict" style="border-color:var(--coral); background:color-mix(in srgb, var(--coral) 6%, transparent)">
-        <b style="color:color-mix(in srgb, var(--coral) 70%, var(--ink))">🔒 Wat de werkgever nooit ziet</b><br>
-        Wie meedoet, wie niet, en wat iemand doet. De activatiecode komt van het werk; het account is van de mens. Ook na ontslag loopt het plan gewoon door — zonder de werkgever.
+      <div class="wincol">
+        <div class="win">
+          <div class="winbar"><span class="windots"><i></i><i></i><i></i></span><span class="url">preventie.yoboo.be/fabriek-noord — challenge Q3</span></div>
+          <div class="winbody">
+            <div class="winside">
+              <span class="wlogo">yoboo<i>.</i> preventie</span>
+              <span class="wsi act">🏆 Challenge</span>
+              <span class="wsi">📊 Groepstrends</span>
+              <span class="wsi">📣 Campagnes</span>
+            </div>
+            <div class="winmain">
+              <div class="wh"><b>Bedrijfschallenge — Fabriek Noord</b><small>340 medewerkers · voor de preventiedienst</small></div>
+              <div class="wkpis">
+                <div class="wkpi"><b>62%</b><small>doet mee (opt-in)</small></div>
+                <div class="wkpi"><b>+14%</b><small>beweegscore vs. Q2</small></div>
+                <div class="wkpi"><b>−9%</b><small>stress (groepstrend)</small></div>
+              </div>
+              <div class="wrowi" style="--pc:var(--yb)"><span class="av">🥇</span><span><b>Team Logistiek</b><small>412.300 stappen deze maand</small></span><span class="spacer"></span><span class="weekstrip"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span></div>
+              <div class="wrowi" style="--pc:var(--move)"><span class="av">🥈</span><span><b>Team Productie B</b><small>391.850 stappen</small></span><span class="spacer"></span><span class="weekstrip"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i class="miss"></i><i></i></span></div>
+              <div class="wrowi" style="--pc:var(--oranje)"><span class="av">🥉</span><span><b>Team Kantoor</b><small>287.400 stappen — de lunchwandeling helpt</small></span><span class="spacer"></span><span class="weekstrip"><i></i><i></i><i class="miss"></i><i></i><i></i><i></i><i class="miss"></i><i></i><i></i><i></i></span></div>
+              <div class="wlock">🔒 <span><b>Namen bestaan niet in dit portaal.</b> Wie meedoet, wie niet, wat iemand doet: onzichtbaar voor de werkgever. Het account is van de mens — ook na ontslag loopt het plan gewoon door.</span></div>
+            </div>
+          </div>
+        </div>
+        <p class="wincap"><b>Het preventieportaal.</b> Alleen teams en groepstotalen — competitie zonder controle.</p>
       </div>
     </div>
 
