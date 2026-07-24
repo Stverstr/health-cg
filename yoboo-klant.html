@@ -77,6 +77,11 @@ h1 small{display:block; font-size:.8rem; color:var(--muted); font-weight:400; ma
 .streak{display:flex; gap:5px; align-items:center; font-size:.78rem; color:var(--muted); font-weight:600}
 .streak .d{width:20px; height:20px; border-radius:50%; background:var(--hair); display:flex; align-items:center; justify-content:center; font-size:.62rem}
 .streak .d.on{background:var(--yb); color:#fff}
+.uitleg{position:relative}
+.ibtn{margin-left:auto; width:20px; height:20px; border-radius:50%; border:1px solid var(--hair); background:var(--card); color:var(--muted); font-size:.68rem; font-weight:800; line-height:1; display:flex; align-items:center; justify-content:center}
+.ibtn:hover{border-color:var(--yb); color:var(--yb-deep)}
+.tip{display:none; position:absolute; top:27px; left:0; right:0; z-index:20; background:var(--card); border:1px solid var(--hair); border-radius:14px; padding:4px 14px; box-shadow:var(--shadow)}
+.tip.show{display:block}
 .checkrow{display:flex; gap:7px; margin-top:10px}
 .checkrow button{flex:1; font-size:1.3rem; padding:9px 0; border-radius:12px; border:1px solid var(--hair); background:var(--paper)}
 .checkrow button:hover{border-color:var(--yb); background:var(--yb-soft)}
@@ -182,12 +187,13 @@ nav button.act{color:var(--yb-deep); background:var(--yb-soft)}
     <!-- ================= VANDAAG ================= -->
     <section class="view show" id="v-vandaag">
       <h1>Dag Lena! <small>Dit is jouw dag in drie stapjes.</small></h1>
-      <div class="streak" id="streak"><span class="d on">✓</span><span class="d on">✓</span><span class="d on">✓</span><span class="d on">✓</span><span class="d on">✓</span><span class="d">·</span><span class="d">·</span>&nbsp;<span id="streaktxt">5 dagen op rij!</span></div>
-      <div class="card">
-        <div class="h"><span class="ic" style="background:var(--yb-soft)">🧭</span>Zo telt yoboo</div>
-        <div class="tgl-row"><span><b>✓ Stapje</b><small>één kleine actie — Boo stelt er elke dag drie voor, jij doet ze (of niet)</small></span></div>
-        <div class="tgl-row"><span><b>🟢 Groene dag</b><small>alle stapjes van die dag gedaan — de zeven bolletjes hierboven zijn je laatste zeven dagen</small></span></div>
-        <div class="tgl-row"><span><b>⚡ Vonk</b><small>beloning per stapje — die spaar je (rechtsboven), inwisselbaar via Xtra</small></span></div>
+      <div class="uitleg">
+        <div class="streak" id="streak"><span class="d on">✓</span><span class="d on">✓</span><span class="d on">✓</span><span class="d on">✓</span><span class="d on">✓</span><span class="d">·</span><span class="d">·</span>&nbsp;<span id="streaktxt">5 dagen op rij!</span><button class="ibtn" onclick="event.stopPropagation(); document.getElementById('teltip').classList.toggle('show')" aria-label="Zo telt yoboo">?</button></div>
+        <div class="tip" id="teltip">
+          <div class="tgl-row"><span><b>✓ Stapje</b><small>één kleine actie — Boo stelt er elke dag drie voor, jij doet ze (of niet)</small></span></div>
+          <div class="tgl-row"><span><b>🟢 Groene dag</b><small>alle stapjes van die dag gedaan — de zeven bolletjes zijn je laatste zeven dagen</small></span></div>
+          <div class="tgl-row"><span><b>⚡ Vonk</b><small>beloning per stapje — die spaar je (rechtsboven), inwisselbaar via Xtra</small></span></div>
+        </div>
       </div>
       <div class="card" style="--ac:var(--food)">
         <div class="h"><span class="ic">🥗</span>Vandaag op tafel: wokschotel</div>
@@ -407,6 +413,12 @@ nav button.act{color:var(--yb-deep); background:var(--yb-soft)}
 <script>
 const booSvg = v => `<svg viewBox="0 0 100 104" width="34" height="35"><use href="#${v}"/></svg>`;
 const setBoo = (id,v,t) => { document.getElementById(id).innerHTML = booSvg(v)+`<span><b>Boo:</b> ${t}</span>`; };
+
+/* tooltip "zo telt yoboo" sluit bij tikken elders */
+document.addEventListener('click', e=>{
+  const tip=document.getElementById('teltip');
+  if(tip.classList.contains('show') && !tip.contains(e.target)) tip.classList.remove('show');
+});
 
 /* navigatie */
 function ga(v){
