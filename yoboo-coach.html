@@ -80,6 +80,7 @@ h1 small{display:block; font-size:.82rem; color:var(--muted); font-weight:400; m
 .pill.warn{background:color-mix(in srgb, var(--oranje) 16%, transparent); color:var(--oranje)}
 .pill.alert{background:color-mix(in srgb, var(--coral) 18%, transparent); color:color-mix(in srgb, var(--coral) 70%, var(--ink))}
 .pill.info{background:color-mix(in srgb, var(--blauw) 14%, transparent); color:var(--blauw)}
+.pill.uit{background:color-mix(in srgb, var(--muted) 15%, transparent); color:var(--muted)}
 .chip{font-size:.7rem; font-weight:700; border:1px solid var(--hair); border-radius:99px; padding:4px 11px; background:var(--card); color:var(--muted)}
 .chip.sel{background:var(--yb-soft); border-color:var(--yb); color:var(--yb-deep)}
 .chips{display:flex; flex-wrap:wrap; gap:6px}
@@ -179,8 +180,9 @@ h1 small{display:block; font-size:.82rem; color:var(--muted); font-weight:400; m
     <!-- ============ KRINGEN ============ -->
     <section class="view" id="v-kringen">
       <h1>Kring-acties <small>Optimalisaties óver plannen heen — gevolg, niet oorzaak.</small></h1>
-      <div class="row" style="--pc:var(--yb)"><span class="av">P</span><span><b>Gezin P. — weekmenu</b><small>4 plannen, 1 menu · automatisch verzoend, geen conflict</small></span><span class="spacer"></span><span class="pill ok">loopt vanzelf</span></div>
+      <div class="row" style="--pc:var(--yb)"><span class="av">P</span><span><b>Gezin P. — weekmenu</b><small>4 plannen, 1 menu · automatisch verzoend, geen conflict</small></span><span class="spacer"></span><span class="pill ok">loopt vanzelf</span><button class="wbtn ghost" onclick="toonKringP()">Bekijk kring</button></div>
       <div class="row" style="--pc:var(--move)"><span class="av">P</span><span><b>Gezin P. — fietschallenge 100 km</b><small>75% en vóór op schema</small></span><span class="spacer"></span><span class="pill ok">loopt vanzelf</span></div>
+      <div id="kringPbox"></div>
       <div class="row" style="--pc:var(--paars)" id="kringconflict"><span class="av">⚖️</span><span><b>Gezin D. — weekmenu met conflict</b><small>kcal-beperkt (mama) × groeispurt (Ilias, 16)</small></span><span class="spacer"></span><button class="wbtn" onclick="openConflict(this)">Beslecht</button></div>
       <div id="conflictbox"></div>
       <div class="row" style="--pc:var(--care)"><span class="av">W</span><span><b>Wandelclub apotheek St. Gilles</b><small>12 leden · donderdagse wandeling · Rosa doet mee</small></span><span class="spacer"></span><span class="pill info">nieuw</span></div>
@@ -357,6 +359,18 @@ function beslisConflict(uitkomst){
   row.querySelector('small').textContent=uitkomst+' · niemand aan tafel merkt er iets van';
   row.insertAdjacentHTML('beforeend','<span class="pill ok">✓ beslist</span>');
   waitDown();
+}
+
+function toonKringP(){
+  const b=document.getElementById('kringPbox');
+  if(b.innerHTML){ b.innerHTML=''; return; }
+  b.innerHTML=`<div class="card"><b>Kring: gezin P.</b><div class="sub">4 leden · elk lid bepaalt zélf wat jij ziet · het gezin beheert zichzelf in de eigen app (tabblad Gezin → beheren)</div>
+    <div class="row" style="--pc:var(--yb); margin-top:10px"><span class="av">LP</span><span><b>Lena P.</b><small>eigen account · jouw klant</small></span><span class="spacer"></span><span class="pill ok">deelt plan &amp; voortgang</span></div>
+    <div class="row" style="--pc:var(--blauw); margin-top:8px"><span class="av">KP</span><span><b>Koen P.</b><small>eigen account · geen klant van jou</small></span><span class="spacer"></span><span class="pill info">alleen de gezinslaag</span></div>
+    <div class="row" style="--pc:var(--oranje); margin-top:8px"><span class="av">WP</span><span><b>Wout P. (16)</b><small>eigen account sinds zijn 13e · regelt zelf zijn privacy</small></span><span class="spacer"></span><span class="pill uit">deelt niets met jou</span></div>
+    <div class="row" style="--pc:var(--care); margin-top:8px"><span class="av">FP</span><span><b>Fien P. (5)</b><small>kinderprofiel zonder account · beheerd door mama en papa</small></span><span class="spacer"></span><span class="pill uit">enkel challenge-totalen</span></div>
+    <div class="lock" style="margin-top:10px">🔒 <span>Jij ziet nooit méér dan wat elk gezinslid zelf openzet. Leden toevoegen of verwijderen kan alleen het gezin zelf — niet jij, en zo hoort het.</span></div>
+  </div>`;
 }
 
 /* ============ berichten ============ */

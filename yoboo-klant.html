@@ -89,6 +89,27 @@ h1 small{display:block; font-size:.8rem; color:var(--muted); font-weight:400; ma
 .menu td:first-child{color:var(--muted); font-weight:700; font-size:.7rem; text-transform:uppercase; width:34px}
 .menu tr:last-child td{border-bottom:none}
 .tag{display:inline-block; font-size:.64rem; font-weight:800; border-radius:99px; padding:2px 8px; background:var(--yb-soft); color:var(--yb-deep)}
+.tag.uit{background:color-mix(in srgb, var(--muted) 15%, transparent); color:var(--muted)}
+/* gezinsleden */
+.gzlid{display:flex; gap:9px; align-items:flex-start; padding:10px 0; border-bottom:1px dashed var(--hair); font-size:.82rem}
+.gzlid:last-of-type{border-bottom:none}
+.gzlid .av{flex:0 0 27px; width:27px; height:27px; border-radius:50%; background:color-mix(in srgb, var(--pc, var(--yb)) 18%, transparent); color:var(--pc, var(--yb)); display:flex; align-items:center; justify-content:center; font-weight:800; font-size:.64rem}
+.gzlid small{display:block; color:var(--muted); font-size:.72rem}
+.gzlid .tag{margin-left:auto; flex:0 0 auto}
+/* meetlat bij het doel */
+.meet{margin-top:11px; border-top:1px dashed var(--hair); padding-top:10px}
+.meet .mk{font-weight:800; font-size:.76rem}
+.doelbar{position:relative; height:9px; border-radius:6px; background:var(--hair); margin:10px 0 6px}
+.doelbar i{display:block; height:100%; border-radius:6px; background:var(--yb); transition:width .6s ease}
+.doelbar .mrk{position:absolute; top:-4px; width:3px; height:17px; border-radius:2px; background:var(--ink); opacity:.7}
+.meetlbl{display:flex; justify-content:space-between; color:var(--muted); font-size:.7rem}
+.meetlbl b{color:var(--yb-deep)}
+/* Boo-chat */
+.bthread{display:flex; flex-direction:column; gap:7px; margin-top:10px}
+.bmsg{max-width:88%; border-radius:13px; padding:8px 12px; font-size:.8rem; line-height:1.5}
+.bmsg.mij{background:var(--yb); color:#fff; align-self:flex-end}
+.bmsg.boo{background:var(--yb-soft); align-self:flex-start; display:flex; gap:8px}
+.bmsg.boo svg{flex:0 0 26px; margin-top:2px}
 .ring{display:flex; align-items:center; gap:13px}
 .ring svg{flex:0 0 80px}
 .ring b{font-size:1rem}
@@ -162,6 +183,12 @@ nav button.act{color:var(--yb-deep); background:var(--yb-soft)}
     <section class="view show" id="v-vandaag">
       <h1>Dag Lena! <small>Dit is jouw dag in drie stapjes.</small></h1>
       <div class="streak" id="streak"><span class="d on">✓</span><span class="d on">✓</span><span class="d on">✓</span><span class="d on">✓</span><span class="d on">✓</span><span class="d">·</span><span class="d">·</span>&nbsp;<span id="streaktxt">5 dagen op rij!</span></div>
+      <div class="card">
+        <div class="h"><span class="ic" style="background:var(--yb-soft)">🧭</span>Zo telt yoboo</div>
+        <div class="tgl-row"><span><b>✓ Stapje</b><small>één kleine actie — Boo stelt er elke dag drie voor, jij doet ze (of niet)</small></span></div>
+        <div class="tgl-row"><span><b>🟢 Groene dag</b><small>alle stapjes van die dag gedaan — de zeven bolletjes hierboven zijn je laatste zeven dagen</small></span></div>
+        <div class="tgl-row"><span><b>⚡ Vonk</b><small>beloning per stapje — die spaar je (rechtsboven), inwisselbaar via Xtra</small></span></div>
+      </div>
       <div class="card" style="--ac:var(--food)">
         <div class="h"><span class="ic">🥗</span>Vandaag op tafel: wokschotel</div>
         <p>Alles wat je nodig hebt, in één keer in je winkelmandje.</p>
@@ -183,6 +210,17 @@ nav button.act{color:var(--yb-deep); background:var(--yb-soft)}
         <p>De fietschallenge staat op <b id="kmkort">75 km</b> — nog even en de badge is binnen.</p>
         <button class="pbtn ghost" onclick="ga('gezin')">Naar de challenge →</button>
       </div>
+      <div class="card">
+        <div class="h"><span class="ic" style="background:var(--yb-soft)">💬</span>Vraag het aan Boo</div>
+        <p>Typ zoals je praat — Boo antwoordt meteen, over klein en groot. Probeer maar:</p>
+        <div class="bthread" id="boothread"></div>
+        <div class="chips" id="boochips">
+          <span class="chip btn" onclick="booVraag(this,'eten')">🥗 Wat eten we vanavond?</span>
+          <span class="chip btn" onclick="booVraag(this,'zin')">😮‍💨 Geen zin vandaag</span>
+          <span class="chip btn" onclick="booVraag(this,'waarom')">🤔 Waarom stel je slaap voor?</span>
+          <span class="chip btn" onclick="booVraag(this,'knie')">🩺 Mijn knie doet pijn</span>
+        </div>
+      </div>
     </section>
 
     <!-- ================= PLAN ================= -->
@@ -191,6 +229,11 @@ nav button.act{color:var(--yb-deep); background:var(--yb-soft)}
       <div class="card" style="--ac:var(--yb)">
         <div class="h"><span class="ic">🎯</span>Mijn doel</div>
         <p style="font-size:.95rem; color:var(--ink); font-style:italic">"Ik wil 's avonds energie over hebben."</p>
+        <div class="meet">
+          <span class="mk">📏 Zo meten we dat: je avond-check-in om 21u</span>
+          <div class="doelbar"><i style="width:57%"></i><span class="mrk" style="left:71%"></span></div>
+          <div class="meetlbl"><span>start · 2 van 7 avonden 🙂</span><b>nu · 4 van 7</b><span>doel · 5 van 7</span></div>
+        </div>
         <div id="doelwijzig"><button class="pbtn ghost" onclick="wijzigDoel()">Doel aanpassen</button></div>
       </div>
       <div class="card">
@@ -207,13 +250,21 @@ nav button.act{color:var(--yb-deep); background:var(--yb-soft)}
       </div>
       <div class="card">
         <div class="h"><span class="ic" style="background:var(--yb-soft)">🤝</span>Wie helpt mee</div>
-        <div class="tgl-row"><span><b>Boo</b> (AI)<small>stelt je stapjes voor, jij beslist</small></span><span class="tag" style="margin-left:auto">altijd aan boord</span></div>
+        <div class="tgl-row"><span><b>Boo</b> (AI)<small>stelt je stapjes voor, jij beslist · stel hem élke vraag via 💬 op Vandaag</small></span><span class="tag" style="margin-left:auto">altijd aan boord</span></div>
         <div class="tgl-row"><span><b>Coach Sam</b><small>kijkt wekelijks mee, belt als het nodig is</small></span><span class="tag" style="margin-left:auto">met jouw toestemming</span></div>
         <div id="hulpvraag"><button class="pbtn ghost" onclick="vraagHulp()">Stel Sam een vraag</button></div>
       </div>
       <div class="card">
+        <div class="h"><span class="ic" style="background:var(--yb-soft)">🔁</span>Je plan leert elke week bij</div>
+        <p>Boo herrekent je plan vannacht op basis van je resultaten. Kleine bijstellingen doet hij stilletjes — alles wat écht verandert, keur jij eerst goed.</p>
+        <div class="tgl-row"><span>Avondwandeling → lunchwandeling<small>avonden lukten maar 1× per week</small></span><span class="tag" style="margin-left:auto">week 2</span></div>
+        <div class="tgl-row"><span>Woensdag = makkelijke dag<small>drie drukke woensdagen op rij gemeten</small></span><span class="tag" style="margin-left:auto">week 3</span></div>
+        <div class="tgl-row"><span>Wokschotel vast in het menu<small>3× gekookt, 3× 🙂 bij de check-in</small></span><span class="tag" style="margin-left:auto">week 4</span></div>
+        <div id="wk5"><button class="pbtn ghost" onclick="toonWeek5()">Bekijk Boo's voorstel voor week 5</button></div>
+      </div>
+      <div class="card">
         <div class="h"><span class="ic" style="background:var(--yb-soft)">🌧️</span>Als het even niet lukt</div>
-        <p>Dan lukt het niet — geen schuldgevoel, geen rode cijfers. Het plan past zich aan jouw week aan, niet omgekeerd. Woensdag is voortaan je makkelijke dag.</p>
+        <p>Dan lukt het niet — geen schuldgevoel, geen rode cijfers. Het plan past zich aan jouw week aan, niet omgekeerd.</p>
       </div>
       <div class="miniboo" id="boo-plan-v"><svg viewBox="0 0 100 104" width="34" height="35"><use href="#boo-plan"/></svg><span><b>Boo:</b> ik heb je plan nog eens nagelezen: zaterdag is een topdag om die wokschotel te doen. 👨‍🍳</span></div>
     </section>
@@ -221,6 +272,14 @@ nav button.act{color:var(--yb-deep); background:var(--yb-soft)}
     <!-- ================= GEZIN ================= -->
     <section class="view" id="v-gezin">
       <h1>Ons gezin <small>Samen gezond — ieder zijn eigen plan, één leuke laag erbovenop.</small></h1>
+      <div class="card">
+        <div class="h"><span class="ic" style="background:var(--yb-soft)">👨‍👩‍👧</span>Wie zit er in ons gezin?</div>
+        <div class="gzlid" style="--pc:var(--yb)"><span class="av">L</span><span><b>Lena</b> — dat ben jij<small>eigen account · gezinsbeheerder — jij nodigt uit en beheert Fiens profiel</small></span><span class="tag">eigen account</span></div>
+        <div class="gzlid" style="--pc:var(--blauw)"><span class="av">K</span><span><b>Koen</b> — partner<small>eigen account, op jouw uitnodiging gekoppeld · beheert Fiens profiel mee</small></span><span class="tag">eigen account</span></div>
+        <div class="gzlid" style="--pc:var(--oranje)"><span class="av">W</span><span><b>Wout</b> — 16<small>eigen account sinds zijn 13e · regelt zélf zijn privacy: jij ziet alleen wat hij deelt (nu: enkel de challenge)</small></span><span class="tag">eigen account</span></div>
+        <div class="gzlid" style="--pc:var(--care)"><span class="av">F</span><span><b>Fien</b> — 5<small>kinderprofiel zonder account — jij en Koen beheren het, Fien doet mee via jullie telefoon. Op haar 13e kan het haar eigen account worden.</small></span><span class="tag uit">geen account</span></div>
+        <div id="gzbeheer"><button class="pbtn ghost" onclick="beheerGezin()">⚙️ Gezin beheren</button></div>
+      </div>
       <div class="card" style="--ac:var(--food)">
         <div class="h"><span class="ic">🍽️</span>Weekmenu</div>
         <table class="menu" style="width:100%; border-collapse:collapse; margin-top:6px">
@@ -257,14 +316,27 @@ nav button.act{color:var(--yb-deep); background:var(--yb-soft)}
       </div>
       <div class="card">
         <div class="h"><span class="ic" style="background:var(--yb-soft)">👀</span>Wat ziet mijn gezin van mij?</div>
-        <p>Alleen challenges en wat jij deelt. Nooit je check-ins, je cijfers of je plan — ook Koen niet. Aanpassen doe je bij <b>Ik → privacy</b>.</p>
+        <p>Standaard alleen challenges. Wil je méér laten zien? Jij kiest het niveau — altijd omkeerbaar.</p>
+        <div class="chips" id="nivchips">
+          <span class="chip btn sel" onclick="gezinsNiveau(this,0)">alleen challenges</span>
+          <span class="chip btn" onclick="gezinsNiveau(this,1)">+ mijn voortgang</span>
+          <span class="chip btn" onclick="gezinsNiveau(this,2)">alles, ook mijn plan</span>
+        </div>
+        <p style="margin-top:8px; font-size:.76rem" id="nivtxt">Nu: je gezin ziet challenges en het weekmenu — nooit je check-ins, cijfers of plan. Ook Koen niet.</p>
+      </div>
+      <div class="card">
+        <div class="h"><span class="ic" style="background:var(--yb-soft)">🔄</span>Mijn kringen</div>
+        <p>Een kring is elke groep waarmee je iets samen doet. Per kring kies je wat die van jou ziet.</p>
+        <div class="tgl-row"><span><b>👨‍👩‍👧 Gezin</b><small>challenge: 100 km fietsen · ziet: challenges + weekmenu</small></span><span class="tag" style="margin-left:auto">actief</span></div>
+        <div class="tgl-row"><span><b>🏢 Werk — Colruyt Group</b><small>stappenchallenge september · je werkgever ziet alléén groepstotalen, nooit jou</small></span><span class="chip btn" style="margin-left:auto" onclick="kringAan(this,'werk')">Doe mee</span></div>
+        <div class="tgl-row"><span><b>🚴 Fietsclub De Trappers</b><small>rijdt dezelfde 100 km-challenge — je kilometers tellen in beide kringen mee</small></span><span class="chip btn" style="margin-left:auto" onclick="kringAan(this,'club')">Sluit aan</span></div>
       </div>
       <div class="miniboo" id="boo-gezin"><svg viewBox="0 0 100 104" width="34" height="35"><use href="#boo-fiets"/></svg><span><b>Boo:</b> jullie liggen vóór op schema! Zondagsritje naar de ijsjesboer? 🍦</span></div>
     </section>
 
     <!-- ================= FOTO ================= -->
     <section class="view" id="v-foto">
-      <h1>Mijn vertrekfoto <small>Waar sta je vandaag? Alleen jij ziet dit.</small></h1>
+      <h1>Mijn foto <small>Een momentopname van al je data. De eerste was je vertrekfoto — sindsdien maakt Boo er elke maand automatisch een nieuwe. Alleen jij ziet dit.</small></h1>
       <div class="card">
         <div class="foto">
           <div class="pf" style="--pc:var(--food)"><b>Voeding <span>😊</span></b><div class="bar"><i style="width:70%"></i></div></div>
@@ -274,15 +346,21 @@ nav button.act{color:var(--yb-deep); background:var(--yb-soft)}
           <div class="pf" style="--pc:var(--leren)"><b>Samen <span>😊</span></b><div class="bar"><i style="width:80%"></i></div></div>
           <div class="pf" style="--pc:var(--oranje)"><b>Gewoontes <span>🙂</span></b><div class="bar"><i style="width:60%"></i></div></div>
         </div>
-        <p style="margin-top:10px">Gemaakt op basis van wat jij wilde delen: je aankopen en je vragenlijstje. Geen oordeel — gewoon je vertrekpunt.</p>
+        <p style="margin-top:10px; font-weight:800; color:var(--ink); font-size:.8rem">Waar komt deze foto vandaan?</p>
+        <div class="tgl-row"><span>🛒 Aankopen Colruyt &amp; Bio-Planet<small>wat er écht in je mandje zit</small></span><span class="tag" style="margin-left:auto">aan</span></div>
+        <div class="tgl-row"><span>⌚ Stappen &amp; slaap (smartwatch)<small>elke nacht automatisch bijgewerkt</small></span><span class="tag" style="margin-left:auto">aan</span></div>
+        <div class="tgl-row"><span>💬 Je check-ins &amp; vragenlijst<small>hoe jij je écht voelt</small></span><span class="tag" style="margin-left:auto">aan</span></div>
+        <div class="tgl-row"><span>💊 Apotheek-aankopen<small>staat uit — telt dus niet mee</small></span><span class="tag uit" style="margin-left:auto">uit</span></div>
+        <p style="font-size:.76rem">De foto volgt exact wat je deelt bij <b>Ik → wat ik deel</b>. 🤖 Boo berekent hem, coach Sam keek je vertrekfoto na. Geen oordeel — gewoon waar je staat.</p>
         <div id="fotokies"><button class="pbtn" onclick="toonPijlers()">Kies waar je aan wil werken</button></div>
       </div>
       <div class="card">
         <div class="h"><span class="ic" style="background:var(--yb-soft)">📈</span>Sinds je start (4 weken)</div>
-        <div class="tgl-row"><span>Beweging<small>van 🙁 naar 🙂 — de wandelingen doen het</small></span><span class="tag" style="margin-left:auto">+2 stapjes</span></div>
-        <div class="tgl-row"><span>Voeding<small>meer groenten in het mandje, minder kant-en-klaar</small></span><span class="tag" style="margin-left:auto">+1 stapje</span></div>
+        <div class="tgl-row"><span>Beweging<small>van 🙁 naar 🙂 — de wandelingen doen het</small></span><span class="tag" style="margin-left:auto">+2 niveaus</span></div>
+        <div class="tgl-row"><span>Voeding<small>meer groenten in het mandje, minder kant-en-klaar</small></span><span class="tag" style="margin-left:auto">+1 niveau</span></div>
         <div class="tgl-row"><span>Slaap<small>nog niet aan begonnen — geen probleem</small></span><span class="tag" style="margin-left:auto">=</span></div>
-        <div id="nieuwfoto"><button class="pbtn ghost" onclick="nieuweFoto()">Vraag een nieuwe foto</button></div>
+        <div class="tgl-row"><span>📅 Volgende automatische foto<small>1 augustus — elke maand eentje, jij hoeft niets te doen</small></span><span class="tag" style="margin-left:auto">gepland</span></div>
+        <div id="nieuwfoto"><button class="pbtn ghost" onclick="nieuweFoto()">Of vraag er nu al eentje tussendoor</button></div>
       </div>
       <div class="miniboo" id="boo-foto"><svg viewBox="0 0 100 104" width="34" height="35"><use href="#boo-plan"/></svg><span><b>Boo:</b> slaap lijkt me iets voor ons, wat denk je? Kleine stapjes, grote nachten. 🌙</span></div>
     </section>
@@ -292,7 +370,7 @@ nav button.act{color:var(--yb-deep); background:var(--yb-soft)}
       <h1>Ik <small>Jij beslist. Altijd.</small></h1>
       <div class="card">
         <div class="h"><span class="ic" style="background:var(--yb-soft)">🙋</span>Lena Peeters</div>
-        <p>Aangemeld met je Xtra-profiel · lid sinds juni · gezin: Koen, Wout (16) en Fien (5)</p>
+        <p>Aangemeld met je Xtra-profiel · lid sinds juni · gezin: Koen, Wout (16) en Fien (5) — beheren doe je in het tabblad <b>Gezin</b></p>
       </div>
       <div class="card">
         <div class="h"><span class="ic" style="background:var(--yb-soft)">🛒</span>Wat ik deel</div>
@@ -303,7 +381,7 @@ nav button.act{color:var(--yb-deep); background:var(--yb-soft)}
       <div class="card">
         <div class="h"><span class="ic" style="background:var(--yb-soft)">👀</span>Wie kijkt mee</div>
         <div class="tgl-row"><span>Coach Sam<small>ziet mijn plan en voortgang</small></span><span class="tgl on" onclick="tgl(this,'coach Sam')"></span></div>
-        <div class="tgl-row"><span>Mijn gezin<small>ziet alleen challenges, nooit mijn cijfers</small></span><span class="tgl on" onclick="tgl(this,'je gezin')"></span></div>
+        <div class="tgl-row"><span>Mijn gezin<small>niveau kies je in het Gezin-tabblad · nu: alleen challenges</small></span><span class="tgl on" onclick="tgl(this,'je gezin')"></span></div>
         <div class="tgl-row"><span>Mijn huisarts<small>uit — aan te zetten wanneer jij wil</small></span><span class="tgl" onclick="tgl(this,'je huisarts')"></span></div>
       </div>
       <div class="card">
@@ -385,8 +463,21 @@ function wijzigDoel(){
     ['⚡ Meer energie','😴 Beter slapen','💪 Fitter worden','⚖️ Gezond gewicht'].map(d=>`<span class="chip btn" onclick="kiesDoel('${d}')">${d}</span>`).join('')+'</div>';
 }
 function kiesDoel(d){
-  document.getElementById('doelwijzig').innerHTML=`<div class="pdone"><span class="chk">✓</span>Nieuw doel: ${d} — Boo herwerkt je stapjes vannacht</div>`;
-  setBoo('boo-plan-v','boo-plan',`nieuw doel, nieuw plan! Ik puzzel vannacht je stapjes bij elkaar — morgen staat alles klaar. En je oude doel? Dat blijft in je historiek staan.`);
+  const lat={'⚡ Meer energie':'avond-check-in 🙂 of beter op 5 van de 7 avonden','😴 Beter slapen':'gemiddeld 7 uur slaap · 5 avonden vóór 23u naar bed','💪 Fitter worden':'van 6.000 naar 8.000 stappen per dag','⚖️ Gezond gewicht':'−4 kg tegen december — de weektrend telt, niet de dagschommeling'};
+  document.getElementById('doelwijzig').innerHTML=`<div class="pdone"><span class="chk">✓</span>Nieuw doel: ${d} · meetlat: ${lat[d]}</div>`;
+  setBoo('boo-plan-v','boo-plan',`nieuw doel, nieuwe meetlat: ${lat[d]}. Zo zíen we samen of het werkt. Ik puzzel vannacht je stapjes bij elkaar — je oude doel blijft in je historiek.`);
+}
+function toonWeek5(){
+  document.getElementById('wk5').innerHTML=
+    '<div class="tgl-row"><span>Zaterdag wordt vaste kookdag<small>lukte vier weken op rij</small></span><span class="tag" style="margin-left:auto">nieuw</span></div>'+
+    '<div class="tgl-row"><span>Eerste slaapstapje: schermen uit om 22u<small>je check-ins dippen na korte nachten</small></span><span class="tag" style="margin-left:auto">nieuw</span></div>'+
+    '<div class="chips"><span class="chip btn" onclick="fiatWeek5(true)">✓ Keur goed</span><span class="chip btn" onclick="fiatWeek5(false)">Nog niet</span></div>';
+}
+function fiatWeek5(ok){
+  document.getElementById('wk5').innerHTML = ok
+    ? '<div class="pdone"><span class="chk">✓</span>Week 5 staat vast — maandag start je bijgewerkte plan</div>'
+    : '<div class="pdone"><span class="chk">✓</span>Genoteerd — Boo houdt week 4 nog even aan en vraagt het later opnieuw</div>';
+  setBoo('boo-plan-v','boo-plan', ok ? 'week 5 staat klaar! Het slaapstapje begint piepklein: schermen uit om 22u. Meer niet. 🌙' : 'helemaal oké — jouw tempo is hét tempo. Ik vraag het volgende week gewoon nog eens.');
 }
 function vraagHulp(){
   document.getElementById('hulpvraag').innerHTML=
@@ -404,6 +495,26 @@ function menuKanaal(k){
     : '<div class="pdone"><span class="chk">✓</span>Foodbag-box besteld — donderdag aan je deur · +10 ⚡</div>';
   addSparks(10);
   setBoo('boo-gezin','boo-eet', k==='cg' ? 'geregeld! Vrijdag staat alles klaar. 😉' : 'topkeuze — donderdag koken we samen Thais! 🍛');
+}
+function beheerGezin(){
+  document.getElementById('gzbeheer').innerHTML='<div class="chips">'+
+    ['👤 Volwassene uitnodigen','🧒 Kinderprofiel toevoegen','✂️ Lid of profiel verwijderen'].map(o=>`<span class="chip btn" onclick="gzActie('${o}')">${o}</span>`).join('')+'</div>';
+}
+function gzActie(o){
+  const r={'👤 Volwassene uitnodigen':'Uitnodiging verstuurd naar oma Rita — zij aanvaardt in haar eigen app en kiest zélf wat ze met het gezin deelt.','🧒 Kinderprofiel toevoegen':'Profiel aangemaakt — geen account, geen data naar buiten. Alleen jij en Koen zien het.','✂️ Lid of profiel verwijderen':'Kies wie — diens gezinslaag verdwijnt meteen. Een eigen account en plan blijven gewoon van die persoon zelf.'};
+  document.getElementById('gzbeheer').innerHTML=`<div class="pdone"><span class="chk">✓</span>${r[o]}</div>`;
+  setBoo('boo-gezin','boo-base','geregeld! En onthoud: het gezin ziet challenges en het menu — ieders eigen plan en cijfers blijven privé.');
+}
+function gezinsNiveau(el,n){
+  document.querySelectorAll('#nivchips .chip').forEach(c=>c.classList.remove('sel'));
+  el.classList.add('sel');
+  const t=['Nu: je gezin ziet challenges en het weekmenu — nooit je check-ins, cijfers of plan. Ook Koen niet.','Nu: je gezin ziet ook je voortgang ("4 van 7 avonden 💚") — nog altijd geen cijfers of check-ins.','Nu: je gezin ziet alles — ook je doel en je plan. Terugschroeven kan altijd, met één tik.'];
+  document.getElementById('nivtxt').textContent=t[n];
+  setBoo('boo-gezin','boo-base', n===0?'terug naar de standaard: lekker privé. 🔒':n===1?'je voortgang staat nu open voor je gezin — handig voor een schouderklopje van Koen. 💚':'alles open voor je gezin. Jij blijft de baas — dichtzetten kan altijd.');
+}
+function kringAan(el,k){
+  el.outerHTML='<span class="tag" style="margin-left:auto">actief</span>';
+  setBoo('boo-gezin','boo-cheer', k==='werk' ? 'ingeschreven! In september tellen je stappen mee met je team — je werkgever ziet alleen groepstotalen, nooit jou. 🏢' : 'welkom bij De Trappers! Je 32 km tellen meteen mee in het clubklassement én thuis — dubbel plezier van dezelfde rit. 🚴');
 }
 let km=75, rit=0;
 function addRide(){
@@ -436,7 +547,22 @@ function kiesFocus(p){
   setBoo('boo-foto','boo-cheer', p.includes('Slaap') ? 'goeie keuze! Vanavond je eerste mini-stapje: schermen uit om 22u. Ik onthou het voor je. 🌙' : `${p.split(' ')[1]} it is! Vanavond staat je eerste kleine stapje klaar.`);
 }
 function nieuweFoto(){
-  document.getElementById('nieuwfoto').innerHTML='<div class="pdone"><span class="chk">✓</span>We verzamelen je laatste metingen — morgen staat je nieuwe foto klaar</div>';
+  document.getElementById('nieuwfoto').innerHTML='<div class="pdone"><span class="chk">✓</span>Extra foto gevraagd — morgen klaar. De automatische van 1 augustus komt er gewoon bij</div>';
+}
+
+/* Boo-chat */
+const booGesprek={
+  eten:['Wat eten we vanavond?','boo-eet','Wokschotel met kip — staat in je menu en de boodschappen zitten al in je mandje. Liever iets anders? Zeg het maar, dan wissel ik menu én mandje om. 🥗'],
+  zin:['Geen zin vandaag','boo-base','Dan maken we het kleiner: vijf minuten buiten is vandaag genoeg, de rest schuif ik door. Geen rode cijfers — morgen kijken we verder. 💚'],
+  waarom:['Waarom stel je slaap voor?','boo-plan','Omdat je foto slaap het laagst zet én je check-ins dippen na korte nachten. Vraag gerust altijd "waarom?" — alles wat ik voorstel kan ik uitleggen.'],
+  knie:['Mijn knie doet pijn','boo-plan','Daar blijf ik met mijn algoritmes af — pijn is voor een mens. Ik zet je vraag klaar bij coach Sam; die belt je en schakelt zo nodig een kinesist in. Tot dan: geen fietsstapjes. 🩺']
+};
+function booVraag(chip,k){
+  const [v,gezicht,a]=booGesprek[k];
+  const t=document.getElementById('boothread');
+  t.insertAdjacentHTML('beforeend',`<span class="bmsg mij">${v}</span>`);
+  setTimeout(()=>t.insertAdjacentHTML('beforeend',`<span class="bmsg boo">${booSvg(gezicht)}<span>${a}</span></span>`),350);
+  chip.remove();
 }
 
 /* ik */
