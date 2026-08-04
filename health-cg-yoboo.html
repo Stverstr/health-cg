@@ -1666,6 +1666,11 @@ function setPers(p){
   window.scrollTo({top:document.querySelector('.persnav').offsetTop - 70, behavior:'smooth'});
 }
 document.querySelectorAll('.pcard').forEach(c=>c.addEventListener('click',()=>setPers(c.dataset.pers)));
+/* deep-link: #arts of #p-arts opent meteen dat panel */
+(function(){
+  const h=location.hash.replace('#','').replace(/^p-/,'');
+  if(h && document.getElementById('p-'+h)) setPers(h);
+})();
 bubble.addEventListener('click',()=>{ tipIdx=(tipIdx+1)%tips[curPers].length; bubble.textContent=tips[curPers][tipIdx]; });
 document.getElementById('boobtn').addEventListener('click',()=>{ tipIdx=(tipIdx+1)%tips[curPers].length; bubble.textContent=tips[curPers][tipIdx]; });
 

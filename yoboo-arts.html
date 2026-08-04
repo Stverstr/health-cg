@@ -506,6 +506,11 @@ function nieuweBrief(btn){
 }
 
 renderPats();
+/* deep-links: #marc opent het dossier, #marc/leefstijl meteen dat tabblad */
+(function(){
+  const h=location.hash.replace('#','').split('/');
+  if(h[0] && pats[h[0]]){ kies(h[0]); if(h[1] && document.getElementById('v-'+h[1])) ga(h[1]); }
+})();
 </script>
 </body>
 </html>

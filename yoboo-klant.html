@@ -992,6 +992,16 @@ function tgl(el,naam){
   if(el.classList.contains('on')) setBoo('boo-ik','boo-base',`aan! Vanaf nu telt ${naam} mee. Uitzetten kan altijd — één tik.`);
   else setBoo('boo-ik','boo-boos',`uitgezet — stroom gestopt, historiek bevroren. Ik kijk zo streng naar wie er tóch om zou vragen. 😤`);
 }
+/* deep-links: #plan #cijfers #coach #gezin #ik #budget #zoek #onboard #verhaal-omar … */
+(function(){
+  const h=location.hash.replace('#','');
+  if(!h) return;
+  const kies=document.getElementById('userkies');
+  if(h==='onboard'||h==='tom'){ kies.value='tom'; switchUser('tom'); }
+  else if(h.indexOf('verhaal-')===0){ const p=h.slice(8); if(verhalen[p]){ kies.value=p; switchUser(p); } }
+  else if(document.getElementById('v-'+h)) ga(h);
+})();
+
 function downloadData(btn){
   btn.outerHTML='<div class="pdone"><span class="chk">✓</span>Je pakket staat klaar: metingen, plan, consent-historiek — alles in leesbare taal</div>';
 }

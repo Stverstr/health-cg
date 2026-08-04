@@ -439,6 +439,13 @@ function lesStart(btn){
 }
 
 renderKlanten();
+/* deep-links: #klant/marc opent een dossier, #kringen een view */
+(function(){
+  const h=location.hash.replace('#','').split('/');
+  if(!h[0]) return;
+  if(h[0]==='klant' && klanten[h[1]]) openKlant(h[1]);
+  else if(document.getElementById('v-'+h[0])) ga(h[0]);
+})();
 </script>
 </body>
 </html>
