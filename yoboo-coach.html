@@ -60,7 +60,8 @@ main{flex:1; padding:24px 28px; overflow-y:auto; min-width:0}
 .view.show{display:flex}
 h1{font-size:1.45rem; letter-spacing:-.015em}
 h1 small{display:block; font-size:.82rem; color:var(--muted); font-weight:400; margin-top:3px}
-.kpis{display:grid; grid-template-columns:repeat(3,1fr); gap:10px; max-width:560px}
+.kpis{display:grid; grid-template-columns:repeat(4,1fr); gap:10px; max-width:760px}
+@media(max-width:760px){.kpis{grid-template-columns:repeat(2,1fr)}}
 .kpi{background:var(--card); border:1px solid var(--hair); border-radius:12px; padding:11px 14px}
 .kpi b{font-size:1.3rem}
 .kpi small{display:block; color:var(--muted); font-size:.7rem}
@@ -140,6 +141,7 @@ h1 small{display:block; font-size:.82rem; color:var(--muted); font-weight:400; m
     <section class="view show" id="v-vandaag">
       <h1>Goeiemorgen, Sam <small>donderdag 24 juli · <b id="waittxt">3 dingen</b> wachten op jou — de rest doet de AI</small></h1>
       <div class="kpis">
+        <div class="kpi"><b style="color:var(--yb-deep)">24 / 34</b><small>klanten meetbaar gezonder — gem. +1,2 niveaus op de gezondheidsfoto</small></div>
         <div class="kpi"><b>27</b><small>weeklussen gesloten</small></div>
         <div class="kpi"><b>86%</b><small>therapietrouw</small></div>
         <div class="kpi"><b id="waitkpi">3</b><small>wacht op jou</small></div>
