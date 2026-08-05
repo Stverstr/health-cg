@@ -91,6 +91,8 @@ nav.top .wrap{display:flex; align-items:center; gap:16px; height:52px}
   padding:6px 12px; border-radius:99px; white-space:nowrap; transition:.2s; text-decoration:none;
 }
 .mainnav-btn.current{color:var(--accent); cursor:default}
+.mainnav-btn.dim{opacity:.45; font-weight:400}
+.mainnav-btn.dim:hover{opacity:1}
 .mainnav-btn:not(.current):hover{color:var(--accent); background:var(--accent-soft)}
 .submenu-bar{border-top:1px solid var(--hair); background:var(--band)}
 .submenu-bar .wrap{display:flex; gap:4px; overflow-x:auto; padding:9px 24px; scrollbar-width:none; height:auto}
@@ -378,11 +380,11 @@ footer{padding:28px 0 40px; color:var(--muted); font-size:.85rem; border-top:1px
   <div class="wrap">
     <div class="brand">Health <b>×</b> Werkoverleg</div>
     <div class="mainnav">
-      <a class="mainnav-btn" href="health-cg-organisatie.html">Organisatie &amp; Advisory</a>
-      <a class="mainnav-btn" href="health-cg-yoboo.html">Yoboo POC</a>
-      <a class="mainnav-btn" href="health-cg-sprint.html">AI-Sprint</a>
-      <span class="mainnav-btn current">Werkoverleg</span>
       <a class="mainnav-btn" href="health-cg-workshop.html">Workshop</a>
+      <a class="mainnav-btn" href="health-cg-yoboo.html">Yoboo POC</a>
+      <a class="mainnav-btn" href="health-cg-organisatie.html">Organisatie &amp; Advisory</a>
+      <a class="mainnav-btn dim" href="health-cg-sprint.html">AI-Sprint</a>
+      <span class="mainnav-btn current">Werkoverleg</span>
     </div>
   </div>
   <div class="submenu-bar">
