@@ -65,16 +65,6 @@ h2 small{display:block; font-size:.85rem; font-weight:400; color:var(--muted); m
 .regel{font-size:.9rem; color:var(--muted)}
 .regel b{color:var(--ink)}
 
-.draftwrap{position:relative; border:2.5px dashed var(--coral); border-radius:24px; padding:20px 18px 18px; margin-top:26px}
-.draftstamp{position:absolute; top:-16px; right:26px; transform:rotate(2.5deg); background:var(--coral); color:#fff; font-weight:700; font-size:.78rem; letter-spacing:.09em; text-transform:uppercase; border-radius:8px; padding:6px 14px; box-shadow:var(--shadow)}
-:root[data-theme="dark"] .draftstamp{color:#2A1210}
-.draftnoot{margin-top:14px; font-size:.84rem; color:var(--coral); font-weight:700}
-.redbox{display:grid; grid-template-columns:repeat(auto-fit,minmax(290px,1fr)); gap:12px}
-.redbox .rb{background:var(--card); border:1px solid var(--hair); border-left:5px solid var(--coral); border-radius:14px; padding:16px 18px; font-size:.9rem; box-shadow:var(--shadow)}
-.redbox .rb b{display:block; margin-bottom:6px}
-.redbox .rb ul{list-style:none; display:grid; gap:5px; color:var(--muted)}
-.redbox .rb li{padding-left:14px; position:relative}
-.redbox .rb li::before{content:"·"; position:absolute; left:2px; font-weight:700; color:var(--coral)}
 .agenda{margin-top:20px; background:var(--card); border:1px solid var(--hair); border-radius:14px; overflow:hidden; box-shadow:var(--shadow)}
 .agenda .ar{display:flex; gap:14px; align-items:baseline; padding:11px 18px; border-bottom:1px dashed var(--hair); font-size:.92rem}
 .agenda .ar:last-child{border-bottom:none}
@@ -177,27 +167,9 @@ footer{padding:40px 0 60px; color:var(--muted); font-size:.8rem}
 <section id="redbox">
   <div class="wrap">
     <span class="secnr">00 · Red box</span>
-    <h2>De gedeelde feitenbasis <small>Alles wat we al weten, in één doos — we starten hier zodat iedereen op dezelfde golflengte zit. Vragen mogen, meningen wachten tot de kaarten.</small></h2>
-    <div class="draftwrap">
-      <span class="draftstamp">✏️ Draft — nog uit te werken</span>
-      <div class="redbox">
-      <div class="rb"><b>🎯 De ambitie in cijfers</b>
-        <ul><li>€ 1 miljard omzet aan ≥ 5% marge</li><li>Erkenning als speler in preventieve gezondheid</li><li>2028 — 100 jaar Colruyt — als horizon en lanceermoment</li></ul>
-      </div>
-      <div class="rb"><b>🧱 Onze assets vandaag</b>
-        <ul><li>Foodmerken: Colruyt, Okay, Bio-Planet, Foodbag, Spar</li><li>Newpharma: online apotheek + fysieke experimenten — St. Gilles opent dit jaar mét services, Noorderlaan wordt efficiënt en rendabel</li><li>Jims (fitness) · Yoboo (coaching-app) · Xtra (identiteit &amp; loyalty) · CG Academy</li></ul>
-      </div>
-      <div class="rb"><b>🥊 Concurrentie &amp; de Coolblue-les</b>
-        <ul><li>Zonder onderscheidend verhaal wacht Newpharma een prijzenslag met online prijsvechters en ketens als Medi-Market</li><li>Verzekeraars en mutualiteiten bouwen eigen preventieprogramma's en apps</li><li>Pure app-spelers missen wat wij wél hebben: winkels, apotheken en fitnessclubs in het dagelijks leven van de klant</li></ul>
-      </div>
-      <div class="rb"><b>🇧🇪 Het speelveld is klaar</b>
-        <ul><li>mHealthBelgium-validatiepiramide: M1 (CE) → M2 (eHealth) → M3 (RIZIV-financiering)</li><li>moveUP werd zo als eerste app terugbetaald — exact ons prehab/revalidatie-verhaal</li><li>De eHealth-rails (eHealthBox, Vitalink, Recip-e) liggen er voor de artsenkoppeling</li></ul>
-      </div>
-      <div class="rb"><b>📚 Eerdere analyses &amp; documenten</b>
-        <ul><li>Het organisatiedocument: varianten → aanbeveling → roadmap → debat</li><li>Het domeinmodel en de Health Advisory-samenvatting</li><li>De yoboo-POC met vijf end-to-end klantverhalen</li><li><i>Vóór de workshop aan te vullen met de marktcijfers uit eerdere studies</i></li></ul>
-      </div>
-      </div>
-      <p class="draftnoot">⚠️ Dit is de voorlopige opzet van de red box. Vóór de workshop vullen we ze aan met de échte cijfers en conclusies uit de eerdere analyses (markt, klantonderzoek, financieel).</p>
+    <h2>De gedeelde feitenbasis <small>We openen met alles wat we al weten — ambitie, assets, concurrentie, speelveld en eerdere analyses — zodat iedereen op dezelfde golflengte zit. Vragen mogen, meningen wachten tot de kaarten.</small></h2>
+    <div class="demogrid" style="max-width:560px">
+      <a class="demo" href="health-cg-redbox.html" target="_blank" rel="noopener"><b>📕 Open de red box</b><small>Draft — wordt vóór de workshop aangevuld met de cijfers uit eerdere studies. Opent in een apart tabblad, zodat dit draaiboek open blijft.</small><span class="pijl">Naar de red box →</span></a>
     </div>
   </div>
 </section>

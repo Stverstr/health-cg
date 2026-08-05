@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Red box — de gedeelde feitenbasis · Health CG</title>
+<style>
+:root{
+  --teal:#00887B; --teal-deep:#00695F; --teal-soft:rgba(0,136,123,.1);
+  --ink:#1A1A1A; --muted:#5A5A55; --hair:#DDD9CF;
+  --bg:#F7F6F2; --card:#FFFFFF;
+  --geel:#B98800; --blauw:#2F6FE4; --coral:#D95550; --paars:#8A2FAC;
+  --ok:#1E9066; --shadow:0 10px 30px rgba(20,20,20,.08);
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --teal:#2FB3A4; --teal-deep:#57C9BB; --teal-soft:rgba(47,179,164,.14);
+    --ink:#EDEBE6; --muted:#A5A19A; --hair:#3A3831;
+    --bg:#141311; --card:#1E1C19;
+    --geel:#E5B94C; --blauw:#7AA9FF; --coral:#F08A86; --paars:#C273E0;
+    --ok:#34C08D; --shadow:0 10px 30px rgba(0,0,0,.4);
+  }
+}
+:root[data-theme="dark"]{
+  --teal:#2FB3A4; --teal-deep:#57C9BB; --teal-soft:rgba(47,179,164,.14);
+  --ink:#EDEBE6; --muted:#A5A19A; --hair:#3A3831;
+  --bg:#141311; --card:#1E1C19;
+  --geel:#E5B94C; --blauw:#7AA9FF; --coral:#F08A86; --paars:#C273E0;
+  --ok:#34C08D; --shadow:0 10px 30px rgba(0,0,0,.4);
+}
+*{margin:0; padding:0; box-sizing:border-box}
+@media (prefers-reduced-motion: reduce){*{animation:none !important; transition:none !important}}
+body{font-family:Calibri,"Segoe UI",-apple-system,sans-serif; background:var(--bg); color:var(--ink); line-height:1.55}
+b{font-weight:700}
+.wrap{max-width:1080px; margin:0 auto; padding:0 24px}
+
+.topbar{display:flex; gap:14px; align-items:center; padding:12px 24px; font-size:.8rem; color:var(--muted); border-bottom:1px solid var(--hair)}
+.topbar a{color:var(--teal-deep); font-weight:700; text-decoration:none}
+.topbar .tbcur{color:var(--coral); font-weight:700; padding-bottom:2px; border-bottom:2px solid var(--coral)}
+.topbar .spacer{flex:1}
+
+header.hero{padding:48px 0 10px}
+.eyebrow{font-size:.72rem; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:var(--coral)}
+h1{font-size:2rem; letter-spacing:-.02em; line-height:1.15; margin-top:8px}
+.lead{margin-top:12px; max-width:52em; color:var(--muted); font-size:1.02rem}
+
+section{padding:26px 0 60px}
+.draftwrap{position:relative; border:2.5px dashed var(--coral); border-radius:24px; padding:22px 18px 18px; margin-top:26px}
+.draftstamp{position:absolute; top:-16px; right:26px; transform:rotate(2.5deg); background:var(--coral); color:#fff; font-weight:700; font-size:.78rem; letter-spacing:.09em; text-transform:uppercase; border-radius:8px; padding:6px 14px; box-shadow:var(--shadow)}
+:root[data-theme="dark"] .draftstamp{color:#2A1210}
+.draftnoot{margin-top:14px; font-size:.84rem; color:var(--coral); font-weight:700}
+.redbox{display:grid; grid-template-columns:repeat(auto-fit,minmax(290px,1fr)); gap:12px}
+.redbox .rb{background:var(--card); border:1px solid var(--hair); border-left:5px solid var(--coral); border-radius:14px; padding:16px 18px; font-size:.9rem; box-shadow:var(--shadow)}
+.redbox .rb b{display:block; margin-bottom:6px}
+.redbox .rb ul{list-style:none; display:grid; gap:5px; color:var(--muted)}
+.redbox .rb li{padding-left:14px; position:relative}
+.redbox .rb li::before{content:"·"; position:absolute; left:2px; font-weight:700; color:var(--coral)}
+.redbox .rb.leeg{border-style:dashed; background:transparent; box-shadow:none}
+.redbox .rb.leeg b{color:var(--muted)}
+.redbox .rb.leeg i{color:var(--muted); font-size:.86rem}
+
+footer{padding:10px 0 50px; color:var(--muted); font-size:.8rem}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <a href="health-cg-workshop.html">← Workshop</a>
+  <span class="tbcur">Red box</span>
+  <a href="health-cg-yoboo.html">Yoboo POC</a>
+  <a href="health-cg-organisatie.html">Organisatie &amp; Advisory</a>
+  <span class="spacer"></span>
+  <span>werkdocument · vertrouwelijk</span>
+</div>
+
+<header class="hero">
+  <div class="wrap">
+    <span class="eyebrow">Red box · voorbereiding workshop</span>
+    <h1>De gedeelde feitenbasis</h1>
+    <p class="lead">Alles wat we al weten, in één doos — vroegere analyses, concurrentie, cijfers en het regelgevend kader. We openen de workshop hiermee zodat iedereen op dezelfde golflengte zit. Vragen mogen, meningen wachten tot de keuzekaarten.</p>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <div class="draftwrap">
+      <span class="draftstamp">✏️ Draft — nog uit te werken</span>
+      <div class="redbox">
+        <div class="rb"><b>🎯 De ambitie in cijfers</b>
+          <ul><li>€ 1 miljard omzet aan ≥ 5% marge</li><li>Erkenning als speler in preventieve gezondheid</li><li>2028 — 100 jaar Colruyt — als horizon en lanceermoment</li></ul>
+        </div>
+        <div class="rb"><b>🧱 Onze assets vandaag</b>
+          <ul><li>Foodmerken: Colruyt, Okay, Bio-Planet, Foodbag, Spar</li><li>Newpharma: online apotheek + fysieke experimenten — St. Gilles opent dit jaar mét services, Noorderlaan wordt efficiënt en rendabel</li><li>Jims (fitness) · Yoboo (coaching-app) · Xtra (identiteit &amp; loyalty) · CG Academy</li></ul>
+        </div>
+        <div class="rb"><b>🥊 Concurrentie &amp; de Coolblue-les</b>
+          <ul><li>Zonder onderscheidend verhaal wacht Newpharma een prijzenslag met online prijsvechters en ketens als Medi-Market</li><li>Verzekeraars en mutualiteiten bouwen eigen preventieprogramma's en apps</li><li>Pure app-spelers missen wat wij wél hebben: winkels, apotheken en fitnessclubs in het dagelijks leven van de klant</li></ul>
+        </div>
+        <div class="rb"><b>🇧🇪 Het speelveld is klaar</b>
+          <ul><li>mHealthBelgium-validatiepiramide: M1 (CE) → M2 (eHealth) → M3 (RIZIV-financiering)</li><li>moveUP werd zo als eerste app terugbetaald — exact ons prehab/revalidatie-verhaal</li><li>De eHealth-rails (eHealthBox, Vitalink, Recip-e) liggen er voor de artsenkoppeling</li></ul>
+        </div>
+        <div class="rb"><b>📚 Eerdere analyses &amp; documenten</b>
+          <ul><li>Het organisatiedocument: varianten → aanbeveling → roadmap → debat</li><li>Het domeinmodel en de Health Advisory-samenvatting</li><li>De yoboo-POC met vijf end-to-end klantverhalen</li></ul>
+        </div>
+        <div class="rb leeg"><b>📊 Marktcijfers &amp; klantonderzoek</b>
+          <i>In te vullen vóór de workshop: marktomvang preventieve gezondheid, groeicijfers online pharma, kerncijfers uit eerdere studies en klantonderzoek.</i>
+        </div>
+      </div>
+      <p class="draftnoot">⚠️ Dit is de voorlopige opzet van de red box. Vóór de workshop vullen we ze aan met de échte cijfers en conclusies uit de eerdere analyses (markt, klantonderzoek, financieel).</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">Health CG · red box — voorbereidend leesmateriaal bij de workshop</div>
+</footer>
+
+</body>
+</html>
