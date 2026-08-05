@@ -64,6 +64,12 @@ h2 small{display:block; font-size:.85rem; font-weight:400; color:var(--muted); m
 .regel{font-size:.9rem; color:var(--muted)}
 .regel b{color:var(--ink)}
 
+.redbox{display:grid; grid-template-columns:repeat(auto-fit,minmax(290px,1fr)); gap:12px; margin-top:20px}
+.redbox .rb{background:var(--card); border:1px solid var(--hair); border-left:5px solid var(--coral); border-radius:14px; padding:16px 18px; font-size:.9rem; box-shadow:var(--shadow)}
+.redbox .rb b{display:block; margin-bottom:6px}
+.redbox .rb ul{list-style:none; display:grid; gap:5px; color:var(--muted)}
+.redbox .rb li{padding-left:14px; position:relative}
+.redbox .rb li::before{content:"·"; position:absolute; left:2px; font-weight:700; color:var(--coral)}
 .agenda{margin-top:20px; background:var(--card); border:1px solid var(--hair); border-radius:14px; overflow:hidden; box-shadow:var(--shadow)}
 .agenda .ar{display:flex; gap:14px; align-items:baseline; padding:11px 18px; border-bottom:1px dashed var(--hair); font-size:.92rem}
 .agenda .ar:last-child{border-bottom:none}
@@ -129,6 +135,8 @@ h2 small{display:block; font-size:.85rem; font-weight:400; color:var(--muted); m
 .besluiten .br:last-child{border-bottom:none}
 .besluiten .br .nr{flex:0 0 34px; font-weight:700; color:var(--teal-deep); font-size:.78rem}
 .besluiten .br .st{margin-left:auto; font-size:.74rem; font-weight:700; white-space:nowrap}
+.besluiten a.br{text-decoration:none; color:inherit; cursor:pointer}
+.besluiten a.br:hover{background:var(--teal-soft)}
 .besluiten .br small{display:block; color:var(--muted); font-size:.8rem}
 .st.s-ok{color:var(--ok)} .st.s-aan{color:var(--geel)} .st.s-park{color:var(--coral)} .st.s-open{color:var(--muted)}
 .kopieer{margin-top:14px; border:none; border-radius:10px; background:var(--teal); color:#fff; font-weight:700; font-size:.9rem; padding:11px 18px}
@@ -160,9 +168,33 @@ footer{padding:40px 0 60px; color:var(--muted); font-size:.8rem}
   </div>
 </header>
 
+<section id="redbox">
+  <div class="wrap">
+    <span class="secnr">00 · Red box</span>
+    <h2>De gedeelde feitenbasis <small>Alles wat we al weten, in één doos — we starten hier zodat iedereen op dezelfde golflengte zit. Vragen mogen, meningen wachten tot de kaarten.</small></h2>
+    <div class="redbox">
+      <div class="rb"><b>🎯 De ambitie in cijfers</b>
+        <ul><li>€ 1 miljard omzet aan ≥ 5% marge</li><li>Erkenning als speler in preventieve gezondheid</li><li>2028 — 100 jaar Colruyt — als horizon en lanceermoment</li></ul>
+      </div>
+      <div class="rb"><b>🧱 Onze assets vandaag</b>
+        <ul><li>Foodmerken: Colruyt, Okay, Bio-Planet, Foodbag, Spar</li><li>Newpharma: online apotheek + fysieke experimenten — St. Gilles opent dit jaar mét services, Noorderlaan wordt efficiënt en rendabel</li><li>Jims (fitness) · Yoboo (coaching-app) · Xtra (identiteit &amp; loyalty) · CG Academy</li></ul>
+      </div>
+      <div class="rb"><b>🥊 Concurrentie &amp; de Coolblue-les</b>
+        <ul><li>Zonder onderscheidend verhaal wacht Newpharma een prijzenslag met online prijsvechters en ketens als Medi-Market</li><li>Verzekeraars en mutualiteiten bouwen eigen preventieprogramma's en apps</li><li>Pure app-spelers missen wat wij wél hebben: winkels, apotheken en fitnessclubs in het dagelijks leven van de klant</li></ul>
+      </div>
+      <div class="rb"><b>🇧🇪 Het speelveld is klaar</b>
+        <ul><li>mHealthBelgium-validatiepiramide: M1 (CE) → M2 (eHealth) → M3 (RIZIV-financiering)</li><li>moveUP werd zo als eerste app terugbetaald — exact ons prehab/revalidatie-verhaal</li><li>De eHealth-rails (eHealthBox, Vitalink, Recip-e) liggen er voor de artsenkoppeling</li></ul>
+      </div>
+      <div class="rb"><b>📚 Eerdere analyses &amp; documenten</b>
+        <ul><li>Het organisatiedocument: varianten → aanbeveling → roadmap → debat</li><li>Het domeinmodel en de Health Advisory-samenvatting</li><li>De yoboo-POC met vijf end-to-end klantverhalen</li><li><i>Vóór de workshop aan te vullen met de marktcijfers uit eerdere studies</i></li></ul>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section id="spelregels">
   <div class="wrap">
-    <span class="secnr">00 · Kader</span>
+    <span class="secnr">01 · Kader</span>
     <h2>Spelregels &amp; agenda <small>Zo halen we in één dagdeel echte besluiten.</small></h2>
     <div class="spelregels">
       <div class="regel"><b>Voorgekauwd ≠ dichtgetimmerd</b>Elke kaart toont de alternatieven eerlijk. Wie het voorstel wil kantelen, kantelt het — maar met een argument dat sterker is dan de nadelen die er al staan.</div>
@@ -170,10 +202,13 @@ footer{padding:40px 0 60px; color:var(--muted); font-size:.8rem}
       <div class="regel"><b>De demo is het bewijs</b>Halverwege tonen we de POC: elke keuze die we hier maken, is daar al gebouwd. Zo valideren we geen slides maar een werkend concept.</div>
     </div>
     <div class="agenda">
-      <div class="ar"><span class="t">10 min</span><span><b>Kader</b> — waarom deze tien vragen alles bepalen wat volgt</span></div>
-      <div class="ar"><span class="t">75 min</span><span><b>Blok A — Health Advisory</b> · vijf productkeuzes (A1–A5)</span><small>±15 min per keuze</small></div>
+      <div class="ar"><span class="t">15 min</span><span><b>Red box</b> — de gedeelde feitenbasis: ambitie, assets, concurrentie, kader</span><small>vragen mogen, meningen wachten</small></div>
+      <div class="ar"><span class="t">10 min</span><span><b>Kader &amp; spelregels</b> — waarom deze tien vragen alles bepalen wat volgt</span></div>
+      <div class="ar"><span class="t">60 min</span><span><b>Blok A — Health Advisory</b> · vijf productkeuzes bespreken (A1–A5)</span><small>±12 min per keuze</small></div>
       <div class="ar"><span class="t">25 min</span><span><b>Demo</b> — de keuzes in het echt: de yoboo-POC, end-to-end</span></div>
-      <div class="ar"><span class="t">60 min</span><span><b>Blok B — Organisatie</b> · vijf organisatiekeuzes (B1–B5)</span><small>±12 min per keuze</small></div>
+      <div class="ar"><span class="t">15 min</span><span><b>Validatieronde A</b> — na de demo elke productkeuze formeel valideren</span></div>
+      <div class="ar"><span class="t">50 min</span><span><b>Blok B — Organisatie</b> · vijf organisatiekeuzes bespreken (B1–B5)</span><small>±10 min per keuze</small></div>
+      <div class="ar"><span class="t">10 min</span><span><b>Validatieronde B</b> — de organisatiekeuzes formeel valideren</span></div>
       <div class="ar"><span class="t">20 min</span><span><b>Besluitenlijst &amp; vervolg</b> — wat is beslist, wie doet wat</span></div>
     </div>
   </div>
@@ -332,6 +367,14 @@ footer{padding:40px 0 60px; color:var(--muted); font-size:.8rem}
   </div>
 </section>
 
+<section id="val-a">
+  <div class="wrap">
+    <span class="secnr">Validatieronde A</span>
+    <h2>Nu écht beslissen <small>De demo gezien? Loop de vijf productkeuzes nog eens af en zet elke kaart op gevalideerd, aangepast of geparkeerd — klik op een rij om terug te springen.</small></h2>
+    <div class="besluiten" id="valA"></div>
+  </div>
+</section>
+
 <section id="organisatie">
   <div class="wrap">
     <span class="secnr">Blok B · Organisatie</span>
@@ -454,6 +497,14 @@ footer{padding:40px 0 60px; color:var(--muted); font-size:.8rem}
   </div>
 </section>
 
+<section id="val-b">
+  <div class="wrap">
+    <span class="secnr">Validatieronde B</span>
+    <h2>Ook de organisatie: beslist is beslist <small>Zelfde ronde voor de vijf organisatiekeuzes — klik op een rij om terug te springen naar de kaart.</small></h2>
+    <div class="besluiten" id="valB"></div>
+  </div>
+</section>
+
 <section id="besluiten">
   <div class="wrap">
     <span class="secnr">Slot · besluitenlijst</span>
@@ -500,6 +551,10 @@ function renderBesluiten(){
   document.getElementById('blijst').innerHTML = Object.entries(besluiten).map(([id,b])=>
     `<div class="br"><span class="nr">${id}</span><span><b>${b.titel}</b>${b.nota?`<small>${b.nota}</small>`:''}</span><span class="st s-${b.status}">${stTxt[b.status]}</span></div>`
   ).join('');
+  const linkrow = ([id,b]) =>
+    `<a class="br" href="#${id}"><span class="nr">${id}</span><span><b>${b.titel}</b>${b.nota?`<small>${b.nota}</small>`:''}</span><span class="st s-${b.status}">${stTxt[b.status]}</span></a>`;
+  document.getElementById('valA').innerHTML = Object.entries(besluiten).filter(([id])=>id[0]==='A').map(linkrow).join('');
+  document.getElementById('valB').innerHTML = Object.entries(besluiten).filter(([id])=>id[0]==='B').map(linkrow).join('');
 }
 function kopieerBesluiten(btn){
   const txt = 'Besluiten workshop Health CG & Health Advisory\n\n' +
