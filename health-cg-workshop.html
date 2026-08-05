@@ -65,7 +65,11 @@ h2 small{display:block; font-size:.85rem; font-weight:400; color:var(--muted); m
 .regel{font-size:.9rem; color:var(--muted)}
 .regel b{color:var(--ink)}
 
-.redbox{display:grid; grid-template-columns:repeat(auto-fit,minmax(290px,1fr)); gap:12px; margin-top:20px}
+.draftwrap{position:relative; border:2.5px dashed var(--coral); border-radius:24px; padding:20px 18px 18px; margin-top:26px}
+.draftstamp{position:absolute; top:-16px; right:26px; transform:rotate(2.5deg); background:var(--coral); color:#fff; font-weight:700; font-size:.78rem; letter-spacing:.09em; text-transform:uppercase; border-radius:8px; padding:6px 14px; box-shadow:var(--shadow)}
+:root[data-theme="dark"] .draftstamp{color:#2A1210}
+.draftnoot{margin-top:14px; font-size:.84rem; color:var(--coral); font-weight:700}
+.redbox{display:grid; grid-template-columns:repeat(auto-fit,minmax(290px,1fr)); gap:12px}
 .redbox .rb{background:var(--card); border:1px solid var(--hair); border-left:5px solid var(--coral); border-radius:14px; padding:16px 18px; font-size:.9rem; box-shadow:var(--shadow)}
 .redbox .rb b{display:block; margin-bottom:6px}
 .redbox .rb ul{list-style:none; display:grid; gap:5px; color:var(--muted)}
@@ -174,7 +178,9 @@ footer{padding:40px 0 60px; color:var(--muted); font-size:.8rem}
   <div class="wrap">
     <span class="secnr">00 · Red box</span>
     <h2>De gedeelde feitenbasis <small>Alles wat we al weten, in één doos — we starten hier zodat iedereen op dezelfde golflengte zit. Vragen mogen, meningen wachten tot de kaarten.</small></h2>
-    <div class="redbox">
+    <div class="draftwrap">
+      <span class="draftstamp">✏️ Draft — nog uit te werken</span>
+      <div class="redbox">
       <div class="rb"><b>🎯 De ambitie in cijfers</b>
         <ul><li>€ 1 miljard omzet aan ≥ 5% marge</li><li>Erkenning als speler in preventieve gezondheid</li><li>2028 — 100 jaar Colruyt — als horizon en lanceermoment</li></ul>
       </div>
@@ -190,6 +196,8 @@ footer{padding:40px 0 60px; color:var(--muted); font-size:.8rem}
       <div class="rb"><b>📚 Eerdere analyses &amp; documenten</b>
         <ul><li>Het organisatiedocument: varianten → aanbeveling → roadmap → debat</li><li>Het domeinmodel en de Health Advisory-samenvatting</li><li>De yoboo-POC met vijf end-to-end klantverhalen</li><li><i>Vóór de workshop aan te vullen met de marktcijfers uit eerdere studies</i></li></ul>
       </div>
+      </div>
+      <p class="draftnoot">⚠️ Dit is de voorlopige opzet van de red box. Vóór de workshop vullen we ze aan met de échte cijfers en conclusies uit de eerdere analyses (markt, klantonderzoek, financieel).</p>
     </div>
   </div>
 </section>
