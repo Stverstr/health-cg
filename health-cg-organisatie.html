@@ -906,33 +906,36 @@ footer{border-top:1px solid var(--hair); padding:34px 0 44px; color:var(--muted)
 footer .wrap{display:flex; flex-wrap:wrap; gap:12px; justify-content:space-between; align-items:center}
 </style>
 
-<!-- PASSWORD GATE -->
-<div id="gate" style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;background:#0f0f11;font-family:system-ui">
-  <div style="font-size:1.8rem;font-weight:800;color:#fff;margin-bottom:2rem">🩺 Health CG</div>
-  <div style="background:#1a1a1f;border:1px solid #2a2a32;border-radius:16px;padding:2.5rem;width:360px;text-align:center">
-    <h2 style="color:#fff;margin-bottom:1rem">Beveiligde applicatie</h2>
-    <input type="password" id="pwInput" placeholder="Wachtwoord..."
-      style="width:100%;padding:.85rem;border:1px solid #333;border-radius:10px;background:#111;color:#fff;font-size:1rem;margin-bottom:1rem;outline:none"
-      onkeydown="if(event.key==='Enter')checkPw()"/>
-    <button onclick="checkPw()"
-      style="width:100%;padding:.85rem;background:#6366f1;color:#fff;border:none;border-radius:10px;font-size:1rem;font-weight:600;cursor:pointer">
-      Toegang
-    </button>
-    <div style="margin-top:1rem;font-size:.8rem;color:#444">
-      <a href="https://stverstr.github.io" style="color:#6366f1">← Portfolio</a>
-    </div>
-  </div>
-</div>
-
+<!-- CG-toegangspoort: eenvoudige wachtwoordlaag (client-side); bij nieuwe pagina's mee overnemen -->
 <script>
-const MASTER_HASH = '750db0f147fb55c6755f5b3bb2606a35623b43d03c80056c48587dfa2df45c04';
-async function sha256(s){const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s));return Array.from(new Uint8Array(b)).map(x=>x.toString(16).padStart(2,'0')).join('');}
-async function checkPw(){const h=await sha256(document.getElementById('pwInput').value);if(h===MASTER_HASH){localStorage.setItem('auth','1');document.getElementById('gate').style.display='none';document.getElementById('app').style.display='block';window.dispatchEvent(new Event('resize'));}else{const i=document.getElementById('pwInput');i.style.borderColor='#ef4444';i.value='';setTimeout(()=>i.style.borderColor='#333',600);}}
-window.addEventListener('DOMContentLoaded',()=>{if(localStorage.getItem('auth')==='1'){document.getElementById('gate').style.display='none';document.getElementById('app').style.display='block';window.dispatchEvent(new Event('resize'));}});
+(function(){
+  var KEY='cghealth-toegang', HASH='ceb3fb22db509f33f1e1ecb12f5ebc54b4538344710d40ec550d8d918195f8fc';
+  try{ if(localStorage.getItem(KEY)===HASH) return; }catch(e){}
+  function sha(t,cb){ crypto.subtle.digest('SHA-256', new TextEncoder().encode(t)).then(function(b){ cb(Array.prototype.map.call(new Uint8Array(b), function(x){return x.toString(16).padStart(2,'0');}).join('')); }); }
+  var st=document.createElement('style');
+  st.textContent='body>*:not(#cggate){display:none !important} #cggate{position:fixed; inset:0; display:flex; align-items:center; justify-content:center; background:#F5F5F0; z-index:99999; font-family:Calibri,\'Segoe UI\',sans-serif} #cggate .kaart{background:#fff; border:1px solid #DDD9CF; border-radius:16px; padding:34px 36px; max-width:380px; width:90%; box-shadow:0 12px 34px rgba(20,20,20,.12); text-align:center} #cggate h1{font-size:1.15rem; color:#1A1A1A; margin:0 0 4px} #cggate p{font-size:.85rem; color:#5A5A55; margin:0 0 16px} #cggate input{width:100%; border:1px solid #DDD9CF; border-radius:10px; padding:11px 13px; font:inherit; font-size:.95rem; margin-bottom:10px; box-sizing:border-box} #cggate button{width:100%; border:none; border-radius:10px; background:#00887B; color:#fff; font-weight:700; font-size:.95rem; padding:11px; cursor:pointer; font-family:inherit} #cggate .fout{color:#D95550; font-size:.8rem; min-height:18px; margin-top:8px} @media (prefers-color-scheme: dark){ #cggate{background:#141311} #cggate .kaart{background:#1E1C19; border-color:#3A3831} #cggate h1{color:#EDEBE6} #cggate p{color:#A5A19A} #cggate input{background:#141311; color:#EDEBE6; border-color:#3A3831} }';
+  document.head.appendChild(st);
+  function bouw(){
+    var d=document.createElement('div'); d.id='cggate';
+    d.innerHTML='<div class="kaart"><h1>Health CG</h1><p>Vertrouwelijk werkdocument \u2014 voer het wachtwoord in.</p><input type="password" placeholder="wachtwoord" autocomplete="current-password"><button>Open</button><div class="fout"></div></div>';
+    document.body.appendChild(d);
+    var inp=d.querySelector('input'), btn=d.querySelector('button'), fout=d.querySelector('.fout');
+    function probeer(){
+      sha(inp.value.trim().toLowerCase(), function(h){
+        if(h===HASH){ try{localStorage.setItem(KEY,HASH);}catch(e){} d.remove(); st.remove(); }
+        else { fout.textContent='Dat is hem niet \u2014 probeer opnieuw.'; inp.select(); }
+      });
+    }
+    btn.addEventListener('click', probeer);
+    inp.addEventListener('keydown', function(e){ if(e.key==='Enter') probeer(); });
+    inp.focus();
+  }
+  if(document.body){ bouw(); } else { document.addEventListener('DOMContentLoaded', bouw); }
+})();
 </script>
 
 <!-- APP -->
-<div id="app" style="display:none">
+<div id="app">
 
 <nav class="top">
   <div class="wrap">

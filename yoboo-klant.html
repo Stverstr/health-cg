@@ -179,6 +179,34 @@ nav button.act{color:var(--yb-deep); background:var(--yb-soft)}
 </style>
 </head>
 <body>
+<!-- CG-toegangspoort: eenvoudige wachtwoordlaag (client-side); bij nieuwe pagina's mee overnemen -->
+<script>
+(function(){
+  var KEY='cghealth-toegang', HASH='ceb3fb22db509f33f1e1ecb12f5ebc54b4538344710d40ec550d8d918195f8fc';
+  try{ if(localStorage.getItem(KEY)===HASH) return; }catch(e){}
+  function sha(t,cb){ crypto.subtle.digest('SHA-256', new TextEncoder().encode(t)).then(function(b){ cb(Array.prototype.map.call(new Uint8Array(b), function(x){return x.toString(16).padStart(2,'0');}).join('')); }); }
+  var st=document.createElement('style');
+  st.textContent='body>*:not(#cggate){display:none !important} #cggate{position:fixed; inset:0; display:flex; align-items:center; justify-content:center; background:#F5F5F0; z-index:99999; font-family:Calibri,\'Segoe UI\',sans-serif} #cggate .kaart{background:#fff; border:1px solid #DDD9CF; border-radius:16px; padding:34px 36px; max-width:380px; width:90%; box-shadow:0 12px 34px rgba(20,20,20,.12); text-align:center} #cggate h1{font-size:1.15rem; color:#1A1A1A; margin:0 0 4px} #cggate p{font-size:.85rem; color:#5A5A55; margin:0 0 16px} #cggate input{width:100%; border:1px solid #DDD9CF; border-radius:10px; padding:11px 13px; font:inherit; font-size:.95rem; margin-bottom:10px; box-sizing:border-box} #cggate button{width:100%; border:none; border-radius:10px; background:#00887B; color:#fff; font-weight:700; font-size:.95rem; padding:11px; cursor:pointer; font-family:inherit} #cggate .fout{color:#D95550; font-size:.8rem; min-height:18px; margin-top:8px} @media (prefers-color-scheme: dark){ #cggate{background:#141311} #cggate .kaart{background:#1E1C19; border-color:#3A3831} #cggate h1{color:#EDEBE6} #cggate p{color:#A5A19A} #cggate input{background:#141311; color:#EDEBE6; border-color:#3A3831} }';
+  document.head.appendChild(st);
+  function bouw(){
+    var d=document.createElement('div'); d.id='cggate';
+    d.innerHTML='<div class="kaart"><h1>Health CG</h1><p>Vertrouwelijk werkdocument \u2014 voer het wachtwoord in.</p><input type="password" placeholder="wachtwoord" autocomplete="current-password"><button>Open</button><div class="fout"></div></div>';
+    document.body.appendChild(d);
+    var inp=d.querySelector('input'), btn=d.querySelector('button'), fout=d.querySelector('.fout');
+    function probeer(){
+      sha(inp.value.trim().toLowerCase(), function(h){
+        if(h===HASH){ try{localStorage.setItem(KEY,HASH);}catch(e){} d.remove(); st.remove(); }
+        else { fout.textContent='Dat is hem niet \u2014 probeer opnieuw.'; inp.select(); }
+      });
+    }
+    btn.addEventListener('click', probeer);
+    inp.addEventListener('keydown', function(e){ if(e.key==='Enter') probeer(); });
+    inp.focus();
+  }
+  if(document.body){ bouw(); } else { document.addEventListener('DOMContentLoaded', bouw); }
+})();
+</script>
+
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
 <g id="boo-body"><path d="M50 8 C56 2 66 2 68 9 C64 15 55 16 50 12 Z" fill="#27A577" opacity=".9"/><path d="M50 13 C50 9 50 6 52 3" stroke="#17795A" stroke-width="2.4" fill="none" stroke-linecap="round"/><ellipse cx="50" cy="58" rx="38" ry="42" fill="#27A577"/><ellipse cx="50" cy="66" rx="26" ry="24" fill="#FFFFFF" opacity=".22"/><circle cx="31" cy="60" r="4.5" fill="#FD817A" opacity=".55"/><circle cx="69" cy="60" r="4.5" fill="#FD817A" opacity=".55"/></g>
