@@ -102,8 +102,17 @@ table.fin .neg{color:var(--coral); font-weight:700}
 table.fin .pos{color:var(--ok); font-weight:700}
 
 .knoppen{background:var(--card); border:1px solid var(--hair); border-radius:16px; padding:20px 22px; margin-top:20px; box-shadow:var(--shadow)}
-.knop{display:grid; grid-template-columns:280px 1fr 110px; gap:14px; align-items:center; padding:10px 0; border-bottom:1px dashed var(--hair); font-size:.88rem}
+.knop{display:grid; grid-template-columns:280px 1fr 96px auto; gap:14px; align-items:center; padding:10px 0; border-bottom:1px dashed var(--hair); font-size:.88rem}
 .knop:last-of-type{border-bottom:none}
+.perjaar{border:1px solid var(--hair); background:var(--card); color:var(--teal-deep); border-radius:99px; font-size:.7rem; font-weight:700; padding:5px 11px; white-space:nowrap}
+.perjaar:hover{border-color:var(--teal)}
+.jaarrij{display:grid; grid-template-columns:repeat(5,1fr); gap:10px; padding:4px 0 16px; border-bottom:1px dashed var(--hair)}
+.jaarrij[hidden]{display:none}
+.jaarrij .jr{background:color-mix(in srgb, var(--muted) 5%, transparent); border:1px solid var(--hair); border-radius:10px; padding:8px 10px; text-align:center; font-size:.7rem; color:var(--muted)}
+.jaarrij .jr b{display:block; color:var(--ink); font-size:.76rem}
+.jaarrij .jr input{width:100%; accent-color:var(--teal); margin:4px 0 2px}
+.jaarrij .jr output{display:block; font-weight:700; color:var(--teal-deep); font-size:.78rem}
+@media(max-width:700px){.knop{grid-template-columns:1fr auto} .jaarrij{grid-template-columns:repeat(2,1fr)}}
 .knop label b{display:block}
 .knop label small{color:var(--muted); font-size:.76rem}
 .knop input[type=range]{width:100%; accent-color:var(--teal)}
@@ -187,6 +196,13 @@ footer{padding:36px 0 56px; color:var(--muted); font-size:.8rem}
       <div class="legende" id="leg-kosten"></div>
       <div class="chartvak"><svg id="ch-kosten" viewBox="0 0 720 300" role="img" aria-label="Gestapelde kosten per jaar per teamblok"></svg></div>
     </div>
+
+    <div class="chartkaart">
+      <h3>Het team in koppen — FTE per jaar</h3>
+      <div class="sub">einde jaar · de coaches staan apart: zij schalen met de gebruikers, de rest is de vaste kern</div>
+      <div class="legende" id="leg-fte"></div>
+      <div class="chartvak"><svg id="ch-fte" viewBox="0 0 720 300" role="img" aria-label="FTE per jaar per organisatiecomponent"></svg></div>
+    </div>
   </div>
 </section>
 
@@ -259,14 +275,21 @@ footer{padding:36px 0 56px; color:var(--muted); font-size:.8rem}
 
     <div class="knoppen">
       <p style="font-size:.76rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--teal-deep)">Opbrengstknoppen</p>
-      <div class="knop"><label><b>Actieve gebruikers in 2028</b><small>de hele gebruikerscurve schaalt mee · basisscenario: 120k</small></label><input type="range" id="k-act" min="50" max="300" step="10" value="120"><output id="o-act">120k</output></div>
-      <div class="knop"><label><b>Fees &amp; commissies per actieve gebruiker</b><small>doorverwijsfees + merkcommissies, per jaar (op kruissnelheid)</small></label><input type="range" id="k-fee" min="10" max="60" step="5" value="35"><output id="o-fee">€ 35</output></div>
-      <div class="knop"><label><b>Derde-betalers per actieve gebruiker</b><small>werkgevers, mutualiteiten, verzekeraars, per jaar (op kruissnelheid)</small></label><input type="range" id="k-dp" min="0" max="40" step="5" value="25"><output id="o-dp">€ 25</output></div>
+      <div class="knop"><label><b>Actieve gebruikers in 2028</b><small>de hele gebruikerscurve schaalt mee · basisscenario: 120k</small></label><input type="range" id="k-act" min="50" max="300" step="10" value="120"><output id="o-act">120k</output><button class="perjaar" data-j="act">▸ per jaar</button></div>
+      <div class="jaarrij" id="j-act" hidden></div>
+      <div class="knop"><label><b>Fees &amp; commissies per actieve gebruiker</b><small>doorverwijsfees + merkcommissies, per jaar (op kruissnelheid)</small></label><input type="range" id="k-fee" min="10" max="60" step="5" value="35"><output id="o-fee">€ 35</output><button class="perjaar" data-j="fee">▸ per jaar</button></div>
+      <div class="jaarrij" id="j-fee" hidden></div>
+      <div class="knop"><label><b>Derde-betalers per actieve gebruiker</b><small>werkgevers, mutualiteiten, verzekeraars, per jaar (op kruissnelheid)</small></label><input type="range" id="k-dp" min="0" max="40" step="5" value="25"><output id="o-dp">€ 25</output><button class="perjaar" data-j="dp">▸ per jaar</button></div>
+      <div class="jaarrij" id="j-dp" hidden></div>
       <p style="margin-top:14px; font-size:.76rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--teal-deep)">Kostenknoppen — FTE per organisatiecomponent</p>
-      <div class="knop"><label><b>Coach-ratio (Vakmanschap)</b><small>actieve gebruikers per hub-coach — hoe AI-first durven we te zijn?</small></label><input type="range" id="k-ratio" min="1000" max="5000" step="250" value="2500"><output id="o-ratio">1 : 2.500</output></div>
-      <div class="knop"><label><b>Vakmanschap-kern (2028)</b><small>gezondheidstaal, food-vakmanschap, curatie, academy — excl. coaches; de jaren schalen mee</small></label><input type="range" id="k-vk" min="2" max="16" step="2" value="6"><output id="o-vk">6 FTE</output></div>
-      <div class="knop"><label><b>Health Advisory (2028)</b><small>digitale advisory + fysieke journeys; de jaren schalen mee</small></label><input type="range" id="k-ha" min="10" max="40" step="2" value="20"><output id="o-ha">20 FTE</output></div>
-      <div class="knop"><label><b>Marketing &amp; Communicatie (2028)</b><small>marketing, klantecosysteem, interne change; de jaren schalen mee</small></label><input type="range" id="k-mc" min="4" max="24" step="2" value="10"><output id="o-mc">10 FTE</output></div>
+      <div class="knop"><label><b>Coach-ratio (Vakmanschap)</b><small>actieve gebruikers per hub-coach — hoe AI-first durven we te zijn?</small></label><input type="range" id="k-ratio" min="1000" max="5000" step="250" value="2500"><output id="o-ratio">1 : 2.500</output><button class="perjaar" data-j="ratio">▸ per jaar</button></div>
+      <div class="jaarrij" id="j-ratio" hidden></div>
+      <div class="knop"><label><b>Vakmanschap-kern (2028)</b><small>gezondheidstaal, food-vakmanschap, curatie, academy — excl. coaches; de jaren schalen mee</small></label><input type="range" id="k-vk" min="2" max="16" step="2" value="6"><output id="o-vk">6 FTE</output><button class="perjaar" data-j="vk">▸ per jaar</button></div>
+      <div class="jaarrij" id="j-vk" hidden></div>
+      <div class="knop"><label><b>Health Advisory (2028)</b><small>digitale advisory + fysieke journeys; de jaren schalen mee</small></label><input type="range" id="k-ha" min="10" max="40" step="2" value="20"><output id="o-ha">20 FTE</output><button class="perjaar" data-j="ha">▸ per jaar</button></div>
+      <div class="jaarrij" id="j-ha" hidden></div>
+      <div class="knop"><label><b>Marketing &amp; Communicatie (2028)</b><small>marketing, klantecosysteem, interne change; de jaren schalen mee</small></label><input type="range" id="k-mc" min="4" max="24" step="2" value="10"><output id="o-mc">10 FTE</output><button class="perjaar" data-j="mc">▸ per jaar</button></div>
+      <div class="jaarrij" id="j-mc" hidden></div>
       <div class="uitkomst">
         <div class="u"><b id="u-kost">—</b><small>kosten 2028</small></div>
         <div class="u"><b id="u-omzet">—</b><small>opbrengsten 2028</small></div>
@@ -286,35 +309,45 @@ footer{padding:36px 0 56px; color:var(--muted); font-size:.8rem}
 </footer>
 
 <script>
-/* ============ reactief model (werkhypothese) — de knoppen sturen álles ============ */
+/* ============ reactief model per jaar (werkhypothese) — de knoppen sturen álles ============ */
 const JAREN = [2026, 2027, 2028, 2029, 2030];
 const HALF = [0.5, 1, 1, 1, 1];             // 2026 = half opstartjaar
 const NIETPERS = [0.8, 1.5, 3.5, 3.0, 3.5]; // M€: tech, media, certificering, boxes
 const FTEKOST = 0.11;                        // M€ loaded per FTE
-const ACT_BASE = [10, 40, 120, 250, 400];    // ×1.000 maandelijks actief
 const RIJPING = [0.15, 0.6, 1.0, 1.15, 1.25];// stromen rijpen: eerst bewijs, dan geld
+const ACT_BASE = [10, 40, 120, 250, 400];    // ×1.000 maandelijks actief
+const VK_BASE = [2, 4, 6, 8, 10];            // vakmanschap-kern (excl. coaches)
 const HA_BASE = [8, 14, 20, 20, 22];         // health advisory
 const MC_BASE = [1, 6, 10, 12, 14];          // marketing & communicatie
-const VK_BASE = [2, 4, 6, 8, 10];            // vakmanschap-kern (excl. coaches)
-const BASIS = {act: 120, ratio: 2500, fee: 35, dp: 25, vk: 6, ha: 20, mc: 10};
-const P = Object.assign({}, BASIS);
+const MASTER_BASIS = {act: 120, fee: 35, dp: 25, ratio: 2500, vk: 6, ha: 20, mc: 10};
+
+/* de eigenlijke staat: per parameter een waarde per jaar */
+const P = {};
+function zetVanMaster(k, v){
+  switch(k){
+    case 'act':   P.act = ACT_BASE.map(a => Math.round(a * v / 120)); break;
+    case 'fee':   P.fee = RIJPING.map(r => Math.round(v * r)); break;
+    case 'dp':    P.dp = RIJPING.map(r => Math.round(v * r)); break;
+    case 'ratio': P.ratio = JAREN.map(() => v); break;
+    case 'vk':    P.vk = VK_BASE.map(x => Math.round(x * v / 6)); break;
+    case 'ha':    P.ha = HA_BASE.map(x => Math.round(x * v / 20)); break;
+    case 'mc':    P.mc = MC_BASE.map(x => Math.round(x * v / 10)); break;
+  }
+}
+Object.entries(MASTER_BASIS).forEach(([k, v]) => zetVanMaster(k, v));
 
 function model(){
-  const f = P.act / 120;
-  const act = ACT_BASE.map(a => Math.round(a * f));
-  const coaches = act.map(a => Math.max(1, Math.round(a * 1000 / P.ratio)));
-  const vk = VK_BASE.map(v => Math.round(v * P.vk / 6));
-  const ha = HA_BASE.map(v => Math.round(v * P.ha / 20));
-  const mc = MC_BASE.map(v => Math.round(v * P.mc / 10));
-  const fteTot = JAREN.map((_, j) => coaches[j] + vk[j] + ha[j] + mc[j]);
+  const act = P.act;
+  const coaches = act.map((a, j) => Math.max(1, Math.round(a * 1000 / P.ratio[j])));
+  const fteTot = JAREN.map((_, j) => coaches[j] + P.vk[j] + P.ha[j] + P.mc[j]);
   const kosten = JAREN.map((_, j) => +(fteTot[j] * FTEKOST * HALF[j] + NIETPERS[j]).toFixed(1));
   const strom = [
-    {naam: 'doorverwijsfees specialisten', kleur: '--c-coach', m: act.map((a, j) => +(a * 1000 * P.fee * 0.4 * RIJPING[j] / 1e6).toFixed(1))},
-    {naam: 'merkcommissies', kleur: '--c-build', m: act.map((a, j) => +(a * 1000 * P.fee * 0.6 * RIJPING[j] / 1e6).toFixed(1))},
-    {naam: 'derde-betalers', kleur: '--c-mkt', m: act.map((a, j) => +(a * 1000 * P.dp * RIJPING[j] / 1e6).toFixed(1))}
+    {naam: 'doorverwijsfees specialisten', kleur: '--c-coach', m: act.map((a, j) => +(a * 1000 * P.fee[j] * 0.4 / 1e6).toFixed(1))},
+    {naam: 'merkcommissies', kleur: '--c-build', m: act.map((a, j) => +(a * 1000 * P.fee[j] * 0.6 / 1e6).toFixed(1))},
+    {naam: 'derde-betalers', kleur: '--c-mkt', m: act.map((a, j) => +(a * 1000 * P.dp[j] / 1e6).toFixed(1))}
   ];
   const omzet = JAREN.map((_, j) => +strom.reduce((s, x) => s + x.m[j], 0).toFixed(1));
-  return {act, coaches, vk, ha, mc, fteTot, kosten, strom, omzet};
+  return {act, coaches, fteTot, kosten, strom, omzet};
 }
 
 /* ============ hulpjes ============ */
@@ -325,10 +358,12 @@ function tipToon(e, tekst){ tip.textContent = tekst; tip.style.opacity = 1; tip.
 function tipWeg(){ tip.style.opacity = 0; }
 function el(tag, at){ const n = document.createElementNS(NS, tag); for (const k in at) n.setAttribute(k, at[k]); return n; }
 function fmtM(v){ return '€ ' + String(v).replace('.', ',') + 'M'; }
-function maxNice(v){ return Math.max(8, Math.ceil(v / 4) * 4); }
+function fmtFTE(v){ return v + ' FTE'; }
+function maxNice(v, stap){ stap = stap || 4; return Math.max(stap * 2, Math.ceil(v / stap) * stap); }
 
 /* ============ gestapelde staven ============ */
-function stapelChart(svgId, segmentenPerJaar, maxY){
+function stapelChart(svgId, segmentenPerJaar, maxY, fmt){
+  fmt = fmt || fmtM;
   const svg = document.getElementById(svgId);
   svg.innerHTML = '';
   const W = 720, H = 300, padL = 44, padB = 30, padT = 26;
@@ -350,12 +385,12 @@ function stapelChart(svgId, segmentenPerJaar, maxY){
       y -= h; totaal += s.w;
       const laatste = i === segs.length - 1;
       const r = el('rect', {x: x, y: y + 1, width: bw, height: Math.max(1, h - 2), fill: css(s.kleur), rx: laatste ? 4 : 0});
-      r.addEventListener('mousemove', e => tipToon(e, s.naam + ' · ' + fmtM(s.w) + ' (' + jaar + ')'));
+      r.addEventListener('mousemove', e => tipToon(e, s.naam + ' · ' + fmt(s.w) + ' (' + jaar + ')'));
       r.addEventListener('mouseleave', tipWeg);
       svg.appendChild(r);
     });
     const lbl = el('text', {x: x + bw / 2, y: y - 7, 'text-anchor': 'middle', 'font-size': 12, 'font-weight': 700, fill: css('--ink')});
-    lbl.textContent = fmtM(+totaal.toFixed(1)); svg.appendChild(lbl);
+    lbl.textContent = fmt(+totaal.toFixed(1)); svg.appendChild(lbl);
     const xt = el('text', {x: x + bw / 2, y: H - 8, 'text-anchor': 'middle', 'font-size': 12, fill: css('--muted')});
     xt.textContent = jaar; svg.appendChild(xt);
   });
@@ -380,7 +415,6 @@ function lijnChart(kosten, omzet){
   }
   const px = j => padL + plotW * j / (JAREN.length - 1);
   const py = v => padT + plotH - v / maxY * plotH;
-  // break-even-markering: eerste kruising van omzet boven kosten
   let bx = null;
   for (let j = 1; j < JAREN.length; j++){
     const d0 = omzet[j-1] - kosten[j-1], d1 = omzet[j] - kosten[j];
@@ -418,7 +452,7 @@ function gebruikersChart(act){
   svg.innerHTML = '';
   const W = 720, H = 170, padL = 44, padB = 28, padT = 18;
   const plotH = H - padB - padT, plotW = W - padL - 16, bw = 52, stap = plotW / JAREN.length;
-  const maxY = maxNice(Math.max(...act));
+  const maxY = maxNice(Math.max(...act), 50);
   JAREN.forEach((jaar, j) => {
     const x = padL + stap * j + (stap - bw) / 2;
     const h = Math.max(3, act[j] / maxY * plotH);
@@ -437,8 +471,11 @@ function gebruikersChart(act){
 function bouwTabel(M){
   const rijen = [
     ['Actieve gebruikers (×1.000)', ...M.act],
+    ['Hub-coaches (schalen met gebruikers)', ...M.coaches],
+    ['Vakmanschap-kern', ...P.vk],
+    ['Health Advisory', ...P.ha],
+    ['Marketing & Communicatie', ...P.mc],
     ['FTE totaal', ...M.fteTot],
-    ['— waarvan hub-coaches (in Vakmanschap)', ...M.coaches],
     ['Kosten (€M)', ...M.kosten],
     ['Opbrengsten (€M)', ...M.omzet],
     ['Saldo (€M)', ...JAREN.map((_, j) => +(M.omzet[j] - M.kosten[j]).toFixed(1))]
@@ -460,60 +497,104 @@ function bouwTegels(M){
   let cum = 0, diepste = 0;
   JAREN.forEach((_, j) => { cum += M.omzet[j] - M.kosten[j]; if (cum < diepste) diepste = cum; });
   document.getElementById('t-inv').textContent = '± € ' + Math.abs(diepste).toFixed(0) + 'M';
-  const kA = j => Math.round(M.kosten[j] / M.act[j] * 1000 / 5) * 5;
+  const kA = j => Math.round(M.kosten[j] / Math.max(1, M.act[j]) * 1000 / 5) * 5;
   document.getElementById('t-kost').textContent = '€ ' + kA(0) + ' → € ' + kA(4);
-  document.getElementById('t-arpu').textContent = '€ ' + Math.round(M.omzet[4] / M.act[4] * 1000);
+  document.getElementById('t-arpu').textContent = '€ ' + Math.round(M.omzet[4] / Math.max(1, M.act[4]) * 1000);
 }
 
 /* ============ alles herbouwen ============ */
 function rebuild(){
   const M = model();
-  stapelChart('ch-kosten', j => {
-    return [
-      {naam: 'vakmanschap — incl. de coaches', kleur: '--c-coach', w: +((M.vk[j] + M.coaches[j]) * FTEKOST * HALF[j]).toFixed(1)},
-      {naam: 'health advisory — digitaal & fysiek', kleur: '--c-build', w: +(M.ha[j] * FTEKOST * HALF[j]).toFixed(1)},
-      {naam: 'marketing, communicatie & change', kleur: '--c-mkt', w: +(M.mc[j] * FTEKOST * HALF[j]).toFixed(1)},
-      {naam: 'niet-personeel', kleur: '--c-niet', w: NIETPERS[j]}
-    ];
-  }, maxNice(Math.max(...M.kosten)));
+  stapelChart('ch-kosten', j => [
+    {naam: 'vakmanschap — incl. de coaches', kleur: '--c-coach', w: +((P.vk[j] + M.coaches[j]) * FTEKOST * HALF[j]).toFixed(1)},
+    {naam: 'health advisory — digitaal & fysiek', kleur: '--c-build', w: +(P.ha[j] * FTEKOST * HALF[j]).toFixed(1)},
+    {naam: 'marketing, communicatie & change', kleur: '--c-mkt', w: +(P.mc[j] * FTEKOST * HALF[j]).toFixed(1)},
+    {naam: 'niet-personeel', kleur: '--c-niet', w: NIETPERS[j]}
+  ], maxNice(Math.max(...M.kosten)));
+  stapelChart('ch-fte', j => [
+    {naam: 'hub-coaches', kleur: '--c-coach', w: M.coaches[j]},
+    {naam: 'health advisory', kleur: '--c-build', w: P.ha[j]},
+    {naam: 'marketing & communicatie', kleur: '--c-mkt', w: P.mc[j]},
+    {naam: 'vakmanschap-kern', kleur: '--c-run', w: P.vk[j]}
+  ], maxNice(Math.max(...M.fteTot), 50), fmtFTE);
   stapelChart('ch-omzet', j => M.strom.map(s => ({naam: s.naam, kleur: s.kleur, w: s.m[j]})), maxNice(Math.max(...M.omzet)));
   lijnChart(M.kosten, M.omzet);
   gebruikersChart(M.act);
   bouwTabel(M);
   bouwTegels(M);
-  // 2028-uitkomsten (jaarindex 2)
   document.getElementById('u-kost').textContent = fmtM(M.kosten[2]);
   document.getElementById('u-omzet').textContent = fmtM(M.omzet[2]);
   const saldo = +(M.omzet[2] - M.kosten[2]).toFixed(1);
   const s = document.getElementById('u-saldo');
   s.textContent = (saldo >= 0 ? '+ ' : '− ') + fmtM(Math.abs(saldo));
   s.style.color = saldo >= 0 ? css('--ok') : css('--coral');
-  const vast = (M.vk[2] + M.ha[2] + M.mc[2]) * FTEKOST + NIETPERS[2];
-  const marge = (P.fee + P.dp) - 110000 / P.ratio;
+  const vast = (P.vk[2] + P.ha[2] + P.mc[2]) * FTEKOST + NIETPERS[2];
+  const marge = (P.fee[2] + P.dp[2]) - 110000 / P.ratio[2];
   document.getElementById('u-be').textContent = marge > 0 ? '± ' + Math.round(vast * 1e6 / marge / 1000) + 'k' : 'nooit — marge per gebruiker is negatief';
 }
 
-/* ============ knoppen ============ */
-const KNOPPEN = [
-  {id: 'k-act',   p: 'act',   uit: v => v + 'k'},
-  {id: 'k-fee',   p: 'fee',   uit: v => '€ ' + v},
-  {id: 'k-dp',    p: 'dp',    uit: v => '€ ' + v},
-  {id: 'k-ratio', p: 'ratio', uit: v => '1 : ' + v.toLocaleString('nl-BE')},
-  {id: 'k-vk',    p: 'vk',    uit: v => v + ' FTE'},
-  {id: 'k-ha',    p: 'ha',    uit: v => v + ' FTE'},
-  {id: 'k-mc',    p: 'mc',    uit: v => v + ' FTE'}
+/* ============ knoppen: masters + per-jaar ============ */
+const KNOPCFG = {
+  act:   {fmt: v => v + 'k',   minJ: [0,10,50,50,100],       maxJ: [60,150,300,700,1200],      stepJ: [5,10,10,25,50]},
+  fee:   {fmt: v => '€ ' + v,  minJ: [0,0,0,0,0],            maxJ: [30,45,60,75,90],           stepJ: [1,1,1,1,1]},
+  dp:    {fmt: v => '€ ' + v,  minJ: [0,0,0,0,0],            maxJ: [15,30,40,55,65],           stepJ: [1,1,1,1,1]},
+  ratio: {fmt: v => '1 : ' + (+v).toLocaleString('nl-BE'), minJ: [1000,1000,1000,1000,1000], maxJ: [5000,5000,5000,5000,5000], stepJ: [250,250,250,250,250]},
+  vk:    {fmt: v => v + ' FTE', minJ: [0,0,0,0,0],           maxJ: [8,12,16,20,24],            stepJ: [1,1,1,1,1]},
+  ha:    {fmt: v => v + ' FTE', minJ: [0,0,0,0,0],           maxJ: [20,28,40,40,44],           stepJ: [1,1,1,1,1]},
+  mc:    {fmt: v => v + ' FTE', minJ: [0,0,0,0,0],           maxJ: [8,16,24,28,28],            stepJ: [1,1,1,1,1]}
+};
+const jaarInputs = {};
+function bouwJaarrijen(){
+  Object.entries(KNOPCFG).forEach(([k, cfg]) => {
+    const wrap = document.getElementById('j-' + k);
+    wrap.innerHTML = JAREN.map((jaar, j) =>
+      `<div class="jr"><b>${jaar}</b><input type="range" min="${cfg.minJ[j]}" max="${cfg.maxJ[j]}" step="${cfg.stepJ[j]}" data-j="${j}"><output></output></div>`).join('');
+    jaarInputs[k] = Array.prototype.slice.call(wrap.querySelectorAll('input'));
+    jaarInputs[k].forEach(inp => inp.addEventListener('input', () => {
+      P[k][+inp.dataset.j] = +inp.value;
+      inp.parentElement.querySelector('output').textContent = cfg.fmt(+inp.value);
+      rebuild();
+    }));
+  });
+}
+function refreshJaar(k){
+  const cfg = KNOPCFG[k];
+  jaarInputs[k].forEach((inp, j) => {
+    inp.value = P[k][j];
+    inp.parentElement.querySelector('output').textContent = cfg.fmt(P[k][j]);
+  });
+}
+const MASTERS = [
+  {id: 'k-act',   k: 'act',   uit: v => v + 'k'},
+  {id: 'k-fee',   k: 'fee',   uit: v => '€ ' + v},
+  {id: 'k-dp',    k: 'dp',    uit: v => '€ ' + v},
+  {id: 'k-ratio', k: 'ratio', uit: v => '1 : ' + v.toLocaleString('nl-BE')},
+  {id: 'k-vk',    k: 'vk',    uit: v => v + ' FTE'},
+  {id: 'k-ha',    k: 'ha',    uit: v => v + ' FTE'},
+  {id: 'k-mc',    k: 'mc',    uit: v => v + ' FTE'}
 ];
-KNOPPEN.forEach(k => {
-  const inp = document.getElementById(k.id);
-  const out = document.getElementById('o-' + k.id.slice(2));
-  inp.addEventListener('input', () => { P[k.p] = +inp.value; out.textContent = k.uit(+inp.value); rebuild(); });
+MASTERS.forEach(m => {
+  const inp = document.getElementById(m.id);
+  inp.addEventListener('input', () => {
+    zetVanMaster(m.k, +inp.value);
+    document.getElementById('o-' + m.k).textContent = m.uit(+inp.value);
+    refreshJaar(m.k);
+    rebuild();
+  });
+});
+document.querySelectorAll('.perjaar').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const rij = document.getElementById('j-' + btn.dataset.j);
+    rij.hidden = !rij.hidden;
+    btn.textContent = (rij.hidden ? '▸' : '▾') + ' per jaar';
+  });
 });
 document.getElementById('k-reset').addEventListener('click', () => {
-  Object.assign(P, BASIS);
-  KNOPPEN.forEach(k => {
-    const inp = document.getElementById(k.id);
-    inp.value = P[k.p];
-    document.getElementById('o-' + k.id.slice(2)).textContent = k.uit(P[k.p]);
+  Object.entries(MASTER_BASIS).forEach(([k, v]) => zetVanMaster(k, v));
+  MASTERS.forEach(m => {
+    document.getElementById(m.id).value = MASTER_BASIS[m.k];
+    document.getElementById('o-' + m.k).textContent = m.uit(MASTER_BASIS[m.k]);
+    refreshJaar(m.k);
   });
   rebuild();
 });
@@ -525,11 +606,19 @@ legende('leg-kosten', [
   {naam: 'marketing, communicatie & change', kleur: '--c-mkt'},
   {naam: 'niet-personeel', kleur: '--c-niet'}
 ]);
+legende('leg-fte', [
+  {naam: 'hub-coaches', kleur: '--c-coach'},
+  {naam: 'health advisory', kleur: '--c-build'},
+  {naam: 'marketing & communicatie', kleur: '--c-mkt'},
+  {naam: 'vakmanschap-kern', kleur: '--c-run'}
+]);
 legende('leg-omzet', [
   {naam: 'doorverwijsfees specialisten', kleur: '--c-coach'},
   {naam: 'merkcommissies', kleur: '--c-build'},
   {naam: 'derde-betalers', kleur: '--c-mkt'}
 ]);
+bouwJaarrijen();
+Object.keys(KNOPCFG).forEach(refreshJaar);
 rebuild();
 
 </script>
