@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Financieel model — Health CG</title>
+<style>
+:root{
+  --teal:#00887B; --teal-deep:#00695F; --teal-soft:rgba(0,136,123,.1);
+  --ink:#1A1A1A; --muted:#5A5A55; --hair:#DDD9CF;
+  --bg:#F7F6F2; --card:#FFFFFF;
+  --geel:#B98800; --blauw:#2F6FE4; --coral:#D95550; --paars:#8A2FAC;
+  --ok:#1E9066; --shadow:0 10px 30px rgba(20,20,20,.08);
+  --c-coach:#00887B; --c-build:#2F6FE4; --c-mkt:#B98800; --c-run:#8A2FAC; --c-change:#D95550; --c-niet:#8A867E;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --teal:#2FB3A4; --teal-deep:#57C9BB; --teal-soft:rgba(47,179,164,.14);
+    --ink:#EDEBE6; --muted:#A5A19A; --hair:#3A3831;
+    --bg:#141311; --card:#1E1C19;
+    --geel:#E5B94C; --blauw:#7AA9FF; --coral:#F08A86; --paars:#C273E0;
+    --ok:#34C08D; --shadow:0 10px 30px rgba(0,0,0,.4);
+    --c-coach:#26A695; --c-build:#5B8BF5; --c-mkt:#B8892E; --c-run:#B565D6; --c-change:#DD6B67; --c-niet:#8A867E;
+  }
+}
+:root[data-theme="dark"]{
+  --teal:#2FB3A4; --teal-deep:#57C9BB; --teal-soft:rgba(47,179,164,.14);
+  --ink:#EDEBE6; --muted:#A5A19A; --hair:#3A3831;
+  --bg:#141311; --card:#1E1C19;
+  --geel:#E5B94C; --blauw:#7AA9FF; --coral:#F08A86; --paars:#C273E0;
+  --ok:#34C08D; --shadow:0 10px 30px rgba(0,0,0,.4);
+  --c-coach:#26A695; --c-build:#5B8BF5; --c-mkt:#B8892E; --c-run:#B565D6; --c-change:#DD6B67; --c-niet:#8A867E;
+}
+*{margin:0; padding:0; box-sizing:border-box}
+@media (prefers-reduced-motion: reduce){*{animation:none !important; transition:none !important}}
+body{font-family:Calibri,"Segoe UI",-apple-system,sans-serif; background:var(--bg); color:var(--ink); line-height:1.55}
+b{font-weight:700}
+button{font-family:inherit; cursor:pointer}
+.wrap{max-width:1080px; margin:0 auto; padding:0 24px}
+
+.topbar{display:flex; gap:14px; align-items:center; padding:12px 24px; font-size:.8rem; color:var(--muted); border-bottom:1px solid var(--hair)}
+.topbar a{color:var(--teal-deep); font-weight:700; text-decoration:none}
+.topbar .tbcur{color:var(--teal-deep); font-weight:700; padding-bottom:2px; border-bottom:2px solid var(--teal)}
+.topbar .spacer{flex:1}
+
+header.hero{padding:48px 0 12px}
+.eyebrow{font-size:.72rem; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:var(--teal-deep)}
+h1{font-size:2rem; letter-spacing:-.02em; line-height:1.15; margin-top:8px}
+.lead{margin-top:12px; max-width:54em; color:var(--muted); font-size:1.02rem}
+.wh-chip{display:inline-block; margin-top:14px; background:color-mix(in srgb, var(--coral) 12%, transparent); border:1.5px dashed var(--coral); color:var(--coral); font-weight:700; font-size:.82rem; border-radius:99px; padding:7px 16px}
+
+section{padding:34px 0 6px}
+h2{font-size:1.45rem; letter-spacing:-.015em}
+h2 small{display:block; font-size:.85rem; font-weight:400; color:var(--muted); margin-top:4px}
+.secnr{font-size:.72rem; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:var(--teal-deep)}
+
+.blokken{display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:12px; margin-top:18px}
+.blok{background:var(--card); border:1px solid var(--hair); border-radius:14px; padding:15px 17px; font-size:.88rem; box-shadow:var(--shadow); border-left:5px solid var(--bc, var(--hair))}
+.blok b{display:block}
+.blok small{color:var(--muted); display:block; margin-top:3px}
+.blok .fte{margin-top:8px; font-size:.76rem; color:var(--muted)}
+.blok .fte b{display:inline; color:var(--ink)}
+
+.chartkaart{background:var(--card); border:1px solid var(--hair); border-radius:16px; padding:20px 22px; margin-top:20px; box-shadow:var(--shadow)}
+.chartkaart h3{font-size:1.02rem}
+.chartkaart .sub{font-size:.8rem; color:var(--muted); margin-top:2px}
+.legende{display:flex; flex-wrap:wrap; gap:14px; margin-top:12px; font-size:.78rem; color:var(--muted)}
+.legende span{display:flex; align-items:center; gap:6px}
+.legende i{width:12px; height:12px; border-radius:4px; display:inline-block}
+.chartvak{margin-top:14px; overflow-x:auto}
+.chartvak svg{display:block; min-width:560px; width:100%; height:auto}
+
+#tip{position:fixed; z-index:50; pointer-events:none; background:var(--ink); color:var(--bg); font-size:.76rem; font-weight:700; border-radius:8px; padding:6px 10px; opacity:0; transition:opacity .1s ease}
+
+.stromen{margin-top:18px; background:var(--card); border:1px solid var(--hair); border-radius:14px; box-shadow:var(--shadow); overflow:hidden}
+.stromen .sr{display:grid; grid-template-columns:1fr auto 1.4fr auto 1fr; gap:10px; align-items:center; padding:12px 18px; border-bottom:1px dashed var(--hair); font-size:.86rem}
+.stromen .sr:last-child{border-bottom:none}
+.stromen .sr .pijl{color:var(--teal-deep); font-weight:700}
+.stromen .sr .wat{color:var(--muted)}
+.stromen .sr .wat b{color:var(--ink)}
+.stromen .sr .van,.stromen .sr .naar{font-weight:700}
+.stromen .gratis{background:var(--teal-soft)}
+@media(max-width:700px){.stromen .sr{grid-template-columns:1fr; gap:3px} .stromen .sr .pijl{display:none}}
+
+.units{display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:12px; margin-top:16px}
+.unit{background:var(--card); border:1px solid var(--hair); border-radius:12px; padding:14px 16px; font-size:.84rem}
+.unit b{display:block; font-size:1.05rem; color:var(--teal-deep)}
+.unit small{color:var(--muted)}
+
+.tegels{display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:12px; margin-top:18px}
+.tegel{background:var(--card); border:1px solid var(--hair); border-radius:14px; padding:16px 18px; box-shadow:var(--shadow)}
+.tegel b{font-size:1.45rem; letter-spacing:-.01em}
+.tegel small{display:block; color:var(--muted); font-size:.8rem; margin-top:3px}
+
+table.fin{width:100%; border-collapse:collapse; margin-top:14px; font-size:.84rem}
+table.fin th{text-align:right; font-size:.72rem; text-transform:uppercase; letter-spacing:.06em; color:var(--muted); padding:8px 10px; border-bottom:1px solid var(--hair)}
+table.fin th:first-child{text-align:left}
+table.fin td{text-align:right; padding:8px 10px; border-bottom:1px dashed var(--hair)}
+table.fin td:first-child{text-align:left; font-weight:700}
+table.fin tr:last-child td{border-bottom:none}
+table.fin .neg{color:var(--coral); font-weight:700}
+table.fin .pos{color:var(--ok); font-weight:700}
+
+.knoppen{background:var(--card); border:1px solid var(--hair); border-radius:16px; padding:20px 22px; margin-top:20px; box-shadow:var(--shadow)}
+.knop{display:grid; grid-template-columns:280px 1fr 110px; gap:14px; align-items:center; padding:10px 0; border-bottom:1px dashed var(--hair); font-size:.88rem}
+.knop:last-of-type{border-bottom:none}
+.knop label b{display:block}
+.knop label small{color:var(--muted); font-size:.76rem}
+.knop input[type=range]{width:100%; accent-color:var(--teal)}
+.knop output{font-weight:700; text-align:right; color:var(--teal-deep)}
+@media(max-width:700px){.knop{grid-template-columns:1fr}}
+.uitkomst{display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr)); gap:12px; margin-top:16px}
+.uitkomst .u{background:var(--teal-soft); border:1px solid var(--teal); border-radius:12px; padding:12px 15px}
+.uitkomst .u b{font-size:1.25rem}
+.uitkomst .u small{display:block; color:var(--muted); font-size:.76rem}
+
+.notabene{margin-top:20px; background:color-mix(in srgb, var(--blauw) 7%, transparent); border:1px dashed color-mix(in srgb, var(--blauw) 45%, transparent); border-radius:12px; padding:14px 17px; font-size:.9rem}
+
+footer{padding:36px 0 56px; color:var(--muted); font-size:.8rem}
+</style>
+</head>
+<body>
+<!-- CG-toegangspoort: eenvoudige wachtwoordlaag (client-side); bij nieuwe pagina's mee overnemen -->
+<script>
+(function(){
+  var KEY='cghealth-toegang', HASH='ceb3fb22db509f33f1e1ecb12f5ebc54b4538344710d40ec550d8d918195f8fc';
+  try{ if(localStorage.getItem(KEY)===HASH) return; }catch(e){}
+  function sha(t,cb){ crypto.subtle.digest('SHA-256', new TextEncoder().encode(t)).then(function(b){ cb(Array.prototype.map.call(new Uint8Array(b), function(x){return x.toString(16).padStart(2,'0');}).join('')); }); }
+  var st=document.createElement('style');
+  st.textContent='body>*:not(#cggate){display:none !important} #cggate{position:fixed; inset:0; display:flex; align-items:center; justify-content:center; background:#F5F5F0; z-index:99999; font-family:Calibri,\'Segoe UI\',sans-serif} #cggate .kaart{background:#fff; border:1px solid #DDD9CF; border-radius:16px; padding:34px 36px; max-width:380px; width:90%; box-shadow:0 12px 34px rgba(20,20,20,.12); text-align:center} #cggate h1{font-size:1.15rem; color:#1A1A1A; margin:0 0 4px} #cggate p{font-size:.85rem; color:#5A5A55; margin:0 0 16px} #cggate input{width:100%; border:1px solid #DDD9CF; border-radius:10px; padding:11px 13px; font:inherit; font-size:.95rem; margin-bottom:10px; box-sizing:border-box} #cggate button{width:100%; border:none; border-radius:10px; background:#00887B; color:#fff; font-weight:700; font-size:.95rem; padding:11px; cursor:pointer; font-family:inherit} #cggate .fout{color:#D95550; font-size:.8rem; min-height:18px; margin-top:8px} @media (prefers-color-scheme: dark){ #cggate{background:#141311} #cggate .kaart{background:#1E1C19; border-color:#3A3831} #cggate h1{color:#EDEBE6} #cggate p{color:#A5A19A} #cggate input{background:#141311; color:#EDEBE6; border-color:#3A3831} }';
+  document.head.appendChild(st);
+  function bouw(){
+    var d=document.createElement('div'); d.id='cggate';
+    d.innerHTML='<div class="kaart"><h1>Health CG</h1><p>Vertrouwelijk werkdocument \u2014 voer het wachtwoord in.</p><input type="password" placeholder="wachtwoord" autocomplete="current-password"><button>Open</button><div class="fout"></div></div>';
+    document.body.appendChild(d);
+    var inp=d.querySelector('input'), btn=d.querySelector('button'), fout=d.querySelector('.fout');
+    function probeer(){
+      sha(inp.value.trim().toLowerCase(), function(h){
+        if(h===HASH){ try{localStorage.setItem(KEY,HASH);}catch(e){} d.remove(); st.remove(); }
+        else { fout.textContent='Dat is hem niet \u2014 probeer opnieuw.'; inp.select(); }
+      });
+    }
+    btn.addEventListener('click', probeer);
+    inp.addEventListener('keydown', function(e){ if(e.key==='Enter') probeer(); });
+    inp.focus();
+  }
+  if(document.body){ bouw(); } else { document.addEventListener('DOMContentLoaded', bouw); }
+})();
+</script>
+
+
+<div id="tip"></div>
+
+<div class="topbar">
+  <a href="health-cg-workshop.html">← Workshop</a>
+  <span class="tbcur">Financieel model</span>
+  <a href="health-cg-yoboo.html">Yoboo POC</a>
+  <a href="health-cg-organisatie.html">Organisatie &amp; Advisory</a>
+  <span class="spacer"></span>
+  <span>werkdocument · vertrouwelijk</span>
+</div>
+
+<header class="hero">
+  <div class="wrap">
+    <span class="eyebrow">Financieel model · Health CG &amp; Health Advisory</span>
+    <h1>Wat kost het, wat brengt het op —<br>en wanneer kantelt het?</h1>
+    <p class="lead">De platform-P&amp;L van Health Advisory: het team dat bouwt, runt, coacht en het ecosysteem beheert aan de kostenzijde — en drie betaalde lagen aan de opbrengstzijde, bovenop een bewust gratis basis. Jaar na jaar, tot het evenwicht.</p>
+    <span class="wh-chip">✏️ Alle cijfers zijn werkhypothesen in ronde bedragen — bedoeld om in de workshop aan te draaien, niet om te boekhouden</span>
+  </div>
+</header>
+
+<section id="kosten">
+  <div class="wrap">
+    <span class="secnr">01 · De kostenzijde</span>
+    <h2>De drie teams uit het organisatiemodel, jaar na jaar <small>Geen aparte bouwers en uitvoerders: elk team bouwt én draait. Eén team schaalt met de gebruikers (Vakmanschap, want dáár zitten de coaches). Gemiddelde loaded kost: € 110k per FTE.</small></h2>
+
+    <div class="blokken">
+      <div class="blok" style="--bc:var(--c-coach)"><b>📖 Vakmanschap — "de inhoud klopt"</b><small>gezondheidsvisie &amp; -taal, Health Food-vakmanschap, curatie van het aanbod, CG Academy — én de coaches: de gezondheidscoaches vallen onder het vakmanschap en brengen de inhoud tot bij de klant, digitaal en fysiek. Yobi doet het dagelijkse werk; spokes (kine, diëtist) zijn zelfstandig en kosten het platform niets.</small><span class="fte">Ratio: <b>1 hub-coach per 2.500 actieve gebruikers</b> — dé kostenknop · 6 → 170 FTE (waarvan coaches 4 → 160)</span></div>
+      <div class="blok" style="--bc:var(--c-build)"><b>🩺 Health Advisory — "de klant en zijn plan"</b><small>digitale health advisory (app, assessments, gezondheidsplan, coach-werkplek, artsenkoppeling — Yoboo verhuist hierheen) plus de fysieke advisory journeys (het shop-in-shop-concept). Bouwt én draait het traject.</small><span class="fte">8 → 22 FTE · piek rond de lancering</span></div>
+      <div class="blok" style="--bc:var(--c-mkt)"><b>📣 Marketing &amp; Communicatie — "het verhaal landt"</b><small>algemene marketing (één stem over de merken heen), het ecosysteem van klanten (eindklanten, merken, partners: artsen, mutualiteiten, werkgevers, specialisten) en de interne change.</small><span class="fte">1 → 14 FTE + mediabudget</span></div>
+      <div class="blok" style="--bc:var(--c-niet)"><b>💻 Niet-personeel</b><small>tech &amp; infra, mediabudget, mHealthBelgium-certificering (M1→M3), health boxes-opstart.</small><span class="fte">€ 0,8M → € 3,5M per jaar</span></div>
+    </div>
+
+    <div class="chartkaart">
+      <h3>Kosten per jaar, per blok</h3>
+      <div class="sub">in € miljoen · 2026 is een half opstartjaar · personeel aan € 110k loaded per FTE</div>
+      <div class="legende" id="leg-kosten"></div>
+      <div class="chartvak"><svg id="ch-kosten" viewBox="0 0 720 300" role="img" aria-label="Gestapelde kosten per jaar per teamblok"></svg></div>
+    </div>
+  </div>
+</section>
+
+<section id="opbrengsten">
+  <div class="wrap">
+    <span class="secnr">02 · De opbrengstzijde</span>
+    <h2>Gratis waar het moet, betaald waar het waarde levert <small>De app is gratis en de eerstelijnscoaching zo goed als gratis — bewust (keuze A5). Geld verschijnt pas op drie plekken.</small></h2>
+
+    <div class="stromen">
+      <div class="sr gratis"><span class="van">Klant</span><span class="pijl">→</span><span class="wat"><b>€ 0 — de app en Yobi</b> · eerstelijnscoaching zo goed als gratis: dit koopt bereik en vertrouwen</span><span class="pijl">→</span><span class="naar">—</span></div>
+      <div class="sr"><span class="van">Klant (of derde-betaler)</span><span class="pijl">→</span><span class="wat"><b>Sessie bij een specialist</b> — kine, diëtist, apotheekservice verdient; het platform int een <b>doorverwijsfee (± 15%)</b></span><span class="pijl">→</span><span class="naar">Specialist + platform</span></div>
+      <div class="sr"><span class="van">Merken (Colruyt, Foodbag, Jims, Newpharma)</span><span class="pijl">→</span><span class="wat"><b>Commissie op toegeschreven bestellingen</b> (± 3%) — het gezonde mandje, de box, het abonnement dat via het plan binnenkomt</span><span class="pijl">→</span><span class="naar">Platform</span></div>
+      <div class="sr"><span class="van">Werkgever · mutualiteit · verzekeraar</span><span class="pijl">→</span><span class="wat"><b>Sponsoring</b> — voor het platform (B2B-contract op cohortbewijs) of voor de klant (gezondheidsbudget, terugbetaling sessies)</span><span class="pijl">→</span><span class="naar">Platform + klant</span></div>
+    </div>
+
+    <div class="units">
+      <div class="unit"><b>€ 7,50</b>per specialistensessie van € 50 (fee 15%)<small> — de specialist houdt € 42,50 én krijgt de klant aangeleverd</small></div>
+      <div class="unit"><b>± € 24 / jaar</b>commissie per actief huishouden<small> — 3% op ± € 800 toegeschreven gezonde omzet per jaar</small></div>
+      <div class="unit"><b>€ 30 / medewerker / jaar</b>werkgeverscontract<small> — plus mutualiteit ± € 5 per terugbetaalde sessie; verzekeraars op cohortprogramma's</small></div>
+    </div>
+
+    <div class="chartkaart">
+      <h3>Opbrengsten per jaar, per stroom</h3>
+      <div class="sub">in € miljoen · groeit met gebruikers én met de rijping van elke stroom (derde-betalers vragen eerst cohortbewijs)</div>
+      <div class="legende" id="leg-omzet"></div>
+      <div class="chartvak"><svg id="ch-omzet" viewBox="0 0 720 300" role="img" aria-label="Gestapelde opbrengsten per jaar per stroom"></svg></div>
+    </div>
+  </div>
+</section>
+
+<section id="evenwicht">
+  <div class="wrap">
+    <span class="secnr">03 · Het evenwicht</span>
+    <h2>Wanneer kantelt het? <small>Kosten groeien met het team; opbrengsten met gebruikers × rijping. In het basisscenario kruisen ze in 2030 — en álles op deze pagina rekent live mee met de knoppen onderaan.</small></h2>
+
+    <div class="chartkaart">
+      <h3>Kosten vs. opbrengsten</h3>
+      <div class="sub">in € miljoen per jaar</div>
+      <div class="legende"><span><i style="background:var(--c-change)"></i>kosten</span><span><i style="background:var(--c-coach)"></i>opbrengsten</span></div>
+      <div class="chartvak"><svg id="ch-lijn" viewBox="0 0 720 280" role="img" aria-label="Lijngrafiek kosten versus opbrengsten per jaar"></svg></div>
+    </div>
+
+    <div class="chartkaart">
+      <h3>Actieve gebruikers per maand</h3>
+      <div class="sub">× 1.000 · registraties liggen ± 2,5× hoger — de motor achter elke opbrengststroom</div>
+      <div class="chartvak"><svg id="ch-gebruikers" viewBox="0 0 720 170" role="img" aria-label="Actieve gebruikers per jaar"></svg></div>
+    </div>
+
+    <div class="tegels">
+      <div class="tegel"><b id="t-be">2030</b><small>break-evenjaar van de platform-P&amp;L bij deze aannames</small></div>
+      <div class="tegel"><b id="t-inv">± € 13M</b><small>maximale cumulatieve investering — dat is de vraag aan de groep</small></div>
+      <div class="tegel"><b id="t-kost">€ 160 → € 66</b><small>kost per actieve gebruiker per jaar, 2026 → 2030 — schaal doet het werk</small></div>
+      <div class="tegel"><b id="t-arpu">€ 74</b><small>opbrengst per actieve gebruiker in 2030, over de drie stromen heen</small></div>
+    </div>
+
+    <div class="chartkaart">
+      <h3>Het basisscenario in één tabel</h3>
+      <div class="sub">alle bedragen in € miljoen · FTE einde jaar · saldo = opbrengsten − kosten</div>
+      <table class="fin" id="fintabel"></table>
+    </div>
+
+    <p class="notabene"><b>Belangrijk om het juist te lezen:</b> dit is de <b>platform-P&amp;L</b>. De € 1 miljard-groepsambitie loopt grotendeels via de mérken: in 2030 stuurt het platform in dit scenario ± € 320M toegeschreven gezonde omzet naar Colruyt, Foodbag, Jims en Newpharma (400k actieven × ± € 800). De commissie hierboven is daar het topje van; de strategische waarde zit in het geheel.</p>
+  </div>
+</section>
+
+<section id="knoppen">
+  <div class="wrap">
+    <span class="secnr">04 · Draai zelf aan de knoppen</span>
+    <h2>De gevoeligheid, live <small>Zeven knoppen: drie aan de opbrengstzijde, vier aan de kostenzijde (FTE per organisatiecomponent). Alle grafieken, de tabel en de kerncijfers hierboven rekenen onmiddellijk mee.</small></h2>
+
+    <div class="knoppen">
+      <p style="font-size:.76rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--teal-deep)">Opbrengstknoppen</p>
+      <div class="knop"><label><b>Actieve gebruikers in 2028</b><small>de hele gebruikerscurve schaalt mee · basisscenario: 120k</small></label><input type="range" id="k-act" min="50" max="300" step="10" value="120"><output id="o-act">120k</output></div>
+      <div class="knop"><label><b>Fees &amp; commissies per actieve gebruiker</b><small>doorverwijsfees + merkcommissies, per jaar (op kruissnelheid)</small></label><input type="range" id="k-fee" min="10" max="60" step="5" value="35"><output id="o-fee">€ 35</output></div>
+      <div class="knop"><label><b>Derde-betalers per actieve gebruiker</b><small>werkgevers, mutualiteiten, verzekeraars, per jaar (op kruissnelheid)</small></label><input type="range" id="k-dp" min="0" max="40" step="5" value="25"><output id="o-dp">€ 25</output></div>
+      <p style="margin-top:14px; font-size:.76rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--teal-deep)">Kostenknoppen — FTE per organisatiecomponent</p>
+      <div class="knop"><label><b>Coach-ratio (Vakmanschap)</b><small>actieve gebruikers per hub-coach — hoe AI-first durven we te zijn?</small></label><input type="range" id="k-ratio" min="1000" max="5000" step="250" value="2500"><output id="o-ratio">1 : 2.500</output></div>
+      <div class="knop"><label><b>Vakmanschap-kern (2028)</b><small>gezondheidstaal, food-vakmanschap, curatie, academy — excl. coaches; de jaren schalen mee</small></label><input type="range" id="k-vk" min="2" max="16" step="2" value="6"><output id="o-vk">6 FTE</output></div>
+      <div class="knop"><label><b>Health Advisory (2028)</b><small>digitale advisory + fysieke journeys; de jaren schalen mee</small></label><input type="range" id="k-ha" min="10" max="40" step="2" value="20"><output id="o-ha">20 FTE</output></div>
+      <div class="knop"><label><b>Marketing &amp; Communicatie (2028)</b><small>marketing, klantecosysteem, interne change; de jaren schalen mee</small></label><input type="range" id="k-mc" min="4" max="24" step="2" value="10"><output id="o-mc">10 FTE</output></div>
+      <div class="uitkomst">
+        <div class="u"><b id="u-kost">—</b><small>kosten 2028</small></div>
+        <div class="u"><b id="u-omzet">—</b><small>opbrengsten 2028</small></div>
+        <div class="u"><b id="u-saldo">—</b><small>saldo 2028</small></div>
+        <div class="u"><b id="u-be">—</b><small>break-even bij dit aantal actieve gebruikers</small></div>
+      </div>
+      <div style="margin-top:14px; display:flex; gap:12px; align-items:center; flex-wrap:wrap">
+        <button id="k-reset" style="border:1px solid var(--hair); background:var(--card); color:var(--ink); border-radius:99px; padding:8px 16px; font-size:.84rem; font-weight:700">↺ Terug naar het basisscenario</button>
+        <p style="font-size:.78rem; color:var(--muted); flex:1; min-width:260px">Rekenregel: kosten = teams × € 110k per FTE + niet-personeel · opbrengsten = actieven × tarieven × rijpingscurve (stromen groeien pas na cohortbewijs). Vereenvoudigd met opzet — het gaat om de knoppen, niet om de komma's.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">Health CG · financieel model — werkhypothese bij de workshop (keuzes A1, A2 en A5) · cijfers afgerond, geen boekhouding</div>
+</footer>
+
+<script>
+/* ============ reactief model (werkhypothese) — de knoppen sturen álles ============ */
+const JAREN = [2026, 2027, 2028, 2029, 2030];
+const HALF = [0.5, 1, 1, 1, 1];             // 2026 = half opstartjaar
+const NIETPERS = [0.8, 1.5, 3.5, 3.0, 3.5]; // M€: tech, media, certificering, boxes
+const FTEKOST = 0.11;                        // M€ loaded per FTE
+const ACT_BASE = [10, 40, 120, 250, 400];    // ×1.000 maandelijks actief
+const RIJPING = [0.15, 0.6, 1.0, 1.15, 1.25];// stromen rijpen: eerst bewijs, dan geld
+const HA_BASE = [8, 14, 20, 20, 22];         // health advisory
+const MC_BASE = [1, 6, 10, 12, 14];          // marketing & communicatie
+const VK_BASE = [2, 4, 6, 8, 10];            // vakmanschap-kern (excl. coaches)
+const BASIS = {act: 120, ratio: 2500, fee: 35, dp: 25, vk: 6, ha: 20, mc: 10};
+const P = Object.assign({}, BASIS);
+
+function model(){
+  const f = P.act / 120;
+  const act = ACT_BASE.map(a => Math.round(a * f));
+  const coaches = act.map(a => Math.max(1, Math.round(a * 1000 / P.ratio)));
+  const vk = VK_BASE.map(v => Math.round(v * P.vk / 6));
+  const ha = HA_BASE.map(v => Math.round(v * P.ha / 20));
+  const mc = MC_BASE.map(v => Math.round(v * P.mc / 10));
+  const fteTot = JAREN.map((_, j) => coaches[j] + vk[j] + ha[j] + mc[j]);
+  const kosten = JAREN.map((_, j) => +(fteTot[j] * FTEKOST * HALF[j] + NIETPERS[j]).toFixed(1));
+  const strom = [
+    {naam: 'doorverwijsfees specialisten', kleur: '--c-coach', m: act.map((a, j) => +(a * 1000 * P.fee * 0.4 * RIJPING[j] / 1e6).toFixed(1))},
+    {naam: 'merkcommissies', kleur: '--c-build', m: act.map((a, j) => +(a * 1000 * P.fee * 0.6 * RIJPING[j] / 1e6).toFixed(1))},
+    {naam: 'derde-betalers', kleur: '--c-mkt', m: act.map((a, j) => +(a * 1000 * P.dp * RIJPING[j] / 1e6).toFixed(1))}
+  ];
+  const omzet = JAREN.map((_, j) => +strom.reduce((s, x) => s + x.m[j], 0).toFixed(1));
+  return {act, coaches, vk, ha, mc, fteTot, kosten, strom, omzet};
+}
+
+/* ============ hulpjes ============ */
+const NS = 'http://www.w3.org/2000/svg';
+const css = v => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+const tip = document.getElementById('tip');
+function tipToon(e, tekst){ tip.textContent = tekst; tip.style.opacity = 1; tip.style.left = (e.clientX + 14) + 'px'; tip.style.top = (e.clientY - 10) + 'px'; }
+function tipWeg(){ tip.style.opacity = 0; }
+function el(tag, at){ const n = document.createElementNS(NS, tag); for (const k in at) n.setAttribute(k, at[k]); return n; }
+function fmtM(v){ return '€ ' + String(v).replace('.', ',') + 'M'; }
+function maxNice(v){ return Math.max(8, Math.ceil(v / 4) * 4); }
+
+/* ============ gestapelde staven ============ */
+function stapelChart(svgId, segmentenPerJaar, maxY){
+  const svg = document.getElementById(svgId);
+  svg.innerHTML = '';
+  const W = 720, H = 300, padL = 44, padB = 30, padT = 26;
+  const plotH = H - padB - padT, plotW = W - padL - 16;
+  const bw = 52, stap = plotW / JAREN.length;
+  for (let g = 0; g <= 4; g++){
+    const y = padT + plotH - plotH * g / 4;
+    svg.appendChild(el('line', {x1: padL, y1: y, x2: W - 10, y2: y, stroke: css('--hair'), 'stroke-width': 1}));
+    const t = el('text', {x: padL - 8, y: y + 4, 'text-anchor': 'end', 'font-size': 11, fill: css('--muted')});
+    t.textContent = (maxY * g / 4).toFixed(0); svg.appendChild(t);
+  }
+  JAREN.forEach((jaar, j) => {
+    const segs = segmentenPerJaar(j).filter(s => s.w > 0.01);
+    const x = padL + stap * j + (stap - bw) / 2;
+    let y = padT + plotH;
+    let totaal = 0;
+    segs.forEach((s, i) => {
+      const h = Math.max(2, s.w / maxY * plotH);
+      y -= h; totaal += s.w;
+      const laatste = i === segs.length - 1;
+      const r = el('rect', {x: x, y: y + 1, width: bw, height: Math.max(1, h - 2), fill: css(s.kleur), rx: laatste ? 4 : 0});
+      r.addEventListener('mousemove', e => tipToon(e, s.naam + ' · ' + fmtM(s.w) + ' (' + jaar + ')'));
+      r.addEventListener('mouseleave', tipWeg);
+      svg.appendChild(r);
+    });
+    const lbl = el('text', {x: x + bw / 2, y: y - 7, 'text-anchor': 'middle', 'font-size': 12, 'font-weight': 700, fill: css('--ink')});
+    lbl.textContent = fmtM(+totaal.toFixed(1)); svg.appendChild(lbl);
+    const xt = el('text', {x: x + bw / 2, y: H - 8, 'text-anchor': 'middle', 'font-size': 12, fill: css('--muted')});
+    xt.textContent = jaar; svg.appendChild(xt);
+  });
+}
+
+function legende(id, items){
+  document.getElementById(id).innerHTML = items.map(i => `<span><i style="background:var(${i.kleur})"></i>${i.naam}</span>`).join('');
+}
+
+/* ============ lijngrafiek kosten vs opbrengsten ============ */
+function lijnChart(kosten, omzet){
+  const svg = document.getElementById('ch-lijn');
+  svg.innerHTML = '';
+  const W = 720, H = 280, padL = 44, padB = 30, padT = 20;
+  const plotH = H - padB - padT, plotW = W - padL - 70;
+  const maxY = maxNice(Math.max(...kosten, ...omzet));
+  for (let g = 0; g <= 4; g++){
+    const y = padT + plotH - plotH * g / 4;
+    svg.appendChild(el('line', {x1: padL, y1: y, x2: W - 64, y2: y, stroke: css('--hair'), 'stroke-width': 1}));
+    const t = el('text', {x: padL - 8, y: y + 4, 'text-anchor': 'end', 'font-size': 11, fill: css('--muted')});
+    t.textContent = (maxY * g / 4).toFixed(0); svg.appendChild(t);
+  }
+  const px = j => padL + plotW * j / (JAREN.length - 1);
+  const py = v => padT + plotH - v / maxY * plotH;
+  // break-even-markering: eerste kruising van omzet boven kosten
+  let bx = null;
+  for (let j = 1; j < JAREN.length; j++){
+    const d0 = omzet[j-1] - kosten[j-1], d1 = omzet[j] - kosten[j];
+    if (d0 < 0 && d1 >= 0){ const t = d1 === d0 ? 0 : (0 - d0) / (d1 - d0); bx = px(j-1) + (px(j) - px(j-1)) * t; break; }
+  }
+  if (omzet[0] >= kosten[0]) bx = px(0);
+  if (bx !== null){
+    svg.appendChild(el('line', {x1: bx, y1: padT, x2: bx, y2: padT + plotH, stroke: css('--muted'), 'stroke-width': 1, 'stroke-dasharray': '4 4'}));
+    const bt = el('text', {x: bx, y: padT - 6, 'text-anchor': 'middle', 'font-size': 11, 'font-weight': 700, fill: css('--muted')});
+    bt.textContent = 'break-even'; svg.appendChild(bt);
+  } else {
+    const bt = el('text', {x: W - 64, y: padT - 6, 'text-anchor': 'end', 'font-size': 11, 'font-weight': 700, fill: css('--coral')});
+    bt.textContent = 'geen break-even vóór 2031'; svg.appendChild(bt);
+  }
+  [{d: kosten, kleur: '--c-change', naam: 'kosten'}, {d: omzet, kleur: '--c-coach', naam: 'opbrengsten'}].forEach(serie => {
+    svg.appendChild(el('polyline', {points: serie.d.map((v, j) => px(j) + ',' + py(v)).join(' '), fill: 'none', stroke: css(serie.kleur), 'stroke-width': 2, 'stroke-linecap': 'round', 'stroke-linejoin': 'round'}));
+    serie.d.forEach((v, j) => {
+      const c = el('circle', {cx: px(j), cy: py(v), r: 4.5, fill: css(serie.kleur), stroke: css('--card'), 'stroke-width': 2});
+      c.addEventListener('mousemove', e => tipToon(e, serie.naam + ' ' + JAREN[j] + ' · ' + fmtM(v)));
+      c.addEventListener('mouseleave', tipWeg);
+      svg.appendChild(c);
+    });
+    const eind = el('text', {x: px(JAREN.length - 1) + 10, y: py(serie.d[serie.d.length - 1]) + 4, 'font-size': 12, 'font-weight': 700, fill: css('--ink')});
+    eind.textContent = serie.naam; svg.appendChild(eind);
+  });
+  JAREN.forEach((jaar, j) => {
+    const xt = el('text', {x: px(j), y: H - 8, 'text-anchor': 'middle', 'font-size': 12, fill: css('--muted')});
+    xt.textContent = jaar; svg.appendChild(xt);
+  });
+}
+
+/* ============ gebruikersstaafjes ============ */
+function gebruikersChart(act){
+  const svg = document.getElementById('ch-gebruikers');
+  svg.innerHTML = '';
+  const W = 720, H = 170, padL = 44, padB = 28, padT = 18;
+  const plotH = H - padB - padT, plotW = W - padL - 16, bw = 52, stap = plotW / JAREN.length;
+  const maxY = maxNice(Math.max(...act));
+  JAREN.forEach((jaar, j) => {
+    const x = padL + stap * j + (stap - bw) / 2;
+    const h = Math.max(3, act[j] / maxY * plotH);
+    const r = el('rect', {x: x, y: padT + plotH - h, width: bw, height: h, fill: css('--c-coach'), rx: 4, opacity: .85});
+    r.addEventListener('mousemove', e => tipToon(e, jaar + ' · ' + act[j] + 'k actief / mnd'));
+    r.addEventListener('mouseleave', tipWeg);
+    svg.appendChild(r);
+    const lbl = el('text', {x: x + bw / 2, y: padT + plotH - h - 6, 'text-anchor': 'middle', 'font-size': 12, 'font-weight': 700, fill: css('--ink')});
+    lbl.textContent = act[j] + 'k'; svg.appendChild(lbl);
+    const xt = el('text', {x: x + bw / 2, y: H - 8, 'text-anchor': 'middle', 'font-size': 12, fill: css('--muted')});
+    xt.textContent = jaar; svg.appendChild(xt);
+  });
+}
+
+/* ============ tabel ============ */
+function bouwTabel(M){
+  const rijen = [
+    ['Actieve gebruikers (×1.000)', ...M.act],
+    ['FTE totaal', ...M.fteTot],
+    ['— waarvan hub-coaches (in Vakmanschap)', ...M.coaches],
+    ['Kosten (€M)', ...M.kosten],
+    ['Opbrengsten (€M)', ...M.omzet],
+    ['Saldo (€M)', ...JAREN.map((_, j) => +(M.omzet[j] - M.kosten[j]).toFixed(1))]
+  ];
+  document.getElementById('fintabel').innerHTML =
+    '<tr><th></th>' + JAREN.map(j => '<th>' + j + '</th>').join('') + '</tr>' +
+    rijen.map((r, i) => '<tr>' + r.map((c, k) => {
+      if (k === 0) return '<td>' + c + '</td>';
+      if (i === rijen.length - 1) return '<td class="' + (c < 0 ? 'neg' : 'pos') + '">' + String(c).replace('.', ',') + '</td>';
+      return '<td>' + String(c).replace('.', ',') + '</td>';
+    }).join('') + '</tr>').join('');
+}
+
+/* ============ kerntegels ============ */
+function bouwTegels(M){
+  let be = null;
+  for (let j = 0; j < JAREN.length; j++){ if (M.omzet[j] >= M.kosten[j]){ be = JAREN[j]; break; } }
+  document.getElementById('t-be').textContent = be ? be : 'na 2030';
+  let cum = 0, diepste = 0;
+  JAREN.forEach((_, j) => { cum += M.omzet[j] - M.kosten[j]; if (cum < diepste) diepste = cum; });
+  document.getElementById('t-inv').textContent = '± € ' + Math.abs(diepste).toFixed(0) + 'M';
+  const kA = j => Math.round(M.kosten[j] / M.act[j] * 1000 / 5) * 5;
+  document.getElementById('t-kost').textContent = '€ ' + kA(0) + ' → € ' + kA(4);
+  document.getElementById('t-arpu').textContent = '€ ' + Math.round(M.omzet[4] / M.act[4] * 1000);
+}
+
+/* ============ alles herbouwen ============ */
+function rebuild(){
+  const M = model();
+  stapelChart('ch-kosten', j => {
+    return [
+      {naam: 'vakmanschap — incl. de coaches', kleur: '--c-coach', w: +((M.vk[j] + M.coaches[j]) * FTEKOST * HALF[j]).toFixed(1)},
+      {naam: 'health advisory — digitaal & fysiek', kleur: '--c-build', w: +(M.ha[j] * FTEKOST * HALF[j]).toFixed(1)},
+      {naam: 'marketing, communicatie & change', kleur: '--c-mkt', w: +(M.mc[j] * FTEKOST * HALF[j]).toFixed(1)},
+      {naam: 'niet-personeel', kleur: '--c-niet', w: NIETPERS[j]}
+    ];
+  }, maxNice(Math.max(...M.kosten)));
+  stapelChart('ch-omzet', j => M.strom.map(s => ({naam: s.naam, kleur: s.kleur, w: s.m[j]})), maxNice(Math.max(...M.omzet)));
+  lijnChart(M.kosten, M.omzet);
+  gebruikersChart(M.act);
+  bouwTabel(M);
+  bouwTegels(M);
+  // 2028-uitkomsten (jaarindex 2)
+  document.getElementById('u-kost').textContent = fmtM(M.kosten[2]);
+  document.getElementById('u-omzet').textContent = fmtM(M.omzet[2]);
+  const saldo = +(M.omzet[2] - M.kosten[2]).toFixed(1);
+  const s = document.getElementById('u-saldo');
+  s.textContent = (saldo >= 0 ? '+ ' : '− ') + fmtM(Math.abs(saldo));
+  s.style.color = saldo >= 0 ? css('--ok') : css('--coral');
+  const vast = (M.vk[2] + M.ha[2] + M.mc[2]) * FTEKOST + NIETPERS[2];
+  const marge = (P.fee + P.dp) - 110000 / P.ratio;
+  document.getElementById('u-be').textContent = marge > 0 ? '± ' + Math.round(vast * 1e6 / marge / 1000) + 'k' : 'nooit — marge per gebruiker is negatief';
+}
+
+/* ============ knoppen ============ */
+const KNOPPEN = [
+  {id: 'k-act',   p: 'act',   uit: v => v + 'k'},
+  {id: 'k-fee',   p: 'fee',   uit: v => '€ ' + v},
+  {id: 'k-dp',    p: 'dp',    uit: v => '€ ' + v},
+  {id: 'k-ratio', p: 'ratio', uit: v => '1 : ' + v.toLocaleString('nl-BE')},
+  {id: 'k-vk',    p: 'vk',    uit: v => v + ' FTE'},
+  {id: 'k-ha',    p: 'ha',    uit: v => v + ' FTE'},
+  {id: 'k-mc',    p: 'mc',    uit: v => v + ' FTE'}
+];
+KNOPPEN.forEach(k => {
+  const inp = document.getElementById(k.id);
+  const out = document.getElementById('o-' + k.id.slice(2));
+  inp.addEventListener('input', () => { P[k.p] = +inp.value; out.textContent = k.uit(+inp.value); rebuild(); });
+});
+document.getElementById('k-reset').addEventListener('click', () => {
+  Object.assign(P, BASIS);
+  KNOPPEN.forEach(k => {
+    const inp = document.getElementById(k.id);
+    inp.value = P[k.p];
+    document.getElementById('o-' + k.id.slice(2)).textContent = k.uit(P[k.p]);
+  });
+  rebuild();
+});
+
+/* ============ opbouw ============ */
+legende('leg-kosten', [
+  {naam: 'vakmanschap — incl. de coaches', kleur: '--c-coach'},
+  {naam: 'health advisory — digitaal & fysiek', kleur: '--c-build'},
+  {naam: 'marketing, communicatie & change', kleur: '--c-mkt'},
+  {naam: 'niet-personeel', kleur: '--c-niet'}
+]);
+legende('leg-omzet', [
+  {naam: 'doorverwijsfees specialisten', kleur: '--c-coach'},
+  {naam: 'merkcommissies', kleur: '--c-build'},
+  {naam: 'derde-betalers', kleur: '--c-mkt'}
+]);
+rebuild();
+
+</script>
+</body>
+</html>
