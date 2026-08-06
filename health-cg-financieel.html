@@ -216,12 +216,14 @@ footer{padding:36px 0 56px; color:var(--muted); font-size:.8rem}
       <div class="sr"><span class="van">Klant (of derde-betaler)</span><span class="pijl">→</span><span class="wat"><b>Sessie bij een specialist</b> — kine, diëtist, apotheekservice verdient; het platform int een <b>doorverwijsfee (± 15%)</b></span><span class="pijl">→</span><span class="naar">Specialist + platform</span></div>
       <div class="sr"><span class="van">Merken (Colruyt, Foodbag, Jims, Newpharma)</span><span class="pijl">→</span><span class="wat"><b>Commissie op toegeschreven bestellingen</b> (± 3%) — het gezonde mandje, de box, het abonnement dat via het plan binnenkomt</span><span class="pijl">→</span><span class="naar">Platform</span></div>
       <div class="sr"><span class="van">Werkgever · mutualiteit · verzekeraar</span><span class="pijl">→</span><span class="wat"><b>Sponsoring</b> — voor het platform (B2B-contract op cohortbewijs) of voor de klant (gezondheidsbudget, terugbetaling sessies)</span><span class="pijl">→</span><span class="naar">Platform + klant</span></div>
+      <div class="sr"><span class="van">Klant (premium)</span><span class="pijl">→</span><span class="wat"><b>Premium-abonnement</b> — pas ná een paar jaar, als de waarde bewezen is: ± € 5/maand, ± 10% tekent in vanaf 2029. De gratis basis blijft gratis.</span><span class="pijl">→</span><span class="naar">Platform</span></div>
     </div>
 
     <div class="units">
       <div class="unit"><b>€ 7,50</b>per specialistensessie van € 50 (fee 15%)<small> — de specialist houdt € 42,50 én krijgt de klant aangeleverd</small></div>
       <div class="unit"><b>± € 24 / jaar</b>commissie per actief huishouden<small> — 3% op ± € 800 toegeschreven gezonde omzet per jaar</small></div>
       <div class="unit"><b>€ 30 / medewerker / jaar</b>werkgeverscontract<small> — plus mutualiteit ± € 5 per terugbetaalde sessie; verzekeraars op cohortprogramma's</small></div>
+      <div class="unit"><b>€ 60 / jaar</b>per premium-intekenaar<small> — € 5/maand vanaf 2029, ± 10% van de actieve gebruikers; de gratis basis blijft gratis</small></div>
     </div>
 
     <div class="chartkaart">
@@ -281,6 +283,10 @@ footer{padding:36px 0 56px; color:var(--muted); font-size:.8rem}
       <div class="jaarrij" id="j-fee" hidden></div>
       <div class="knop"><label><b>Derde-betalers per actieve gebruiker</b><small>werkgevers, mutualiteiten, verzekeraars, per jaar (op kruissnelheid)</small></label><input type="range" id="k-dp" min="0" max="40" step="5" value="25"><output id="o-dp">€ 25</output><button class="perjaar" data-j="dp">▸ per jaar</button></div>
       <div class="jaarrij" id="j-dp" hidden></div>
+      <div class="knop"><label><b>Premium-intekening</b><small>% van de actieve gebruikers met een betaald abonnement · start in het basisscenario vanaf 2029 — klap uit om het startjaar te verleggen</small></label><input type="range" id="k-prem" min="0" max="30" step="1" value="10"><output id="o-prem">10%</output><button class="perjaar" data-j="prem">▸ per jaar</button></div>
+      <div class="jaarrij" id="j-prem" hidden></div>
+      <div class="knop"><label><b>Premium-prijs</b><small>per maand · de gratis basis blijft gratis (keuze A5) — premium is een extra laag</small></label><input type="range" id="k-prijs" min="2" max="10" step="1" value="5"><output id="o-prijs">€ 5/mnd</output><button class="perjaar" data-j="prijs">▸ per jaar</button></div>
+      <div class="jaarrij" id="j-prijs" hidden></div>
       <p style="margin-top:14px; font-size:.76rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--teal-deep)">Kostenknoppen — FTE per organisatiecomponent</p>
       <div class="knop"><label><b>Coach-ratio (Vakmanschap)</b><small>actieve gebruikers per hub-coach — hoe AI-first durven we te zijn?</small></label><input type="range" id="k-ratio" min="1000" max="5000" step="250" value="2500"><output id="o-ratio">1 : 2.500</output><button class="perjaar" data-j="ratio">▸ per jaar</button></div>
       <div class="jaarrij" id="j-ratio" hidden></div>
@@ -319,7 +325,7 @@ const ACT_BASE = [10, 40, 120, 250, 400];    // ×1.000 maandelijks actief
 const VK_BASE = [2, 4, 6, 8, 10];            // vakmanschap-kern (excl. coaches)
 const HA_BASE = [8, 14, 20, 20, 22];         // health advisory
 const MC_BASE = [1, 6, 10, 12, 14];          // marketing & communicatie
-const MASTER_BASIS = {act: 120, fee: 35, dp: 25, ratio: 2500, vk: 6, ha: 20, mc: 10};
+const MASTER_BASIS = {act: 120, fee: 35, dp: 25, prem: 10, prijs: 5, ratio: 2500, vk: 6, ha: 20, mc: 10};
 
 /* de eigenlijke staat: per parameter een waarde per jaar */
 const P = {};
@@ -328,6 +334,8 @@ function zetVanMaster(k, v){
     case 'act':   P.act = ACT_BASE.map(a => Math.round(a * v / 120)); break;
     case 'fee':   P.fee = RIJPING.map(r => Math.round(v * r)); break;
     case 'dp':    P.dp = RIJPING.map(r => Math.round(v * r)); break;
+    case 'prem':  P.prem = [0, 0, 0, v, v]; break;  // premium start in het basisscenario vanaf 2029
+    case 'prijs': P.prijs = JAREN.map(() => v); break;
     case 'ratio': P.ratio = JAREN.map(() => v); break;
     case 'vk':    P.vk = VK_BASE.map(x => Math.round(x * v / 6)); break;
     case 'ha':    P.ha = HA_BASE.map(x => Math.round(x * v / 20)); break;
@@ -344,7 +352,8 @@ function model(){
   const strom = [
     {naam: 'doorverwijsfees specialisten', kleur: '--c-coach', m: act.map((a, j) => +(a * 1000 * P.fee[j] * 0.4 / 1e6).toFixed(1))},
     {naam: 'merkcommissies', kleur: '--c-build', m: act.map((a, j) => +(a * 1000 * P.fee[j] * 0.6 / 1e6).toFixed(1))},
-    {naam: 'derde-betalers', kleur: '--c-mkt', m: act.map((a, j) => +(a * 1000 * P.dp[j] / 1e6).toFixed(1))}
+    {naam: 'derde-betalers', kleur: '--c-mkt', m: act.map((a, j) => +(a * 1000 * P.dp[j] / 1e6).toFixed(1))},
+    {naam: 'premium-abonnementen', kleur: '--c-run', m: act.map((a, j) => +(a * 1000 * P.prem[j] / 100 * P.prijs[j] * 12 / 1e6).toFixed(1))}
   ];
   const omzet = JAREN.map((_, j) => +strom.reduce((s, x) => s + x.m[j], 0).toFixed(1));
   return {act, coaches, fteTot, kosten, strom, omzet};
@@ -529,7 +538,7 @@ function rebuild(){
   s.textContent = (saldo >= 0 ? '+ ' : '− ') + fmtM(Math.abs(saldo));
   s.style.color = saldo >= 0 ? css('--ok') : css('--coral');
   const vast = (P.vk[2] + P.ha[2] + P.mc[2]) * FTEKOST + NIETPERS[2];
-  const marge = (P.fee[2] + P.dp[2]) - 110000 / P.ratio[2];
+  const marge = (P.fee[2] + P.dp[2] + P.prem[2] / 100 * P.prijs[2] * 12) - 110000 / P.ratio[2];
   document.getElementById('u-be').textContent = marge > 0 ? '± ' + Math.round(vast * 1e6 / marge / 1000) + 'k' : 'nooit — marge per gebruiker is negatief';
 }
 
@@ -538,6 +547,8 @@ const KNOPCFG = {
   act:   {fmt: v => v + 'k',   minJ: [0,10,50,50,100],       maxJ: [60,150,300,700,1200],      stepJ: [5,10,10,25,50]},
   fee:   {fmt: v => '€ ' + v,  minJ: [0,0,0,0,0],            maxJ: [30,45,60,75,90],           stepJ: [1,1,1,1,1]},
   dp:    {fmt: v => '€ ' + v,  minJ: [0,0,0,0,0],            maxJ: [15,30,40,55,65],           stepJ: [1,1,1,1,1]},
+  prem:  {fmt: v => v + '%',   minJ: [0,0,0,0,0],            maxJ: [20,25,30,35,40],           stepJ: [1,1,1,1,1]},
+  prijs: {fmt: v => '€ ' + v + '/mnd', minJ: [0,0,0,0,0],    maxJ: [10,10,10,12,12],           stepJ: [1,1,1,1,1]},
   ratio: {fmt: v => '1 : ' + (+v).toLocaleString('nl-BE'), minJ: [1000,1000,1000,1000,1000], maxJ: [5000,5000,5000,5000,5000], stepJ: [250,250,250,250,250]},
   vk:    {fmt: v => v + ' FTE', minJ: [0,0,0,0,0],           maxJ: [8,12,16,20,24],            stepJ: [1,1,1,1,1]},
   ha:    {fmt: v => v + ' FTE', minJ: [0,0,0,0,0],           maxJ: [20,28,40,40,44],           stepJ: [1,1,1,1,1]},
@@ -568,6 +579,8 @@ const MASTERS = [
   {id: 'k-act',   k: 'act',   uit: v => v + 'k'},
   {id: 'k-fee',   k: 'fee',   uit: v => '€ ' + v},
   {id: 'k-dp',    k: 'dp',    uit: v => '€ ' + v},
+  {id: 'k-prem',  k: 'prem',  uit: v => v + '%'},
+  {id: 'k-prijs', k: 'prijs', uit: v => '€ ' + v + '/mnd'},
   {id: 'k-ratio', k: 'ratio', uit: v => '1 : ' + v.toLocaleString('nl-BE')},
   {id: 'k-vk',    k: 'vk',    uit: v => v + ' FTE'},
   {id: 'k-ha',    k: 'ha',    uit: v => v + ' FTE'},
@@ -615,7 +628,8 @@ legende('leg-fte', [
 legende('leg-omzet', [
   {naam: 'doorverwijsfees specialisten', kleur: '--c-coach'},
   {naam: 'merkcommissies', kleur: '--c-build'},
-  {naam: 'derde-betalers', kleur: '--c-mkt'}
+  {naam: 'derde-betalers', kleur: '--c-mkt'},
+  {naam: 'premium-abonnementen', kleur: '--c-run'}
 ]);
 bouwJaarrijen();
 Object.keys(KNOPCFG).forEach(refreshJaar);
