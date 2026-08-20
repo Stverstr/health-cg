@@ -5409,10 +5409,15 @@ if (ecoViz) {
   function tijd(iso){ var d = new Date(iso); return d.toLocaleDateString('nl-BE',{day:'numeric',month:'short'}) + ' ' + d.toLocaleTimeString('nl-BE',{hour:'2-digit',minute:'2-digit'}); }
 
   // hoofdstukken verzamelen + 💬-ankertjes naast de titels
+  // labels komen uit de menustructuur van het dossier (01 · De consument, …)
+  var navLabel = {};
+  document.querySelectorAll('header nav a[href^="#"]').forEach(function(a){
+    navLabel[a.getAttribute('href').slice(1)] = a.textContent.trim();
+  });
   var secties = [];
   document.querySelectorAll('section[id]').forEach(function(s){
     var h = s.querySelector('h2');
-    var titel = h ? h.textContent.replace('💬','').trim() : s.id;
+    var titel = navLabel[s.id] || (h ? h.textContent.replace('💬','').trim() : s.id);
     secties.push({id: s.id, titel: titel});
     if (h){
       var b = document.createElement('button');
@@ -5422,6 +5427,7 @@ if (ecoViz) {
     }
   });
   sel.innerHTML = secties.map(function(s){ return '<option value="' + s.id + '">' + esc(s.titel) + '</option>'; }).join('');
+  var titelVan = {}; secties.forEach(function(s){ titelVan[s.id] = s.titel; });
   naamIn.value = localStorage.getItem('redbox-naam') || '';
 
   function laad(){
@@ -5442,7 +5448,7 @@ if (ecoViz) {
     lijst.innerHTML = hoofd.map(function(r){
       var antw = data.filter(function(x){ return x.parent_id === r.id; });
       return '<div class="opm-k">'
-        + '<button class="sec" data-sec="' + esc(r.sectie) + '">' + esc(r.sectie_titel || r.sectie) + '</button>'
+        + '<button class="sec" data-sec="' + esc(r.sectie) + '">' + esc(titelVan[r.sectie] || r.sectie_titel || r.sectie) + '</button>'
         + '<div><span class="wie">' + esc(r.naam) + '</span><span class="tijd">' + tijd(r.created_at) + '</span></div>'
         + '<p>' + esc(r.tekst) + '</p>'
         + antw.map(function(a){ return '<div class="opm-a"><span class="wie">' + esc(a.naam) + '</span><span class="tijd">' + tijd(a.created_at) + '</span><p>' + esc(a.tekst) + '</p></div>'; }).join('')
@@ -5488,7 +5494,23 @@ if (ecoViz) {
     document.getElementById('opm-tekst').value = '';
   });
 
-  knop.addEventListener('click', function(){ paneel.classList.toggle('open'); });
+  // de hoofdstuk-keuze volgt de menustructuur en de leespositie
+  document.querySelectorAll('header nav a[href^="#"]').forEach(function(a){
+    a.addEventListener('click', function(){ sel.value = a.getAttribute('href').slice(1); });
+  });
+  function sectieInBeeld(){
+    var beste = secties.length ? secties[0].id : null;
+    secties.forEach(function(s){
+      var el = document.getElementById(s.id);
+      if (el && el.getBoundingClientRect().top <= window.innerHeight * 0.4){ beste = s.id; }
+    });
+    return beste;
+  }
+  knop.addEventListener('click', function(){
+    var opent = !paneel.classList.contains('open');
+    paneel.classList.toggle('open');
+    if (opent){ var s = sectieInBeeld(); if (s){ sel.value = s; } }
+  });
   document.getElementById('opm-dicht').addEventListener('click', function(){ paneel.classList.remove('open'); });
   document.getElementById('opm-verv').addEventListener('click', laad);
   laad();
