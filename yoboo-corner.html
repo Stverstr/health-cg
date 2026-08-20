@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Coach-corner · Health Advisory POC</title>
+<style>
+:root{
+  --yb:#27A577; --yb-deep:#157258; --yb-soft:rgba(39,165,119,.13);
+  --ink:#141212; --muted:#4C4843; --hair:#D9D4C7;
+  --cream:#F5F5EF; --paper:#FBFBF9; --card:#FFFFFF;
+  --sun:#FFCC00; --coral:#FD817A; --oranje:#D96A2E; --blauw:#2F6FE4; --paars:#8A2FAC;
+  --food:#1E9066; --move:#2F6FE4; --care:#E8615A; --leren:#B98800;
+  --shadow:0 12px 34px rgba(25,23,23,.12);
+  --r:22px;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --yb:#34C08D; --yb-deep:#27A577; --yb-soft:rgba(52,192,141,.16);
+    --ink:#F0EDE8; --muted:#A8A29A; --hair:#38342E;
+    --cream:#14120F; --paper:#1A1713; --card:#211D18;
+    --sun:#FFD84D; --coral:#FF9A94; --oranje:#F0955C; --blauw:#7AA9FF; --paars:#C273E0;
+    --food:#34C08D; --move:#7AA9FF; --care:#FF9A94; --leren:#FFD84D;
+    --shadow:0 12px 34px rgba(0,0,0,.4);
+  }
+}
+*{margin:0; padding:0; box-sizing:border-box}
+body{
+  font-family:ui-rounded,"SF Pro Rounded","Nunito","Segoe UI",Calibri,sans-serif;
+  background:var(--cream); color:var(--ink); line-height:1.55; -webkit-font-smoothing:antialiased;
+}
+b{font-weight:800}
+a{color:var(--yb-deep)}
+@media (prefers-reduced-motion: reduce){*{animation:none !important; transition:none !important}}
+
+.pocbar{max-width:1080px; margin:0 auto; padding:12px 20px 0; display:flex; justify-content:space-between; gap:12px; font-size:.75rem; color:var(--muted)}
+.pocbar a{color:var(--yb-deep); font-weight:700; text-decoration:none}
+
+.wrap{max-width:1080px; margin:0 auto; padding:0 20px}
+section{padding:34px 0}
+
+/* hero */
+.hero{padding:42px 0 26px}
+.chip-draft{display:inline-block; border:1.5px dashed var(--coral); color:var(--coral); border-radius:99px; padding:4px 13px; font-size:.7rem; font-weight:800; letter-spacing:.07em; text-transform:uppercase; margin-bottom:14px}
+.eyebrow{display:block; font-size:.72rem; font-weight:800; letter-spacing:.12em; text-transform:uppercase; color:var(--yb-deep); margin-bottom:8px}
+h1{font-size:clamp(2rem,5vw,2.9rem); letter-spacing:-.03em; line-height:1.08}
+h1 em{font-style:normal; color:var(--yb)}
+.lead{max-width:62ch; color:var(--muted); font-size:1.02rem; margin-top:14px}
+.lead b{color:var(--ink)}
+.kernrij{display:flex; flex-wrap:wrap; gap:8px; margin-top:18px}
+.kernrij span{background:var(--yb-soft); color:var(--yb-deep); font-weight:800; font-size:.78rem; border-radius:99px; padding:6px 14px}
+
+h2{font-size:clamp(1.3rem,3vw,1.7rem); letter-spacing:-.02em; margin-bottom:6px}
+.seclead{color:var(--muted); max-width:66ch; margin-bottom:20px}
+.secno{display:block; font-size:.7rem; font-weight:800; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); margin-bottom:6px}
+
+/* kaarten algemeen */
+.rij3{display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:14px}
+.k{background:var(--card); border:1px solid var(--hair); border-radius:var(--r); padding:18px 20px; box-shadow:var(--shadow)}
+.k .ik{font-size:1.5rem}
+.k h3{font-size:.98rem; margin:8px 0 4px}
+.k p{font-size:.83rem; color:var(--muted)}
+
+/* plattegrond */
+.vloer{background:var(--paper); border:2.5px solid var(--hair); border-radius:26px; padding:14px; box-shadow:var(--shadow)}
+.zones{display:grid; grid-template-columns:1fr 1fr; gap:10px}
+@media (max-width:640px){.zones{grid-template-columns:1fr}}
+.zone{position:relative; border:2px dashed var(--hair); border-radius:16px; padding:20px 18px 16px; min-height:150px; background:var(--card)}
+.zone .znum{position:absolute; top:-12px; left:16px; background:var(--zc,var(--yb)); color:#fff; font-weight:800; font-size:.72rem; border-radius:99px; padding:3px 11px}
+.zone .zik{font-size:1.6rem}
+.zone h3{font-size:1rem; margin:6px 0 4px}
+.zone p{font-size:.82rem; color:var(--muted)}
+.zone ul{list-style:none; margin-top:8px}
+.zone li{font-size:.78rem; color:var(--muted); padding-left:16px; position:relative}
+.zone li::before{content:"·"; position:absolute; left:4px; color:var(--zc,var(--yb)); font-weight:800}
+.vloerlegende{text-align:center; font-size:.75rem; color:var(--muted); padding:12px 8px 4px}
+
+/* journey */
+.stappen{display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:12px; counter-reset:stap}
+.stap{background:var(--card); border:1px solid var(--hair); border-radius:16px; padding:16px; position:relative}
+.stap::before{counter-increment:stap; content:counter(stap); position:absolute; top:-12px; left:14px; width:26px; height:26px; border-radius:50%; background:var(--yb); color:#fff; font-weight:800; font-size:.8rem; display:flex; align-items:center; justify-content:center}
+.stap .tijd{display:inline-block; background:var(--yb-soft); color:var(--yb-deep); font-weight:800; font-size:.68rem; border-radius:99px; padding:2px 9px; margin-bottom:6px}
+.stap h3{font-size:.9rem; margin-bottom:3px}
+.stap p{font-size:.79rem; color:var(--muted)}
+
+/* locaties */
+.loks{display:grid; grid-template-columns:repeat(auto-fit,minmax(215px,1fr)); gap:12px}
+.lok{background:var(--card); border:1px solid var(--hair); border-top:4px solid var(--lc,var(--yb)); border-radius:16px; padding:16px 17px}
+.lok .ik{font-size:1.4rem}
+.lok h3{font-size:.95rem; margin:6px 0 8px}
+.lok dl{font-size:.78rem}
+.lok dt{font-weight:800; font-size:.66rem; letter-spacing:.08em; text-transform:uppercase; color:var(--lc,var(--yb)); margin-top:7px}
+.lok dd{color:var(--muted)}
+
+/* spelregels */
+.regels{display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:14px}
+.regel{background:var(--card); border:1px solid var(--hair); border-radius:var(--r); padding:18px 20px}
+.regel h3{font-size:.95rem; margin-bottom:8px}
+.regel li{list-style:none; font-size:.82rem; color:var(--muted); padding:4px 0 4px 24px; position:relative}
+.regel li::before{content:"✓"; position:absolute; left:0; color:var(--yb); font-weight:800}
+.regel.niet li::before{content:"✕"; color:var(--coral)}
+
+/* open punten */
+.open{border:2.5px dashed var(--coral); border-radius:var(--r); padding:22px 20px 16px; position:relative; background:var(--paper)}
+.open .stempel{position:absolute; top:-13px; left:20px; background:var(--coral); color:#fff; font-weight:800; font-size:.66rem; letter-spacing:.09em; text-transform:uppercase; border-radius:99px; padding:4px 12px}
+.open .chips{display:flex; flex-wrap:wrap; gap:8px}
+.open .chips span{border:1.5px dashed var(--hair); background:var(--card); border-radius:99px; padding:7px 14px; font-size:.79rem; font-weight:700}
+
+footer{border-top:1px solid var(--hair); margin-top:20px; padding:26px 0 44px}
+footer .wrap{display:flex; flex-wrap:wrap; gap:18px; font-size:.82rem}
+footer a{font-weight:700; text-decoration:none}
+</style>
+</head>
+<body>
+<!-- CG-toegangspoort: eenvoudige wachtwoordlaag (client-side); bij nieuwe pagina's mee overnemen -->
+<script>
+(function(){
+  var KEY='cghealth-toegang', HASH='ceb3fb22db509f33f1e1ecb12f5ebc54b4538344710d40ec550d8d918195f8fc';
+  try{ if(localStorage.getItem(KEY)===HASH) return; }catch(e){}
+  function sha(t,cb){ crypto.subtle.digest('SHA-256', new TextEncoder().encode(t)).then(function(b){ cb(Array.prototype.map.call(new Uint8Array(b), function(x){return x.toString(16).padStart(2,'0');}).join('')); }); }
+  var st=document.createElement('style');
+  st.textContent='body>*:not(#cggate){display:none !important} #cggate{position:fixed; inset:0; display:flex; align-items:center; justify-content:center; background:#F5F5F0; z-index:99999; font-family:Calibri,\'Segoe UI\',sans-serif} #cggate .kaart{background:#fff; border:1px solid #DDD9CF; border-radius:16px; padding:34px 36px; max-width:380px; width:90%; box-shadow:0 12px 34px rgba(20,20,20,.12); text-align:center} #cggate h1{font-size:1.15rem; color:#1A1A1A; margin:0 0 4px} #cggate p{font-size:.85rem; color:#5A5A55; margin:0 0 16px} #cggate input{width:100%; border:1px solid #DDD9CF; border-radius:10px; padding:11px 13px; font:inherit; font-size:.95rem; margin-bottom:10px; box-sizing:border-box} #cggate button{width:100%; border:none; border-radius:10px; background:#00887B; color:#fff; font-weight:700; font-size:.95rem; padding:11px; cursor:pointer; font-family:inherit} #cggate .fout{color:#D95550; font-size:.8rem; min-height:18px; margin-top:8px} @media (prefers-color-scheme: dark){ #cggate{background:#141311} #cggate .kaart{background:#1E1C19; border-color:#3A3831} #cggate h1{color:#EDEBE6} #cggate p{color:#A5A19A} #cggate input{background:#141311; color:#EDEBE6; border-color:#3A3831} }';
+  document.head.appendChild(st);
+  function bouw(){
+    var d=document.createElement('div'); d.id='cggate';
+    d.innerHTML='<div class="kaart"><h1>Health CG</h1><p>Vertrouwelijk werkdocument — voer het wachtwoord in.</p><input type="password" placeholder="wachtwoord" autocomplete="current-password"><button>Open</button><div class="fout"></div></div>';
+    document.body.appendChild(d);
+    var inp=d.querySelector('input'), btn=d.querySelector('button'), fout=d.querySelector('.fout');
+    function probeer(){
+      sha(inp.value.trim().toLowerCase(), function(h){
+        if(h===HASH){ try{localStorage.setItem(KEY,HASH);}catch(e){} d.remove(); st.remove(); }
+        else { fout.textContent='Dat is hem niet — probeer opnieuw.'; inp.select(); }
+      });
+    }
+    btn.addEventListener('click', probeer);
+    inp.addEventListener('keydown', function(e){ if(e.key==='Enter') probeer(); });
+    inp.focus();
+  }
+  if(document.body){ bouw(); } else { document.addEventListener('DOMContentLoaded', bouw); }
+})();
+</script>
+
+<div class="pocbar">
+  <span><a href="health-cg-workshop.html">← Workshop</a> &nbsp;·&nbsp; <a href="health-cg-yoboo.html">POC-hub</a></span>
+  <span>POC · coach-corner (fysiek)</span>
+</div>
+
+<section class="hero">
+  <div class="wrap">
+    <span class="chip-draft">✏️ Concept — nog niets beslist</span>
+    <span class="eyebrow">Health Advisory POC · de fysieke voordeur</span>
+    <h1>De <em>coach-corner</em></h1>
+    <p class="lead"><b>Een paar vierkante meter, één echte coach.</b> De corner is de plek waar Health Advisory een gezicht krijgt: je komt er toevallig langs, doet gratis je eerste gezondheidsfoto, kiest samen met een coach één doel — en gaat naar huis met drie stapjes en de app. De app is de motor; <b>de corner is de voordeur</b>. En die voordeur kan overal staan: in een apotheek, in een Bio-Planet, op een sportevent, in een ziekenhuis of op de werkvloer.</p>
+    <div class="kernrij"><span>👋 Ontmoeten</span><span>📏 Meten</span><span>🎯 Kiezen</span><span>🎒 Meenemen</span></div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <span class="secno">01 · waarom fysiek</span>
+    <h2>Vertrouwen begint met een mens</h2>
+    <p class="seclead">Een app downloaden is een kleine moeite maar een grote drempel: waarom zou je? De corner haalt die drempel weg — je hebt eerst een mens gesproken, iets gemeten en iets gekozen. Dan is de app geen lege huls maar het vervolg van een gesprek.</p>
+    <div class="rij3">
+      <div class="k"><span class="ik">🤝</span><h3>Eerste contact zonder verplichting</h3><p>Gratis, laagdrempelig, in het voorbijgaan. Geen afspraak nodig, geen verkoop — één vraag: "waar wil jij aan werken?"</p></div>
+      <div class="k"><span class="ik">🚪</span><h3>De voordeur van de digitale lus</h3><p>Alles wat in de corner gebeurt — foto, doel, eerste stapjes — staat meteen in de app klaar. De klant vertrekt met een lopend plan, niet met een folder.</p></div>
+      <div class="k"><span class="ik">📦</span><h3>Overal opzetbaar</h3><p>Hetzelfde concept in drie formaten: een vaste hoek (apotheek, winkel), een pop-up (event, werkvloer) en een zorgvariant (ziekenhuis, op verwijzing).</p></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <span class="secno">02 · de plattegrond</span>
+    <h2>Vier zones op ± 20 m²</h2>
+    <p class="seclead">Klein genoeg voor een winkelhoek, compleet genoeg voor een volwaardige intake. De klant beweegt vanzelf van links naar rechts: van vrijblijvend kijken naar een concreet plan.</p>
+    <div class="vloer">
+      <div class="zones">
+        <div class="zone" style="--zc:var(--yb)">
+          <span class="znum">Zone 1</span>
+          <span class="zik">👋</span>
+          <h3>Ontmoeten</h3>
+          <p>De open hoek: inspiratie rond de zes leefstijlpijlers, een proeverij of beweegmoment, en de coach die je aanspreekt.</p>
+          <ul><li>pijlerwand met één vraag: "waar wil jij aan werken?"</li><li>seizoensthema (slaap, suiker, stress …)</li><li>geen balie — geen drempel</li></ul>
+        </div>
+        <div class="zone" style="--zc:var(--blauw)">
+          <span class="znum">Zone 2</span>
+          <span class="zik">📏</span>
+          <h3>Meten</h3>
+          <p>De gratis gezondheidsfoto: een momentopname van waar je vandaag staat. Alleen met jouw toestemming — het resultaat is van jou.</p>
+          <ul><li>basis: gewicht, lengte, bloeddruk, kort vragenlijstje</li><li>plus, waar het mag (apotheek/zorg): bloedwaarden</li><li>discrete hoek, resultaat op jouw scherm</li></ul>
+        </div>
+        <div class="zone" style="--zc:var(--oranje)">
+          <span class="znum">Zone 3</span>
+          <span class="zik">🎯</span>
+          <h3>Kiezen</h3>
+          <p>Aan de tafel met de coach: samen de foto lezen, één doel kiezen op de meetlat en de eerste drie stapjes vastleggen.</p>
+          <ul><li>één doel — niet vijf</li><li>de meetlat toont waar je start en waar je heen wil</li><li>de coach vertaalt, jij beslist</li></ul>
+        </div>
+        <div class="zone" style="--zc:var(--care)">
+          <span class="znum">Zone 4</span>
+          <span class="zik">🎒</span>
+          <h3>Meenemen</h3>
+          <p>App installeren, Yobi stelt zich voor, je plan staat er al in. Wie wil, prikt meteen een vervolgafspraak.</p>
+          <ul><li>QR → app, plan en foto staan klaar</li><li>vervolg: coach op afstand of in de corner</li><li>waar relevant: health box of proefpakket mee</li></ul>
+        </div>
+      </div>
+      <div class="vloerlegende">± 20 m² · 1 coach · 1 tafel met 2 krukken · 2 meettoestellen · 1 tablet met Yobi — meer is het niet</div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <span class="secno">03 · de journey</span>
+    <h2>Van passant tot plan in twintig minuten</h2>
+    <p class="seclead">Het hele bezoek is één vloeiende beweging — kort genoeg om spontaan te blijven, lang genoeg om écht te starten.</p>
+    <div class="stappen">
+      <div class="stap"><span class="tijd">min 0–2</span><h3>Aanspreken</h3><p>De pijlerwand of het seizoensthema opent het gesprek. Eén vraag, geen verkooppraatje.</p></div>
+      <div class="stap"><span class="tijd">min 2–8</span><h3>Gezondheidsfoto</h3><p>Gratis meting in de discrete hoek. De coach legt uit wat elke waarde betekent — in mensentaal.</p></div>
+      <div class="stap"><span class="tijd">min 8–15</span><h3>Doel kiezen</h3><p>Samen de foto lezen en één doel op de meetlat zetten. De coach stelt voor, de klant kiest.</p></div>
+      <div class="stap"><span class="tijd">min 15–18</span><h3>Drie stapjes</h3><p>De eerste drie stapjes voor morgen. Klein, haalbaar, passend bij het doel.</p></div>
+      <div class="stap"><span class="tijd">min 18–20</span><h3>App &amp; vervolg</h3><p>QR scannen: plan en foto staan in de app, Yobi neemt het over. Vervolgafspraak wie dat wil.</p></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <span class="secno">04 · de plekken</span>
+    <h2>Dezelfde corner, vijf plekken</h2>
+    <p class="seclead">Het draaiboek blijft identiek — ontmoeten, meten, kiezen, meenemen. Alleen de aanleiding en de toon verschillen per plek.</p>
+    <div class="loks">
+      <div class="lok" style="--lc:var(--yb)">
+        <span class="ik">💊</span><h3>Apotheek</h3>
+        <dl><dt>Aanleiding</dt><dd>Je haalt iets af en de apotheker verwijst twee meter verder.</dd>
+        <dt>Toon</dt><dd>Zorgzaam en discreet.</dd>
+        <dt>Unieke kans</dt><dd>Bloedwaarden mogen hier; St. Gilles als eerste corner; korte lijn naar de arts.</dd></dl>
+      </div>
+      <div class="lok" style="--lc:var(--food)">
+        <span class="ik">🥦</span><h3>Winkel (Bio-Planet)</h3>
+        <dl><dt>Aanleiding</dt><dd>Weekendboodschappen, proeverij bij de corner.</dd>
+        <dt>Toon</dt><dd>Ontspannen, over eten en energie.</dd>
+        <dt>Unieke kans</dt><dd>Het doel wordt meteen concreet in het winkelmandje — de food-lus start ter plekke.</dd></dl>
+      </div>
+      <div class="lok" style="--lc:var(--move)">
+        <span class="ik">🏃</span><h3>Sportevent</h3>
+        <dl><dt>Aanleiding</dt><dd>Voor of na je loop, samen met je club.</dd>
+        <dt>Toon</dt><dd>Energiek, snel, met korte metingen.</dd>
+        <dt>Unieke kans</dt><dd>Pop-up in een flightcase; hele kringen (club, vrienden) stappen samen in.</dd></dl>
+      </div>
+      <div class="lok" style="--lc:var(--care)">
+        <span class="ik">🏥</span><h3>Ziekenhuis</h3>
+        <dl><dt>Aanleiding</dt><dd>Op verwijzing, vóór of na een ingreep.</dd>
+        <dt>Toon</dt><dd>Rustig, ondersteunend, samen met de zorg.</dd>
+        <dt>Unieke kans</dt><dd>Prehab en revalidatie: leefstijlvoorschrift plus health box, aansluitend op het zorgpad.</dd></dl>
+      </div>
+      <div class="lok" style="--lc:var(--paars)">
+        <span class="ik">🏢</span><h3>Werkvloer</h3>
+        <dl><dt>Aanleiding</dt><dd>Gezondheidsweek van je werkgever.</dd>
+        <dt>Toon</dt><dd>Samen met collega's, licht competitief.</dd>
+        <dt>Unieke kans</dt><dd>De werkgever sponsort via het gezondheidsbudget; teams starten als kring.</dd></dl>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <span class="secno">05 · de spelregels</span>
+    <h2>Wie staat er — en wat mag er (niet)</h2>
+    <div class="regels">
+      <div class="regel">
+        <h3>🧑‍🏫 Wie je er ontmoet</h3>
+        <ul>
+          <li>een échte, gecertificeerde coach — geen verkoper</li>
+          <li>Yobi op de tablet, als voorproef van de app</li>
+          <li>op zorgplekken: korte lijn naar apotheker of arts</li>
+        </ul>
+      </div>
+      <div class="regel">
+        <h3>🔒 Privacy, ook hier</h3>
+        <ul>
+          <li>meten gebeurt alleen met jouw toestemming — en het resultaat is van jou</li>
+          <li>niets gaat naar de winkel, een merk of een sponsor</li>
+          <li>medische waarden blijven in de zorgring, ook als de corner in een winkel staat</li>
+        </ul>
+      </div>
+      <div class="regel niet">
+        <h3>🚫 Wat de corner niét is</h3>
+        <ul>
+          <li>geen verkooppunt — er staat niets te koop</li>
+          <li>geen dokterspraktijk — de coach diagnosticeert niet, hij verwijst</li>
+          <li>geen dataverzamelpunt — zonder klantvraag wordt er niets gemeten</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="open">
+      <span class="stempel">✏️ Open — hier doen we nu geen uitspraken over</span>
+      <div class="chips">
+        <span>💶 Financiering van de fysieke coach (open punt uit de motorkap)</span>
+        <span>📐 Kost &amp; formaat per corner-type (vast · pop-up · zorg)</span>
+        <span>🩸 Welke metingen mogen wáár (apotheek vs. winkel vs. event)</span>
+        <span>📅 Bemande uren vs. op afspraak</span>
+        <span>🏠 Doorgroei naar health house — pas na bewijs via corners</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <a href="health-cg-workshop.html">← Workshop</a>
+    <a href="health-cg-yoboo.html">POC-hub</a>
+    <a href="yoboo-coach.html">De coach-werkplek →</a>
+  </div>
+</footer>
+</body>
+</html>

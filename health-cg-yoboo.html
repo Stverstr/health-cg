@@ -442,6 +442,19 @@ footer a{color:var(--yb-deep)}
 #boohelp .bubble::after{left:auto; right:26px; transform:rotate(45deg)}
 #boohelp button{border:none; background:none; cursor:pointer; padding:0; line-height:0}
 @media(max-width:700px){#boohelp .bubble{display:none}}
+/* CG-storymap (draft) */
+.smapwrap{position:relative; border:2.5px dashed var(--coral); border-radius:var(--r); padding:24px 16px 14px; margin-top:18px; background:var(--paper)}
+.smapstempel{position:absolute; top:-14px; left:22px; background:var(--coral); color:#fff; font-weight:800; font-size:.68rem; letter-spacing:.09em; text-transform:uppercase; border-radius:99px; padding:5px 13px}
+.smapscroll{overflow-x:auto; padding-bottom:6px}
+.smap{display:grid; grid-template-columns:repeat(7, minmax(178px,1fr)); gap:10px; min-width:1330px; align-items:start}
+.smep{border-left:4px solid var(--sc,var(--yb)); background:var(--card); border-radius:10px; padding:10px 12px; font-weight:800; font-size:.85rem; box-shadow:var(--shadow)}
+.smep small{display:block; font-weight:600; color:var(--muted); font-size:.66rem; margin-top:2px}
+.smfase{grid-column:1/-1; display:flex; align-items:center; gap:12px; font-size:.68rem; font-weight:800; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); margin-top:8px; white-space:nowrap}
+.smfase::before,.smfase::after{content:""; flex:1; border-top:2px dashed var(--hair)}
+.smcel{display:flex; flex-direction:column; gap:6px}
+.smf{background:var(--card); border:1px solid var(--hair); border-left:3px solid var(--sc,var(--yb)); border-radius:9px; padding:7px 10px; font-size:.74rem; line-height:1.35}
+.smf a{color:var(--yb-deep); font-weight:700; text-decoration:none}
+.smleeg{border:1px dashed var(--hair); border-radius:9px; padding:7px 10px; font-size:.7rem; color:var(--muted); text-align:center}
 </style>
 </head>
 <body>
@@ -987,7 +1000,7 @@ footer a{color:var(--yb-deep)}
       <span class="sec-eyebrow">De coach · Sam — holistische hub, specialisten als spokes</span>
       <h2 class="sec-title">Eén plan, vele loketten — Sam bewaakt het geheel</h2>
       <p class="sec-lead">Sam kijkt over food, move en care heen. De AI bereidt voor, Sam beslist en verwijst door naar diëtist, JIMS-trainer of apotheker — die allemaal in <b>hetzelfde plan</b> schrijven.</p>
-      <div><a class="applink oranje" href="yoboo-coach.html">🤝 Open de volledige coach-werkplek <span>→</span></a></div>
+      <div style="display:flex; flex-wrap:wrap; gap:10px"><a class="applink oranje" href="yoboo-coach.html">🤝 Open de volledige coach-werkplek <span>→</span></a><a class="applink" href="yoboo-corner.html">🏪 Ontmoet de coach in het echt: de coach-corner <span>→</span></a></div>
       <span class="demohint">👇 Hieronder: twee schermen als voorproef — de echte werkplek met klantenlijst en navigatie zit achter de knop</span>
     </div>
 
@@ -1691,6 +1704,129 @@ footer a{color:var(--yb-deep)}
       <span>🏠 Health house: pas na bewijs via coach-corners</span>
       <span>🔑 Mandaat: hoe krijgt/verliest een coach (of de AI) schrijfrecht op een plan?</span>
       <span>👀 Meekijker-rol mantelzorg: voortgang ja, metingen nee?</span>
+    </div>
+
+    <div class="rv" style="margin-top:56px">
+      <span class="sec-eyebrow">Bouwoverzicht · draft</span>
+      <h3 class="sec-title" style="font-size:1.5rem">De storymap — alles wat er te bouwen valt</h3>
+      <p class="sec-lead">Kolommen zijn <b>epics</b>, digitaal én fysiek. Onder elke epic hangen de features, <b>bovenaan = eerst</b>. De stippellijnen zijn <b>indicatieve fase-grenzen</b> — ze volgen de open fasering hierboven, dus ook zij liggen niet vast. Dit bord dient puur als inspiratie voor een volgende planningssessie; geen enkele kaart is beslist.</p>
+    </div>
+    <div class="smapwrap rv">
+      <span class="smapstempel">✏️ Draft — ter inspiratie, niets beslist</span>
+      <div class="smapscroll">
+      <div class="smap">
+        <div class="smep" style="--sc:var(--yb)">📱 Klant-app<small>digitaal</small></div>
+        <div class="smep" style="--sc:var(--oranje)">🧑‍🏫 Coach-werkplek<small>digitaal</small></div>
+        <div class="smep" style="--sc:var(--blauw)">🩺 Zorgkoppeling<small>digitaal</small></div>
+        <div class="smep" style="--sc:var(--food)">🛒 Commerce &amp; merken<small>digitaal</small></div>
+        <div class="smep" style="--sc:var(--paars)">🤝 B2B &amp; derde-betalers<small>digitaal</small></div>
+        <div class="smep" style="--sc:var(--coral)">🏪 Fysiek netwerk<small>bakstenen &amp; mensen</small></div>
+        <div class="smep" style="--sc:var(--leren)">🧱 Fundament<small>data &amp; platform</small></div>
+
+        <div class="smfase">≈ fase 0–1 · de eerste gesloten lus</div>
+        <div class="smcel" style="--sc:var(--yb)">
+          <div class="smf">Gezondheidsfoto + doel met meetlat</div>
+          <div class="smf">Stapjes-engine: 3 stapjes/dag, lerend plan</div>
+          <div class="smf">Weekmenu → mandje (Collect&amp;Go / Foodbag)</div>
+          <div class="smf">Yobi-check-ins (gescript)</div>
+        </div>
+        <div class="smcel" style="--sc:var(--oranje)">
+          <div class="smf">Klantenlijst + week-lus</div>
+          <div class="smf">AI-voorstellen mét coach-fiat</div>
+          <div class="smf">Intake-flow (vanuit de corner)</div>
+        </div>
+        <div class="smcel" style="--sc:var(--blauw)">
+          <div class="smleeg">bewust nog niets — ontwerp leefstijlvoorschrift op papier</div>
+        </div>
+        <div class="smcel" style="--sc:var(--food)">
+          <div class="smf">Koppeling Collect&amp;Go / Foodbag</div>
+          <div class="smf">Attributie: toegeschreven omzet meten</div>
+        </div>
+        <div class="smcel" style="--sc:var(--paars)">
+          <div class="smleeg">enkel: één pilot-werkgever werven</div>
+        </div>
+        <div class="smcel" style="--sc:var(--coral)">
+          <div class="smf"><a href="yoboo-corner.html">Coach-corner v1 →</a> intake + meting + doel</div>
+          <div class="smf">St. Gilles mét services</div>
+          <div class="smf">Health box pre-/post-operatie (pilot)</div>
+        </div>
+        <div class="smcel" style="--sc:var(--leren)">
+          <div class="smf">Consent-engine + dataringen v1</div>
+          <div class="smf">Xtra-login als identiteit</div>
+          <div class="smf">Meetlaag aankoopdata</div>
+        </div>
+
+        <div class="smfase">≈ fase 2 · verbreden</div>
+        <div class="smcel" style="--sc:var(--yb)">
+          <div class="smf">Gezin &amp; kringen + challenges</div>
+          <div class="smf">Yobi: vrij gesprek</div>
+          <div class="smf">Vonken ↔ Xtra-punten</div>
+        </div>
+        <div class="smcel" style="--sc:var(--oranje)">
+          <div class="smf">Hub &amp; spokes-mandaten</div>
+          <div class="smf">Kring-acties (+ conflictregel)</div>
+          <div class="smf">Specialisten zoeken &amp; toevoegen</div>
+        </div>
+        <div class="smcel" style="--sc:var(--blauw)">
+          <div class="smf">Leefstijlvoorschrift-pilot met huisartsen</div>
+          <div class="smf">mHealth M1-dossier (CE-markering)</div>
+        </div>
+        <div class="smcel" style="--sc:var(--food)">
+          <div class="smf">"Past bij jouw doel"-aanbod</div>
+          <div class="smf">Doorverwijsfees specialisten</div>
+        </div>
+        <div class="smcel" style="--sc:var(--paars)">
+          <div class="smf">Werkgeversportaal (groepstotalen)</div>
+          <div class="smf">Gezondheidsbudget met sponsor-tegoeden</div>
+        </div>
+        <div class="smcel" style="--sc:var(--coral)">
+          <div class="smf">Corner-formaten: winkel &amp; event (pop-up)</div>
+          <div class="smf">JIMS-integratie (beweegaanbod)</div>
+        </div>
+        <div class="smcel" style="--sc:var(--leren)">
+          <div class="smf">Wearable-meetlaag</div>
+          <div class="smf">Kring-datamodel</div>
+        </div>
+
+        <div class="smfase">≈ fase 3 · de medische ring</div>
+        <div class="smcel" style="--sc:var(--yb)">
+          <div class="smf">Trajecten: prehab, revalidatie</div>
+          <div class="smf">Premium-laag (betalend)</div>
+        </div>
+        <div class="smcel" style="--sc:var(--oranje)">
+          <div class="smf">Supervisie-flows met artsen</div>
+          <div class="smf">Academy-certificering in de werkplek</div>
+        </div>
+        <div class="smcel" style="--sc:var(--blauw)">
+          <div class="smf">eHealth / M2-integratie (itsme, kluis)</div>
+          <div class="smf">Terugkoppeling therapietrouw naar arts</div>
+          <div class="smf">M3-terugbetalingsdossier</div>
+        </div>
+        <div class="smcel" style="--sc:var(--food)">
+          <div class="smf">Partnerportaal merken (vraagsignalen)</div>
+        </div>
+        <div class="smcel" style="--sc:var(--paars)">
+          <div class="smf">Cohortrapportage mutualiteiten (k ≥ 20)</div>
+          <div class="smf">Verzekeraars-programma's</div>
+        </div>
+        <div class="smcel" style="--sc:var(--coral)">
+          <div class="smf">Corner in het ziekenhuis (op verwijzing)</div>
+          <div class="smf">Health box op voorschrift</div>
+        </div>
+        <div class="smcel" style="--sc:var(--leren)">
+          <div class="smf">Cohort-engine (k ≥ 20-rapportage)</div>
+        </div>
+
+        <div class="smfase">later · opschalen</div>
+        <div class="smcel" style="--sc:var(--yb)"><div class="smf">Hyperpersonalisatie op schaal</div></div>
+        <div class="smcel" style="--sc:var(--oranje)"><div class="smf">Coach-schaalmodel (ratio 1:2.500)</div></div>
+        <div class="smcel" style="--sc:var(--blauw)"><div class="smf">Doorverwijzing 2.0 (Vitalink / hubs)</div></div>
+        <div class="smcel" style="--sc:var(--food)"><div class="smf">Alle CG-merken aangesloten</div></div>
+        <div class="smcel" style="--sc:var(--paars)"><div class="smf">Landelijke contracten</div></div>
+        <div class="smcel" style="--sc:var(--coral)"><div class="smf">Health house — pas na bewijs via corners</div></div>
+        <div class="smcel" style="--sc:var(--leren)"><div class="smf">Platform-hardening op schaal</div></div>
+      </div>
+      </div>
     </div>
   </div>
 </section>
