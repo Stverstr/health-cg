@@ -5592,85 +5592,34 @@ if (ecoViz) {
 })();
 </script>
 
-<!-- CG-inklap: hoofdstukken inklapbaar voor vlottere navigatie (geen tekst verwijderd) -->
+
+<!-- CG-detailklap: spelerskaarten tonen kop + kerncijfers; details achter een knopje -->
 <style>
-section[id].klapbaar .sechead{cursor:pointer; user-select:none}
-.klap-pijl{display:inline-block; margin-right:12px; transition:transform .15s ease; font-size:.65em; vertical-align:middle; color:var(--green-dk,#158053)}
-@media (prefers-reduced-motion: reduce){.klap-pijl{transition:none}}
-section[id].klapbaar.dicht .klap-pijl{transform:rotate(-90deg)}
-section[id].klapbaar.dicht .sec-inhoud{display:none}
-section[id].klapbaar.dicht{padding-bottom:34px}
-#klap-alles{position:fixed; left:18px; bottom:18px; z-index:900; border:1px solid var(--sand,#d9d7bf); border-radius:99px; background:var(--cream-2,#fbfbf9); color:var(--ink,#191717); font-family:inherit; font-weight:600; font-size:13px; padding:10px 16px; cursor:pointer; box-shadow:0 8px 22px rgba(0,0,0,.15)}
+.eco-toggle{margin-top:14px; border:1px solid var(--sand,#d9d7bf); background:none; border-radius:99px; font-family:inherit; font-weight:600; font-size:13px; color:var(--green-dk,#158053); padding:7px 14px; cursor:pointer}
+.eco-toggle:hover{border-color:var(--green-dk,#158053)}
+.eco-details[hidden]{display:none}
 </style>
-<button id="klap-alles">▸ Alles openklappen</button>
 <script>
 (function(){
-  function openSectie(id){
-    var s = document.getElementById(id);
-    if (s && s.classList.contains('klapbaar')){ s.classList.remove('dicht'); zetLabel(); }
-  }
-  window.cgOpenSectie = openSectie;
-
-  var alle = document.getElementById('klap-alles');
-  function zetLabel(){
-    var dicht = document.querySelectorAll('section.klapbaar.dicht').length;
-    alle.textContent = dicht ? '▸ Alles openklappen' : '▾ Alles dichtklappen';
-  }
-
-  document.querySelectorAll('section[id]').forEach(function(s){
-    var h = s.querySelector('h2');
-    if (!h) return;
-    var kop = h.closest('.sechead') || h;
-    var ouder = kop.parentElement;
-    // inhoud binnen dezelfde wrapper (na de kop) samen nemen
-    var binnen = document.createElement('div');
-    binnen.className = 'sec-inhoud';
-    while (kop.nextSibling){ binnen.appendChild(kop.nextSibling); }
-    ouder.appendChild(binnen);
-    // eventuele sectie-kinderen ná de wrapper apart samen nemen (behoud van lay-outniveau)
-    var tak = ouder;
-    while (tak.parentElement !== s){ tak = tak.parentElement; }
-    if (tak.nextSibling){
-      var buiten = document.createElement('div');
-      buiten.className = 'sec-inhoud';
-      while (tak.nextSibling){ buiten.appendChild(tak.nextSibling); }
-      s.appendChild(buiten);
-    }
-    s.classList.add('klapbaar', 'dicht');
-    var pijl = document.createElement('span');
-    pijl.className = 'klap-pijl';
-    pijl.textContent = '▾';
-    h.insertBefore(pijl, h.firstChild);
-    kop.addEventListener('click', function(e){
-      if (e.target.closest('.opm-anker')) return;  // het 💬-ankertje opent het opmerkingenpaneel
-      s.classList.toggle('dicht');
-      zetLabel();
+  document.querySelectorAll('.ecocard').forEach(function(k){
+    var vast = ['ehead', 'who', 'kpis'];
+    var det = document.createElement('div');
+    det.className = 'eco-details';
+    Array.prototype.slice.call(k.children).forEach(function(kind){
+      var hou = vast.some(function(c){ return kind.classList && kind.classList.contains(c); });
+      if (!hou){ det.appendChild(kind); }
     });
+    if (!det.children.length) return;
+    det.hidden = true;
+    var b = document.createElement('button');
+    b.className = 'eco-toggle'; b.type = 'button'; b.textContent = '\u25be Toon details';
+    b.addEventListener('click', function(){
+      det.hidden = !det.hidden;
+      b.textContent = det.hidden ? '\u25be Toon details' : '\u25b4 Verberg details';
+    });
+    k.appendChild(b);
+    k.appendChild(det);
   });
-
-  // navigatie en opmerking-verwijzingen klappen de doelsectie eerst open (capture: vóór het scrollen)
-  document.addEventListener('click', function(e){
-    var a = e.target.closest('header nav a[href^="#"]');
-    if (a){ openSectie(a.getAttribute('href').slice(1)); return; }
-    var q = e.target.closest('.opm-q, .opm-k .sec');
-    if (q && q.dataset && q.dataset.sec){ openSectie(q.dataset.sec); }
-  }, true);
-
-  // diepe links (bv. #ladder) openen hun sectie bij het laden
-  if (location.hash){
-    var doel = document.getElementById(location.hash.slice(1));
-    if (doel){
-      var sec = doel.closest('section[id]');
-      if (sec){ openSectie(sec.id); setTimeout(function(){ doel.scrollIntoView(); }, 50); }
-    }
-  }
-
-  alle.addEventListener('click', function(){
-    var dicht = document.querySelectorAll('section.klapbaar.dicht').length;
-    document.querySelectorAll('section.klapbaar').forEach(function(s){ s.classList.toggle('dicht', !dicht); });
-    zetLabel();
-  });
-  zetLabel();
 })();
 </script>
 
