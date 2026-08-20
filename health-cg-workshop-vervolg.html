@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Workshop — Health CG & Health Advisory</title>
+<style>
+:root{
+  --teal:#00887B; --teal-deep:#00695F; --teal-soft:rgba(0,136,123,.1);
+  --ink:#1A1A1A; --muted:#5A5A55; --hair:#DDD9CF;
+  --bg:#F7F6F2; --card:#FFFFFF;
+  --geel:#B98800; --blauw:#2F6FE4; --coral:#D95550; --paars:#8A2FAC;
+  --ok:#1E9066; --shadow:0 10px 30px rgba(20,20,20,.08);
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --teal:#2FB3A4; --teal-deep:#57C9BB; --teal-soft:rgba(47,179,164,.14);
+    --ink:#EDEBE6; --muted:#A5A19A; --hair:#3A3831;
+    --bg:#141311; --card:#1E1C19;
+    --geel:#E5B94C; --blauw:#7AA9FF; --coral:#F08A86; --paars:#C273E0;
+    --ok:#34C08D; --shadow:0 10px 30px rgba(0,0,0,.4);
+  }
+}
+:root[data-theme="dark"]{
+  --teal:#2FB3A4; --teal-deep:#57C9BB; --teal-soft:rgba(47,179,164,.14);
+  --ink:#EDEBE6; --muted:#A5A19A; --hair:#3A3831;
+  --bg:#141311; --card:#1E1C19;
+  --geel:#E5B94C; --blauw:#7AA9FF; --coral:#F08A86; --paars:#C273E0;
+  --ok:#34C08D; --shadow:0 10px 30px rgba(0,0,0,.4);
+}
+:root[data-theme="light"]{
+  --teal:#00887B; --teal-deep:#00695F; --teal-soft:rgba(0,136,123,.1);
+  --ink:#1A1A1A; --muted:#5A5A55; --hair:#DDD9CF;
+  --bg:#F7F6F2; --card:#FFFFFF;
+  --geel:#B98800; --blauw:#2F6FE4; --coral:#D95550; --paars:#8A2FAC;
+  --ok:#1E9066; --shadow:0 10px 30px rgba(20,20,20,.08);
+}
+*{margin:0; padding:0; box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto} *{animation:none !important; transition:none !important}}
+body{font-family:Calibri,"Segoe UI",-apple-system,sans-serif; background:var(--bg); color:var(--ink); line-height:1.55}
+b{font-weight:700}
+button{font-family:inherit; cursor:pointer}
+.wrap{max-width:1080px; margin:0 auto; padding:0 24px}
+
+.topbar{display:flex; gap:14px; align-items:center; padding:12px 24px; font-size:.8rem; color:var(--muted); border-bottom:1px solid var(--hair)}
+.topbar a{color:var(--teal-deep); font-weight:700; text-decoration:none}
+.topbar .tbcur{color:var(--teal-deep); font-weight:700; padding-bottom:2px; border-bottom:2px solid var(--teal)}
+.topbar .spacer{flex:1}
+
+header.hero{padding:56px 0 30px}
+.eyebrow{font-size:.72rem; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:var(--teal-deep)}
+h1{font-size:2.2rem; letter-spacing:-.02em; line-height:1.15; margin-top:8px}
+.lead{margin-top:14px; max-width:52em; color:var(--muted); font-size:1.05rem}
+
+section{padding:36px 0 8px}
+h2{font-size:1.5rem; letter-spacing:-.015em}
+h2 small{display:block; font-size:.85rem; font-weight:400; color:var(--muted); margin-top:4px}
+.secnr{font-size:.72rem; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:var(--teal-deep)}
+.dagdeel{display:inline-block; margin-top:40px; background:var(--teal); color:#fff; border-radius:12px; padding:9px 20px; font-weight:700; font-size:.95rem; letter-spacing:.03em}
+:root[data-theme="dark"] .dagdeel{color:#10201D}
+
+.spelregels{display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-top:20px}
+@media(max-width:760px){.spelregels{grid-template-columns:1fr}}
+.regel{background:var(--card); border:1px solid var(--hair); border-radius:14px; padding:16px 18px; box-shadow:var(--shadow); font-size:.9rem; color:var(--muted)}
+.regel b{display:block; margin-bottom:4px; color:var(--ink)}
+
+.agenda{margin-top:20px; background:var(--card); border:1px solid var(--hair); border-radius:14px; overflow:hidden; box-shadow:var(--shadow)}
+.agenda .ar{display:flex; gap:14px; align-items:baseline; padding:11px 18px; border-bottom:1px dashed var(--hair); font-size:.92rem}
+.agenda .ar:last-child{border-bottom:none}
+.agenda .ar .t{flex:0 0 68px; font-weight:700; color:var(--teal-deep); font-size:.8rem}
+.agenda .ar small{margin-left:auto; color:var(--muted); white-space:nowrap}
+.agenda .ar.kop{background:var(--teal-soft); font-weight:700; color:var(--teal-deep); border-bottom:1px solid var(--hair)}
+
+/* debatkaart */
+.debat{background:color-mix(in srgb, var(--geel) 8%, transparent); border:1.5px dashed var(--geel); border-radius:16px; padding:20px 22px; margin-top:22px}
+.debat h3{font-size:1.05rem}
+.debat .sub{font-size:.82rem; color:var(--muted); margin-top:2px}
+.debat ul{list-style:none; display:grid; gap:8px; margin-top:12px}
+.debat li{padding-left:24px; position:relative; font-size:.92rem}
+.debat li::before{content:"💬"; position:absolute; left:0; font-size:.8rem}
+
+/* presentatie/draaiboek */
+.pres{background:var(--card); border:1px solid var(--hair); border-radius:16px; padding:20px 22px; margin-top:22px; box-shadow:var(--shadow)}
+.pres h3{font-size:1.05rem}
+.pres .sub{font-size:.82rem; color:var(--muted); margin-top:2px}
+.pres ol{margin:12px 0 0 20px; display:grid; gap:7px; font-size:.92rem}
+.pres ol small{color:var(--muted)}
+
+/* keuzekaart */
+.kk{background:var(--card); border:1px solid var(--hair); border-radius:16px; padding:22px 24px; margin-top:22px; box-shadow:var(--shadow); border-left:5px solid var(--hair)}
+.kk.st-ok{border-left-color:var(--ok)}
+.kk.st-aan{border-left-color:var(--geel)}
+.kk.st-park{border-left-color:var(--coral)}
+.kk-kop{display:flex; gap:12px; align-items:baseline; flex-wrap:wrap}
+.kk-kop .nr{flex:0 0 auto; font-size:.74rem; font-weight:700; letter-spacing:.1em; color:var(--teal-deep); background:var(--teal-soft); border-radius:99px; padding:3px 11px}
+.kk-kop h3{font-size:1.18rem; letter-spacing:-.01em; flex:1; min-width:240px}
+.kk-kop .tijd{font-size:.74rem; color:var(--muted); white-space:nowrap}
+.kk-kop .stchip{font-size:.72rem; font-weight:700; border-radius:99px; padding:3px 10px; display:none}
+.kk.st-ok .stchip.ok,.kk.st-aan .stchip.aan,.kk.st-park .stchip.park{display:inline-block}
+.stchip.ok{background:color-mix(in srgb, var(--ok) 14%, transparent); color:var(--ok)}
+.stchip.aan{background:color-mix(in srgb, var(--geel) 16%, transparent); color:var(--geel)}
+.stchip.park{background:color-mix(in srgb, var(--coral) 14%, transparent); color:var(--coral)}
+.kk-waarom{margin-top:8px; color:var(--muted); font-size:.94rem; max-width:60em}
+
+.alts{display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:12px; margin-top:16px}
+.alt{border:1px solid var(--hair); border-radius:12px; padding:15px 16px; font-size:.88rem; position:relative; background:color-mix(in srgb, var(--muted) 4%, transparent)}
+.alt h4{font-size:.98rem; margin-bottom:8px; padding-right:70px}
+.alt ul{list-style:none; display:grid; gap:4px}
+.alt li{padding-left:20px; position:relative; color:var(--muted)}
+.alt ul.plus li::before{content:"+"; position:absolute; left:2px; font-weight:700; color:var(--ok)}
+.alt ul.min{margin-top:8px}
+.alt ul.min li::before{content:"−"; position:absolute; left:2px; font-weight:700; color:var(--coral)}
+.alt.keuze{border:1.5px solid var(--teal); background:var(--teal-soft)}
+.alt.keuze .vlag{position:absolute; top:12px; right:12px; font-size:.66rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; background:var(--teal); color:#fff; border-radius:99px; padding:3px 9px}
+:root[data-theme="dark"] .alt.keuze .vlag{color:#10201D}
+
+.cons{margin-top:14px; font-size:.9rem; background:color-mix(in srgb, var(--blauw) 7%, transparent); border:1px dashed color-mix(in srgb, var(--blauw) 45%, transparent); border-radius:10px; padding:10px 14px}
+.poclinks{display:flex; flex-wrap:wrap; gap:8px; margin-top:12px; align-items:center}
+.poclinks .lbl{font-size:.76rem; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--muted)}
+.poclink{font-size:.82rem; font-weight:700; text-decoration:none; color:var(--teal-deep); border:1px solid var(--hair); border-radius:99px; padding:6px 13px; background:var(--card)}
+.poclink:hover{border-color:var(--teal)}
+.valvraag{margin-top:10px; font-size:.92rem; font-weight:700}
+.val{display:flex; gap:8px; flex-wrap:wrap; margin-top:12px; align-items:center}
+.val button{border:1px solid var(--hair); background:var(--card); color:var(--ink); border-radius:99px; padding:8px 15px; font-size:.84rem; font-weight:700}
+.val button:hover{border-color:var(--teal)}
+.val button.act{background:var(--teal); border-color:var(--teal); color:#fff}
+:root[data-theme="dark"] .val button.act{color:#10201D}
+.val input{flex:1; min-width:220px; border:1px solid var(--hair); border-radius:10px; padding:8px 12px; font:inherit; font-size:.84rem; background:var(--card); color:var(--ink)}
+.val input::placeholder{color:var(--muted)}
+.val input:focus{outline:none; border-color:var(--teal)}
+
+/* demo */
+.demogrid{display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:12px; margin-top:18px}
+.demo{display:block; background:var(--card); border:1px solid var(--hair); border-radius:14px; padding:16px 18px; text-decoration:none; color:var(--ink); box-shadow:var(--shadow); transition:border-color .15s ease}
+.demo:hover{border-color:var(--teal)}
+.demo b{display:block; font-size:1rem}
+.demo small{color:var(--muted); font-size:.84rem; display:block; margin-top:4px}
+.demo .pijl{color:var(--teal-deep); font-weight:700; font-size:.8rem; display:block; margin-top:8px}
+.verhalen{display:flex; flex-wrap:wrap; gap:8px; margin-top:14px}
+.verhalen span{font-size:.8rem; font-weight:700; border:1px solid var(--hair); background:var(--card); border-radius:99px; padding:6px 13px; color:var(--muted)}
+
+/* besluiten */
+.besluiten{margin-top:18px; background:var(--card); border:1px solid var(--hair); border-radius:14px; box-shadow:var(--shadow); overflow:hidden}
+.besluiten .br{display:flex; gap:12px; align-items:baseline; padding:11px 18px; border-bottom:1px dashed var(--hair); font-size:.9rem}
+.besluiten .br:last-child{border-bottom:none}
+.besluiten .br .nr{flex:0 0 34px; font-weight:700; color:var(--teal-deep); font-size:.78rem}
+.besluiten .br .st{margin-left:auto; font-size:.74rem; font-weight:700; white-space:nowrap}
+.besluiten .br small{display:block; color:var(--muted); font-size:.8rem}
+.st.s-ok{color:var(--ok)} .st.s-aan{color:var(--geel)} .st.s-park{color:var(--coral)} .st.s-open{color:var(--muted)}
+.kopieer{margin-top:14px; border:none; border-radius:10px; background:var(--teal); color:#fff; font-weight:700; font-size:.9rem; padding:11px 18px}
+:root[data-theme="dark"] .kopieer{color:#10201D}
+.kopieer:active{transform:scale(.98)}
+
+.next{display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:12px; margin-top:18px}
+.next .n{background:var(--card); border:1px solid var(--hair); border-radius:12px; padding:14px 16px; font-size:.9rem}
+.next .n b{display:block}
+.next .n small{color:var(--muted)}
+
+footer{padding:40px 0 60px; color:var(--muted); font-size:.8rem}
+</style>
+</head>
+<body>
+<!-- CG-toegangspoort: eenvoudige wachtwoordlaag (client-side); bij nieuwe pagina's mee overnemen -->
+<script>
+(function(){
+  var KEY='cghealth-toegang', HASH='ceb3fb22db509f33f1e1ecb12f5ebc54b4538344710d40ec550d8d918195f8fc';
+  try{ if(localStorage.getItem(KEY)===HASH) return; }catch(e){}
+  function sha(t,cb){ crypto.subtle.digest('SHA-256', new TextEncoder().encode(t)).then(function(b){ cb(Array.prototype.map.call(new Uint8Array(b), function(x){return x.toString(16).padStart(2,'0');}).join('')); }); }
+  var st=document.createElement('style');
+  st.textContent='body>*:not(#cggate){display:none !important} #cggate{position:fixed; inset:0; display:flex; align-items:center; justify-content:center; background:#F5F5F0; z-index:99999; font-family:Calibri,\'Segoe UI\',sans-serif} #cggate .kaart{background:#fff; border:1px solid #DDD9CF; border-radius:16px; padding:34px 36px; max-width:380px; width:90%; box-shadow:0 12px 34px rgba(20,20,20,.12); text-align:center} #cggate h1{font-size:1.15rem; color:#1A1A1A; margin:0 0 4px} #cggate p{font-size:.85rem; color:#5A5A55; margin:0 0 16px} #cggate input{width:100%; border:1px solid #DDD9CF; border-radius:10px; padding:11px 13px; font:inherit; font-size:.95rem; margin-bottom:10px; box-sizing:border-box} #cggate button{width:100%; border:none; border-radius:10px; background:#00887B; color:#fff; font-weight:700; font-size:.95rem; padding:11px; cursor:pointer; font-family:inherit} #cggate .fout{color:#D95550; font-size:.8rem; min-height:18px; margin-top:8px} @media (prefers-color-scheme: dark){ #cggate{background:#141311} #cggate .kaart{background:#1E1C19; border-color:#3A3831} #cggate h1{color:#EDEBE6} #cggate p{color:#A5A19A} #cggate input{background:#141311; color:#EDEBE6; border-color:#3A3831} }';
+  document.head.appendChild(st);
+  function bouw(){
+    var d=document.createElement('div'); d.id='cggate';
+    d.innerHTML='<div class="kaart"><h1>Health CG</h1><p>Vertrouwelijk werkdocument \u2014 voer het wachtwoord in.</p><input type="password" placeholder="wachtwoord" autocomplete="current-password"><button>Open</button><div class="fout"></div></div>';
+    document.body.appendChild(d);
+    var inp=d.querySelector('input'), btn=d.querySelector('button'), fout=d.querySelector('.fout');
+    function probeer(){
+      sha(inp.value.trim().toLowerCase(), function(h){
+        if(h===HASH){ try{localStorage.setItem(KEY,HASH);}catch(e){} d.remove(); st.remove(); }
+        else { fout.textContent='Dat is hem niet \u2014 probeer opnieuw.'; inp.select(); }
+      });
+    }
+    btn.addEventListener('click', probeer);
+    inp.addEventListener('keydown', function(e){ if(e.key==='Enter') probeer(); });
+    inp.focus();
+  }
+  if(document.body){ bouw(); } else { document.addEventListener('DOMContentLoaded', bouw); }
+})();
+</script>
+
+<div class="topbar wrap" style="max-width:none">
+  <a href="health-cg-workshop.html">← Workshop</a>
+  <span class="tbcur">Geparkeerde blokken</span>
+  <span class="spacer"></span>
+  <span>werkdocument · vertrouwelijk</span>
+</div>
+
+<header class="hero">
+  <div class="wrap">
+    <span class="eyebrow">Workshop · geparkeerd op 20-08</span>
+    <h1>Geparkeerde workshopblokken</h1>
+    <p class="lead">Voorlopig uit het draaiboek gehaald, maar volledig werkend bewaard: de debatten, het demo-draaiboek, de strategische vragen (A1–A5 en B1–B5), het financiële blok (F1) en de besluitenlijst. Klaar om terug te keren zodra de workshop erom vraagt.</p>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+<span class="dagdeel">▶ Deel 1 · dag 1, namiddag — lezen &amp; zien</span>
+    <span class="secnr" style="display:block; margin-top:34px">1.1 · Debat over de red box</span>
+    <div class="debat">
+      <h3>Wat zegt het speelveld ons?</h3>
+      <div class="sub">Open debat, 45 minuten. Het dossier eindigt zelf met "vragen die de workshop moeten dragen" — dit zijn onze aftrap-stellingen:</div>
+      <ul>
+        <li>Welke van de <b>zeven ecosystemen</b> uit het dossier is onze échte concurrent — en wie is eerder partner?</li>
+        <li>Welk van de <b>zes businessmodellen</b> past bij wat Colruyt Group is (en wat we níet zijn)?</li>
+        <li>Zijn de <b>acht waarom-nu-signalen</b> overtuigend genoeg om dit jaar te bewegen — of wachten we op meer bewijs?</li>
+        <li>Wat zeggen de <b>marktcijfers</b> over de € 1 miljard-ambitie: realistisch, ambitieus of naïef?</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="demo">
+  <div class="wrap">
+    <span class="secnr">1.2 · De demo</span>
+    <h2>Health Advisory in één geheel <small>Eén doorlopende demo, zonder veel vragen — noteer wat opvalt, het debat komt erna.</small></h2>
+
+    <div class="pres">
+      <h3>🎬 Het draaiboek (40 minuten)</h3>
+      <div class="sub">één verhaal, van speelveld tot EPD — de presentator klikt, de zaal kijkt</div>
+      <ol>
+        <li><b>De POC-hub</b> — het concept per stakeholder: klant, coach, arts, merk, meetpartner, middenveld <small>· 5 min</small></li>
+        <li><b>Lena's app</b> — stapjes, meetbaar doel, gezin &amp; kringen, gezondheidsbudget met sponsors en Xtra-punten <small>· 10 min</small></li>
+        <li><b>Eén verhaal end-to-end</b> — Marc: van diagnose en leefstijlvoorschrift in het EPD tot stapjes in de app <small>· 10 min</small></li>
+        <li><b>De coach-werkplek</b> — AI stelt voor, Sam beslist; hub &amp; spokes rond één plan <small>· 10 min</small></li>
+        <li><b>De buitenring</b> — het artsenportaal en de cohort-/preventieportalen voor mutualiteit en werkgever <small>· 5 min</small></li>
+      </ol>
+    </div>
+
+    <div class="demogrid">
+      <a class="demo" href="health-cg-yoboo.html"><b>🧭 De POC-hub</b><small>Het hele verhaal per stakeholder, met het leefstijlvoorschrift en de mHealth-piramide.</small><span class="pijl">Open de hub →</span></a>
+      <a class="demo" href="yoboo-klant.html"><b>📱 De klant-app</b><small>Yobi, stapjes, meetbare doelen, gezin &amp; kringen, gezondheidsbudget.</small><span class="pijl">Open als Lena →</span></a>
+      <a class="demo" href="yoboo-coach.html"><b>🧑‍🏫 De coach-werkplek</b><small>AI stelt voor, Sam beslist; het team rond elk plan zichtbaar.</small><span class="pijl">Open als Sam →</span></a>
+      <a class="demo" href="yoboo-arts.html"><b>🩺 Het artsenportaal</b><small>EPD met leefstijlvoorschrift: alleen voorwaarden steken over.</small><span class="pijl">Open als dr. Verhoeven →</span></a>
+    </div>
+    <div class="verhalen">
+      <span>🚴 Omar — meer en beter bewegen</span>
+      <span>⚖️ Jef — gewicht verliezen</span>
+      <span>🦵 Nadia — operatie ondergaan (prehab)</span>
+      <span>❤️ Marc — revalideren na een ingreep</span>
+      <span>🌙 Aïcha — slaap slecht</span>
+    </div>
+    <p style="margin-top:10px; color:var(--muted); font-size:.9rem">De vijf verhalen zitten in de gebruikerskiezer van de klant-app en lopen end-to-end door tot in de coach-werkplek en het EPD.</p>
+
+    <span class="secnr" style="display:block; margin-top:34px">1.3 · Debat over de demo</span>
+    <div class="debat">
+      <h3>Wat vonden we ervan?</h3>
+      <div class="sub">Open debat, 45 minuten — nu mogen alle genoteerde vragen op tafel. Hiermee sluit dag 1 af:</div>
+      <ul>
+        <li>Wat overtuigde het meest — en wat ontbreekt er nog om dit aan een klant, coach of arts te tonen?</li>
+        <li>Is dit onderscheidend genoeg tegenover de ecosystemen uit de red box — waar zit ons unieke stuk?</li>
+        <li>Geloven we het vertrouwensmodel (dataringen, consent, cohorten) zoals gedemonstreerd?</li>
+        <li>Wat moet er in de POC bij of uit vóór we hiermee naar buiten gaan?</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="advisory">
+  <div class="wrap">
+    <span class="dagdeel" style="margin-top:0">▶ Deel 2 · dag 2, voormiddag — de strategische vragen</span>
+    <span class="secnr" style="display:block; margin-top:24px">2.1 · Strategische vragen — Health Advisory</span>
+    <h2>Vijf keuzes, vijf duidelijke antwoorden <small>Wij hebben ze voorgekauwd: alternatieven, voor- en nadelen en een voorstel. Per vraag is er ruimte voor écht diepte-debat (±35 min) — maar elke vraag eindigt in een duidelijk antwoord: valideren, aanpassen of parkeren.</small></h2>
+
+    <!-- A1 -->
+    <div class="kk" id="A1" data-titel="Platform: Xtra of Yoboo?">
+      <div class="kk-kop"><span class="nr">A1</span><h3>Zetten we Xtra of Yoboo voorop als gezondheidsplatform?</h3><span class="tijd">±35 min incl. diepte-debat</span><span class="stchip ok">✓ gevalideerd</span><span class="stchip aan">✏️ met aanpassing</span><span class="stchip park">⏸ geparkeerd</span></div>
+      <p class="kk-waarom">De verleidelijkste kortsluiting is Xtra: miljoenen accounts, morgen bereik. Maar gezondheid draait op vertrouwen — en vertrouwen vraagt afstand van de kassa.</p>
+      <div class="alts">
+        <div class="alt">
+          <h4>Xtra als gezondheidsplatform</h4>
+          <ul class="plus"><li>Onmiddellijk bereik: miljoenen actieve accounts</li><li>Geen nieuw merk nodig, één app-strategie</li><li>Loyalty en betalen zitten er al in</li></ul>
+          <ul class="min"><li>"De supermarkt kent mijn gezondheid" — het vertrouwensprobleem zit ingebakken</li><li>Gezondheids- en winkeldata onder één dak maakt elk consent-verhaal ongeloofwaardig</li><li>Certificering (medisch hulpmiddel) zou heel Xtra in scope trekken — praktisch onhaalbaar</li><li>Geen arts of mutualiteit endorseert een supermarkt-app</li></ul>
+        </div>
+        <div class="alt keuze">
+          <span class="vlag">ons voorstel</span>
+          <h4>Yoboo als platform, Xtra als brug</h4>
+          <ul class="plus"><li>Zorg-DNA en een merk dat je kán laden met vertrouwen</li><li>Harde datascheiding — de winkel ziet het plan nooit, en omgekeerd</li><li>Certificeerbaar via mHealthBelgium (M1 → M3) → voorschrijfbaar én terugbetaalbaar</li><li>Xtra blijft de brug: aanmelden met Xtra, vonken ↔ Xtra-punten, instap via de winkelkanalen</li></ul>
+          <ul class="min"><li>Yoboo-merk moet nog geladen worden — dat kost marketing en tijd</li><li>Een extra app op de telefoon; de instapmomenten moeten dat compenseren</li></ul>
+        </div>
+      </div>
+      <p class="cons"><b>Als we dit kiezen:</b> we investeren in Yoboo als merk (herpositionering + herlancering onder centrale sturing), en het Xtra-team levert de identiteits- en beloningsbrug — niet het platform.</p>
+      <div class="poclinks"><span class="lbl">🔎 Zie het zelf</span><a class="poclink" href="yoboo-klant.html#onboard">Tom meldt aan met Xtra (onboarding)</a><a class="poclink" href="yoboo-klant.html#budget">Betalen met Xtra-punten (Ik → budget)</a><a class="poclink" href="yoboo-klant.html#gezin">Vonken &amp; kringen — de Yoboo-laag</a></div>
+      <p class="valvraag">💬 Validatievraag: zijn we bereid het onmiddellijke bereik van Xtra op te geven in ruil voor de vertrouwens- en certificeringsroute?</p>
+      <div class="val"><button onclick="valideer(this,'ok')">✓ Gevalideerd</button><button onclick="valideer(this,'aan')">✏️ Met aanpassing</button><button onclick="valideer(this,'park')">⏸ Parkeren</button><input placeholder="argument, aanpassing of eigenaar+datum (optioneel)" oninput="noteer(this)"></div>
+    </div>
+
+    <!-- A2 -->
+    <div class="kk" id="A2" data-titel="Begeleiding: AI-first of coach-first?">
+      <div class="kk-kop"><span class="nr">A2</span><h3>AI-first met een menselijke hub — of coach-first?</h3><span class="tijd">±35 min incl. diepte-debat</span><span class="stchip ok">✓ gevalideerd</span><span class="stchip aan">✏️ met aanpassing</span><span class="stchip park">⏸ geparkeerd</span></div>
+      <p class="kk-waarom">Eén-op-één coaching is warm maar schaalt niet naar een groepsambitie; pure AI schaalt maar laat mensen als Jos afhaken. De vraag is niet óf er een mens bij hoort, maar wáár.</p>
+      <div class="alts">
+        <div class="alt">
+          <h4>Coach-first (mens doet de begeleiding)</h4>
+          <ul class="plus"><li>Maximale warmte en geloofwaardigheid</li><li>Bewezen model (personal coaching)</li></ul>
+          <ul class="min"><li>Onbetaalbaar en onschaalbaar richting honderdduizenden gebruikers</li><li>Coach wordt bottleneck voor élke interactie</li></ul>
+        </div>
+        <div class="alt">
+          <h4>AI-only</h4>
+          <ul class="plus"><li>Maximale schaal tegen marginale kost</li></ul>
+          <ul class="min"><li>Koud; afhakers zonder vangnet (het Jos-verhaal)</li><li>Geen endorsement van artsen zonder menselijke verantwoordelijkheid</li></ul>
+        </div>
+        <div class="alt keuze">
+          <span class="vlag">ons voorstel</span>
+          <h4>AI-first (Yobi) + menselijke hub &amp; spokes</h4>
+          <ul class="plus"><li>Yobi doet het dagelijkse werk: stapjes, menu's, bijsturing — schaalt</li><li>Eén holistische hub-coach per klant ziet alles en grijpt in op de momenten die tellen</li><li>Specialisten (diëtist, slaapcoach, kine, fitnesscoach) schrijven als spokes mee in hetzélfde plan</li><li>Mens-gedreven herstart als de app niet pakt — de mens is het vangnet, niet de uitzondering</li></ul>
+          <ul class="min"><li>Vraagt een coach-werkplek en triage-discipline (AI stelt voor, mens beslist)</li></ul>
+        </div>
+      </div>
+      <p class="cons"><b>Als we dit kiezen:</b> we bouwen de coach-werkplek als volwaardig product (niet als bijzaak) en certificeren coaches via de CG Academy — dat is de voorwaarde voor het endorsement van artsen.</p>
+      <div class="poclinks"><span class="lbl">🔎 Zie het zelf</span><a class="poclink" href="yoboo-coach.html#klant/lena">Coach-werkplek: AI stelt voor, Sam keurt goed</a><a class="poclink" href="yoboo-coach.html#klant/marc">Hub &amp; spokes: het team rond Marcs plan</a><a class="poclink" href="yoboo-klant.html#coach">Yobi-chat: bij pijn verwijst Yobi naar Sam</a></div>
+      <p class="valvraag">💬 Validatievraag: aanvaarden we dat de coach per definitie ná de AI komt — en dat dat de enige weg naar schaal is?</p>
+      <div class="val"><button onclick="valideer(this,'ok')">✓ Gevalideerd</button><button onclick="valideer(this,'aan')">✏️ Met aanpassing</button><button onclick="valideer(this,'park')">⏸ Parkeren</button><input placeholder="argument, aanpassing of eigenaar+datum (optioneel)" oninput="noteer(this)"></div>
+    </div>
+
+    <!-- A3 -->
+    <div class="kk" id="A3" data-titel="Medische verankering: welzijnsapp of zorgproduct?">
+      <div class="kk-kop"><span class="nr">A3</span><h3>Blijven we een welzijnsapp — of worden we een voorschrijfbaar zorgproduct?</h3><span class="tijd">±35 min incl. diepte-debat</span><span class="stchip ok">✓ gevalideerd</span><span class="stchip aan">✏️ met aanpassing</span><span class="stchip park">⏸ geparkeerd</span></div>
+      <p class="kk-waarom">"Gezondheidsadvies van uw supermarkt" heeft een geloofwaardigheidsprobleem — tot de arts het voorschrijft. Het leefstijlvoorschrift is de sleutel, en het Belgische kader ervoor bestaat al.</p>
+      <div class="alts">
+        <div class="alt">
+          <h4>Welzijnsapp (blijven)</h4>
+          <ul class="plus"><li>Snel, geen regelgevende last</li><li>Volledige vrijheid in features en toon</li></ul>
+          <ul class="min"><li>Blijft "advies van de supermarkt" — geen artsen, geen voorschrift</li><li>Geen terugbetaling, dus geen mutualiteits- en werkgeversverhaal op niveau</li></ul>
+        </div>
+        <div class="alt keuze">
+          <span class="vlag">ons voorstel</span>
+          <h4>Twee sporen: welzijnsapp nú, mHealth-traject parallel</h4>
+          <ul class="plus"><li>Vandaag gewoon starten als welzijnsapp — niets blokkeert</li><li>Parallel de mHealthBelgium-piramide op: M1 (CE-markering) → M2 (eHealth-integratie) → M3 (RIZIV-financiering)</li><li>Leefstijlvoorschrift als product: arts kiest voorwaarden, patiënt geeft consent, coach ziet het gevolg — nooit de diagnose</li><li>Precedent bestaat: moveUP (knie/heup-revalidatie) werd zo als eerste app terugbetaald</li></ul>
+          <ul class="min"><li>Certificering kost 12–24 maanden en een kwaliteitsdossier — start dus vandaag</li><li>Het medische luik van de app moet strakker (claims, validatie) dan het welzijnsluik</li></ul>
+        </div>
+      </div>
+      <p class="cons"><b>Als we dit kiezen:</b> we starten het mHealthBelgium-traject dit kwartaal (eigenaar + budget), en ontwerpen de app vanaf nu met de M2-eisen (eHealth, beveiliging) in het achterhoofd.</p>
+      <div class="poclinks"><span class="lbl">🔎 Zie het zelf</span><a class="poclink" href="yoboo-arts.html#marc/leefstijl">EPD: het leefstijlvoorschrift van Marc</a><a class="poclink" href="health-cg-yoboo.html#arts">Hub: uitleg + mHealth-piramide</a><a class="poclink" href="yoboo-klant.html#verhaal-nadia">Nadia: prehab op voorschrift, end-to-end</a></div>
+      <p class="valvraag">💬 Validatievraag: committeren we nú op het certificeringstraject, wetende dat de pay-off pas in 2027-2028 komt?</p>
+      <div class="val"><button onclick="valideer(this,'ok')">✓ Gevalideerd</button><button onclick="valideer(this,'aan')">✏️ Met aanpassing</button><button onclick="valideer(this,'park')">⏸ Parkeren</button><input placeholder="argument, aanpassing of eigenaar+datum (optioneel)" oninput="noteer(this)"></div>
+    </div>
+
+    <!-- A4 -->
+    <div class="kk" id="A4" data-titel="Data: één datalake of harde ringen?">
+      <div class="kk-kop"><span class="nr">A4</span><h3>Data: één rijk datalake — of harde, gescheiden ringen?</h3><span class="tijd">±35 min incl. diepte-debat</span><span class="stchip ok">✓ gevalideerd</span><span class="stchip aan">✏️ met aanpassing</span><span class="stchip park">⏸ geparkeerd</span></div>
+      <p class="kk-waarom">Commercieel is de verleiding groot om alles te koppelen: winkeldata × gezondheidsdata × sponsordata. Maar één datalek of één krantenkop over "Colruyt weet dat u ziek bent" en het hele verhaal is dood.</p>
+      <div class="alts">
+        <div class="alt">
+          <h4>Eén gekoppeld datalake</h4>
+          <ul class="plus"><li>Maximale personalisatie en analysewaarde</li><li>Eenvoudiger architectuur</li></ul>
+          <ul class="min"><li>Reputatierisico is existentieel, niet incrementeel</li><li>Onverkoopbaar aan artsen, mutualiteiten én de wetgever</li><li>Consent wordt een wassen neus</li></ul>
+        </div>
+        <div class="alt keuze">
+          <span class="vlag">ons voorstel</span>
+          <h4>Harde ringen — privacy als productfeature</h4>
+          <ul class="plus"><li>Medische ring blijft bij de arts: alleen de voorwaarden van het voorschrift steken over, nooit de diagnose</li><li>Sponsors (werkgever, mutualiteit) zien alleen groepen: cohorten ≥ 20, teams, trends — namen bestaan niet in hun portaal</li><li>De klant beheert alles zelf: per bron, per kijker, per kring — één tik om te stoppen</li><li>Dit ís de differentiatie: vertrouwen dat een pure tech-speler niet kan kopiëren</li></ul>
+          <ul class="min"><li>We laten bewust analysewaarde liggen</li><li>Elke nieuwe feature moet langs de ringen-toets — dat remt soms af</li></ul>
+        </div>
+      </div>
+      <p class="cons"><b>Als we dit kiezen:</b> de ringen worden een niet-onderhandelbaar architectuurprincipe, met een toets bij elke feature — en we vertellen het actief als merkbelofte.</p>
+      <div class="poclinks"><span class="lbl">🔎 Zie het zelf</span><a class="poclink" href="yoboo-klant.html#ik">Ik: wat ik deel &amp; wie kijkt mee</a><a class="poclink" href="health-cg-yoboo.html#midden">Cohortrapport &amp; preventieportaal (≥ 20)</a><a class="poclink" href="yoboo-arts.html#marc/dossier">EPD-dossier: niets steekt over</a></div>
+      <p class="valvraag">💬 Validatievraag: houden we dit vol als de commerciële druk komt om "toch even te koppelen"?</p>
+      <div class="val"><button onclick="valideer(this,'ok')">✓ Gevalideerd</button><button onclick="valideer(this,'aan')">✏️ Met aanpassing</button><button onclick="valideer(this,'park')">⏸ Parkeren</button><input placeholder="argument, aanpassing of eigenaar+datum (optioneel)" oninput="noteer(this)"></div>
+    </div>
+
+    <!-- A5 -->
+    <div class="kk" id="A5" data-titel="Verdienmodel: abonnement, commerce of derde-betalers?">
+      <div class="kk-kop"><span class="nr">A5</span><h3>Hoe verdient dit zichzelf terug — abonnement, commerce of derde-betalers?</h3><span class="tijd">±35 min incl. diepte-debat</span><span class="stchip ok">✓ gevalideerd</span><span class="stchip aan">✏️ met aanpassing</span><span class="stchip park">⏸ geparkeerd</span></div>
+      <p class="kk-waarom">Een betaalmuur doodt het bereik; pure commerce doodt het vertrouwen. Het model moet verdienen aan gezond gedrag — niet aan schermtijd. De cijfers erachter kloppen we af in deel 3 (agendapunt 3.5).</p>
+      <div class="alts">
+        <div class="alt">
+          <h4>Abonnement (premium app)</h4>
+          <ul class="plus"><li>Voorspelbare inkomsten</li></ul>
+          <ul class="min"><li>Betaalmuur = geen volksgezondheidsbereik</li><li>Concurreert met gratis apps en verzekeraars-apps</li></ul>
+        </div>
+        <div class="alt">
+          <h4>Pure commerce (app als verkoopkanaal)</h4>
+          <ul class="plus"><li>Directe omzet uit de merken</li></ul>
+          <ul class="min"><li>Voelt meteen als reclame — vertrouwen weg</li><li>Race naar de kassa in plaats van naar het doel</li></ul>
+        </div>
+        <div class="alt keuze">
+          <span class="vlag">ons voorstel</span>
+          <h4>Gelaagd: gratis basis + doelgedreven aanbod + derde-betalers</h4>
+          <ul class="plus"><li>Gratis basis voor bereik — de meeste stapjes kosten niks</li><li>Aanbod alleen als het het doel dient: Newpharma care, Jims, Foodbag, opleidingen, health box — "past bij jouw doel", nooit reclame, altijd verbergbaar</li><li>Derde-betalers via het gezondheidsbudget: werkgever, mutualiteit en verzekeraar sponsoren gezond gedrag, betalen op cohortbewijs</li><li>Later een bescheiden premium-laag (± 10% tekent in) — de gratis basis blijft gratis</li></ul>
+          <ul class="min"><li>Meerdere motoren tegelijk bouwen is complexer dan één</li><li>Derde-betalers vragen het cohort-rapportagemodel (zie A4) — die volgorde ligt vast</li></ul>
+        </div>
+      </div>
+      <p class="cons"><b>Als we dit kiezen:</b> de € 1 mld-ambitie wordt gedragen door commerce-die-het-doel-dient plus B2B-contracten (werkgevers, mutualiteiten) — en de basis-app blijft gratis.</p>
+      <div class="poclinks"><span class="lbl">🔎 Zie het zelf</span><a class="poclink" href="yoboo-klant.html#plan">Plan: "Past bij jouw doel" — nooit reclame</a><a class="poclink" href="yoboo-klant.html#budget">Gezondheidsbudget: werkgever &amp; mutualiteit sponsoren</a><a class="poclink" href="health-cg-financieel.html">Het volledige financieel model, interactief</a></div>
+      <p class="valvraag">💬 Validatievraag: is "nooit reclame, alleen doelgedreven aanbod" een belofte die de merken kunnen dragen?</p>
+      <div class="val"><button onclick="valideer(this,'ok')">✓ Gevalideerd</button><button onclick="valideer(this,'aan')">✏️ Met aanpassing</button><button onclick="valideer(this,'park')">⏸ Parkeren</button><input placeholder="argument, aanpassing of eigenaar+datum (optioneel)" oninput="noteer(this)"></div>
+    </div>
+
+  </div>
+</section>
+
+<section id="organisatie">
+  <div class="wrap">
+    <span class="dagdeel" style="margin-top:0">▶ Deel 3 · dag 2, namiddag — organisatie &amp; financieel</span>
+    <span class="secnr" style="display:block; margin-top:24px">3.1 · De organisatie — presentatie</span>
+    <h2>Eerste volledige presentatie van het voorstel <small>Zelfde regel als bij de demo: eerst het hele verhaal, dan pas het debat.</small></h2>
+
+    <div class="pres">
+      <h3>📽️ De presentatie (40 minuten)</h3>
+      <div class="sub">via het organisatiedocument — de presentator loopt het voorstel integraal door</div>
+      <ol>
+        <li><b>Het vertrekpunt en het verhaal</b> — de pijnpunten van vandaag en de gezondheidskapstok <small>· 8 min</small></li>
+        <li><b>Het ecosysteem</b> — de mens en zijn kringen, business- vs. draagvlak-stakeholders <small>· 7 min</small></li>
+        <li><b>De organisatie</b> — één team dat bouwt én runt: Health Advisory, Vakmanschap (met de coaches), Marketing &amp; Communicatie <small>· 15 min</small></li>
+        <li><b>Aanbeveling &amp; roadmap</b> — opschaaltriggers, korte vs. lange termijn, 2028 als horizon <small>· 10 min</small></li>
+      </ol>
+      <div class="poclinks" style="margin-top:14px"><span class="lbl">📄 Materiaal</span><a class="poclink" href="health-cg-organisatie.html">Het organisatiedocument</a><a class="poclink" href="health-cg-organisatie.html#varianten">Rechtstreeks naar het organisatiemodel</a><a class="poclink" href="health-cg-organisatie.html#roadmap">Rechtstreeks naar de roadmap</a></div>
+    </div>
+
+    <span class="secnr" style="display:block; margin-top:34px">3.2 · Debat over de organisatie</span>
+    <div class="debat">
+      <h3>Staat dit voorstel?</h3>
+      <div class="sub">Open debat, 30 minuten:</div>
+      <ul>
+        <li>Draagt het model "één team dat bouwt én runt" — of missen we een stuk?</li>
+        <li>Horen de coaches onder Vakmanschap, en de fysieke journeys onder Health Advisory — klopt de knip?</li>
+        <li>Wat vraagt dit van de merken, en gaan de merkdirecties dat geven?</li>
+      </ul>
+    </div>
+
+    <span class="secnr" style="display:block; margin-top:34px">3.3 · Strategische vragen — organisatie</span>
+    <h2 style="font-size:1.25rem">Vijf keuzes, vijf duidelijke antwoorden</h2>
+
+    <!-- B1 -->
+    <div class="kk" id="B1" data-titel="Mandaat op groepsniveau?">
+      <div class="kk-kop"><span class="nr">B1</span><h3>Geven we health een echt mandaat op groepsniveau?</h3><span class="tijd">9 min</span><span class="stchip ok">✓ gevalideerd</span><span class="stchip aan">✏️ met aanpassing</span><span class="stchip park">⏸ geparkeerd</span></div>
+      <p class="kk-waarom">Zonder mandaat blijft elke visie vrijblijvend — dan is deze workshop een leuke tweedaagse geweest. Met mandaat starten het team en de roadmap morgen.</p>
+      <div class="alts">
+        <div class="alt">
+          <h4>Programma zonder mandaat (coördinatie)</h4>
+          <ul class="plus"><li>Niemand hoeft iets af te geven</li><li>Laagdrempelig te starten</li></ul>
+          <ul class="min"><li>Elke merk-prioriteit wint van de groepsambitie</li><li>Beslissingen blijven hangen tussen de merken</li></ul>
+        </div>
+        <div class="alt keuze">
+          <span class="vlag">ons voorstel</span>
+          <h4>Expliciet groepsmandaat + sponsor</h4>
+          <ul class="plus"><li>Eén eigenaar voor de health-ambitie, met budget en beslisrecht</li><li>Sponsor op directieniveau bewaakt de lange lijn</li><li>De merken leveren aan het platform in plaats van ernaast te bouwen</li></ul>
+          <ul class="min"><li>Vraagt dat merken stukken autonomie afgeven — dat schuurt</li></ul>
+        </div>
+      </div>
+      <p class="cons"><b>Als we dit kiezen:</b> het mandaat wordt vandaag benoemd (wie, wat, hoeveel) en in het eerstvolgende directiecomité bekrachtigd.</p>
+      <div class="poclinks"><span class="lbl">🔎 Achtergrond</span><a class="poclink" href="health-cg-organisatie.html#debat">Het debat: de mandaatvraag</a><a class="poclink" href="health-cg-organisatie.html#aanbeveling">De aanbeveling</a></div>
+      <p class="valvraag">💬 Validatievraag: wie tekent voor het mandaat — en wat geven de merken concreet af?</p>
+      <div class="val"><button onclick="valideer(this,'ok')">✓ Gevalideerd</button><button onclick="valideer(this,'aan')">✏️ Met aanpassing</button><button onclick="valideer(this,'park')">⏸ Parkeren</button><input placeholder="argument, aanpassing of eigenaar+datum (optioneel)" oninput="noteer(this)"></div>
+    </div>
+
+    <!-- B2 -->
+    <div class="kk" id="B2" data-titel="Eén team of federatie van merkinitiatieven?">
+      <div class="kk-kop"><span class="nr">B2</span><h3>Eén team dat bouwt én runt — of een federatie van merkinitiatieven?</h3><span class="tijd">9 min</span><span class="stchip ok">✓ gevalideerd</span><span class="stchip aan">✏️ met aanpassing</span><span class="stchip park">⏸ geparkeerd</span></div>
+      <p class="kk-waarom">De oude variant — elk merk bouwt zijn eigen gezondheidsstuk — overleeft alleen nog als tegenvraag. Het antwoord erop is het bestaansrecht van het platformteam.</p>
+      <div class="alts">
+        <div class="alt">
+          <h4>Federatie: elk merk zijn stuk</h4>
+          <ul class="plus"><li>Dicht bij de bestaande merkorganisaties</li><li>Geen nieuwe structuur nodig</li></ul>
+          <ul class="min"><li>Losse stukken: zes apps, zes datamodellen, nul gezondheidstaal</li><li>Niemand is eigenaar van de klantrelatie rond gezondheid</li><li>Precies wat we vandaag al hebben — en waarom het niet vooruitgaat</li></ul>
+        </div>
+        <div class="alt keuze">
+          <span class="vlag">ons voorstel</span>
+          <h4>Eén team, health platform vanaf dag één</h4>
+          <ul class="plus"><li>Eén team dat bouwt én runt — geen overdracht tussen "project" en "operatie"</li><li>Marketing &amp; communicatie zitten ín het team, niet ernaast</li><li>De merken worden kanalen en leveranciers van het platform (instapmomenten, uitvoering)</li></ul>
+          <ul class="min"><li>Nieuwe rollen nodig (o.a. Digital &amp; AI-officer Health) — werving kost tijd</li></ul>
+        </div>
+      </div>
+      <p class="cons"><b>Als we dit kiezen:</b> de KT-organisatie en governance worden dit jaar uitgevoerd zoals in het organisatiedocument beschreven, inclusief de openstaande vacatures.</p>
+      <div class="poclinks"><span class="lbl">🔎 Achtergrond</span><a class="poclink" href="health-cg-organisatie.html#varianten">De organisatie: één team dat bouwt én runt</a><a class="poclink" href="health-cg-yoboo.html#model">Het model in de POC-hub</a></div>
+      <p class="valvraag">💬 Validatievraag: erkennen we de federatie-optie formeel als afgewezen — zodat ze niet elk kwartaal terugkomt?</p>
+      <div class="val"><button onclick="valideer(this,'ok')">✓ Gevalideerd</button><button onclick="valideer(this,'aan')">✏️ Met aanpassing</button><button onclick="valideer(this,'park')">⏸ Parkeren</button><input placeholder="argument, aanpassing of eigenaar+datum (optioneel)" oninput="noteer(this)"></div>
+    </div>
+
+    <!-- B3 -->
+    <div class="kk" id="B3" data-titel="Gezondheidstaal niet-onderhandelbaar?">
+      <div class="kk-kop"><span class="nr">B3</span><h3>Maken we de gezondheidstaal niet-onderhandelbaar?</h3><span class="tijd">9 min</span><span class="stchip ok">✓ gevalideerd</span><span class="stchip aan">✏️ met aanpassing</span><span class="stchip park">⏸ geparkeerd</span></div>
+      <p class="kk-waarom">Zonder één bibliotheek van kleuren, iconen en woorden — zes pijlers, Food/Move/Care/Know, stapjes — is er geen Coolblue-gevoel over de merken heen. Dit is discipline, geen creativiteit.</p>
+      <div class="alts">
+        <div class="alt">
+          <h4>Richtlijn per merk (vrijblijvend)</h4>
+          <ul class="plus"><li>Merken houden creatieve vrijheid</li></ul>
+          <ul class="min"><li>Elke afwijking verdunt de herkenbaarheid</li><li>De klant leert de taal nooit</li></ul>
+        </div>
+        <div class="alt keuze">
+          <span class="vlag">ons voorstel</span>
+          <h4>Eén bibliotheek, vakmanschap als eigenaar</h4>
+          <ul class="plus"><li>Elk kanaal neemt af van dezelfde bibliotheek — identieke iconen en woorden overal</li><li>De taal wordt merkonafhankelijk kapitaal van de groep</li><li>Eén eigenaar bewaakt en ontwikkelt ze</li></ul>
+          <ul class="min"><li>Merken moeten inleveren op eigen stijl binnen het gezondheidsdomein</li></ul>
+        </div>
+      </div>
+      <p class="cons"><b>Als we dit kiezen:</b> de bibliotheek krijgt een eigenaar en een afnameplicht — elke gezondheidsuiting van elk merk passeert erlangs.</p>
+      <div class="poclinks"><span class="lbl">🔎 Zie het zelf</span><a class="poclink" href="health-cg-organisatie.html#verhaal">De gezondheidskapstok: zes pijlers, één taal</a><a class="poclink" href="yoboo-klant.html">Dezelfde taal in de app: stapjes, pijlers, kleuren</a></div>
+      <p class="valvraag">💬 Validatievraag: aanvaarden de merkdirecties de afnameplicht?</p>
+      <div class="val"><button onclick="valideer(this,'ok')">✓ Gevalideerd</button><button onclick="valideer(this,'aan')">✏️ Met aanpassing</button><button onclick="valideer(this,'park')">⏸ Parkeren</button><input placeholder="argument, aanpassing of eigenaar+datum (optioneel)" oninput="noteer(this)"></div>
+    </div>
+
+    <!-- B4 -->
+    <div class="kk" id="B4" data-titel="Centraal team fysiek samen?">
+      <div class="kk-kop"><span class="nr">B4</span><h3>Zetten we het centrale team fysiek samen?</h3><span class="tijd">9 min</span><span class="stchip ok">✓ gevalideerd</span><span class="stchip aan">✏️ met aanpassing</span><span class="stchip park">⏸ geparkeerd</span></div>
+      <p class="kk-waarom">Nabijheid is geen comfort maar de snelste weg naar alignering: mensen die elkaar écht kennen, beslissen sneller en bouwen één taal.</p>
+      <div class="alts">
+        <div class="alt">
+          <h4>Verspreid + overlegritme</h4>
+          <ul class="plus"><li>Geen verhuis, flexibel</li></ul>
+          <ul class="min"><li>Alignering via meetings is traag en lek</li><li>Team-identiteit ontstaat niet vanzelf op afstand</li></ul>
+        </div>
+        <div class="alt keuze">
+          <span class="vlag">ons voorstel</span>
+          <h4>Eén plek om te werken, leven en brainstormen</h4>
+          <ul class="plus"><li>Snelste alignering; de taal en het product ontstaan aan dezelfde tafel</li><li>Zichtbaarheid: health krijgt een fysiek adres binnen de groep</li></ul>
+          <ul class="min"><li>Praktische kost en pendel-impact voor sommigen</li></ul>
+        </div>
+      </div>
+      <p class="cons"><b>Als we dit kiezen:</b> vandaag prikken we de plek en de datum waarop het team er zit.</p>
+      <div class="poclinks"><span class="lbl">🔎 Achtergrond</span><a class="poclink" href="health-cg-organisatie.html#debat">Het debat: vraag 4 — fysiek samen</a></div>
+      <p class="valvraag">💬 Validatievraag: welke plek — en wie regelt het tegen wanneer?</p>
+      <div class="val"><button onclick="valideer(this,'ok')">✓ Gevalideerd</button><button onclick="valideer(this,'aan')">✏️ Met aanpassing</button><button onclick="valideer(this,'park')">⏸ Parkeren</button><input placeholder="argument, aanpassing of eigenaar+datum (optioneel)" oninput="noteer(this)"></div>
+    </div>
+
+    <!-- B5 -->
+    <div class="kk" id="B5" data-titel="Horizon: triggers + 2028 als lanceermoment?">
+      <div class="kk-kop"><span class="nr">B5</span><h3>Opschalen op datum — of op triggers, met 2028 als lanceermoment?</h3><span class="tijd">9 min</span><span class="stchip ok">✓ gevalideerd</span><span class="stchip aan">✏️ met aanpassing</span><span class="stchip park">⏸ geparkeerd</span></div>
+      <p class="kk-waarom">Korte termijn ligt vast: dit jaar St. Gilles openen mét services, Noorderlaan efficiënt en rendabel, Yoboo als B2C-app, B2B verkopen en de health box. Het scharnier is het Health Retail-concept, af te kloppen eind oktober — de 2027+-planning is daar een gevolg van.</p>
+      <div class="alts">
+        <div class="alt">
+          <h4>Opschalen op datum</h4>
+          <ul class="plus"><li>Duidelijke planning voor iedereen</li></ul>
+          <ul class="min"><li>We schalen ook op als het bewijs er niet is</li><li>Datumdruk verleidt tot cosmetische mijlpalen</li></ul>
+        </div>
+        <div class="alt keuze">
+          <span class="vlag">ons voorstel</span>
+          <h4>Opschalen op triggers, committeren op 2028</h4>
+          <ul class="plus"><li>Opschaling volgt de opschaaltriggers (waaronder "het ecosysteem leeft") — bewijs eerst, geld daarna</li><li>2028 — 100 jaar Colruyt — als lanceermoment geeft de organisatie één gedeelde horizon en de klant één belofte</li><li>Eind oktober: Health Retail-concept afkloppen als scharnier voor alles ná 2026</li></ul>
+          <ul class="min"><li>Triggers vragen eerlijke meting — geen opschaling "omdat het moet van de planning"</li></ul>
+        </div>
+      </div>
+      <p class="cons"><b>Als we dit kiezen:</b> de roadmap blijft trigger-gedreven; 2028 wordt intern gecommuniceerd als het lanceermoment.</p>
+      <div class="poclinks"><span class="lbl">🔎 Achtergrond</span><a class="poclink" href="health-cg-organisatie.html#roadmap">Roadmap: twee sporen &amp; 2028</a><a class="poclink" href="health-cg-organisatie.html#aanbeveling">De opschaaltriggers</a></div>
+      <p class="valvraag">💬 Validatievraag: durven we 2028 hardop te zeggen — en de triggers hard te maken?</p>
+      <div class="val"><button onclick="valideer(this,'ok')">✓ Gevalideerd</button><button onclick="valideer(this,'aan')">✏️ Met aanpassing</button><button onclick="valideer(this,'park')">⏸ Parkeren</button><input placeholder="argument, aanpassing of eigenaar+datum (optioneel)" oninput="noteer(this)"></div>
+    </div>
+  </div>
+</section>
+
+<section id="financieel">
+  <div class="wrap">
+    <span class="secnr">3.4 · Het financieel model — presentatie</span>
+    <h2>Presenteren, samen simuleren, afkloppen <small>Eerst de presentatie van het model (25 min), dan het debat mét de knoppen op het scherm (35 min) — en we eindigen met een afgeklopt werkkader.</small></h2>
+
+    <div class="pres">
+      <h3>📽️ De presentatie (25 minuten)</h3>
+      <div class="sub">via het interactieve financieel model</div>
+      <ol>
+        <li><b>De kostenzijde</b> — de drie teams uit het organisatiemodel, jaar na jaar, en het team in koppen (FTE) <small>· 8 min</small></li>
+        <li><b>De opbrengstzijde</b> — gratis waar het moet; vier stromen: doorverwijsfees, merkcommissies, derde-betalers, premium <small>· 9 min</small></li>
+        <li><b>Het evenwicht</b> — break-even, maximale investering, kost en opbrengst per gebruiker <small>· 8 min</small></li>
+      </ol>
+      <div class="poclinks" style="margin-top:14px"><span class="lbl">📄 Materiaal</span><a class="poclink" href="health-cg-financieel.html">Het financieel model</a><a class="poclink" href="health-cg-financieel.html#knoppen">Rechtstreeks naar de simulatieknoppen</a></div>
+    </div>
+
+    <span class="secnr" style="display:block; margin-top:34px">3.5 · Debat, samen simuleren &amp; afkloppen</span>
+    <div class="debat">
+      <h3>Aan de knoppen</h3>
+      <div class="sub">De simulatie op het grote scherm — elke twijfel wordt ter plekke doorgerekend (elke knop kan ook per jaar):</div>
+      <ul>
+        <li>Coach-ratio: hoe AI-first durven we te zijn — 1:1.000 of 1:5.000? Kijk wat het met break-even doet.</li>
+        <li>Derde-betalers: hoeveel geloven we — € 10 of € 40 per actieve gebruiker per jaar?</li>
+        <li>Premium: vanaf wanneer, welk percentage, welke prijs?</li>
+        <li>Gebruikerscurve: wat is het minimum waarbij dit verhaal nog klopt?</li>
+      </ul>
+    </div>
+
+    <!-- F1 -->
+    <div class="kk" id="F1" data-titel="Financieel werkkader afgeklopt?">
+      <div class="kk-kop"><span class="nr">F1</span><h3>Kloppen we het financieel werkkader af?</h3><span class="tijd">slot van 3.5</span><span class="stchip ok">✓ gevalideerd</span><span class="stchip aan">✏️ met aanpassing</span><span class="stchip park">⏸ geparkeerd</span></div>
+      <p class="kk-waarom">Geen boekhouding maar een werkkader: de aannames die we vandaag samen op het scherm hebben gezet (gebruikerscurve, coach-ratio, tarieven, FTE per team) worden dé referentie voor budgetronde en herijking — tot de volgende meting ze bijstelt.</p>
+      <p class="cons"><b>Als we dit afkloppen:</b> de slider-standen van vandaag worden als scenario genoteerd in het verslag (kopieer de besluitenlijst), en het team werkt het uit tot een budgetvoorstel voor het directiecomité.</p>
+      <div class="poclinks"><span class="lbl">🔎 Materiaal</span><a class="poclink" href="health-cg-financieel.html#knoppen">De simulatie — noteer de eindstanden</a></div>
+      <p class="valvraag">💬 Validatievraag: is dit kader goed genoeg om op te budgetteren — wetende dat élk cijfer een werkhypothese is?</p>
+      <div class="val"><button onclick="valideer(this,'ok')">✓ Gevalideerd</button><button onclick="valideer(this,'aan')">✏️ Met aanpassing</button><button onclick="valideer(this,'park')">⏸ Parkeren</button><input placeholder="genoteerde eindstanden / aanpassing / eigenaar+datum (optioneel)" oninput="noteer(this)"></div>
+    </div>
+  </div>
+</section>
+
+<section id="besluiten">
+  <div class="wrap">
+    <span class="secnr">Slot · besluitenlijst</span>
+    <h2>Wat we beslist hebben <small>Deze lijst vult zichzelf terwijl jullie antwoorden. Kopieer hem in het verslag.</small></h2>
+    <div class="besluiten" id="blijst"></div>
+    <button class="kopieer" onclick="kopieerBesluiten(this)">📋 Kopieer de besluitenlijst</button>
+
+    <div class="next">
+      <div class="n"><b>Health Retail-concept</b><small>afkloppen eind oktober — het scharnier voor de 2027+-planning</small></div>
+      <div class="n"><b>mHealthBelgium-traject</b><small>eigenaar en budget benoemen; M1-dossier starten (zie A3)</small></div>
+      <div class="n"><b>Budgetvoorstel</b><small>het afgeklopte financieel werkkader (F1) uitwerken voor het directiecomité</small></div>
+      <div class="n"><b>Geparkeerde punten</b><small>elk geparkeerd punt heeft na vandaag een eigenaar en een datum — anders is het geen parkeren maar uitstellen</small></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">Health CG · workshopdraaiboek — twee dagdelen · gebouwd op de red box, de yoboo-POC, het organisatiedocument en het financieel model</div>
+</footer>
+
+<script>
+const besluiten = {};
+
+function initBesluiten(){
+  document.querySelectorAll('.kk').forEach(kk => {
+    besluiten[kk.id] = {titel: kk.dataset.titel, status: 'open', nota: ''};
+  });
+  renderBesluiten();
+}
+function valideer(btn, st){
+  const kk = btn.closest('.kk');
+  kk.classList.remove('st-ok','st-aan','st-park');
+  kk.classList.add('st-' + st);
+  btn.parentElement.querySelectorAll('button').forEach(b => b.classList.toggle('act', b === btn));
+  besluiten[kk.id].status = st;
+  renderBesluiten();
+}
+function noteer(inp){
+  const kk = inp.closest('.kk');
+  besluiten[kk.id].nota = inp.value.trim();
+  renderBesluiten();
+}
+const stTxt = {ok: '✓ gevalideerd', aan: '✏️ met aanpassing', park: '⏸ geparkeerd', open: '— nog open'};
+function renderBesluiten(){
+  document.getElementById('blijst').innerHTML = Object.entries(besluiten).map(([id, b]) =>
+    `<div class="br"><span class="nr">${id}</span><span><b>${b.titel}</b>${b.nota ? `<small>${b.nota}</small>` : ''}</span><span class="st s-${b.status}">${stTxt[b.status]}</span></div>`
+  ).join('');
+}
+function kopieerBesluiten(btn){
+  const txt = 'Besluiten workshop Health CG & Health Advisory\n\n' +
+    Object.entries(besluiten).map(([id, b]) => `${id} · ${b.titel} — ${stTxt[b.status]}${b.nota ? ` — ${b.nota}` : ''}`).join('\n');
+  const klaar = () => { btn.textContent = '✓ Gekopieerd — plak in het verslag'; setTimeout(() => { btn.textContent = '📋 Kopieer de besluitenlijst'; }, 2200); };
+  if (navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(txt).then(klaar); }
+  else { const ta = document.createElement('textarea'); ta.value = txt; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove(); klaar(); }
+}
+initBesluiten();
+</script>
+</body>
+</html>
