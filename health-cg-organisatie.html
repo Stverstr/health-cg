@@ -858,6 +858,8 @@ button.instap p{font-size:.72rem; color:var(--muted); margin:0}
   background:var(--bg); border:3px solid var(--hair); transition:.4s; z-index:1; margin-left:2px;
 }
 .mile.in::before{border-color:var(--accent); background:var(--accent); box-shadow:0 0 0 6px var(--accent-soft)}
+.mile.solo{padding:0; margin-top:56px}
+.mile.solo::before{display:none}
 .mile .yr{font-size:.76rem; font-weight:700; letter-spacing:.14em; color:var(--accent); text-transform:uppercase}
 .mile h3{font-size:1.25rem; margin-top:4px}
 .mile p{color:var(--muted); font-size:.94rem; margin-top:6px; max-width:36em}
@@ -959,7 +961,6 @@ footer .wrap{display:flex; flex-wrap:wrap; gap:12px; justify-content:space-betwe
         <a href="#advisory">Advisory</a>
         <a href="#roadmap">Roadmap</a>
         <a href="#debat">Het debat</a>
-        <a href="#acties">Aan de slag</a>
       </div>
     </div>
   </div>
@@ -1375,7 +1376,7 @@ footer .wrap{display:flex; flex-wrap:wrap; gap:12px; justify-content:space-betwe
                 <span class="teamsub">de klant en zijn plan</span>
                 <div class="vaknodes">
                   <div class="orgnode head">Digitale health advisory<small>app, assessments en het gezondheidsplan — één digitaal traject, samen met de coaches. Yoboo verhuist hierheen</small></div>
-                  <div class="orgnode head">Fysieke advisory journeys<small>bouwt het shop-in-shop-concept dat élke winkel kan toepassen — en kan zelf een winkel uitbouwen</small></div>
+                  <div class="orgnode head">Fysieke advisory journeys<small>bouwt het coach-corner-concept dat élke plek kan toepassen — winkel, apotheek, event, ziekenhuis, werkvloer — en kan na bewijs doorgroeien naar een eigen health house</small></div>
                 </div>
                 <span class="etduo"><i>bouwt</i><i>draait</i></span>
                 <button class="painlink teamvac" data-modal="vac-advisory" type="button">Vacature: Health Advisory Lead →</button>
@@ -1415,7 +1416,7 @@ footer .wrap{display:flex; flex-wrap:wrap; gap:12px; justify-content:space-betwe
             <span class="bou"><span class="blogo sm lg-newpharma" role="img" aria-label="Newpharma"></span></span>
             <span class="bou"><span class="blogo sm lg-jims" role="img" aria-label="Jims"></span></span>
           </div>
-          <p class="merkvrij">Elk merk blijft <b>vrij om een eigen assortiment én een eigen fysieke poot uit te bouwen</b> — naast het centraal gecureerde CG-assortiment en het shop-in-shop-concept dat het overal kan toepassen.</p>
+          <p class="merkvrij">Elk merk blijft <b>vrij om een eigen assortiment én een eigen fysieke poot uit te bouwen</b> — naast het centraal gecureerde CG-assortiment en het coach-corner-concept dat het overal kan toepassen.</p>
           <div style="text-align:center; margin-top:18px"><button class="painlink" data-modal="directie" type="button">Wat doet elk blok precies? De verduidelijking →</button></div>
         </div>
       </div>
@@ -1434,7 +1435,7 @@ footer .wrap{display:flex; flex-wrap:wrap; gap:12px; justify-content:space-betwe
       <div class="trigs">
         <div class="trig"><span class="k">Trigger 1</span><b>De visie staat</b><span>Eén gedragen CG-gezondheidsvisie met vakmanschap dat stuurt — de pijlers zijn gedefinieerd en door elke BOU onderschreven.</span></div>
         <div class="trig"><span class="k">Trigger 2</span><b>De advisory werkt</b><span>Actieve gezondheidsplannen, sterke NPS en aantoonbare cross-sell over minstens twee merken heen.</span></div>
-        <div class="trig"><span class="k">Trigger 3</span><b>Er is een fysieke aansluiting</b><span>Het plan landt ook buiten het scherm — via het shop-in-shop-concept in een bestaande winkel of een eigen health-winkel. De klant vindt er advies én aanbod in één ervaring, meetbaar en herhaalbaar.</span></div>
+        <div class="trig"><span class="k">Trigger 3</span><b>Er is een fysieke aansluiting</b><span>Het plan landt ook buiten het scherm — via een coach-corner op een bestaande plek — winkel, apotheek, event, ziekenhuis of werkvloer — of later een eigen health house. De klant vindt er advies én aanbod in één ervaring, meetbaar en herhaalbaar.</span></div>
         <div class="trig"><span class="k">Trigger 4</span><b>Het ecosysteem leeft</b><span>Spelers buiten de groep stappen actief mee in: zorgprofessionals verwijzen door naar het plan, wearables en apps zijn gekoppeld, en minstens één middenveldpartner draagt bij. Klanten delen hun plan in hun kring.</span></div>
       </div>
       <p style="margin-top:18px">Staan de vier triggers op groen, dan schalen we op: <b>meer fysieke aansluitingen, andere merken aankoppelen op het plankanaal</b> en mogelijk een <b>franchisemodel</b> om sneller te groeien.</p>
@@ -1462,7 +1463,7 @@ footer .wrap{display:flex; flex-wrap:wrap; gap:12px; justify-content:space-betwe
           <button class="instap" type="button" data-modal="instap-online"><span class="ii"><svg class="pic"><use href="#ic-online"/></svg></span><span><b>Online</b><p>zelfassessment &amp; tracking</p></span></button>
           <button class="instap" type="button" data-modal="instap-zorg"><span class="ii"><svg class="pic"><use href="#ic-zorg"/></svg></span><span><b>Doorverwijzing</b><p>arts, ziekenhuis of specialist</p></span></button>
         </div>
-        <p class="aznote">één drempel, zes instappunten — overal dezelfde taal</p>
+        <p class="aznote">één drempel, zes instappunten — overal dezelfde taal · in de POC-verhalen gebundeld tot vier deuren: de winkel, de dokter, gewoon online en de werkgever</p>
       </div>
       <span class="advarr" aria-hidden="true">→</span>
       <div class="advcycle">
@@ -1539,7 +1540,7 @@ footer .wrap{display:flex; flex-wrap:wrap; gap:12px; justify-content:space-betwe
           <span class="who">Venster 4</span>
           <b>De zorgprofessional</b>
           <ul>
-            <li>Schrijft een plan-op-voorschrift rechtstreeks in het plan van de patiënt</li>
+            <li>Schrijft een leefstijlvoorschrift rechtstreeks in het plan van de patiënt</li>
             <li>Ziet uitvoering en therapietrouw — nooit de aankopen of commerciële data</li>
             <li>De medische data blijft in zijn eigen systeem: hij ziet het plan, wij nooit de diagnose</li>
           </ul>
@@ -1576,7 +1577,7 @@ footer .wrap{display:flex; flex-wrap:wrap; gap:12px; justify-content:space-betwe
 
     <div class="yoboo rv">
       <b>Yoboo = de motor</b>
-      <p>Eén digitale interface voor het gezondheidsplan, aangevuld met menselijke coaching in de leefstijlapotheek en health stores. AI personaliseert het advies; de merken leveren de oplossing.</p>
+      <p>Eén digitale interface voor het gezondheidsplan, aangevuld met menselijke coaching — digitaal via de hub-coach, fysiek in de coach-corners. AI personaliseert het advies; de merken leveren de oplossing.</p>
     </div>
 
     <div class="rv" style="margin-top:20px">
@@ -1629,87 +1630,11 @@ footer .wrap{display:flex; flex-wrap:wrap; gap:12px; justify-content:space-betwe
       </div>
     </div>
 
-    <div class="rv" style="margin-top:56px">
-      <h3 class="sec-title" style="font-size:1.5rem">Twee sporen naar 2028</h3>
-      <p class="sec-lead" style="margin-top:8px">Het korte spoor bewijst dit jaar met wat er staat. Het lange spoor start ook nu, maar krijgt zijn definitieve invulling pas als het Health Retail concept is afgeklopt. Het eindpunt ligt vast: opschalen in het jaar dat Colruyt 100 wordt.</p>
-    </div>
-
-    <div class="rmap rv">
-      <div class="rmgrid">
-        <span class="rmyr" style="grid-column:1/span 2">2026</span>
-        <span class="rmyr" style="grid-column:3/span 2">2027</span>
-        <span class="rmyr" style="grid-column:5/span 2">2028</span>
-
-        <div class="rmlane" style="--tc:var(--accent); grid-row:2">Korte termijn · dit jaar nog</div>
-        <div class="rmbar" style="grid-column:1/span 2; grid-row:3"><b>KT-organisatie &amp; governance uitvoeren</b></div>
-        <div class="rmbar" style="grid-column:1/span 2; grid-row:4"><b>St. Gilles openen</b><small>mét services</small></div>
-        <div class="rmbar" style="grid-column:1/span 2; grid-row:5"><b>Noorderlaan efficiënt &amp; rendabel</b></div>
-        <div class="rmbar" style="grid-column:1/span 2; grid-row:6"><b>Yoboo als B2C-app</b><small>in dienst bij St. Gilles</small></div>
-        <div class="rmbar" style="grid-column:1/span 2; grid-row:7"><b>B2B verkopen · health box</b><small>pre-/post-operatie</small></div>
-
-        <div class="rmlane" style="--tc:var(--lt); grid-row:8">Lange termijn · vanaf 2027 — voorbereid dit jaar</div>
-        <div class="rmbar lt" style="grid-column:1/span 2; grid-row:9"><b>Health Retail concept afkloppen</b><small>eind oktober — bepaalt de planning hierna</small></div>
-        <div class="rmbar lt" style="grid-column:1/span 2; grid-row:10"><b>Klaarmaken voor de nieuwe organisatie</b></div>
-        <div class="rmbar lt tent" style="grid-column:3/span 2; grid-row:9"><b>Plannen afhankelijk van het Health Retail concept</b></div>
-        <div class="rmbar hl" style="grid-column:5/span 2; grid-row:9"><b>Opschalen</b><small>100 jaar Colruyt</small></div>
-      </div>
-      <p class="rmnote">De planning vanaf 2027 is een gevolg van het Health Retail concept dat we eind oktober afkloppen.</p>
-    </div>
-
-    <div class="timeline">
-      <div class="prog" id="tlprog"></div>
-
-      <div class="tlera rv" style="--tc:var(--accent)"><span>Korte termijn · dit jaar nog</span></div>
-      <div class="mile">
-        <span class="yr">Nu</span>
-        <h3>De KT-organisatie en governance uitvoeren</h3>
-        <p>Geen nieuwe discussie: de organisatie en governance die zijn afgesproken, worden uitgevoerd — rollen, mandaat en overlegritme staan.</p>
-      </div>
-      <div class="mile">
-        <span class="yr">Dit jaar</span>
-        <h3>St. Gilles openen, mét services</h3>
-        <p>De apotheek in St. Gilles opent dit jaar nog — met services vanaf dag één: de eerste plek waar het gezondheidsverhaal voor de klant tastbaar wordt.</p>
-      </div>
-      <div class="mile">
-        <span class="yr">Dit jaar</span>
-        <h3>Noorderlaan efficiënt en rendabel</h3>
-        <p>De apotheek aan de Noorderlaan wordt operationeel efficiënt ingericht en rendabel gemaakt.</p>
-      </div>
-      <div class="mile">
-        <span class="yr">Dit jaar</span>
-        <h3>Yoboo als B2C-applicatie</h3>
-        <p>Yoboo doen werken als B2C-applicatie en in dienst nemen bij St. Gilles — digitaal en fysiek versterken elkaar vanaf de eerste dag.</p>
-      </div>
-      <div class="mile">
-        <span class="yr">Daarnaast</span>
-        <h3>B2B verder verkopen · de health box uitrollen</h3>
-        <p>B2B blijft verkopen, en de health box wordt uitgerold voor pre-/post-operatie.</p>
-      </div>
-
-      <div class="tlera rv" style="--tc:var(--lt)"><span>Lange termijn · vanaf 2027</span></div>
-      <div class="mile lt">
-        <span class="yr">Eind oktober</span>
-        <h3>Het Health Retail concept afkloppen</h3>
-        <p>Dé beslissing van dit najaar. De planning die daarna volgt is een gevolg van dit concept — niet omgekeerd.</p>
-        <div class="subchips"><span>bepaalt de invulling van 2027–2028</span></div>
-      </div>
-      <div class="mile lt">
-        <span class="yr">Dit jaar → 2027</span>
-        <h3>Klaarmaken voor de nieuwe organisatie</h3>
-        <p>We bereiden ons dit jaar al voor op een nieuwe organisatie die vanaf 2027 start.</p>
-      </div>
-      <div class="mile lt">
-        <span class="yr">2027</span>
-        <h3>De planning volgt uit het concept</h3>
-        <p>De concrete invulling van 2027 — nieuwe organisatie, testen met klanten, piloot — wordt vastgelegd zodra het Health Retail concept is afgeklopt.</p>
-      </div>
-      <div class="mile lt launch">
-        <span class="yr">2028</span>
-        <div class="card100">
-          <h3>Opschalen — <em>100 jaar Colruyt</em></h3>
-          <p>In 2028 schalen we op: meer winkels, merken aankoppelen op het plankanaal, mogelijk franchise. De volledige health-poot gaat live: winkels, advisory en merken spreken met één stem.</p>
-          <span class="loy">★ Gekoppeld aan het loyalty-verhaal dat CG in 2028 naar buiten duwt</span>
-        </div>
+    <div class="mile lt launch solo rv">
+      <div class="card100">
+        <h3>Opschalen — <em>100 jaar Colruyt</em></h3>
+        <p>In 2028 schalen we op: meer winkels, merken aankoppelen op het plankanaal, mogelijk franchise. De volledige health-poot gaat live: winkels, advisory en merken spreken met één stem.</p>
+        <span class="loy">★ Gekoppeld aan het loyalty-verhaal dat CG in 2028 naar buiten duwt</span>
       </div>
     </div>
 
@@ -1726,7 +1651,7 @@ footer .wrap{display:flex; flex-wrap:wrap; gap:12px; justify-content:space-betwe
       <p class="sec-lead">Dit document is geen eindpunt maar een startschot. Deze vijf vragen bepalen alles wat volgt.</p>
     </div>
     <div class="decide stagger">
-      <div class="q"><span class="n">1</span><b>Geven we health een echt mandaat op groepsniveau?</b><p>Zonder mandaat blijft elke visie vrijblijvend. Met mandaat starten variant 2 en de roadmap morgen.</p></div>
+      <div class="q"><span class="n">1</span><b>Geven we health een echt mandaat op groepsniveau?</b><p>Zonder mandaat blijft elke visie vrijblijvend. Met mandaat starten het gekozen platformmodel en de roadmap morgen.</p></div>
       <div class="q"><span class="n">2</span><b>Wordt Yoboo hét advisory-platform van de groep?</b><p>Herpositioneren en herlanceren onder centrale sturing — of blijven we bouwen aan losse stukken?</p></div>
       <div class="q"><span class="n">3</span><b>Maken we de gezondheidstaal niet-onderhandelbaar?</b><p>Eén bibliotheek van kleuren, iconen en woorden — vakmanschap als eigenaar, élk kanaal neemt af. Zonder die discipline geen Coolblue-gevoel over de merken heen.</p></div>
       <div class="q"><span class="n">4</span><b>Waar zetten we het centrale team fysiek samen?</b><p>Eén plek waar we werken, leven en brainstormen — zodat mensen elkaar écht kennen. Nabijheid is geen comfort maar de snelste weg naar alignering.</p></div>
@@ -1735,30 +1660,7 @@ footer .wrap{display:flex; flex-wrap:wrap; gap:12px; justify-content:space-betwe
   </div>
 </section>
 
-<!-- ============ 7. AAN DE SLAG ============ -->
-<section id="acties" class="band">
-  <div class="wrap">
-    <div class="rv">
-      <span class="eyebrow">09 · Aan de slag</span>
-      <h2 class="sec-title">Mogelijke eerste acties</h2>
-      <p class="sec-lead">Korte, direct uitvoerbare stappen — kies twee à drie quick-wins om snel zichtbare voortgang te tonen.</p>
-    </div>
-    <div class="acties stagger">
-      <div class="actie"><b>Stakeholderdag organiseren</b><p>Datum, locatie, deelnemers en agenda vastleggen — het moment waarop het verhaal gedeeld en getoetst wordt.</p><span class="owner">programma-team</span></div>
-      <div class="actie"><b>Kader zetten met Gilles &amp; Lisa</b><p>Visie, scope en randvoorwaarden scherpstellen als vertrekpunt voor alles wat volgt.</p><span class="owner">Gilles &amp; Lisa</span></div>
-      <div class="actie"><b>Voorstel health advisory uitwerken</b><p>Het advisory-concept concreet maken: assessment, plan en begeleiding.</p><span class="owner">Kenneth &amp; Karen</span></div>
-      <div class="actie"><b>Yoboo-integratie verkennen</b><p>Integratie of overname onderzoeken en de B2B-positie herbekijken.</p><span class="owner">groepsteam &amp; Newpharma</span></div>
-      <div class="actie"><b>Capability building</b><p>Opleidingsprogramma en rollen op groepsniveau uittekenen.</p><span class="owner">HR &amp; vakmanschap</span></div>
-      <div class="actie"><b>Stefan (CEO) betrekken</b><p>Kort overleg plannen en commitment vragen op mandaat en richting.</p><span class="owner">directieteam</span></div>
-      <div class="actie"><b>Fysieke plek &amp; online hub</b><p>Eén teamruimte om samen te zitten, plus de digitale tooling om samen te bouwen.</p><span class="owner">facilities &amp; IT</span></div>
-      <div class="actie"><b>AI-procesmanager aanstellen</b><p>Procesautomatisering en ondersteuning vanaf dag één in de kern verankeren.</p><span class="owner">data &amp; AI</span></div>
-      <div class="actie"><b>Opvolgstructuur opzetten</b><p>Wekelijkse stand-ups en maandelijkse reviews, zodat besluiten ook landen.</p><span class="owner">programma-owner</span></div>
-    </div>
-    <div class="rv" style="text-align:center; margin-top:32px">
-      <a class="painlink" href="health-cg-sprint.html" style="font-size:1.05rem">Of we doen het in één keer goed: de AI-first sprint — 4 weken naar een afgewerkt concept →</a>
-    </div>
-  </div>
-</section>
+
 
 <footer>
   <div class="wrap">
@@ -1883,7 +1785,7 @@ footer .wrap{display:flex; flex-wrap:wrap; gap:12px; justify-content:space-betwe
 
     <div class="fw">
       <h4>Je bent de product manager van de advisory</h4>
-      <p>Je bepaalt wat we bouwen, in welke volgorde en waarom &mdash; vertrekkend vanuit strategie en tactiek, niet vanuit de waan van de dag. Je bewaakt dat de digitale health advisory (app, assessments, plan) en de fysieke advisory journeys (het shop-in-shop-concept, een eigen winkel) <b>&eacute;&eacute;n samenhangend geheel</b> vormen &mdash; met de coaches van het vakmanschap als vaste partners. De klant mag de naad niet voelen.</p>
+      <p>Je bepaalt wat we bouwen, in welke volgorde en waarom &mdash; vertrekkend vanuit strategie en tactiek, niet vanuit de waan van de dag. Je bewaakt dat de digitale health advisory (app, assessments, plan) en de fysieke advisory journeys (de coach-corners, na bewijs een eigen health house) <b>&eacute;&eacute;n samenhangend geheel</b> vormen &mdash; met de coaches van het vakmanschap als vaste partners. De klant mag de naad niet voelen.</p>
     </div>
 
     <div class="fw">
@@ -2010,7 +1912,7 @@ footer .wrap{display:flex; flex-wrap:wrap; gap:12px; justify-content:space-betwe
 
     <div class="fw">
       <h4>Health advisory <small>&eacute;&eacute;n geheel, digitaal &eacute;n fysiek</small></h4>
-      <p>Twee blokken, &eacute;&eacute;n geheel: de <b>digitale health advisory</b> (app, assessments, het gezondheidsplan) en de <b>fysieke advisory journeys</b> (het shop-in-shop-concept, een eigen winkel) worden samen aangestuurd, op &eacute;&eacute;n roadmap en &eacute;&eacute;n backlog. De klant ervaart &eacute;&eacute;n traject &mdash; dus organiseren we het ook zo. De coaches zelf vallen onder het vakmanschap, maar werken dag in dag uit in deze journeys.</p>
+      <p>Twee blokken, &eacute;&eacute;n geheel: de <b>digitale health advisory</b> (app, assessments, het gezondheidsplan) en de <b>fysieke advisory journeys</b> (de coach-corners, na bewijs een eigen health house) worden samen aangestuurd, op &eacute;&eacute;n roadmap en &eacute;&eacute;n backlog. De klant ervaart &eacute;&eacute;n traject &mdash; dus organiseren we het ook zo. De coaches zelf vallen onder het vakmanschap, maar werken dag in dag uit in deze journeys.</p>
     </div>
 
     <div class="fw">
@@ -2047,8 +1949,8 @@ footer .wrap{display:flex; flex-wrap:wrap; gap:12px; justify-content:space-betwe
   <div class="dlg">
     <button class="close" type="button" aria-label="Sluiten">×</button>
     <span class="k">Eindbeeld · werkingsprincipes</span>
-    <h3 id="platform-title">Het platform is hoe variant 2 werkt — niet wat ze wordt</h3>
-    <p style="margin-top:10px">Variant 2 is de organisatie. Het platform is het <b>eindbeeld en de werkingsprincipes</b> waarmee die organisatie vanaf dag één gebouwd wordt.</p>
+    <h3 id="platform-title">Het platform is hoe de gekozen organisatie werkt — niet wat ze wordt</h3>
+    <p style="margin-top:10px">De drie teams zijn de organisatie. Het platform is het <b>eindbeeld en de werkingsprincipes</b> waarmee die organisatie vanaf dag één gebouwd wordt.</p>
 
     <div class="fw">
       <h4>Het systeem stuurt <small>regels in plaats van vergaderingen</small></h4>
@@ -2068,7 +1970,7 @@ footer .wrap{display:flex; flex-wrap:wrap; gap:12px; justify-content:space-betwe
       <p>Eerlijk benoemd: als het plankanaal groot wordt, verschuift het gewicht vanzelf — zoals een hotel dat 60% van zijn boekingen uit Booking haalt. Precies daarom leggen we deze spelregels nú vast, niet achteraf.</p>
     </div>
 
-    <div class="punch">Geen kanteling, geen sprong: variant 2 bouwt van dag één volgens deze principes. Het enige dat groeit, is het plankanaal — <b>op het ritme van bewijs</b>.</div>
+    <div class="punch">Geen kanteling, geen sprong: de organisatie bouwt van dag één volgens deze principes. Het enige dat groeit, is het plankanaal — <b>op het ritme van bewijs</b>.</div>
   </div>
 </div>
 
