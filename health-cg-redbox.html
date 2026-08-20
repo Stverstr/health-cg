@@ -5385,6 +5385,8 @@ if (ecoViz) {
 #opm-ctx{display:none; padding:7px 10px; border-left:3px solid var(--green-dk,#158053); background:rgba(39,165,119,.08); font-style:italic; font-size:13px; border-radius:0 8px 8px 0}
 #opm-ctx button{float:right; border:none; background:none; cursor:pointer; font-size:13px; color:var(--ink-3,#7b7671); font-family:inherit}
 .opm-flits{background:rgba(255,204,0,.45) !important; transition:background 1.2s ease}
+.opm-del{float:right; border:none; background:none; cursor:pointer; font-size:13px; color:var(--ink-3,#7b7671); font-family:inherit; padding:0 0 0 8px}
+.opm-del:hover{color:#c0392b}
 @media (prefers-reduced-motion: reduce){.opm-flits{transition:none}}
 </style>
 <button id="opm-open">💬 Opmerkingen</button>
@@ -5461,9 +5463,9 @@ if (ecoViz) {
       return '<div class="opm-k">'
         + '<button class="sec" data-sec="' + esc(r.sectie) + '">' + esc(titelVan[r.sectie] || r.sectie_titel || r.sectie) + '</button>'
         + (r.context ? '<div class="opm-q" title="Spring naar deze passage" data-sec="' + esc(r.sectie) + '" data-q="' + esc(r.context) + '">"' + esc(r.context) + '"</div>' : '')
-        + '<div><span class="wie">' + esc(r.naam) + '</span><span class="tijd">' + tijd(r.created_at) + '</span></div>'
+        + '<div><span class="wie">' + esc(r.naam) + '</span><span class="tijd">' + tijd(r.created_at) + '</span><button class="opm-del" data-id="' + r.id + '" title="Verwijder deze opmerking">🗑</button></div>'
         + '<p>' + esc(r.tekst) + '</p>'
-        + antw.map(function(a){ return '<div class="opm-a"><span class="wie">' + esc(a.naam) + '</span><span class="tijd">' + tijd(a.created_at) + '</span><p>' + esc(a.tekst) + '</p></div>'; }).join('')
+        + antw.map(function(a){ return '<div class="opm-a"><span class="wie">' + esc(a.naam) + '</span><span class="tijd">' + tijd(a.created_at) + '</span><button class="opm-del" data-id="' + a.id + '" title="Verwijder dit antwoord">🗑</button><p>' + esc(a.tekst) + '</p></div>'; }).join('')
         + '<button class="antw" data-id="' + r.id + '">↩ Antwoord</button>'
         + '</div>';
     }).join('');
@@ -5473,6 +5475,15 @@ if (ecoViz) {
     lijst.querySelectorAll('.antw').forEach(function(b){ b.addEventListener('click', function(){ antwoordVeld(b); }); });
     lijst.querySelectorAll('.opm-q').forEach(function(q){
       q.addEventListener('click', function(){ springNaar(q.dataset.sec, q.dataset.q); });
+    });
+    lijst.querySelectorAll('.opm-del').forEach(function(b){
+      b.addEventListener('click', function(){
+        if (!confirm('Deze opmerking verwijderen? Antwoorden eronder verdwijnen mee.')) return;
+        fetch(SB + '?id=eq.' + b.dataset.id, {method: 'DELETE', headers: H}).then(function(r){
+          if (!r.ok) throw new Error('verwijderen mislukt');
+          laad();
+        }).catch(function(){ alert('Verwijderen lukte niet — probeer opnieuw.'); });
+      });
     });
   }
 
