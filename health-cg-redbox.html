@@ -5380,8 +5380,15 @@ if (ecoViz) {
 #opm .verstuur{border:none; border-radius:9px; background:var(--green-dk,#158053); color:#fff; font-weight:700; padding:10px; cursor:pointer; font-family:inherit; font-size:14px}
 .opm-anker{margin-left:10px; border:1px solid var(--sand,#d9d7bf); background:none; border-radius:99px; font-size:14px; padding:3px 10px; cursor:pointer; vertical-align:middle; font-family:inherit}
 .opm-melding{color:var(--ink-3,#7b7671); font-size:13px}
+#opm-qknop{position:fixed; z-index:940; display:none; border:none; border-radius:99px; background:var(--green-dk,#158053); color:#fff; font-family:inherit; font-weight:600; font-size:13px; padding:7px 13px; cursor:pointer; box-shadow:0 8px 22px rgba(0,0,0,.25)}
+.opm-q{margin:6px 0 0; padding:7px 10px; border-left:3px solid var(--green-dk,#158053); background:rgba(39,165,119,.08); font-style:italic; font-size:13px; color:var(--ink-2,#4a4644); border-radius:0 8px 8px 0; cursor:pointer}
+#opm-ctx{display:none; padding:7px 10px; border-left:3px solid var(--green-dk,#158053); background:rgba(39,165,119,.08); font-style:italic; font-size:13px; border-radius:0 8px 8px 0}
+#opm-ctx button{float:right; border:none; background:none; cursor:pointer; font-size:13px; color:var(--ink-3,#7b7671); font-family:inherit}
+.opm-flits{background:rgba(255,204,0,.45) !important; transition:background 1.2s ease}
+@media (prefers-reduced-motion: reduce){.opm-flits{transition:none}}
 </style>
 <button id="opm-open">💬 Opmerkingen</button>
+<button id="opm-qknop">💬 Opmerking hierover</button>
 <aside id="opm" aria-label="Opmerkingen bij dit dossier">
   <div class="opm-kop"><b>💬 Opmerkingen</b><button id="opm-verv" title="Vernieuw">↻</button><button id="opm-dicht">✕ sluit</button></div>
   <div class="lijst" id="opm-lijst"><span class="opm-melding">laden…</span></div>
@@ -5391,7 +5398,8 @@ if (ecoViz) {
     <label>Bij hoofdstuk</label>
     <select id="opm-sectie"></select>
     <label>Opmerking</label>
-    <textarea id="opm-tekst" maxlength="2000" placeholder="jouw opmerking…" required></textarea>
+    <div id="opm-ctx"><button type="button" id="opm-ctx-weg" title="Context loskoppelen">✕</button><span id="opm-ctx-tekst"></span></div>
+    <textarea id="opm-tekst" maxlength="2000" placeholder="jouw opmerking… (tip: selecteer eerst tekst in het dossier om ze als context mee te geven)" required></textarea>
     <button class="verstuur" type="submit">Plaats opmerking</button>
   </form>
 </aside>
@@ -5403,6 +5411,9 @@ if (ecoViz) {
   var paneel = document.getElementById('opm'), knop = document.getElementById('opm-open');
   var lijst = document.getElementById('opm-lijst');
   var sel = document.getElementById('opm-sectie'), naamIn = document.getElementById('opm-naam');
+  var qknop = document.getElementById('opm-qknop');
+  var ctxVak = document.getElementById('opm-ctx'), ctxTekst = document.getElementById('opm-ctx-tekst');
+  var context = null;
   var data = [];
 
   function esc(t){ return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
@@ -5449,6 +5460,7 @@ if (ecoViz) {
       var antw = data.filter(function(x){ return x.parent_id === r.id; });
       return '<div class="opm-k">'
         + '<button class="sec" data-sec="' + esc(r.sectie) + '">' + esc(titelVan[r.sectie] || r.sectie_titel || r.sectie) + '</button>'
+        + (r.context ? '<div class="opm-q" title="Spring naar deze passage" data-sec="' + esc(r.sectie) + '" data-q="' + esc(r.context) + '">"' + esc(r.context) + '"</div>' : '')
         + '<div><span class="wie">' + esc(r.naam) + '</span><span class="tijd">' + tijd(r.created_at) + '</span></div>'
         + '<p>' + esc(r.tekst) + '</p>'
         + antw.map(function(a){ return '<div class="opm-a"><span class="wie">' + esc(a.naam) + '</span><span class="tijd">' + tijd(a.created_at) + '</span><p>' + esc(a.tekst) + '</p></div>'; }).join('')
@@ -5459,6 +5471,23 @@ if (ecoViz) {
       chip.addEventListener('click', function(){ var el = document.getElementById(chip.dataset.sec); if (el){ el.scrollIntoView({behavior: 'smooth'}); } });
     });
     lijst.querySelectorAll('.antw').forEach(function(b){ b.addEventListener('click', function(){ antwoordVeld(b); }); });
+    lijst.querySelectorAll('.opm-q').forEach(function(q){
+      q.addEventListener('click', function(){ springNaar(q.dataset.sec, q.dataset.q); });
+    });
+  }
+
+  function springNaar(secId, quote){
+    var secEl = document.getElementById(secId);
+    if (!secEl) return;
+    var doel = null, naald = (quote || '').slice(0, 80);
+    if (naald){
+      var alles = secEl.querySelectorAll('p,li,h2,h3,h4,h5,td');
+      for (var i = 0; i < alles.length; i++){
+        if (alles[i].textContent.indexOf(naald) !== -1){ doel = alles[i]; break; }
+      }
+    }
+    (doel || secEl).scrollIntoView({behavior: 'smooth', block: 'center'});
+    if (doel){ doel.classList.add('opm-flits'); setTimeout(function(){ doel.classList.remove('opm-flits'); }, 1600); }
   }
 
   function antwoordVeld(b){
@@ -5490,8 +5519,43 @@ if (ecoViz) {
     if (!naam || !t) return;
     localStorage.setItem('redbox-naam', naam);
     var s = secties.filter(function(x){ return x.id === sel.value; })[0] || {};
-    plaats({sectie: sel.value, sectie_titel: s.titel || sel.value, naam: naam, tekst: t});
+    plaats({sectie: sel.value, sectie_titel: s.titel || sel.value, naam: naam, tekst: t, context: context ? context.tekst : null});
     document.getElementById('opm-tekst').value = '';
+    context = null; ctxVak.style.display = 'none';
+  });
+
+  // tekstselectie in het dossier → "opmerking hierover"-knop met de passage als context
+  document.addEventListener('mouseup', function(e){
+    if (paneel.contains(e.target) || e.target === qknop) return;
+    setTimeout(function(){
+      var s = window.getSelection();
+      var t = s ? s.toString().trim() : '';
+      if (t.length > 3 && s.rangeCount){
+        var n = s.anchorNode; while (n && n.nodeType !== 1){ n = n.parentNode; }
+        var secEl = n && n.closest ? n.closest('section[id]') : null;
+        if (!secEl){ qknop.style.display = 'none'; return; }
+        var r = s.getRangeAt(0).getBoundingClientRect();
+        qknop.style.display = 'block';
+        qknop.style.left = Math.min(window.innerWidth - 200, Math.max(10, r.left)) + 'px';
+        qknop.style.top = Math.min(window.innerHeight - 52, r.bottom + 8) + 'px';
+        qknop.dataset.sec = secEl.id;
+        qknop.dataset.tekst = t.slice(0, 300);
+      } else {
+        qknop.style.display = 'none';
+      }
+    }, 10);
+  });
+  qknop.addEventListener('click', function(){
+    context = {tekst: qknop.dataset.tekst, sectie: qknop.dataset.sec};
+    sel.value = qknop.dataset.sec;
+    ctxTekst.textContent = '"' + context.tekst + '"';
+    ctxVak.style.display = 'block';
+    qknop.style.display = 'none';
+    paneel.classList.add('open');
+    document.getElementById('opm-tekst').focus();
+  });
+  document.getElementById('opm-ctx-weg').addEventListener('click', function(){
+    context = null; ctxVak.style.display = 'none';
   });
 
   // de hoofdstuk-keuze volgt de menustructuur en de leespositie
