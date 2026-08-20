@@ -5601,25 +5601,69 @@ if (ecoViz) {
 </style>
 <script>
 (function(){
-  document.querySelectorAll('.ecocard').forEach(function(k){
-    var vast = ['ehead', 'who', 'kpis'];
+  function klap(kaart, isVast, knopTekst){
     var det = document.createElement('div');
     det.className = 'eco-details';
-    Array.prototype.slice.call(k.children).forEach(function(kind){
-      var hou = vast.some(function(c){ return kind.classList && kind.classList.contains(c); });
-      if (!hou){ det.appendChild(kind); }
+    Array.prototype.slice.call(kaart.children).forEach(function(kind){
+      if (!isVast(kind)){ det.appendChild(kind); }
     });
-    if (!det.children.length) return;
+    if (!det.children.length) return null;
     det.hidden = true;
     var b = document.createElement('button');
-    b.className = 'eco-toggle'; b.type = 'button'; b.textContent = '\u25be Toon details';
+    b.className = 'eco-toggle'; b.type = 'button';
+    var dichtT = '\u25be ' + (knopTekst || 'Toon details');
+    var openT = '\u25b4 Verberg details';
+    b.textContent = dichtT;
     b.addEventListener('click', function(){
       det.hidden = !det.hidden;
-      b.textContent = det.hidden ? '\u25be Toon details' : '\u25b4 Verberg details';
+      b.textContent = det.hidden ? dichtT : openT;
     });
-    k.appendChild(b);
-    k.appendChild(det);
+    kaart.appendChild(b);
+    kaart.appendChild(det);
+    return {det: det, knop: b, dichtT: dichtT, openT: openT};
+  }
+  function metKlassen(){
+    var l = Array.prototype.slice.call(arguments);
+    return function(el){ return l.some(function(c){ return el.classList && el.classList.contains(c); }); };
+  }
+
+  // 1) ecosysteem-spelerskaarten (hoofdstuk 03): kop, rol en kerncijfers blijven
+  document.querySelectorAll('.ecocard').forEach(function(k){ klap(k, metKlassen('ehead', 'who', 'kpis')); });
+
+  // 2) benchmark- en onderzoekskaarten (hoofdstuk 01 & 02): titel en rolregel blijven
+  document.querySelectorAll('#s1 .card, #s2 .card').forEach(function(k){
+    if (!k.querySelector(':scope > h4') || !k.querySelector(':scope > .who')) return;
+    klap(k, function(el){ return el.tagName === 'H4' || (el.classList && el.classList.contains('who')); });
   });
+
+  // 3) de zes businessmodellen (hoofdstuk 05): badge en naam blijven, schema en rijen klappen
+  document.querySelectorAll('.model').forEach(function(k){ klap(k, metKlassen('model-top')); });
+
+  // 4) samenspel-kaarten (hoofdstuk 06): rol, naam en de ene zin blijven
+  document.querySelectorAll('.eco-card').forEach(function(k){
+    klap(k, function(el){ return el.tagName === 'H4' || (el.classList && (el.classList.contains('role') || el.classList.contains('sub2'))); });
+  });
+
+  // 5) de bronnenlijst achter een knop; voetnoot-links klappen ze automatisch open
+  var bron = document.getElementById('bronnen');
+  if (bron){
+    var wrap = bron.querySelector('.wrap') || bron;
+    var det = document.createElement('div'); det.className = 'eco-details'; det.hidden = true;
+    while (wrap.children.length > 2){ det.appendChild(wrap.children[2]); }
+    if (det.children.length){
+      var b = document.createElement('button');
+      b.className = 'eco-toggle'; b.type = 'button'; b.textContent = '\u25be Toon alle bronnen';
+      b.addEventListener('click', function(){
+        det.hidden = !det.hidden;
+        b.textContent = det.hidden ? '\u25be Toon alle bronnen' : '\u25b4 Verberg de bronnen';
+      });
+      wrap.appendChild(b); wrap.appendChild(det);
+      document.addEventListener('click', function(e){
+        var a = e.target.closest('a[href^="#b"]');
+        if (a && det.hidden){ det.hidden = false; b.textContent = '\u25b4 Verberg de bronnen'; }
+      }, true);
+    }
+  }
 })();
 </script>
 
