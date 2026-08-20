@@ -48,28 +48,44 @@ button{font-family:inherit; cursor:pointer}
 .topbar .tbcur{color:var(--teal-deep); font-weight:700; padding-bottom:2px; border-bottom:2px solid var(--teal)}
 .topbar .spacer{flex:1}
 
-header.hero{padding:58px 0 34px}
+header.hero{padding:56px 0 30px}
 .eyebrow{font-size:.72rem; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:var(--teal-deep)}
 h1{font-size:2.2rem; letter-spacing:-.02em; line-height:1.15; margin-top:8px}
 .lead{margin-top:14px; max-width:52em; color:var(--muted); font-size:1.05rem}
 
-section{padding:38px 0 8px}
+section{padding:36px 0 8px}
 h2{font-size:1.5rem; letter-spacing:-.015em}
 h2 small{display:block; font-size:.85rem; font-weight:400; color:var(--muted); margin-top:4px}
 .secnr{font-size:.72rem; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:var(--teal-deep)}
+.dagdeel{display:inline-block; margin-top:40px; background:var(--teal); color:#fff; border-radius:12px; padding:9px 20px; font-weight:700; font-size:.95rem; letter-spacing:.03em}
+:root[data-theme="dark"] .dagdeel{color:#10201D}
 
 .spelregels{display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-top:20px}
 @media(max-width:760px){.spelregels{grid-template-columns:1fr}}
-.regel{background:var(--card); border:1px solid var(--hair); border-radius:14px; padding:16px 18px; box-shadow:var(--shadow)}
-.regel b{display:block; margin-bottom:4px}
-.regel{font-size:.9rem; color:var(--muted)}
-.regel b{color:var(--ink)}
+.regel{background:var(--card); border:1px solid var(--hair); border-radius:14px; padding:16px 18px; box-shadow:var(--shadow); font-size:.9rem; color:var(--muted)}
+.regel b{display:block; margin-bottom:4px; color:var(--ink)}
 
 .agenda{margin-top:20px; background:var(--card); border:1px solid var(--hair); border-radius:14px; overflow:hidden; box-shadow:var(--shadow)}
 .agenda .ar{display:flex; gap:14px; align-items:baseline; padding:11px 18px; border-bottom:1px dashed var(--hair); font-size:.92rem}
 .agenda .ar:last-child{border-bottom:none}
 .agenda .ar .t{flex:0 0 68px; font-weight:700; color:var(--teal-deep); font-size:.8rem}
 .agenda .ar small{margin-left:auto; color:var(--muted); white-space:nowrap}
+.agenda .ar.kop{background:var(--teal-soft); font-weight:700; color:var(--teal-deep); border-bottom:1px solid var(--hair)}
+
+/* debatkaart */
+.debat{background:color-mix(in srgb, var(--geel) 8%, transparent); border:1.5px dashed var(--geel); border-radius:16px; padding:20px 22px; margin-top:22px}
+.debat h3{font-size:1.05rem}
+.debat .sub{font-size:.82rem; color:var(--muted); margin-top:2px}
+.debat ul{list-style:none; display:grid; gap:8px; margin-top:12px}
+.debat li{padding-left:24px; position:relative; font-size:.92rem}
+.debat li::before{content:"💬"; position:absolute; left:0; font-size:.8rem}
+
+/* presentatie/draaiboek */
+.pres{background:var(--card); border:1px solid var(--hair); border-radius:16px; padding:20px 22px; margin-top:22px; box-shadow:var(--shadow)}
+.pres h3{font-size:1.05rem}
+.pres .sub{font-size:.82rem; color:var(--muted); margin-top:2px}
+.pres ol{margin:12px 0 0 20px; display:grid; gap:7px; font-size:.92rem}
+.pres ol small{color:var(--muted)}
 
 /* keuzekaart */
 .kk{background:var(--card); border:1px solid var(--hair); border-radius:16px; padding:22px 24px; margin-top:22px; box-shadow:var(--shadow); border-left:5px solid var(--hair)}
@@ -130,8 +146,6 @@ h2 small{display:block; font-size:.85rem; font-weight:400; color:var(--muted); m
 .besluiten .br:last-child{border-bottom:none}
 .besluiten .br .nr{flex:0 0 34px; font-weight:700; color:var(--teal-deep); font-size:.78rem}
 .besluiten .br .st{margin-left:auto; font-size:.74rem; font-weight:700; white-space:nowrap}
-.besluiten a.br{text-decoration:none; color:inherit; cursor:pointer}
-.besluiten a.br:hover{background:var(--teal-soft)}
 .besluiten .br small{display:block; color:var(--muted); font-size:.8rem}
 .st.s-ok{color:var(--ok)} .st.s-aan{color:var(--geel)} .st.s-park{color:var(--coral)} .st.s-open{color:var(--muted)}
 .kopieer{margin-top:14px; border:none; border-radius:10px; background:var(--teal); color:#fff; font-weight:700; font-size:.9rem; padding:11px 18px}
@@ -187,52 +201,109 @@ footer{padding:40px 0 60px; color:var(--muted); font-size:.8rem}
 
 <header class="hero">
   <div class="wrap">
-    <span class="eyebrow">Workshop · Health CG &amp; Health Advisory</span>
-    <h1>Tien keuzes, voorgekauwd.<br>Vandaag valideren we ze.</h1>
-    <p class="lead">Dit is geen brainstorm. Voor elke strategische vraag ligt een voorbereide keuze op tafel, mét de alternatieven en hun voor- en nadelen. Jullie job vandaag: elke keuze <b>valideren, aanpassen of parkeren</b> — met argument. Wat gevalideerd is, is beslist.</p>
+    <span class="eyebrow">Workshop · Health CG &amp; Health Advisory · twee dagdelen</span>
+    <h1>Lezen. Zien. Debatteren.<br>En dan écht beslissen.</h1>
+    <p class="lead">Het ritme is telkens hetzelfde: eerst het volledige materiaal (zonder onderbrekingen), dan het open debat, en dan de strategische vragen — voorgekauwd door ons, met een <b>duidelijk antwoord</b> van de leden: valideren, aanpassen of parkeren. Wat gevalideerd is, is beslist.</p>
+    <div class="spelregels">
+      <div class="regel"><b>De red box is vooraf gelezen</b>We herlezen ze niet in de zaal — dagdeel 1 opent meteen met het debat erover. Wie ze niet las, debatteert met een achterstand.</div>
+      <div class="regel"><b>Presentatie → debat → antwoord</b>Tijdens demo's en presentaties noteren we vragen, we onderbreken niet. Het debat komt erna — en eindigt in een antwoord, niet in een gevoel.</div>
+      <div class="regel"><b>Parkeren = eigenaar + datum</b>Parkeren mag, maar krijgt altijd een eigenaar en een datum — anders is het gewoon uitstel.</div>
+    </div>
+    <div class="agenda">
+      <div class="ar kop"><span class="t">Vooraf</span><span>Individueel leeswerk</span></div>
+      <div class="ar"><span class="t">1</span><span><b>Red box lezen</b> — het inspiratiedossier: consument, retailers, ecosystemen, timing, businessmodellen, markt</span><small>elk lid, vóór de workshop</small></div>
+      <div class="ar kop"><span class="t">Dagdeel 1</span><span>Health Advisory</span></div>
+      <div class="ar"><span class="t">1a</span><span><b>Debat over de red box</b> — wat zegt het speelveld ons?</span><small>30 min</small></div>
+      <div class="ar"><span class="t">2</span><span><b>Demo van de POC</b> — Health Advisory in één geheel, zonder veel vragen</span><small>40 min</small></div>
+      <div class="ar"><span class="t">2a</span><span><b>Debat over de demo</b></span><small>30 min</small></div>
+      <div class="ar"><span class="t">2b</span><span><b>Strategische vragen Health Advisory</b> — vijf voorgekauwde keuzes, duidelijk antwoord (A1–A5)</span><small>60 min</small></div>
+      <div class="ar kop"><span class="t">Dagdeel 2</span><span>Organisatie &amp; financieel</span></div>
+      <div class="ar"><span class="t">3</span><span><b>De organisatie</b> — eerste volledige presentatie van het voorstel</span><small>40 min</small></div>
+      <div class="ar"><span class="t">3a</span><span><b>Debat over de organisatie</b></span><small>30 min</small></div>
+      <div class="ar"><span class="t">3b</span><span><b>Strategische vragen organisatie</b> — vijf voorgekauwde keuzes, duidelijk antwoord (B1–B5)</span><small>45 min</small></div>
+      <div class="ar"><span class="t">4</span><span><b>Het financieel model</b> — presentatie</span><small>25 min</small></div>
+      <div class="ar"><span class="t">4a</span><span><b>Debat, samen simuleren &amp; afkloppen</b> — live aan de knoppen</span><small>35 min</small></div>
+      <div class="ar"><span class="t">Slot</span><span><b>Besluitenlijst</b> — wat is beslist, wie doet wat</span><small>15 min</small></div>
+    </div>
   </div>
 </header>
 
 <section id="redbox">
   <div class="wrap">
-    <span class="secnr">00 · Red box</span>
-    <h2>De gedeelde feitenbasis <small>We openen met alles wat we al weten — ambitie, assets, concurrentie, speelveld en eerdere analyses — zodat iedereen op dezelfde golflengte zit. Vragen mogen, meningen wachten tot de kaarten.</small></h2>
+    <span class="secnr">1 · Vooraf — de red box</span>
+    <h2>Iedereen leest hetzelfde dossier <small>Het inspiratiedossier bundelt alles wat we weten: de consument, de retail-benchmarks, zeven ecosystemen, acht waarom-nu-signalen, zes businessmodellen, het samenspel en de marktcijfers.</small></h2>
     <div class="demogrid" style="max-width:560px">
-      <a class="demo" href="health-cg-redbox.html" target="_blank" rel="noopener"><b>📕 Open de red box</b><small>Draft — wordt vóór de workshop aangevuld met de cijfers uit eerdere studies. Opent in een apart tabblad, zodat dit draaiboek open blijft.</small><span class="pijl">Naar de red box →</span></a>
+      <a class="demo" href="health-cg-redbox.html" target="_blank" rel="noopener"><b>📕 Open de red box</b><small>Health Advisory · Inspiratiedossier voor de Colruyt Group-directie — leeswerk vóór de workshop. Opent in een apart tabblad.</small><span class="pijl">Naar het dossier →</span></a>
+    </div>
+
+    <span class="secnr" style="display:block; margin-top:34px">1a · Debat</span>
+    <div class="debat">
+      <h3>Wat zegt het speelveld ons?</h3>
+      <div class="sub">Open debat, 30 minuten. Het dossier eindigt zelf met "vragen die de workshop moeten dragen" — dit zijn onze aftrap-stellingen:</div>
+      <ul>
+        <li>Welke van de <b>zeven ecosystemen</b> uit het dossier is onze échte concurrent — en wie is eerder partner?</li>
+        <li>Welk van de <b>zes businessmodellen</b> past bij wat Colruyt Group is (en wat we níet zijn)?</li>
+        <li>Zijn de <b>acht waarom-nu-signalen</b> overtuigend genoeg om dit jaar te bewegen — of wachten we op meer bewijs?</li>
+        <li>Wat zeggen de <b>marktcijfers</b> over de € 1 miljard-ambitie: realistisch, ambitieus of naïef?</li>
+      </ul>
     </div>
   </div>
 </section>
 
-<section id="spelregels">
+<section id="demo">
   <div class="wrap">
-    <span class="secnr">01 · Kader</span>
-    <h2>Spelregels &amp; agenda <small>Zo halen we in één dagdeel echte besluiten.</small></h2>
-    <div class="spelregels">
-      <div class="regel"><b>Voorgekauwd ≠ dichtgetimmerd</b>Elke kaart toont de alternatieven eerlijk. Wie het voorstel wil kantelen, kantelt het — maar met een argument dat sterker is dan de nadelen die er al staan.</div>
-      <div class="regel"><b>Valideren, aanpassen of parkeren</b>Drie knoppen per keuze. Parkeren mag, maar krijgt een eigenaar en een datum — anders is het gewoon uitstel.</div>
-      <div class="regel"><b>De demo is het bewijs</b>Halverwege tonen we de POC: elke keuze die we hier maken, is daar al gebouwd. Zo valideren we geen slides maar een werkend concept.</div>
+    <span class="secnr">2 · De demo</span>
+    <h2>Health Advisory in één geheel <small>Eén doorlopende demo, zonder veel vragen — noteer wat opvalt, het debat komt erna.</small></h2>
+
+    <div class="pres">
+      <h3>🎬 Het draaiboek (40 minuten)</h3>
+      <div class="sub">één verhaal, van speelveld tot EPD — de presentator klikt, de zaal kijkt</div>
+      <ol>
+        <li><b>De POC-hub</b> — het concept per stakeholder: klant, coach, arts, merk, meetpartner, middenveld <small>· 5 min</small></li>
+        <li><b>Lena's app</b> — stapjes, meetbaar doel, gezin &amp; kringen, gezondheidsbudget met sponsors en Xtra-punten <small>· 10 min</small></li>
+        <li><b>Eén verhaal end-to-end</b> — Marc: van diagnose en leefstijlvoorschrift in het EPD tot stapjes in de app <small>· 10 min</small></li>
+        <li><b>De coach-werkplek</b> — AI stelt voor, Sam beslist; hub &amp; spokes rond één plan <small>· 10 min</small></li>
+        <li><b>De buitenring</b> — het artsenportaal en de cohort-/preventieportalen voor mutualiteit en werkgever <small>· 5 min</small></li>
+      </ol>
     </div>
-    <div class="agenda">
-      <div class="ar"><span class="t">15 min</span><span><b>Red box</b> — de gedeelde feitenbasis: ambitie, assets, concurrentie, kader</span><small>vragen mogen, meningen wachten</small></div>
-      <div class="ar"><span class="t">10 min</span><span><b>Kader &amp; spelregels</b> — waarom deze tien vragen alles bepalen wat volgt</span></div>
-      <div class="ar"><span class="t">60 min</span><span><b>Blok A — Health Advisory</b> · vijf productkeuzes bespreken (A1–A5)</span><small>±12 min per keuze</small></div>
-      <div class="ar"><span class="t">25 min</span><span><b>Demo</b> — de keuzes in het echt: de yoboo-POC, end-to-end</span></div>
-      <div class="ar"><span class="t">15 min</span><span><b>Validatieronde A</b> — na de demo elke productkeuze formeel valideren</span></div>
-      <div class="ar"><span class="t">50 min</span><span><b>Blok B — Organisatie</b> · vijf organisatiekeuzes bespreken (B1–B5)</span><small>±10 min per keuze</small></div>
-      <div class="ar"><span class="t">10 min</span><span><b>Validatieronde B</b> — de organisatiekeuzes formeel valideren</span></div>
-      <div class="ar"><span class="t">20 min</span><span><b>Besluitenlijst &amp; vervolg</b> — wat is beslist, wie doet wat</span></div>
+
+    <div class="demogrid">
+      <a class="demo" href="health-cg-yoboo.html"><b>🧭 De POC-hub</b><small>Het hele verhaal per stakeholder, met het leefstijlvoorschrift en de mHealth-piramide.</small><span class="pijl">Open de hub →</span></a>
+      <a class="demo" href="yoboo-klant.html"><b>📱 De klant-app</b><small>Yobi, stapjes, meetbare doelen, gezin &amp; kringen, gezondheidsbudget.</small><span class="pijl">Open als Lena →</span></a>
+      <a class="demo" href="yoboo-coach.html"><b>🧑‍🏫 De coach-werkplek</b><small>AI stelt voor, Sam beslist; het team rond elk plan zichtbaar.</small><span class="pijl">Open als Sam →</span></a>
+      <a class="demo" href="yoboo-arts.html"><b>🩺 Het artsenportaal</b><small>EPD met leefstijlvoorschrift: alleen voorwaarden steken over.</small><span class="pijl">Open als dr. Verhoeven →</span></a>
+    </div>
+    <div class="verhalen">
+      <span>🚴 Omar — meer en beter bewegen</span>
+      <span>⚖️ Jef — gewicht verliezen</span>
+      <span>🦵 Nadia — operatie ondergaan (prehab)</span>
+      <span>❤️ Marc — revalideren na een ingreep</span>
+      <span>🌙 Aïcha — slaap slecht</span>
+    </div>
+    <p style="margin-top:10px; color:var(--muted); font-size:.9rem">De vijf verhalen zitten in de gebruikerskiezer van de klant-app en lopen end-to-end door tot in de coach-werkplek en het EPD.</p>
+
+    <span class="secnr" style="display:block; margin-top:34px">2a · Debat</span>
+    <div class="debat">
+      <h3>Wat vonden we ervan?</h3>
+      <div class="sub">Open debat, 30 minuten — nu mogen alle genoteerde vragen op tafel:</div>
+      <ul>
+        <li>Wat overtuigde het meest — en wat ontbreekt er nog om dit aan een klant, coach of arts te tonen?</li>
+        <li>Is dit onderscheidend genoeg tegenover de ecosystemen uit de red box — waar zit ons unieke stuk?</li>
+        <li>Geloven we het vertrouwensmodel (dataringen, consent, cohorten) zoals gedemonstreerd?</li>
+        <li>Wat moet er in de POC bij of uit vóór we hiermee naar buiten gaan?</li>
+      </ul>
     </div>
   </div>
 </section>
 
 <section id="advisory">
   <div class="wrap">
-    <span class="secnr">Blok A · Health Advisory</span>
-    <h2>Vijf productkeuzes <small>Wat is Health Advisory, op wie draait het, en hoe verdient het zichzelf terug?</small></h2>
+    <span class="secnr">2b · Strategische vragen — Health Advisory</span>
+    <h2>Vijf keuzes, vijf duidelijke antwoorden <small>Wij hebben ze voorgekauwd: alternatieven, voor- en nadelen en een voorstel. De leden geven per vraag een duidelijk antwoord — valideren, aanpassen of parkeren.</small></h2>
 
     <!-- A1 -->
     <div class="kk" id="A1" data-titel="Platform: Xtra of Yoboo?">
-      <div class="kk-kop"><span class="nr">A1</span><h3>Zetten we Xtra of Yoboo voorop als gezondheidsplatform?</h3><span class="tijd">15 min</span><span class="stchip ok">✓ gevalideerd</span><span class="stchip aan">✏️ met aanpassing</span><span class="stchip park">⏸ geparkeerd</span></div>
+      <div class="kk-kop"><span class="nr">A1</span><h3>Zetten we Xtra of Yoboo voorop als gezondheidsplatform?</h3><span class="tijd">12 min</span><span class="stchip ok">✓ gevalideerd</span><span class="stchip aan">✏️ met aanpassing</span><span class="stchip park">⏸ geparkeerd</span></div>
       <p class="kk-waarom">De verleidelijkste kortsluiting is Xtra: miljoenen accounts, morgen bereik. Maar gezondheid draait op vertrouwen — en vertrouwen vraagt afstand van de kassa.</p>
       <div class="alts">
         <div class="alt">
@@ -255,7 +326,7 @@ footer{padding:40px 0 60px; color:var(--muted); font-size:.8rem}
 
     <!-- A2 -->
     <div class="kk" id="A2" data-titel="Begeleiding: AI-first of coach-first?">
-      <div class="kk-kop"><span class="nr">A2</span><h3>AI-first met een menselijke hub — of coach-first?</h3><span class="tijd">15 min</span><span class="stchip ok">✓ gevalideerd</span><span class="stchip aan">✏️ met aanpassing</span><span class="stchip park">⏸ geparkeerd</span></div>
+      <div class="kk-kop"><span class="nr">A2</span><h3>AI-first met een menselijke hub — of coach-first?</h3><span class="tijd">12 min</span><span class="stchip ok">✓ gevalideerd</span><span class="stchip aan">✏️ met aanpassing</span><span class="stchip park">⏸ geparkeerd</span></div>
       <p class="kk-waarom">Eén-op-één coaching is warm maar schaalt niet naar een groepsambitie; pure AI schaalt maar laat mensen als Jos afhaken. De vraag is niet óf er een mens bij hoort, maar wáár.</p>
       <div class="alts">
         <div class="alt">
@@ -283,7 +354,7 @@ footer{padding:40px 0 60px; color:var(--muted); font-size:.8rem}
 
     <!-- A3 -->
     <div class="kk" id="A3" data-titel="Medische verankering: welzijnsapp of zorgproduct?">
-      <div class="kk-kop"><span class="nr">A3</span><h3>Blijven we een welzijnsapp — of worden we een voorschrijfbaar zorgproduct?</h3><span class="tijd">15 min</span><span class="stchip ok">✓ gevalideerd</span><span class="stchip aan">✏️ met aanpassing</span><span class="stchip park">⏸ geparkeerd</span></div>
+      <div class="kk-kop"><span class="nr">A3</span><h3>Blijven we een welzijnsapp — of worden we een voorschrijfbaar zorgproduct?</h3><span class="tijd">12 min</span><span class="stchip ok">✓ gevalideerd</span><span class="stchip aan">✏️ met aanpassing</span><span class="stchip park">⏸ geparkeerd</span></div>
       <p class="kk-waarom">"Gezondheidsadvies van uw supermarkt" heeft een geloofwaardigheidsprobleem — tot de arts het voorschrijft. Het leefstijlvoorschrift is de sleutel, en het Belgische kader ervoor bestaat al.</p>
       <div class="alts">
         <div class="alt">
@@ -306,7 +377,7 @@ footer{padding:40px 0 60px; color:var(--muted); font-size:.8rem}
 
     <!-- A4 -->
     <div class="kk" id="A4" data-titel="Data: één datalake of harde ringen?">
-      <div class="kk-kop"><span class="nr">A4</span><h3>Data: één rijk datalake — of harde, gescheiden ringen?</h3><span class="tijd">15 min</span><span class="stchip ok">✓ gevalideerd</span><span class="stchip aan">✏️ met aanpassing</span><span class="stchip park">⏸ geparkeerd</span></div>
+      <div class="kk-kop"><span class="nr">A4</span><h3>Data: één rijk datalake — of harde, gescheiden ringen?</h3><span class="tijd">12 min</span><span class="stchip ok">✓ gevalideerd</span><span class="stchip aan">✏️ met aanpassing</span><span class="stchip park">⏸ geparkeerd</span></div>
       <p class="kk-waarom">Commercieel is de verleiding groot om alles te koppelen: winkeldata × gezondheidsdata × sponsordata. Maar één datalek of één krantenkop over "Colruyt weet dat u ziek bent" en het hele verhaal is dood.</p>
       <div class="alts">
         <div class="alt">
@@ -329,8 +400,8 @@ footer{padding:40px 0 60px; color:var(--muted); font-size:.8rem}
 
     <!-- A5 -->
     <div class="kk" id="A5" data-titel="Verdienmodel: abonnement, commerce of derde-betalers?">
-      <div class="kk-kop"><span class="nr">A5</span><h3>Hoe verdient dit zichzelf terug — abonnement, commerce of derde-betalers?</h3><span class="tijd">15 min</span><span class="stchip ok">✓ gevalideerd</span><span class="stchip aan">✏️ met aanpassing</span><span class="stchip park">⏸ geparkeerd</span></div>
-      <p class="kk-waarom">Een betaalmuur doodt het bereik; pure commerce doodt het vertrouwen. Het model moet verdienen aan gezond gedrag — niet aan schermtijd.</p>
+      <div class="kk-kop"><span class="nr">A5</span><h3>Hoe verdient dit zichzelf terug — abonnement, commerce of derde-betalers?</h3><span class="tijd">12 min</span><span class="stchip ok">✓ gevalideerd</span><span class="stchip aan">✏️ met aanpassing</span><span class="stchip park">⏸ geparkeerd</span></div>
+      <p class="kk-waarom">Een betaalmuur doodt het bereik; pure commerce doodt het vertrouwen. Het model moet verdienen aan gezond gedrag — niet aan schermtijd. De cijfers erachter kloppen we af in blok 4.</p>
       <div class="alts">
         <div class="alt">
           <h4>Abonnement (premium app)</h4>
@@ -345,56 +416,55 @@ footer{padding:40px 0 60px; color:var(--muted); font-size:.8rem}
         <div class="alt keuze">
           <span class="vlag">ons voorstel</span>
           <h4>Gelaagd: gratis basis + doelgedreven aanbod + derde-betalers</h4>
-          <ul class="plus"><li>Gratis basis voor bereik — de meeste stapjes kosten niks</li><li>Aanbod alleen als het het doel dient: Newpharma care, Jims, Foodbag, opleidingen, health box — "past bij jouw doel", nooit reclame, altijd verbergbaar</li><li>Derde-betalers via het gezondheidsbudget: werkgever, mutualiteit en verzekeraar sponsoren gezond gedrag, betalen op cohortbewijs</li><li>Betalen met kaart én Xtra-punten — loyalty wordt gezondheidsmunt</li></ul>
-          <ul class="min"><li>Drie motoren tegelijk bouwen is complexer dan één</li><li>Derde-betalers vragen het cohort-rapportagemodel (zie A4) — die volgorde ligt vast</li></ul>
+          <ul class="plus"><li>Gratis basis voor bereik — de meeste stapjes kosten niks</li><li>Aanbod alleen als het het doel dient: Newpharma care, Jims, Foodbag, opleidingen, health box — "past bij jouw doel", nooit reclame, altijd verbergbaar</li><li>Derde-betalers via het gezondheidsbudget: werkgever, mutualiteit en verzekeraar sponsoren gezond gedrag, betalen op cohortbewijs</li><li>Later een bescheiden premium-laag (± 10% tekent in) — de gratis basis blijft gratis</li></ul>
+          <ul class="min"><li>Meerdere motoren tegelijk bouwen is complexer dan één</li><li>Derde-betalers vragen het cohort-rapportagemodel (zie A4) — die volgorde ligt vast</li></ul>
         </div>
       </div>
-      <p class="cons"><b>Als we dit kiezen:</b> de €1 mld-ambitie wordt gedragen door commerce-die-het-doel-dient plus B2B-contracten (werkgevers, mutualiteiten) — en de app zelf blijft gratis.</p>
-      <div class="poclinks"><span class="lbl">🔎 Zie het zelf</span><a class="poclink" href="yoboo-klant.html#plan">Plan: "Past bij jouw doel" — nooit reclame</a><a class="poclink" href="yoboo-klant.html#budget">Gezondheidsbudget: werkgever &amp; mutualiteit sponsoren</a><a class="poclink" href="yoboo-klant.html#coach">Betaalde sessie: € 5 terug van de mutualiteit</a><a class="poclink" href="health-cg-financieel.html">Het volledige financieel model, interactief</a></div>
+      <p class="cons"><b>Als we dit kiezen:</b> de € 1 mld-ambitie wordt gedragen door commerce-die-het-doel-dient plus B2B-contracten (werkgevers, mutualiteiten) — en de basis-app blijft gratis.</p>
+      <div class="poclinks"><span class="lbl">🔎 Zie het zelf</span><a class="poclink" href="yoboo-klant.html#plan">Plan: "Past bij jouw doel" — nooit reclame</a><a class="poclink" href="yoboo-klant.html#budget">Gezondheidsbudget: werkgever &amp; mutualiteit sponsoren</a><a class="poclink" href="health-cg-financieel.html">Het volledige financieel model, interactief</a></div>
       <p class="valvraag">💬 Validatievraag: is "nooit reclame, alleen doelgedreven aanbod" een belofte die de merken kunnen dragen?</p>
       <div class="val"><button onclick="valideer(this,'ok')">✓ Gevalideerd</button><button onclick="valideer(this,'aan')">✏️ Met aanpassing</button><button onclick="valideer(this,'park')">⏸ Parkeren</button><input placeholder="argument, aanpassing of eigenaar+datum (optioneel)" oninput="noteer(this)"></div>
     </div>
-  </div>
-</section>
 
-<section id="demo">
-  <div class="wrap">
-    <span class="secnr">Intermezzo · de proef op de som</span>
-    <h2>De keuzes in het echt <small>Alles wat we net kozen, is al gebouwd. Geen slides — een werkend concept.</small></h2>
-    <div class="demogrid">
-      <a class="demo" href="health-cg-yoboo.html"><b>🧭 De POC-hub</b><small>Het hele verhaal per stakeholder: klant, patiënt, coach, arts, meetpartner, middenveld — met het leefstijlvoorschrift en de mHealth-piramide.</small><span class="pijl">Open de hub →</span></a>
-      <a class="demo" href="yoboo-klant.html"><b>📱 De klant-app</b><small>Yobi, stapjes, meetbare doelen, gezin &amp; kringen, gezondheidsbudget met sponsors en Xtra-punten (keuzes A1, A2, A4, A5).</small><span class="pijl">Open als Lena →</span></a>
-      <a class="demo" href="yoboo-coach.html"><b>🧑‍🏫 De coach-werkplek</b><small>AI stelt voor, Sam beslist; hub &amp; spokes zichtbaar per plan (keuze A2).</small><span class="pijl">Open als Sam →</span></a>
-      <a class="demo" href="yoboo-arts.html"><b>🩺 Het artsenportaal</b><small>EPD met leefstijlvoorschrift: alleen voorwaarden steken over, therapietrouw komt terug (keuzes A3, A4).</small><span class="pijl">Open als dr. Verhoeven →</span></a>
-    </div>
-    <div class="verhalen">
-      <span>🚴 Omar — meer en beter bewegen</span>
-      <span>⚖️ Jef — gewicht verliezen</span>
-      <span>🦵 Nadia — operatie ondergaan (prehab)</span>
-      <span>❤️ Marc — revalideren na een ingreep</span>
-      <span>🌙 Aïcha — slaap slecht</span>
-    </div>
-    <p style="margin-top:10px; color:var(--muted); font-size:.9rem">Tip voor de demo: kies in de klant-app een van de vijf verhalen via de gebruikerskiezer — elk verhaal loopt end-to-end door tot in de coach-werkplek en het EPD.</p>
-  </div>
-</section>
-
-<section id="val-a">
-  <div class="wrap">
-    <span class="secnr">Validatieronde A</span>
-    <h2>Nu écht beslissen <small>De demo gezien? Loop de vijf productkeuzes nog eens af en zet elke kaart op gevalideerd, aangepast of geparkeerd — klik op een rij om terug te springen.</small></h2>
-    <div class="besluiten" id="valA"></div>
+    <span class="dagdeel">— einde dagdeel 1 · dagdeel 2: organisatie &amp; financieel —</span>
   </div>
 </section>
 
 <section id="organisatie">
   <div class="wrap">
-    <span class="secnr">Blok B · Organisatie</span>
-    <h2>Vijf organisatiekeuzes <small>Dezelfde methode: alternatieven op tafel, keuze voorgekauwd, vandaag valideren.</small></h2>
+    <span class="secnr">3 · De organisatie</span>
+    <h2>Eerste volledige presentatie van het voorstel <small>Zelfde regel als bij de demo: eerst het hele verhaal, dan pas het debat.</small></h2>
+
+    <div class="pres">
+      <h3>📽️ De presentatie (40 minuten)</h3>
+      <div class="sub">via het organisatiedocument — de presentator loopt het voorstel integraal door</div>
+      <ol>
+        <li><b>Het vertrekpunt en het verhaal</b> — de pijnpunten van vandaag en de gezondheidskapstok <small>· 8 min</small></li>
+        <li><b>Het ecosysteem</b> — de mens en zijn kringen, business- vs. draagvlak-stakeholders <small>· 7 min</small></li>
+        <li><b>De organisatie</b> — één team dat bouwt én runt: Health Advisory, Vakmanschap (met de coaches), Marketing &amp; Communicatie <small>· 15 min</small></li>
+        <li><b>Aanbeveling &amp; roadmap</b> — opschaaltriggers, korte vs. lange termijn, 2028 als horizon <small>· 10 min</small></li>
+      </ol>
+      <div class="poclinks" style="margin-top:14px"><span class="lbl">📄 Materiaal</span><a class="poclink" href="health-cg-organisatie.html">Het organisatiedocument</a><a class="poclink" href="health-cg-organisatie.html#varianten">Rechtstreeks naar het organisatiemodel</a><a class="poclink" href="health-cg-organisatie.html#roadmap">Rechtstreeks naar de roadmap</a></div>
+    </div>
+
+    <span class="secnr" style="display:block; margin-top:34px">3a · Debat</span>
+    <div class="debat">
+      <h3>Staat dit voorstel?</h3>
+      <div class="sub">Open debat, 30 minuten:</div>
+      <ul>
+        <li>Draagt het model "één team dat bouwt én runt" — of missen we een stuk?</li>
+        <li>Horen de coaches onder Vakmanschap, en de fysieke journeys onder Health Advisory — klopt de knip?</li>
+        <li>Wat vraagt dit van de merken, en gaan de merkdirecties dat geven?</li>
+      </ul>
+    </div>
+
+    <span class="secnr" style="display:block; margin-top:34px">3b · Strategische vragen — organisatie</span>
+    <h2 style="font-size:1.25rem">Vijf keuzes, vijf duidelijke antwoorden</h2>
 
     <!-- B1 -->
     <div class="kk" id="B1" data-titel="Mandaat op groepsniveau?">
-      <div class="kk-kop"><span class="nr">B1</span><h3>Geven we health een echt mandaat op groepsniveau?</h3><span class="tijd">12 min</span><span class="stchip ok">✓ gevalideerd</span><span class="stchip aan">✏️ met aanpassing</span><span class="stchip park">⏸ geparkeerd</span></div>
-      <p class="kk-waarom">Zonder mandaat blijft elke visie vrijblijvend — dan is deze workshop een leuke namiddag geweest. Met mandaat starten het team en de roadmap morgen.</p>
+      <div class="kk-kop"><span class="nr">B1</span><h3>Geven we health een echt mandaat op groepsniveau?</h3><span class="tijd">9 min</span><span class="stchip ok">✓ gevalideerd</span><span class="stchip aan">✏️ met aanpassing</span><span class="stchip park">⏸ geparkeerd</span></div>
+      <p class="kk-waarom">Zonder mandaat blijft elke visie vrijblijvend — dan is deze workshop een leuke tweedaagse geweest. Met mandaat starten het team en de roadmap morgen.</p>
       <div class="alts">
         <div class="alt">
           <h4>Programma zonder mandaat (coördinatie)</h4>
@@ -416,7 +486,7 @@ footer{padding:40px 0 60px; color:var(--muted); font-size:.8rem}
 
     <!-- B2 -->
     <div class="kk" id="B2" data-titel="Eén team of federatie van merkinitiatieven?">
-      <div class="kk-kop"><span class="nr">B2</span><h3>Eén team dat bouwt én runt — of een federatie van merkinitiatieven?</h3><span class="tijd">12 min</span><span class="stchip ok">✓ gevalideerd</span><span class="stchip aan">✏️ met aanpassing</span><span class="stchip park">⏸ geparkeerd</span></div>
+      <div class="kk-kop"><span class="nr">B2</span><h3>Eén team dat bouwt én runt — of een federatie van merkinitiatieven?</h3><span class="tijd">9 min</span><span class="stchip ok">✓ gevalideerd</span><span class="stchip aan">✏️ met aanpassing</span><span class="stchip park">⏸ geparkeerd</span></div>
       <p class="kk-waarom">De oude variant — elk merk bouwt zijn eigen gezondheidsstuk — overleeft alleen nog als tegenvraag. Het antwoord erop is het bestaansrecht van het platformteam.</p>
       <div class="alts">
         <div class="alt">
@@ -439,7 +509,7 @@ footer{padding:40px 0 60px; color:var(--muted); font-size:.8rem}
 
     <!-- B3 -->
     <div class="kk" id="B3" data-titel="Gezondheidstaal niet-onderhandelbaar?">
-      <div class="kk-kop"><span class="nr">B3</span><h3>Maken we de gezondheidstaal niet-onderhandelbaar?</h3><span class="tijd">12 min</span><span class="stchip ok">✓ gevalideerd</span><span class="stchip aan">✏️ met aanpassing</span><span class="stchip park">⏸ geparkeerd</span></div>
+      <div class="kk-kop"><span class="nr">B3</span><h3>Maken we de gezondheidstaal niet-onderhandelbaar?</h3><span class="tijd">9 min</span><span class="stchip ok">✓ gevalideerd</span><span class="stchip aan">✏️ met aanpassing</span><span class="stchip park">⏸ geparkeerd</span></div>
       <p class="kk-waarom">Zonder één bibliotheek van kleuren, iconen en woorden — zes pijlers, Food/Move/Care/Know, stapjes — is er geen Coolblue-gevoel over de merken heen. Dit is discipline, geen creativiteit.</p>
       <div class="alts">
         <div class="alt">
@@ -462,7 +532,7 @@ footer{padding:40px 0 60px; color:var(--muted); font-size:.8rem}
 
     <!-- B4 -->
     <div class="kk" id="B4" data-titel="Centraal team fysiek samen?">
-      <div class="kk-kop"><span class="nr">B4</span><h3>Zetten we het centrale team fysiek samen?</h3><span class="tijd">12 min</span><span class="stchip ok">✓ gevalideerd</span><span class="stchip aan">✏️ met aanpassing</span><span class="stchip park">⏸ geparkeerd</span></div>
+      <div class="kk-kop"><span class="nr">B4</span><h3>Zetten we het centrale team fysiek samen?</h3><span class="tijd">9 min</span><span class="stchip ok">✓ gevalideerd</span><span class="stchip aan">✏️ met aanpassing</span><span class="stchip park">⏸ geparkeerd</span></div>
       <p class="kk-waarom">Nabijheid is geen comfort maar de snelste weg naar alignering: mensen die elkaar écht kennen, beslissen sneller en bouwen één taal.</p>
       <div class="alts">
         <div class="alt">
@@ -485,7 +555,7 @@ footer{padding:40px 0 60px; color:var(--muted); font-size:.8rem}
 
     <!-- B5 -->
     <div class="kk" id="B5" data-titel="Horizon: triggers + 2028 als lanceermoment?">
-      <div class="kk-kop"><span class="nr">B5</span><h3>Opschalen op datum — of op triggers, met 2028 als lanceermoment?</h3><span class="tijd">12 min</span><span class="stchip ok">✓ gevalideerd</span><span class="stchip aan">✏️ met aanpassing</span><span class="stchip park">⏸ geparkeerd</span></div>
+      <div class="kk-kop"><span class="nr">B5</span><h3>Opschalen op datum — of op triggers, met 2028 als lanceermoment?</h3><span class="tijd">9 min</span><span class="stchip ok">✓ gevalideerd</span><span class="stchip aan">✏️ met aanpassing</span><span class="stchip park">⏸ geparkeerd</span></div>
       <p class="kk-waarom">Korte termijn ligt vast: dit jaar St. Gilles openen mét services, Noorderlaan efficiënt en rendabel, Yoboo als B2C-app, B2B verkopen en de health box. Het scharnier is het Health Retail-concept, af te kloppen eind oktober — de 2027+-planning is daar een gevolg van.</p>
       <div class="alts">
         <div class="alt">
@@ -500,7 +570,7 @@ footer{padding:40px 0 60px; color:var(--muted); font-size:.8rem}
           <ul class="min"><li>Triggers vragen eerlijke meting — geen opschaling "omdat het moet van de planning"</li></ul>
         </div>
       </div>
-      <p class="cons"><b>Als we dit kiezen:</b> de roadmap blijft trigger-gedreven; 2028 wordt publiek intern gecommuniceerd als het lanceermoment.</p>
+      <p class="cons"><b>Als we dit kiezen:</b> de roadmap blijft trigger-gedreven; 2028 wordt intern gecommuniceerd als het lanceermoment.</p>
       <div class="poclinks"><span class="lbl">🔎 Achtergrond</span><a class="poclink" href="health-cg-organisatie.html#roadmap">Roadmap: twee sporen &amp; 2028</a><a class="poclink" href="health-cg-organisatie.html#aanbeveling">De opschaaltriggers</a></div>
       <p class="valvraag">💬 Validatievraag: durven we 2028 hardop te zeggen — en de triggers hard te maken?</p>
       <div class="val"><button onclick="valideer(this,'ok')">✓ Gevalideerd</button><button onclick="valideer(this,'aan')">✏️ Met aanpassing</button><button onclick="valideer(this,'park')">⏸ Parkeren</button><input placeholder="argument, aanpassing of eigenaar+datum (optioneel)" oninput="noteer(this)"></div>
@@ -508,38 +578,71 @@ footer{padding:40px 0 60px; color:var(--muted); font-size:.8rem}
   </div>
 </section>
 
-<section id="val-b">
+<section id="financieel">
   <div class="wrap">
-    <span class="secnr">Validatieronde B</span>
-    <h2>Ook de organisatie: beslist is beslist <small>Zelfde ronde voor de vijf organisatiekeuzes — klik op een rij om terug te springen naar de kaart.</small></h2>
-    <div class="besluiten" id="valB"></div>
+    <span class="secnr">4 · Het financieel model</span>
+    <h2>Presenteren, samen simuleren, afkloppen <small>Eerst de presentatie van het model (25 min), dan het debat mét de knoppen op het scherm (35 min) — en we eindigen met een afgeklopt werkkader.</small></h2>
+
+    <div class="pres">
+      <h3>📽️ De presentatie (25 minuten)</h3>
+      <div class="sub">via het interactieve financieel model</div>
+      <ol>
+        <li><b>De kostenzijde</b> — de drie teams uit het organisatiemodel, jaar na jaar, en het team in koppen (FTE) <small>· 8 min</small></li>
+        <li><b>De opbrengstzijde</b> — gratis waar het moet; vier stromen: doorverwijsfees, merkcommissies, derde-betalers, premium <small>· 9 min</small></li>
+        <li><b>Het evenwicht</b> — break-even, maximale investering, kost en opbrengst per gebruiker <small>· 8 min</small></li>
+      </ol>
+      <div class="poclinks" style="margin-top:14px"><span class="lbl">📄 Materiaal</span><a class="poclink" href="health-cg-financieel.html">Het financieel model</a><a class="poclink" href="health-cg-financieel.html#knoppen">Rechtstreeks naar de simulatieknoppen</a></div>
+    </div>
+
+    <span class="secnr" style="display:block; margin-top:34px">4a · Debat, samen simuleren &amp; afkloppen</span>
+    <div class="debat">
+      <h3>Aan de knoppen</h3>
+      <div class="sub">De simulatie op het grote scherm — elke twijfel wordt ter plekke doorgerekend (elke knop kan ook per jaar):</div>
+      <ul>
+        <li>Coach-ratio: hoe AI-first durven we te zijn — 1:1.000 of 1:5.000? Kijk wat het met break-even doet.</li>
+        <li>Derde-betalers: hoeveel geloven we — € 10 of € 40 per actieve gebruiker per jaar?</li>
+        <li>Premium: vanaf wanneer, welk percentage, welke prijs?</li>
+        <li>Gebruikerscurve: wat is het minimum waarbij dit verhaal nog klopt?</li>
+      </ul>
+    </div>
+
+    <!-- F1 -->
+    <div class="kk" id="F1" data-titel="Financieel werkkader afgeklopt?">
+      <div class="kk-kop"><span class="nr">F1</span><h3>Kloppen we het financieel werkkader af?</h3><span class="tijd">slot van 4a</span><span class="stchip ok">✓ gevalideerd</span><span class="stchip aan">✏️ met aanpassing</span><span class="stchip park">⏸ geparkeerd</span></div>
+      <p class="kk-waarom">Geen boekhouding maar een werkkader: de aannames die we vandaag samen op het scherm hebben gezet (gebruikerscurve, coach-ratio, tarieven, FTE per team) worden dé referentie voor budgetronde en herijking — tot de volgende meting ze bijstelt.</p>
+      <p class="cons"><b>Als we dit afkloppen:</b> de slider-standen van vandaag worden als scenario genoteerd in het verslag (kopieer de besluitenlijst), en het team werkt het uit tot een budgetvoorstel voor het directiecomité.</p>
+      <div class="poclinks"><span class="lbl">🔎 Materiaal</span><a class="poclink" href="health-cg-financieel.html#knoppen">De simulatie — noteer de eindstanden</a></div>
+      <p class="valvraag">💬 Validatievraag: is dit kader goed genoeg om op te budgetteren — wetende dat élk cijfer een werkhypothese is?</p>
+      <div class="val"><button onclick="valideer(this,'ok')">✓ Gevalideerd</button><button onclick="valideer(this,'aan')">✏️ Met aanpassing</button><button onclick="valideer(this,'park')">⏸ Parkeren</button><input placeholder="genoteerde eindstanden / aanpassing / eigenaar+datum (optioneel)" oninput="noteer(this)"></div>
+    </div>
   </div>
 </section>
 
 <section id="besluiten">
   <div class="wrap">
     <span class="secnr">Slot · besluitenlijst</span>
-    <h2>Wat we vandaag beslist hebben <small>Deze lijst vult zichzelf terwijl jullie valideren. Kopieer hem in het verslag.</small></h2>
+    <h2>Wat we beslist hebben <small>Deze lijst vult zichzelf terwijl jullie antwoorden. Kopieer hem in het verslag.</small></h2>
     <div class="besluiten" id="blijst"></div>
     <button class="kopieer" onclick="kopieerBesluiten(this)">📋 Kopieer de besluitenlijst</button>
 
     <div class="next">
       <div class="n"><b>Health Retail-concept</b><small>afkloppen eind oktober — het scharnier voor de 2027+-planning</small></div>
       <div class="n"><b>mHealthBelgium-traject</b><small>eigenaar en budget benoemen; M1-dossier starten (zie A3)</small></div>
+      <div class="n"><b>Budgetvoorstel</b><small>het afgeklopte financieel werkkader (F1) uitwerken voor het directiecomité</small></div>
       <div class="n"><b>Geparkeerde punten</b><small>elk geparkeerd punt heeft na vandaag een eigenaar en een datum — anders is het geen parkeren maar uitstellen</small></div>
     </div>
   </div>
 </section>
 
 <footer>
-  <div class="wrap">Health CG · workshopdocument — voorbereid ter validatie · gebouwd op het organisatiedocument en de yoboo-POC</div>
+  <div class="wrap">Health CG · workshopdraaiboek — twee dagdelen · gebouwd op de red box, de yoboo-POC, het organisatiedocument en het financieel model</div>
 </footer>
 
 <script>
 const besluiten = {};
 
 function initBesluiten(){
-  document.querySelectorAll('.kk').forEach(kk=>{
+  document.querySelectorAll('.kk').forEach(kk => {
     besluiten[kk.id] = {titel: kk.dataset.titel, status: 'open', nota: ''};
   });
   renderBesluiten();
@@ -547,8 +650,8 @@ function initBesluiten(){
 function valideer(btn, st){
   const kk = btn.closest('.kk');
   kk.classList.remove('st-ok','st-aan','st-park');
-  kk.classList.add('st-'+st);
-  btn.parentElement.querySelectorAll('button').forEach(b=>b.classList.toggle('act', b===btn));
+  kk.classList.add('st-' + st);
+  btn.parentElement.querySelectorAll('button').forEach(b => b.classList.toggle('act', b === btn));
   besluiten[kk.id].status = st;
   renderBesluiten();
 }
@@ -557,22 +660,18 @@ function noteer(inp){
   besluiten[kk.id].nota = inp.value.trim();
   renderBesluiten();
 }
-const stTxt = {ok:'✓ gevalideerd', aan:'✏️ met aanpassing', park:'⏸ geparkeerd', open:'— nog open'};
+const stTxt = {ok: '✓ gevalideerd', aan: '✏️ met aanpassing', park: '⏸ geparkeerd', open: '— nog open'};
 function renderBesluiten(){
-  document.getElementById('blijst').innerHTML = Object.entries(besluiten).map(([id,b])=>
-    `<div class="br"><span class="nr">${id}</span><span><b>${b.titel}</b>${b.nota?`<small>${b.nota}</small>`:''}</span><span class="st s-${b.status}">${stTxt[b.status]}</span></div>`
+  document.getElementById('blijst').innerHTML = Object.entries(besluiten).map(([id, b]) =>
+    `<div class="br"><span class="nr">${id}</span><span><b>${b.titel}</b>${b.nota ? `<small>${b.nota}</small>` : ''}</span><span class="st s-${b.status}">${stTxt[b.status]}</span></div>`
   ).join('');
-  const linkrow = ([id,b]) =>
-    `<a class="br" href="#${id}"><span class="nr">${id}</span><span><b>${b.titel}</b>${b.nota?`<small>${b.nota}</small>`:''}</span><span class="st s-${b.status}">${stTxt[b.status]}</span></a>`;
-  document.getElementById('valA').innerHTML = Object.entries(besluiten).filter(([id])=>id[0]==='A').map(linkrow).join('');
-  document.getElementById('valB').innerHTML = Object.entries(besluiten).filter(([id])=>id[0]==='B').map(linkrow).join('');
 }
 function kopieerBesluiten(btn){
   const txt = 'Besluiten workshop Health CG & Health Advisory\n\n' +
-    Object.entries(besluiten).map(([id,b])=>`${id} · ${b.titel} — ${stTxt[b.status]}${b.nota?` — ${b.nota}`:''}`).join('\n');
-  const klaar = ()=>{ btn.textContent='✓ Gekopieerd — plak in het verslag'; setTimeout(()=>{btn.textContent='📋 Kopieer de besluitenlijst';}, 2200); };
-  if(navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(txt).then(klaar); }
-  else { const ta=document.createElement('textarea'); ta.value=txt; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove(); klaar(); }
+    Object.entries(besluiten).map(([id, b]) => `${id} · ${b.titel} — ${stTxt[b.status]}${b.nota ? ` — ${b.nota}` : ''}`).join('\n');
+  const klaar = () => { btn.textContent = '✓ Gekopieerd — plak in het verslag'; setTimeout(() => { btn.textContent = '📋 Kopieer de besluitenlijst'; }, 2200); };
+  if (navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(txt).then(klaar); }
+  else { const ta = document.createElement('textarea'); ta.value = txt; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove(); klaar(); }
 }
 initBesluiten();
 </script>
