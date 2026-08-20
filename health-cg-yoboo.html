@@ -383,6 +383,17 @@ a{color:var(--yb-deep)}
 .kernidee h3{font-size:1.7rem; letter-spacing:-.02em; line-height:1.15}
 .kernidee p{margin-top:10px; font-size:1.04rem; color:var(--muted); max-width:56em}
 .kernidee p b{color:var(--ink)}
+.piramide .niv{cursor:pointer; transition:border-color .15s ease}
+.piramide .niv:hover{border-color:var(--yb)}
+.mpop-achter{position:fixed; inset:0; background:rgba(10,12,11,.55); z-index:1200; display:none; align-items:center; justify-content:center; padding:20px}
+.mpop-achter.open{display:flex}
+.mpop{background:var(--card); color:var(--ink); border:1px solid var(--hair); border-radius:18px; max-width:560px; width:100%; padding:26px 28px; box-shadow:0 24px 70px rgba(0,0,0,.35); max-height:86vh; overflow-y:auto}
+.mpop .mk{font-size:.7rem; font-weight:800; letter-spacing:.1em; text-transform:uppercase; color:var(--yb-deep)}
+.mpop h4{font-size:1.3rem; margin-top:4px}
+.mpop p{margin-top:10px; font-size:.92rem; color:var(--muted); line-height:1.6}
+.mpop p b{color:var(--ink)}
+.mpop .sluit{margin-top:16px; border:1px solid var(--hair); background:none; color:var(--ink); border-radius:99px; padding:8px 16px; font-weight:700; font-size:.84rem; cursor:pointer; font-family:inherit}
+.mpop .sluit:hover{border-color:var(--yb)}
 .wetline{margin-top:20px; text-align:center; font-size:.88rem; font-style:italic; color:var(--muted)}
 .wetline b{color:var(--ink)}
 
@@ -1105,11 +1116,11 @@ footer a{color:var(--yb-deep)}
         <span class="k">Het Belgische kader bestaat al</span>
         <h4>mHealthBelgium: de validatiepiramide</h4>
         <div class="piramide">
-          <div class="niv top"><b>M3 · financiering door het RIZIV</b><small>voorschrijfbaar én terugbetaald — moveUP (knie- en heuprevalidatie, exact ons verhaal) was de eerste 🏆</small></div>
-          <div class="niv mid"><b>M2 · eHealth-integratie</b><small>beveiliging, identificatie en authenticatie via het eHealth-platform</small></div>
-          <div class="niv"><b>M1 · CE-gemarkeerd medisch hulpmiddel</b><small>de instap: erkend als medische app</small></div>
+          <div class="niv top" onclick="mpopOpen('m3')"><b>M3 · financiering door het RIZIV</b><small>voorschrijfbaar én terugbetaald — moveUP (knie- en heuprevalidatie, exact ons verhaal) was de eerste 🏆</small></div>
+          <div class="niv mid" onclick="mpopOpen('m2')"><b>M2 · eHealth-integratie</b><small>beveiliging, identificatie en authenticatie via het eHealth-platform</small></div>
+          <div class="niv" onclick="mpopOpen('m1')"><b>M1 · CE-gemarkeerd medisch hulpmiddel</b><small>de instap: erkend als medische app</small></div>
         </div>
-        <p>De route voor yoboo: M1 → M2 → M3. Zo wordt de app vóórschrijfbaar én terugbetaalbaar — de brug naar het mutualiteiten-luik verderop.</p>
+        <p>De route voor yoboo: M1 → M2 → M3. Zo wordt de app vóórschrijfbaar én terugbetaalbaar — de brug naar het mutualiteiten-luik verderop. <b>Klik op een trede voor de uitleg.</b></p>
       </div>
     </div>
     <div class="rv" style="margin-top:26px">
@@ -1905,5 +1916,36 @@ function wsel(el, paneId){
   main.querySelectorAll('.wpane').forEach(p=>p.style.display = p.id===paneId ? '' : 'none');
 }
 </script>
+<!-- mHealth-uitlegmodal -->
+<div class="mpop-achter" id="mpop" onclick="if(event.target===this)mpopDicht()">
+  <div class="mpop" role="dialog" aria-modal="true">
+    <div id="mpop-inhoud"></div>
+    <button class="sluit" onclick="mpopDicht()">Sluit</button>
+  </div>
+</div>
+<script>
+var MPOP = {
+  m1: {k: 'Niveau M1 \u00b7 de instap', t: 'CE-gemarkeerd medisch hulpmiddel',
+    p: ['De basis van de piramide: de app is offici\u00ebel een <b>medisch hulpmiddel</b> volgens de Europese MDR-regels \u2014 met een CE-markering in de juiste risicoklasse en registratie bij het Belgische geneesmiddelenagentschap (FAGG). Dat vraagt een kwaliteitssysteem en onderbouwing van elke medische claim.',
+        '<b>Voor yoboo:</b> het medische luik \u2014 het leefstijlvoorschrift en de therapietrouw-rapportage \u2014 wordt vanaf het ontwerp als medisch hulpmiddel gedocumenteerd. De welzijnslaag (stapjes, challenges, weekmenu) valt daarbuiten en blijft vrij bewegen.']},
+  m2: {k: 'Niveau M2 \u00b7 de koppeling', t: 'eHealth-integratie',
+    p: ['De app bewijst dat hij <b>veilig in de Belgische zorg past</b>: aansluiting op de basisdiensten van het eHealth-platform \u2014 identificatie en authenticatie (zoals itsme/eID), beveiligde gegevensuitwisseling en privacy-waarborgen. Dit is het niveau dat echte koppelingen met de zorg mogelijk maakt.',
+        '<b>Voor yoboo:</b> de artsenkoppeling en het leefstijlvoorschrift uit deze POC veronderstellen M2. Door de dataringen vanaf dag \u00e9\u00e9n volgens deze eisen te ontwerpen, wordt M2 een formaliteit in plaats van een verbouwing achteraf.']},
+  m3: {k: 'Niveau M3 \u00b7 de top', t: 'Financiering door het RIZIV',
+    p: ['De top van de piramide: het RIZIV financiert de app na een terugbetalingsdossier met <b>klinisch \u00e9n gezondheidseconomisch bewijs</b>. De app wordt dan voorschrijfbaar en terugbetaald \u2014 zoals een behandeling, niet zoals een gadget.',
+        'Het precedent bestaat: <b>moveUP</b>, digitale begeleiding na knie- en heupoperaties, haalde als eerste dit niveau \u2014 exact het prehab- en revalidatieverhaal van Nadia en Marc in deze POC.',
+        '<b>Voor yoboo:</b> M3 maakt het mutualiteiten- en werkgeversverhaal structureel \u2014 de arts schrijft voor, de betaler betaalt mee, op cohortbewijs. De doorlooptijd (dossier + bewijs) is meteen d\u00e9 reden om het traject nu al te starten.']}
+};
+function mpopOpen(id){
+  var d = MPOP[id];
+  if (!d) return;
+  document.getElementById('mpop-inhoud').innerHTML =
+    '<span class="mk">' + d.k + '</span><h4>' + d.t + '</h4>' + d.p.map(function(x){ return '<p>' + x + '</p>'; }).join('');
+  document.getElementById('mpop').classList.add('open');
+}
+function mpopDicht(){ document.getElementById('mpop').classList.remove('open'); }
+document.addEventListener('keydown', function(e){ if (e.key === 'Escape') mpopDicht(); });
+</script>
+
 </body>
 </html>
