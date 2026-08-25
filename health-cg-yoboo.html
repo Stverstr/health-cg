@@ -2150,6 +2150,9 @@ document.addEventListener('keydown', function(e){ if (e.key === 'Escape') mpopDi
 .opm-flits{background:rgba(255,204,0,.45) !important; transition:background 1.2s ease}
 .opm-del{float:right; border:none; background:none; cursor:pointer; font-size:13px; color:var(--ink-3,#7b7671); font-family:inherit; padding:0 0 0 8px}
 .opm-del:hover{color:#c0392b}
+.opm-k.af{opacity:.5}
+.opm-k.af:hover{opacity:1}
+.opm-af{display:inline-block; font-size:11px; font-weight:700; letter-spacing:.05em; color:#fff; background:var(--green-dk,#158053); border-radius:99px; padding:2px 9px; margin:0 0 7px 6px}
 @media (prefers-reduced-motion: reduce){.opm-flits{transition:none}}
 </style>
 <button id="opm-open">💬 Opmerkingen</button>
@@ -2228,8 +2231,9 @@ document.addEventListener('keydown', function(e){ if (e.key === 'Escape') mpopDi
     hoofd.sort(function(a, b){ return (volg[a.sectie] !== undefined ? volg[a.sectie] : 99) - (volg[b.sectie] !== undefined ? volg[b.sectie] : 99) || a.created_at.localeCompare(b.created_at); });
     lijst.innerHTML = hoofd.map(function(r){
       var antw = data.filter(function(x){ return x.parent_id === r.id; });
-      return '<div class="opm-k">'
+      return '<div class="opm-k' + (r.status === 'verwerkt' ? ' af' : '') + '">'
         + '<button class="sec" data-sec="' + esc(r.sectie) + '">' + esc(titelVan[r.sectie] || r.sectie_titel || r.sectie) + '</button>'
+        + (r.status === 'verwerkt' ? '<span class="opm-af">✔ verwerkt</span>' : '')
         + (r.context ? '<div class="opm-q" title="Spring naar deze passage" data-sec="' + esc(r.sectie) + '" data-q="' + esc(r.context) + '">"' + esc(r.context) + '"</div>' : '')
         + '<div><span class="wie">' + esc(r.naam) + '</span><span class="tijd">' + tijd(r.created_at) + '</span><button class="opm-del" data-id="' + r.id + '" title="Verwijder deze opmerking">🗑</button></div>'
         + '<p>' + esc(r.tekst) + '</p>'
