@@ -2152,6 +2152,9 @@ document.addEventListener('keydown', function(e){ if (e.key === 'Escape') mpopDi
 .opm-del:hover{color:#c0392b}
 .opm-k.af{opacity:.5}
 .opm-k.af:hover{opacity:1}
+.opm-af-toggle{border:1px dashed var(--sand,#d9d7bf); background:none; border-radius:99px; color:var(--ink-3,#7b7671); font-weight:700; font-size:12.5px; padding:7px 13px; cursor:pointer; font-family:inherit; margin-top:4px; align-self:flex-start}
+.opm-af-toggle:hover{color:var(--green-dk,#158053); border-color:var(--green-dk,#158053)}
+#opm-af-lijst{display:flex; flex-direction:column; gap:12px}
 .opm-af{display:inline-block; font-size:11px; font-weight:700; letter-spacing:.05em; color:#fff; background:var(--green-dk,#158053); border-radius:99px; padding:2px 9px; margin:0 0 7px 6px}
 @media (prefers-reduced-motion: reduce){.opm-flits{transition:none}}
 </style>
@@ -2184,6 +2187,7 @@ document.addEventListener('keydown', function(e){ if (e.key === 'Escape') mpopDi
   var ctxVak = document.getElementById('opm-ctx'), ctxTekst = document.getElementById('opm-ctx-tekst');
   var context = null;
   var data = [];
+  var toonAf = false;
 
   function esc(t){ return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
   function tijd(iso){ var d = new Date(iso); return d.toLocaleDateString('nl-BE',{day:'numeric',month:'short'}) + ' ' + d.toLocaleTimeString('nl-BE',{hour:'2-digit',minute:'2-digit'}); }
@@ -2215,9 +2219,10 @@ document.addEventListener('keydown', function(e){ if (e.key === 'Escape') mpopDi
   }
 
   function laad(){
+    var scrollWas = lijst.scrollTop;
     lijst.innerHTML = '<span class="opm-melding">laden…</span>';
     fetch(SB + '?select=*&pagina=eq.' + PAGINA + '&order=created_at.asc', {headers: H}).then(function(r){ return r.json(); }).then(function(rows){
-      data = rows; teken();
+      data = rows; teken(); lijst.scrollTop = scrollWas;
     }).catch(function(){
       lijst.innerHTML = '<span class="opm-melding">Opmerkingen konden niet geladen worden — check je verbinding en probeer ↻.</span>';
     });
@@ -2225,11 +2230,10 @@ document.addEventListener('keydown', function(e){ if (e.key === 'Escape') mpopDi
 
   function teken(){
     var hoofd = data.filter(function(r){ return !r.parent_id; });
-    knop.textContent = '💬 Opmerkingen' + (hoofd.length ? ' (' + hoofd.length + ')' : '');
-    if (!hoofd.length){ lijst.innerHTML = '<span class="opm-melding">Nog geen opmerkingen — die van jou wordt de eerste.</span>'; return; }
+    if (!hoofd.length){ knop.textContent = '💬 Opmerkingen'; lijst.innerHTML = '<span class="opm-melding">Nog geen opmerkingen — die van jou wordt de eerste.</span>'; return; }
     var volg = {}; secties.forEach(function(s, i){ volg[s.id] = i; });
     hoofd.sort(function(a, b){ return (volg[a.sectie] !== undefined ? volg[a.sectie] : 99) - (volg[b.sectie] !== undefined ? volg[b.sectie] : 99) || a.created_at.localeCompare(b.created_at); });
-    lijst.innerHTML = hoofd.map(function(r){
+    var kaart = function(r){
       var antw = data.filter(function(x){ return x.parent_id === r.id; });
       return '<div class="opm-k' + (r.status === 'verwerkt' ? ' af' : '') + '">'
         + '<button class="sec" data-sec="' + esc(r.sectie) + '">' + esc(titelVan[r.sectie] || r.sectie_titel || r.sectie) + '</button>'
@@ -2240,7 +2244,18 @@ document.addEventListener('keydown', function(e){ if (e.key === 'Escape') mpopDi
         + antw.map(function(a){ return '<div class="opm-a"><span class="wie">' + esc(a.naam) + '</span><span class="tijd">' + tijd(a.created_at) + '</span><button class="opm-del" data-id="' + a.id + '" title="Verwijder dit antwoord">🗑</button><p>' + esc(a.tekst) + '</p></div>'; }).join('')
         + '<button class="antw" data-id="' + r.id + '">↩ Antwoord</button>'
         + '</div>';
-    }).join('');
+    };
+    var open = hoofd.filter(function(r){ return r.status !== 'verwerkt'; });
+    var af = hoofd.filter(function(r){ return r.status === 'verwerkt'; });
+    knop.textContent = '💬 Opmerkingen' + (open.length ? ' (' + open.length + ')' : '');
+    var html = open.length ? open.map(kaart).join('') : '<span class="opm-melding">Geen open opmerkingen meer — alles is verwerkt.</span>';
+    if (af.length){
+      html += '<button type="button" id="opm-af-toggle" class="opm-af-toggle">' + (toonAf ? '▴ verberg de ' : '▸ toon de ') + af.length + ' verwerkte opmerking' + (af.length === 1 ? '' : 'en') + '</button>';
+      html += '<div id="opm-af-lijst"' + (toonAf ? '' : ' hidden') + '>' + af.map(kaart).join('') + '</div>';
+    }
+    lijst.innerHTML = html;
+    var afToggle = document.getElementById('opm-af-toggle');
+    if (afToggle){ afToggle.addEventListener('click', function(){ toonAf = !toonAf; teken(); }); }
     lijst.querySelectorAll('.sec').forEach(function(chip){
       chip.addEventListener('click', function(){ gaNaar(chip.dataset.sec); });
     });
