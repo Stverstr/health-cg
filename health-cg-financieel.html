@@ -364,7 +364,7 @@ footer{padding:36px 0 56px; color:var(--muted); font-size:.8rem}
     <div class="chartkaart">
       <h3>Het groepsscenario in één tabel</h3>
       <div class="sub">omzet in € miljoen · klanten × 1.000 · gat = doel − som van de merken</div>
-      <div style="overflow-x:auto"><table id="g-tabel"></table></div>
+      <div style="overflow-x:auto"><table class="fin" id="g-tabel"></table></div>
     </div>
 
     <div class="knoppen">
@@ -854,7 +854,7 @@ rebuild();
       ['Foodbag'].concat(G.gfb.map(v => Math.round(v))),
       ['Health Advisory (①)'].concat(ha.map(v => v < 10 ? v.toFixed(1) : Math.round(v))),
       ['<b>som van de merken</b>'].concat(som.map(v => '<b>' + Math.round(v) + '</b>')),
-      ['gat tot het doel'].concat(JAREN.map((_, j) => { const g = G.gdoel[j] - som[j]; return g > 0 ? '−' + Math.round(g) : '+' + Math.round(-g); })),
+      ['gat tot het doel'].concat(JAREN.map((_, j) => { const g = G.gdoel[j] - som[j]; return g > 0 ? '<span class="neg">−' + Math.round(g) + '</span>' : '<span class="pos">+' + Math.round(-g) + '</span>'; })),
       ['marge-% × som'].concat(JAREN.map((_, j) => Math.round(som[j] * G.gmarge[j] / 100))),
       ['klantendoel (k)'].concat(G.gklant.map(v => Math.round(v))),
       ['advisory-actieven (k)'].concat(P.act.map(v => v))
