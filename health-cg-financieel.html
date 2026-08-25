@@ -367,6 +367,13 @@ footer{padding:36px 0 56px; color:var(--muted); font-size:.8rem}
       <div style="overflow-x:auto"><table class="fin" id="g-tabel"></table></div>
     </div>
 
+    <div class="scenbar">
+      <span class="scenlbl">Scenario</span>
+      <select id="gsc-lijst"><option value="">★ Basisscenario</option></select>
+      <button id="gsc-bewaar" type="button">💾 Bewaar huidig scenario…</button>
+      <button id="gsc-del" type="button" hidden title="Verwijder het gekozen scenario">🗑 verwijder</button>
+      <span id="gsc-status" class="scenstatus">het basisscenario blijft altijd beschikbaar — groepsscenario's staan los van de tab ①-scenario's</span>
+    </div>
     <div class="knoppen">
       <p style="font-size:.76rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--teal-deep)">De doelstellingen</p>
       <div class="knop"><label><b>Omzetdoel in 2030</b><small>gezamenlijke omzet van de health-poot · doel: € 1,5 miljard</small></label><input type="range" id="k-gdoel" min="800" max="2500" step="50" value="1500"><output id="o-gdoel">€ 1.500M</output><button class="perjaar" data-j="gdoel">▸ per jaar</button></div>
@@ -867,6 +874,85 @@ rebuild();
   const origRebuild = rebuild;
   rebuild = function(){ origRebuild(); groepRebuild(); };
 
+  /* groepsscenario's: bewaren/laden via fin_scenarios met scope=groep; basis = GBASIS */
+  var GSB = 'https://uvodxrrxsxnjlinqrjlw.supabase.co/rest/v1/fin_scenarios';
+  var GKEY = 'sb_publishable_is9JHVr3f7hRfZh31WtLvA_sz5ymhQW';
+  var GH = {'apikey': GKEY, 'Authorization': 'Bearer ' + GKEY, 'Content-Type': 'application/json'};
+  var gLijstEl = document.getElementById('gsc-lijst');
+  var gDelBtn = document.getElementById('gsc-del');
+  var gStatus = document.getElementById('gsc-status');
+  function gEsc(x){ return String(x).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+  function gZeg(m){ gStatus.textContent = m; }
+  function gSnapshot(){
+    var d = {G: {}, masters: {}};
+    Object.keys(G).forEach(function(k){ d.G[k] = G[k].slice(); });
+    GMASTERS.forEach(function(m){ d.masters[m.k] = +document.getElementById(m.id).value; });
+    return d;
+  }
+  function gPasToe(d){
+    Object.keys(d.G || {}).forEach(function(k){ if (G[k]){ G[k] = d.G[k].slice(); } });
+    GMASTERS.forEach(function(m){
+      if (d.masters && d.masters[m.k] !== undefined){
+        document.getElementById(m.id).value = d.masters[m.k];
+        document.getElementById('o-' + m.k).textContent = m.uit(+d.masters[m.k]);
+      }
+      refreshGJaar(m.k);
+    });
+    groepRebuild();
+  }
+  function gNaarBasis(){
+    Object.keys(GBASIS).forEach(function(k){ G[k] = GBASIS[k].slice(); });
+    GMASTERS.forEach(function(m){
+      document.getElementById(m.id).value = GBASIS[m.k][4];
+      document.getElementById('o-' + m.k).textContent = m.uit(GBASIS[m.k][4]);
+      refreshGJaar(m.k);
+    });
+    groepRebuild();
+  }
+  function vulGLijst(gekozen){
+    fetch(GSB + '?select=id,naam,created_at&scope=eq.groep&order=created_at.desc', {headers: GH})
+      .then(function(r){ return r.json(); })
+      .then(function(rows){
+        gLijstEl.innerHTML = '<option value="">★ Basisscenario</option>' + rows.map(function(s){
+          return '<option value="' + s.id + '">' + gEsc(s.naam) + '</option>';
+        }).join('');
+        gLijstEl.value = gekozen || '';
+        gDelBtn.hidden = !gLijstEl.value;
+      })
+      .catch(function(){ gZeg('scenario-lijst kon niet geladen worden — check je verbinding'); });
+  }
+  gLijstEl.addEventListener('change', function(){
+    if (!gLijstEl.value){ gNaarBasis(); gDelBtn.hidden = true; gZeg('basisscenario hersteld'); return; }
+    fetch(GSB + '?id=eq.' + gLijstEl.value + '&select=naam,data', {headers: GH})
+      .then(function(r){ return r.json(); })
+      .then(function(rows){
+        if (!rows.length){ gZeg('scenario niet gevonden — vernieuw de lijst'); return; }
+        gPasToe(rows[0].data);
+        gDelBtn.hidden = false;
+        gZeg('scenario "' + rows[0].naam + '" geladen');
+      })
+      .catch(function(){ gZeg('laden lukte niet — probeer opnieuw'); });
+  });
+  document.getElementById('gsc-bewaar').addEventListener('click', function(){
+    var naam = prompt('Naam voor dit groepsscenario (bv. "merken ambitieus · doel 2 mld"):');
+    if (!naam){ return; }
+    naam = naam.trim().slice(0, 60);
+    if (!naam){ return; }
+    fetch(GSB, {method: 'POST', headers: Object.assign({Prefer: 'return=representation'}, GH), body: JSON.stringify({naam: naam, scope: 'groep', data: gSnapshot()})})
+      .then(function(r){ if (!r.ok){ throw new Error(); } return r.json(); })
+      .then(function(rows){ vulGLijst(rows[0] && rows[0].id); gZeg('scenario "' + naam + '" bewaard'); })
+      .catch(function(){ alert('Bewaren lukte niet — probeer opnieuw.'); });
+  });
+  gDelBtn.addEventListener('click', function(){
+    if (!gLijstEl.value){ return; }
+    var naam = gLijstEl.options[gLijstEl.selectedIndex].textContent;
+    if (!confirm('Groepsscenario "' + naam + '" verwijderen? De schuifknoppen blijven staan zoals ze nu staan.')) return;
+    fetch(GSB + '?id=eq.' + gLijstEl.value, {method: 'DELETE', headers: GH})
+      .then(function(r){ if (!r.ok){ throw new Error(); } vulGLijst(''); gZeg('scenario "' + naam + '" verwijderd'); })
+      .catch(function(){ alert('Verwijderen lukte niet — probeer opnieuw.'); });
+  });
+  vulGLijst('');
+
   document.getElementById('ftab-advisory').addEventListener('click', function(){ toonTab('advisory'); });
   document.getElementById('ftab-groep').addEventListener('click', function(){ toonTab('groep'); });
   function toonTab(w){
@@ -912,7 +998,7 @@ rebuild();
   }
 
   function vulLijst(gekozen){
-    fetch(SBS + '?select=id,naam,created_at&order=created_at.desc', {headers: H})
+    fetch(SBS + '?select=id,naam,created_at&scope=eq.advisory&order=created_at.desc', {headers: H})
       .then(function(r){ return r.json(); })
       .then(function(rows){
         lijstEl.innerHTML = '<option value="">★ Basisscenario</option>' + rows.map(function(s){
@@ -947,7 +1033,7 @@ rebuild();
     if (!naam){ return; }
     naam = naam.trim().slice(0, 60);
     if (!naam){ return; }
-    fetch(SBS, {method: 'POST', headers: Object.assign({Prefer: 'return=representation'}, H), body: JSON.stringify({naam: naam, data: snapshot()})})
+    fetch(SBS, {method: 'POST', headers: Object.assign({Prefer: 'return=representation'}, H), body: JSON.stringify({naam: naam, scope: 'advisory', data: snapshot()})})
       .then(function(r){ if (!r.ok){ throw new Error(); } return r.json(); })
       .then(function(rows){
         vulLijst(rows[0] && rows[0].id);
