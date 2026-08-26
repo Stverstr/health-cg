@@ -461,7 +461,7 @@ footer a{color:var(--yb-deep)}
 <!-- CG-toegangspoort: eenvoudige wachtwoordlaag (client-side); bij nieuwe pagina's mee overnemen -->
 <script>
 (function(){
-  var KEY='cghealth-toegang', HASHES={'ceb3fb22db509f33f1e1ecb12f5ebc54b4538344710d40ec550d8d918195f8fc':'alles','de31824f91eb4364a59c4ee69438b0ef3c2cc4587f0e06b38f8ef37490026692':'volledig','57fed0095206f62cc7eafde849bae64daffe655133f1707e739fbda4408f7b04':'beperkt'};
+  var KEY='cghealth-toegang', HASHES={'c77183344fbea935b7cfdde03c5b12b76c7007f1fbfa378078df9a8ffcebbc87':'alles','ceb3fb22db509f33f1e1ecb12f5ebc54b4538344710d40ec550d8d918195f8fc':'volledig','57fed0095206f62cc7eafde849bae64daffe655133f1707e739fbda4408f7b04':'beperkt'};
   function zetNiveau(nv){ try{ document.documentElement.setAttribute('data-toegang', nv); if(nv==='beperkt'){ var vs=document.createElement('style'); vs.textContent='.cg-afgeschermd{display:none !important}'; document.head.appendChild(vs); } }catch(e){} }
   try{ var h0=localStorage.getItem(KEY); if(HASHES[h0]){ zetNiveau(HASHES[h0]); return; } }catch(e){}
   function sha(t,cb){ crypto.subtle.digest('SHA-256', new TextEncoder().encode(t)).then(function(b){ cb(Array.prototype.map.call(new Uint8Array(b), function(x){return x.toString(16).padStart(2,'0');}).join('')); }); }
