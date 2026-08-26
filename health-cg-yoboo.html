@@ -484,7 +484,17 @@ footer a{color:var(--yb-deep)}
 <script>
 (function(){
   var KEY='cghealth-toegang', HASHES={'c77183344fbea935b7cfdde03c5b12b76c7007f1fbfa378078df9a8ffcebbc87':'alles','ceb3fb22db509f33f1e1ecb12f5ebc54b4538344710d40ec550d8d918195f8fc':'volledig','57fed0095206f62cc7eafde849bae64daffe655133f1707e739fbda4408f7b04':'beperkt'};
-  function zetNiveau(nv){ try{ document.documentElement.setAttribute('data-toegang', nv); if(nv==='beperkt'){ var vs=document.createElement('style'); vs.textContent='.cg-afgeschermd{display:none !important}'; document.head.appendChild(vs); } }catch(e){} }
+  function zetNiveau(nv){
+    try{
+      var RANG={beperkt:1, volledig:2, alles:3};
+      if((RANG[nv]||0) < (RANG['volledig']||1)){ location.replace('health-cg-workshop.html'); return; }
+      document.documentElement.setAttribute('data-toegang', nv);
+      var vs=document.createElement('style');
+      if(nv==='beperkt'){ vs.textContent='.cg-afgeschermd,a[href^="health-cg-organisatie"],a[href^="health-cg-yoboo"],a[href^="health-cg-financieel"],a[href^="health-cg-sprint"],a[href^="health-cg-werkoverleg"],a[href^="health-cg-workshop-vervolg"],a[href^="yoboo-"],#opm,#opm-open,#opm-qknop,.opm-anker{display:none !important}'; }
+      else if(nv==='volledig'){ vs.textContent='a[href^="health-cg-organisatie"]{display:none !important}'; }
+      if(vs.textContent){ document.head.appendChild(vs); }
+    }catch(e){}
+  }
   try{ var h0=localStorage.getItem(KEY); if(HASHES[h0]){ zetNiveau(HASHES[h0]); return; } }catch(e){}
   function sha(t,cb){ crypto.subtle.digest('SHA-256', new TextEncoder().encode(t)).then(function(b){ cb(Array.prototype.map.call(new Uint8Array(b), function(x){return x.toString(16).padStart(2,'0');}).join('')); }); }
   var st=document.createElement('style');
