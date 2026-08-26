@@ -659,6 +659,7 @@ footer a{color:var(--yb-deep)}
 
 <!-- ============ PERSPECTIEF-KIEZER ============ -->
 <div class="persnav">
+  <div class="wrap" style="text-align:right; margin-bottom:4px"><a class="mklink" data-pers="model" href="#" onclick="setPers('model');return false" style="font-size:.74rem; font-weight:700; color:var(--yb-deep); text-decoration:none"><b>⚙️ de motorkap</b> — domeinmodel &amp; lus →</a></div>
   <div class="wrap perscards">
     <button class="pcard act" data-pers="klant" style="--pc:var(--yb)">
       <span class="dot">👨‍👩‍👧</span>
@@ -688,10 +689,7 @@ footer a{color:var(--yb-deep)}
       <span class="dot">🏛️</span>
       <span><b>Middenveld</b><small>werkgever &amp; mutualiteit</small></span>
     </button>
-    <button class="pcard" data-pers="model" style="--pc:var(--paars)">
-      <span class="dot">⚙️</span>
-      <span><b>Motorkap</b><small>domeinmodel &amp; lus</small></span>
-    </button>
+    
   </div>
 </div>
 
@@ -2405,7 +2403,7 @@ document.addEventListener('keydown', function(e){ if (e.key === 'Escape') mpopDi
   }
 
   var secties = [];
-  document.querySelectorAll('.pcard[data-pers]').forEach(function(c){
+  document.querySelectorAll('.pcard[data-pers], .mklink[data-pers]').forEach(function(c){
     var b = c.querySelector('b');
     secties.push({id: 'p-' + c.dataset.pers, titel: b ? b.textContent.trim() : c.dataset.pers});
     c.addEventListener('click', function(){ sel.value = 'p-' + c.dataset.pers; });
