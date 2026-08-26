@@ -158,6 +158,18 @@ h2 small{display:block; font-size:.85rem; font-weight:400; color:var(--muted); m
 .next .n small{color:var(--muted)}
 
 footer{padding:40px 0 60px; color:var(--muted); font-size:.8rem}
+
+/* leesopdracht bij de red box */
+.leesopdracht{margin-top:26px; background:var(--card); border:1px solid var(--hair); border-radius:16px; padding:20px 22px}
+.leesopdracht h3{font-size:1rem; margin:0 0 4px}
+.leesopdracht .sub2{font-size:.82rem; color:var(--muted); margin:0 0 16px}
+.postits{display:flex; flex-wrap:wrap; gap:16px}
+.postit{background:#FFF3B0; color:#4A3F12; border-radius:4px; padding:16px 18px 20px; width:min(300px,100%); font-size:.86rem; line-height:1.45; box-shadow:0 8px 18px rgba(0,0,0,.14); transform:rotate(-1.2deg)}
+.postit + .postit{transform:rotate(1.1deg); background:#FFE9A0}
+.postit b{display:block; font-size:.92rem; margin-bottom:4px}
+.postit .n{display:inline-block; background:#4A3F12; color:#FFF3B0; border-radius:99px; font-weight:800; font-size:.7rem; padding:2px 9px; margin-bottom:8px}
+@media (prefers-reduced-motion: reduce){.postit{transform:none}}
+.leesopdracht .meeneem{margin-top:14px; font-size:.84rem; font-weight:700; color:var(--teal-deep)}
 </style>
 </head>
 <body>
@@ -238,6 +250,16 @@ footer{padding:40px 0 60px; color:var(--muted); font-size:.8rem}
     <h2>Iedereen leest hetzelfde dossier <small>Het inspiratiedossier bundelt alles wat we weten: de consument, de retail-benchmarks, zeven ecosystemen, acht waarom-nu-signalen, zes businessmodellen, het samenspel en de marktcijfers.</small></h2>
     <div class="demogrid" style="max-width:560px">
       <a class="demo" href="health-cg-redbox.html" target="_blank" rel="noopener"><b>📕 Open de red box</b><small>Health Advisory · Inspiratiedossier voor de Colruyt Group-directie — leeswerk vóór de workshop. Opent in een apart tabblad.</small><span class="pijl">Naar het dossier →</span></a>
+    </div>
+
+    <div class="leesopdracht">
+      <h3>Na het lezen — twee dingen om mee te brengen</h3>
+      <p class="sub2">Van elke deelnemer verwachten we na het lezen van de red box dit voorbereidende werk — op papier, letterlijk op post-its.</p>
+      <div class="postits">
+        <div class="postit"><span class="n">1</span><b>Maximaal 5 cruciale strategische inzichten</b>Schrijf ze op post-its — één idee per post-it — de inzichten uit de red box die jij wil onthouden.</div>
+        <div class="postit"><span class="n">2</span><b>1 cruciale strategische vraag</b>De vraag die wij als Colruyt Group volgens jou móéten beantwoorden.</div>
+      </div>
+      <p class="meeneem">🎒 Breng je post-its en je vraag mee naar de workshop — we starten er deel 1 mee.</p>
     </div>
 
     <p style="margin-top:34px; font-size:.8rem; color:var(--muted)">De uitgewerkte blokken — debatten, demo-draaiboek, strategische vragen, organisatie, financieel en besluitenlijst — staan geparkeerd in <a href="health-cg-workshop-vervolg.html" style="color:var(--teal-deep); font-weight:700">het vervolgdocument</a>.</p>
