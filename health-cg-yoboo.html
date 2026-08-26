@@ -442,6 +442,24 @@ footer a{color:var(--yb-deep)}
 #boohelp .bubble::after{left:auto; right:26px; transform:rotate(45deg)}
 #boohelp button{border:none; background:none; cursor:pointer; padding:0; line-height:0}
 @media(max-width:700px){#boohelp .bubble{display:none}}
+/* coach-funnel + gespecialiseerde coach */
+.cfun{display:flex; flex-direction:column; gap:0; margin-top:18px}
+.cfun .trap{border-radius:14px; padding:14px 18px; color:#fff; box-shadow:var(--shadow); margin:0 auto; width:100%}
+.cfun .trap b{font-size:.95rem}
+.cfun .trap small{display:block; font-size:.78rem; opacity:.92; margin-top:2px}
+.cfun .trap .vol{float:right; background:rgba(255,255,255,.22); border-radius:99px; font-size:.68rem; font-weight:800; padding:3px 10px; margin-left:10px}
+.cfun .t1{background:var(--yb); width:100%}
+.cfun .t2{background:var(--oranje); width:82%}
+.cfun .t3{background:var(--paars); width:64%}
+.cfun .t4{background:var(--blauw); width:46%}
+.cfun .tussen{text-align:center; font-size:.72rem; font-weight:700; color:var(--muted); padding:5px 0}
+@media (max-width:640px){.cfun .t2,.cfun .t3,.cfun .t4{width:100%}}
+.waaromspec{display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:14px; margin-top:16px}
+.wsk{background:var(--card); border:1px solid var(--hair); border-top:4px solid var(--paars); border-radius:14px; padding:16px 18px}
+.wsk .ik{font-size:1.35rem}
+.wsk b{display:block; margin:6px 0 4px; font-size:.92rem}
+.wsk p{font-size:.8rem; color:var(--muted); margin:0}
+.wsk .maar{display:block; margin-top:8px; font-size:.75rem; color:var(--coral); font-weight:700}
 /* CG-storymap (draft) */
 .smapwrap{position:relative; border:2.5px dashed var(--coral); border-radius:var(--r); padding:24px 16px 14px; margin-top:18px; background:var(--paper)}
 .smapstempel{position:absolute; top:-14px; left:22px; background:var(--coral); color:#fff; font-weight:800; font-size:.68rem; letter-spacing:.09em; text-transform:uppercase; border-radius:99px; padding:5px 13px}
@@ -1087,6 +1105,33 @@ footer a{color:var(--yb-deep)}
         </ul>
       </div>
     </div>
+    <div class="rv" style="margin-top:56px">
+      <span class="sec-eyebrow">De funnel van coaches</span>
+      <h3 class="sec-title" style="font-size:1.5rem">Vier lagen — elke laag vangt op wat de vorige niet aankan</h3>
+      <p class="sec-lead">Dezelfde vier lagen als in het organisatiedocument. Bijna alles gebeurt onderin, bij Yobi; elke stap omhoog is duurder en schaarser — en gebeurt dus alleen als het nodig is, altijd binnen hetzelfde plan.</p>
+    </div>
+    <div class="cfun stagger">
+      <div class="trap t1"><span class="vol">elke dag · bijna alles</span><b>1 · AI — Yobi</b><small>de drie stapjes, check-ins, vragen, bijsturing — gratis, altijd beschikbaar</small></div>
+      <div class="tussen">↓ alleen als het nodig is — Yobi merkt het en schakelt door</div>
+      <div class="trap t2"><span class="vol">de momenten die tellen</span><b>2 · De overkoepelende coach</b><small>één mens die alles ziet: leest de foto, zet het doel, bewaakt het geheel — digitaal, of fysiek in de coach-corner</small></div>
+      <div class="tussen">↓ op doorverwijzing van de overkoepelende coach, binnen een duidelijk mandaat</div>
+      <div class="trap t3"><span class="vol">specifieke expertise</span><b>3 · De gespecialiseerde coach</b><small>diëtist, fitnesscoach, slaapcoach, kine — meestal <b>niet</b> van yoboo zelf, wél in hetzelfde plan</small></div>
+      <div class="tussen">↓ als het medisch wordt — en terug, via het leefstijlvoorschrift</div>
+      <div class="trap t4"><span class="vol">medische ring</span><b>4 · De dokter</b><small>diagnose en behandeling blijven in de zorg; alleen de voorwaarden van het leefstijlvoorschrift steken over</small></div>
+    </div>
+
+    <div class="rv" style="margin-top:44px">
+      <span class="sec-eyebrow">Laag 3, uitgewerkt</span>
+      <h3 class="sec-title" style="font-size:1.5rem">De gespecialiseerde coach — doorverwezen, niet in dienst</h3>
+      <p class="sec-lead">De specialist is meestal een zelfstandige professional buiten yoboo. De overkoepelende coach verwijst door met een duidelijk mandaat: de specialist schrijft binnen dat mandaat in hetzelfde plan — en de klant kiest wie erbij komt. Waarom stapt zo'n specialist mee in?</p>
+    </div>
+    <div class="waaromspec stagger">
+      <div class="wsk"><span class="ik">🎯</span><b>1 · Leads</b><p>Nieuwe klanten, aangeleverd op het juiste moment en met de juiste vraag. Het platform int hierop de doorverwijsfee van ± 15% — zo staat het ook in het financieel model.</p><span class="maar">Eerlijk: veel specialisten hebben al werk genoeg — leads alleen overtuigen niet. Het echte verschil zit hieronder.</span></div>
+      <div class="wsk"><span class="ik">🌟</span><b>2 · Advies dat gevolgd wordt</b><p>Het advies van de specialist sterft niet in de spreekkamer: Yobi vertaalt het in dagelijkse stapjes, de klant voert het effectief uit, en de specialist ziet bij het volgende contact wat er echt gebeurd is. Betere resultaten, tevredener klanten.</p></div>
+      <div class="wsk"><span class="ik">📊</span><b>3 · Data, met consent</b><p>Als de klant zijn gegevens wil delen, ziet de specialist voortgang, meetlat en relevante metingen — en kan hij scherper adviseren. Nooit meer dan zijn mandaat, en de klant kan het intrekken.</p></div>
+    </div>
+    <div style="margin-top:16px"><a class="applink" href="health-cg-financieel.html">💶 De doorverwijsfee in het financieel model <span>→</span></a></div>
+
     <p class="wetline rv">Ontwerpeis uit de visie: het advies moet af en toe zichtbaar <b>tégen het commerciële belang</b> ingaan — anders gelooft niemand de coach.</p>
   </div>
 </section>
