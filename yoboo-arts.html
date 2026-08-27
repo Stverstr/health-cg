@@ -116,6 +116,13 @@ h1 small{display:block; font-size:.8rem; color:var(--muted); font-weight:400; ma
       if(nv==='beperkt'){ vs.textContent='.cg-afgeschermd,a[href^="health-cg-organisatie"],a[href^="health-cg-yoboo"],a[href^="health-cg-financieel"],a[href^="health-cg-sprint"],a[href^="health-cg-werkoverleg"],a[href^="health-cg-workshop-vervolg"],a[href^="yoboo-"],#opm,#opm-open,#opm-qknop,.opm-anker{display:none !important}'; }
       else if(nv==='volledig'){ vs.textContent='a[href^="health-cg-organisatie"]{display:none !important}'; }
       if(vs.textContent){ document.head.appendChild(vs); }
+      var lb=document.createElement('button'); lb.id='cg-afmeld'; lb.type='button'; lb.textContent='\ud83d\udd12 afmelden';
+      lb.title='Afmelden — de wachtwoordpoort komt terug';
+      lb.style.cssText='position:fixed;left:14px;bottom:14px;z-index:890;border:1px solid rgba(127,127,127,.4);background:rgba(127,127,127,.12);color:inherit;font-family:inherit;font-size:11px;border-radius:99px;padding:5px 11px;cursor:pointer;opacity:.55';
+      lb.onmouseenter=function(){ lb.style.opacity='1'; };
+      lb.onmouseleave=function(){ lb.style.opacity='.55'; };
+      lb.onclick=function(){ try{ localStorage.removeItem(KEY); }catch(e){} location.reload(); };
+      if(document.body){ document.body.appendChild(lb); } else { document.addEventListener('DOMContentLoaded', function(){ document.body.appendChild(lb); }); }
     }catch(e){}
   }
   try{ var h0=localStorage.getItem(KEY); if(HASHES[h0]){ zetNiveau(HASHES[h0]); return; } }catch(e){}
