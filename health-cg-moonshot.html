@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Health OS · 2035 — moonshot</title>
+<!-- moonshot-film v1 -->
+<style>
+/* ══════════ tokens — vaste donkere film-look (bewust géén thema-switch) ══════════ */
+:root{
+  --yb:#34C08D; --yb-deep:#27A577; --blauw:#7AA9FF; --coral:#FF9A94; --sun:#FFD84D;
+  --paars:#C273E0; --oranje:#F0955C;
+  --p1:#3BC878; --p2:#7E9BEB; --p3:#3FB3A5; --p4:#A9B6B2; --p5:#E5C558; --p6:#2BB3A3;
+  --know:#E5C558; --teal-deep:#0C332F; --on-dark:#F2F7F6;
+  --nacht:#050D0C; --paneel:#0E1F1C; --paneel2:#132A26; --rand:rgba(242,247,246,.14);
+  --dim:rgba(242,247,246,.62);
+}
+*{margin:0; padding:0; box-sizing:border-box}
+html,body{height:100%}
+body{
+  font-family:ui-rounded,"SF Pro Rounded","Nunito","Segoe UI",Calibri,sans-serif;
+  background:var(--nacht); color:var(--on-dark); overflow:hidden;
+  -webkit-font-smoothing:antialiased; line-height:1.45;
+}
+b{font-weight:800}
+button{font-family:inherit; cursor:pointer}
+
+/* ══════════ film-chrome ══════════ */
+.titelchip{position:fixed; top:14px; left:16px; z-index:60; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--dim); font-weight:700}
+.titelchip b{color:var(--yb)}
+#film{position:fixed; inset:0; background:radial-gradient(120% 90% at 50% 8%, var(--teal-deep) 0%, var(--nacht) 62%)}
+#podium{position:absolute; inset:0 0 118px 0; overflow:hidden}
+#podium::before,#podium::after{
+  content:""; position:absolute; inset:-60%;
+  background-image:radial-gradient(circle, rgba(242,247,246,.28) 0 1px, transparent 1.6px);
+  background-size:190px 170px; opacity:.5;
+  animation:kf-drift 240s linear infinite;
+}
+#podium::after{background-size:340px 300px; opacity:.28; animation-duration:380s; animation-direction:reverse}
+@keyframes kf-drift{from{transform:translate(0,0)}to{transform:translate(190px,170px)}}
+
+.scene{position:absolute; inset:0; display:flex; align-items:center; justify-content:center; opacity:0; visibility:hidden; transition:opacity .7s ease, visibility 0s linear .7s}
+.scene.act{opacity:1; visibility:visible; transition:opacity .7s ease}
+.toneel{position:relative; width:min(1100px,94vw); height:min(580px,66vh)}
+
+#subs{position:fixed; left:50%; bottom:128px; transform:translateX(-50%); z-index:55; width:min(880px,92vw); text-align:center; pointer-events:none}
+#subtxt{display:inline-block; background:rgba(5,13,12,.66); backdrop-filter:blur(6px); border-radius:12px; padding:10px 22px;
+  font-size:clamp(1.02rem,2.3vw,1.3rem); font-weight:700; text-shadow:0 2px 10px rgba(0,0,0,.6)}
+#subtxt.wissel{animation:kf-sub .45s ease both}
+@keyframes kf-sub{from{opacity:0; transform:translateY(8px)}to{opacity:1; transform:none}}
+
+.chrome{position:fixed; left:50%; bottom:26px; transform:translateX(-50%); z-index:60;
+  width:min(760px,92vw); display:flex; align-items:center; gap:14px;
+  background:rgba(10,26,24,.74); backdrop-filter:blur(10px);
+  border:1px solid var(--rand); border-radius:99px; padding:10px 18px}
+#knop{width:44px; height:44px; flex:none; border-radius:50%; border:none; background:var(--yb); color:#06231B; font-size:1.05rem; font-weight:800; display:flex; align-items:center; justify-content:center; box-shadow:0 0 22px rgba(52,192,141,.45)}
+#knop:hover{filter:brightness(1.08)}
+.balk{position:relative; flex:1; height:6px; border-radius:99px; background:rgba(242,247,246,.16)}
+#vul{position:absolute; left:0; top:0; bottom:0; width:0; border-radius:99px; background:linear-gradient(90deg,var(--yb-deep),var(--yb)); box-shadow:0 0 12px rgba(52,192,141,.5)}
+.stip{position:absolute; top:50%; transform:translate(-50%,-50%); width:11px; height:11px; border-radius:50%;
+  border:2px solid rgba(242,247,246,.5); background:var(--nacht); padding:0; transition:.2s}
+.stip.was{background:var(--yb-deep); border-color:var(--yb-deep)}
+.stip.nu{width:15px; height:15px; background:var(--yb); border-color:var(--yb); box-shadow:0 0 12px rgba(52,192,141,.7)}
+.stip:hover{transform:translate(-50%,-50%) scale(1.35)}
+#tijd{flex:none; font-size:.78rem; font-weight:700; color:var(--dim); font-variant-numeric:tabular-nums}
+#cg-afmeld{bottom:96px !important}
+
+/* ══════════ gedeelde film-onderdelen ══════════ */
+@keyframes kf-op{from{opacity:0; transform:translateY(18px)}to{opacity:1; transform:none}}
+@keyframes kf-opl{from{opacity:0; transform:translateX(-22px)}to{opacity:1; transform:none}}
+@keyframes kf-zweef{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+@keyframes kf-puls{0%,100%{transform:scale(1)}50%{transform:scale(1.07)}}
+@keyframes kf-gloei{0%,100%{opacity:.55}50%{opacity:1}}
+@keyframes kf-stroom{to{stroke-dashoffset:-160}}
+@keyframes kf-teken{from{stroke-dashoffset:var(--dash,600)}to{stroke-dashoffset:0}}
+@keyframes kf-draai{to{transform:rotate(360deg)}}
+
+.orb{position:absolute; width:110px; height:110px; border-radius:50%;
+  background:radial-gradient(circle at 34% 30%, #CFE0FF 0%, var(--blauw) 38%, #2C4E9E 82%);
+  box-shadow:0 0 46px rgba(122,169,255,.55), 0 0 120px rgba(122,169,255,.25)}
+.orb::after{content:""; position:absolute; inset:-16px; border-radius:50%; border:1.5px solid rgba(122,169,255,.4); animation:kf-puls 3.2s ease-in-out infinite}
+.orb small{position:absolute; left:50%; top:calc(100% + 12px); transform:translateX(-50%); white-space:nowrap; font-size:.72rem; font-weight:700; color:var(--blauw); letter-spacing:.06em}
+
+.osring{position:absolute; width:240px; height:240px; border-radius:50%;
+  background:conic-gradient(from -30deg, var(--p1) 3deg 57deg, transparent 57deg 63deg, var(--p2) 63deg 117deg, transparent 117deg 123deg, var(--p3) 123deg 177deg, transparent 177deg 183deg, var(--p4) 183deg 237deg, transparent 237deg 243deg, var(--p5) 243deg 297deg, transparent 297deg 303deg, var(--p6) 303deg 357deg, transparent 357deg 363deg);
+  filter:drop-shadow(0 0 26px rgba(52,192,141,.35))}
+.osring::before{content:""; position:absolute; inset:14px; border-radius:50%; background:radial-gradient(circle at 38% 30%, var(--paneel2), var(--nacht) 88%)}
+.osring i{position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-style:normal; font-weight:800; font-size:1.05rem; letter-spacing:.02em; text-align:center}
+
+.venster{position:absolute; background:var(--paneel); border:1px solid var(--rand); border-radius:16px; box-shadow:0 22px 60px rgba(0,0,0,.5); overflow:hidden}
+.venster .vkop{display:flex; align-items:center; gap:8px; padding:9px 14px; border-bottom:1px solid var(--rand); font-size:.72rem; font-weight:700; color:var(--dim)}
+.venster .vkop i{font-style:normal; display:flex; gap:5px}
+.venster .vkop i b{width:8px; height:8px; border-radius:50%; background:rgba(242,247,246,.25)}
+.venster .vin{padding:14px 16px}
+
+.chip{display:inline-block; border-radius:99px; padding:5px 13px; font-size:.72rem; font-weight:800; letter-spacing:.05em}
+.stempel{border:1.5px dashed var(--sun); color:var(--sun)}
+.slotje{fill:none; stroke:var(--yb); stroke-width:2}
+
+.kaartje{position:absolute; background:var(--paneel); border:1px solid var(--rand); border-radius:12px; padding:9px 13px; font-size:.78rem; font-weight:700; box-shadow:0 12px 30px rgba(0,0,0,.4)}
+.kaartje small{display:block; font-weight:600; color:var(--dim); font-size:.68rem}
+
+/* ══════════ SCÈNE 1 — 2035, de zetel ══════════ */
+#s1 .toneel{animation:none}
+#s1.act .toneel{animation:s1-zoom 20s ease-in-out both}
+@keyframes s1-zoom{from{transform:scale(1)}to{transform:scale(1.045)}}
+#s1 .kamer{position:absolute; inset:0}
+#s1 .vloer{position:absolute; left:0; right:0; bottom:0; height:26%; background:linear-gradient(180deg, rgba(19,42,38,.65), rgba(5,13,12,.9)); border-top:1px solid rgba(242,247,246,.07)}
+#s1 .raam{position:absolute; left:6%; top:6%; width:23%; height:52%; border:2px solid rgba(242,247,246,.16); border-radius:12px;
+  background:linear-gradient(200deg, rgba(255,216,77,.14), rgba(12,51,47,.5) 55%)}
+#s1 .raam::before{content:""; position:absolute; left:50%; top:0; bottom:0; width:2px; background:rgba(242,247,246,.14)}
+#s1 .maan{position:absolute; left:11%; top:11%; width:52px; height:52px; border-radius:50%; background:radial-gradient(circle at 36% 34%, #FFF3C4, var(--sun) 70%); box-shadow:0 0 42px rgba(255,216,77,.45)}
+#s1.act .maan{animation:kf-gloei 6s ease-in-out infinite}
+#s1 .lamp{position:absolute; right:9%; top:14%; width:8px; height:26%; background:linear-gradient(rgba(242,247,246,.16), rgba(242,247,246,.03))}
+#s1 .lamp::after{content:""; position:absolute; left:50%; bottom:-34px; transform:translateX(-50%); width:74px; height:40px; border-radius:12px 12px 40px 40px; background:radial-gradient(circle at 50% 20%, rgba(255,216,77,.5), rgba(255,216,77,.06) 70%)}
+#s1 svg.zetelvrouw{position:absolute; left:50%; bottom:12%; transform:translateX(-58%); width:min(460px,52%); height:auto}
+#s1 .tel{position:absolute; left:31%; bottom:19%; width:64px; height:12px; border-radius:6px; background:#0A1412; border:1px solid rgba(242,247,246,.18); box-shadow:0 6px 14px rgba(0,0,0,.5)}
+#s1 .tel small{position:absolute; left:50%; top:16px; transform:translateX(-50%); white-space:nowrap; font-size:.66rem; color:var(--dim)}
+#s1 .orb{right:16%; top:26%}
+#s1.act .orb{animation:kf-zweef 5s ease-in-out infinite}
+#s1 svg.bogen{position:absolute; right:24%; top:36%; width:150px; height:90px}
+#s1 .boog{fill:none; stroke:var(--blauw); stroke-width:2.4; stroke-linecap:round; opacity:.85; stroke-dasharray:var(--dash,200); stroke-dashoffset:0}
+#s1.act .boog{animation:kf-teken 2.6s ease-out infinite}
+#s1.act .boog.b2{animation-delay:.5s}
+#s1.act .boog.b3{animation-delay:1s}
+
+/* ══════════ SCÈNE 2 — de vraag ══════════ */
+#s2 .persoon{position:absolute; left:7%; bottom:10%; width:min(300px,30%)}
+#s2 .orb{left:34%; top:12%}
+#s2.act .orb{animation:kf-zweef 4.5s ease-in-out infinite, kf-puls 2.2s ease-in-out infinite}
+#s2 .ballon{position:absolute; left:8%; top:9%; max-width:44%; background:var(--paneel2); border:1px solid var(--rand); border-radius:18px 18px 18px 4px; padding:16px 20px; font-size:clamp(.95rem,2vw,1.2rem); font-weight:700; box-shadow:0 18px 44px rgba(0,0,0,.45)}
+#s2 .ballon span{opacity:1}
+#s2.act .ballon{animation:kf-op .6s ease both}
+#s2.act .ballon span{opacity:0; animation:s2-woord .35s ease forwards}
+@keyframes s2-woord{to{opacity:1}}
+#s2 .weet{position:absolute; right:6%; top:8%; width:34%}
+#s2 .weet .kaartje{position:static; margin-bottom:10px; border-left:3px solid var(--yb)}
+#s2.act .weet .kaartje{animation:kf-opl .6s ease both}
+#s2.act .weet .kaartje:nth-child(2){animation-delay:5.4s}
+#s2.act .weet .kaartje:nth-child(3){animation-delay:6.2s}
+#s2.act .weet .kaartje:nth-child(1){animation-delay:4.6s}
+#s2 .doet{position:absolute; right:6%; bottom:9%; width:40%; opacity:.45}
+#s2 .doet .kaartje{position:static; display:inline-block; margin:0 8px 8px 0; border:1.5px dashed var(--coral); color:var(--coral); background:transparent}
+#s2.act .doet{animation:s2-val 1.4s ease 13.5s both}
+@keyframes s2-val{from{opacity:1; transform:none}to{opacity:.45; transform:translateY(14px)}}
+#s2 .doetkop{font-size:.72rem; font-weight:800; letter-spacing:.1em; text-transform:uppercase; color:var(--coral); margin-bottom:8px}
+
+/* ══════════ SCÈNE 3 — aankloppen + consent ══════════ */
+#s3 .orb{left:8%; top:30%}
+#s3.act .orb{animation:kf-zweef 5s ease-in-out infinite}
+#s3 .osring{left:32%; top:16%}
+#s3.act .osring{animation:kf-op 1s ease both}
+#s3 svg.lijn{position:absolute; left:15%; top:37%; width:22%; height:60px}
+#s3 .stroomlijn{fill:none; stroke:var(--blauw); stroke-width:3; stroke-linecap:round; stroke-dasharray:10 12}
+#s3.act .stroomlijn{animation:kf-stroom 2.4s linear infinite}
+#s3 .yobichip{position:absolute; left:33%; top:66%; display:flex; align-items:center; gap:9px; background:var(--paneel); border:1px solid var(--rand); border-radius:99px; padding:7px 14px 7px 8px; font-size:.75rem; font-weight:700}
+#s3.act .yobichip{animation:kf-op .7s ease 3.4s both}
+#s3 .yobikop{width:30px; height:30px; border-radius:50%; background:var(--yb); position:relative; flex:none}
+#s3 .yobikop::before{content:""; position:absolute; left:8px; top:10px; width:5px; height:5px; border-radius:50%; background:#06231B; box-shadow:12px 0 0 #06231B}
+#s3 .yobikop::after{content:""; position:absolute; left:10px; top:18px; width:10px; height:5px; border-bottom:2px solid #06231B; border-radius:0 0 8px 8px}
+#s3 .venster{right:4%; top:12%; width:34%}
+#s3.act .venster{animation:kf-op .8s ease 6.5s both}
+#s3 .cregel{display:flex; align-items:center; gap:10px; padding:9px 0; border-bottom:1px dashed var(--rand); font-size:.8rem; font-weight:700}
+#s3 .cregel:last-of-type{border-bottom:none}
+#s3 .cregel small{color:var(--dim); font-weight:600; display:block; font-size:.66rem}
+#s3 .schuif{margin-left:auto; width:40px; height:22px; flex:none; border-radius:99px; background:var(--yb-deep); position:relative}
+#s3 .schuif::after{content:""; position:absolute; top:3px; right:3px; width:16px; height:16px; border-radius:50%; background:#fff}
+#s3 .schuif.uit{background:rgba(242,247,246,.18)}
+#s3 .schuif.uit::after{right:auto; left:3px; background:rgba(242,247,246,.6)}
+#s3.act .cregel:nth-of-type(1) .schuif{animation:s3-klik .4s ease 8.5s both}
+#s3.act .cregel:nth-of-type(2) .schuif{animation:s3-klik .4s ease 9.6s both}
+@keyframes s3-klik{from{filter:brightness(.4)}to{filter:none}}
+#s3 .venster .chip{margin-top:12px}
+#s3.act .venster .chip{animation:kf-op .6s ease 12.5s both}
+
+/* ══════════ SCÈNE 4 — het OS bouwt het plan ══════════ */
+#s4 .osring{right:3%; top:8%; width:190px; height:190px; opacity:.5}
+#s4.act .osring{animation:kf-draai 60s linear infinite}
+#s4 .lagen{position:absolute; left:4%; top:10%; width:34%}
+#s4 .laag{background:var(--paneel); border:1px solid var(--rand); border-left:4px solid var(--laagkleur,var(--yb)); border-radius:12px; padding:11px 14px; margin-bottom:12px; font-size:.8rem; font-weight:700}
+#s4 .laag small{display:block; font-weight:600; color:var(--dim); font-size:.68rem}
+#s4.act .laag{animation:kf-opl .7s ease both}
+#s4.act .laag:nth-child(2){animation-delay:.9s}
+#s4.act .laag:nth-child(3){animation-delay:1.8s}
+#s4 .fotokaart{position:absolute; left:44%; top:10%; width:24%; background:var(--paneel2); border:1px solid var(--rand); border-radius:14px; padding:13px 15px; font-size:.78rem; font-weight:700}
+#s4 .fotokaart small{color:var(--dim); font-weight:600; display:block; font-size:.68rem}
+#s4.act .fotokaart{animation:kf-op .7s ease 3.2s both}
+#s4 .lat{position:absolute; left:44%; top:44%; width:44%; height:10px; border-radius:99px; background:rgba(242,247,246,.14)}
+#s4 .lat .latvul{position:absolute; left:0; top:0; bottom:0; width:58%; border-radius:99px; background:linear-gradient(90deg,var(--yb-deep),var(--yb))}
+#s4.act .lat .latvul{animation:s4-lat 3.2s ease 6s both}
+@keyframes s4-lat{from{width:6%}to{width:58%}}
+#s4 .lat .vlag{position:absolute; right:-6px; top:-26px; font-size:1.2rem}
+#s4 .lat small{position:absolute; left:0; top:16px; font-size:.68rem; color:var(--dim); font-weight:700}
+#s4 .lat small.r{left:auto; right:0}
+#s4 .stapjes{position:absolute; left:44%; top:58%; width:48%; display:flex; gap:12px}
+#s4 .stapje{flex:1; background:var(--paneel); border:1px solid var(--rand); border-radius:12px; padding:11px 12px; font-size:.75rem; font-weight:700}
+#s4 .stapje i{font-style:normal; color:var(--sun)}
+#s4.act .stapje:nth-child(1){animation:kf-op .6s ease 10.5s both}
+#s4.act .stapje:nth-child(2){animation:kf-op .6s ease 11.6s both}
+#s4.act .stapje:nth-child(3){animation:kf-op .6s ease 12.7s both}
+
+/* ══════════ SCÈNE 5 — doen in de echte wereld ══════════ */
+#s5 .band{position:absolute; inset:14% 2% auto 2%; display:flex; gap:16px}
+#s5 .vignet{flex:1; background:var(--paneel); border:1px solid var(--rand); border-radius:16px; padding:14px; text-align:center; min-height:290px; position:relative}
+#s5 .vignet h4{font-size:.82rem; margin-top:10px}
+#s5 .vignet small{display:block; color:var(--dim); font-size:.68rem; font-weight:600; margin-top:3px}
+#s5 .vignet svg{width:100%; height:150px; margin-top:8px}
+#s5.act .vignet{opacity:0; animation:kf-op .8s ease both}
+#s5.act .vignet:nth-child(1){animation-delay:.4s}
+#s5.act .vignet:nth-child(2){animation-delay:4.8s}
+#s5.act .vignet:nth-child(3){animation-delay:8.2s}
+#s5.act .vignet:nth-child(4){animation-delay:12.6s}
+#s5 .pijl{position:absolute; right:-14px; top:46%; font-size:1.1rem; color:var(--yb); z-index:2}
+#s5 .terug{position:absolute; left:2%; right:2%; bottom:6%; text-align:center; font-size:.78rem; font-weight:700; color:var(--yb)}
+#s5.act .terug{opacity:0; animation:kf-op .8s ease 15s forwards}
+
+/* ══════════ SCÈNE 6 — de mensen ══════════ */
+#s6 .plan{position:absolute; left:50%; top:38%; transform:translate(-50%,-50%); width:24%; background:var(--paneel2); border:1.5px solid var(--yb-deep); border-radius:16px; padding:14px 16px; text-align:center; font-weight:800; font-size:.9rem; box-shadow:0 0 34px rgba(52,192,141,.28); z-index:2}
+#s6 .plan small{display:block; color:var(--dim); font-weight:600; font-size:.7rem; margin-top:3px}
+#s6.act .plan{animation:kf-op .7s ease both}
+#s6 .mens{position:absolute; width:23%; background:var(--paneel); border:1px solid var(--rand); border-radius:14px; padding:11px 13px; font-size:.76rem; font-weight:700}
+#s6 .mens small{display:block; color:var(--dim); font-weight:600; font-size:.66rem; margin-top:3px}
+#s6 .mens .chip{margin-top:7px; font-size:.62rem; padding:3px 9px}
+#s6 .m1{left:4%; top:6%; border-top:3px solid var(--oranje)}
+#s6 .m2{right:4%; top:6%; border-top:3px solid var(--paars)}
+#s6 .m3{right:4%; bottom:8%; border-top:3px solid var(--coral)}
+#s6 .m4{left:4%; bottom:8%; border-top:3px solid var(--sun)}
+#s6.act .m1{animation:kf-op .7s ease 2.5s both}
+#s6.act .m2{animation:kf-op .7s ease 7s both}
+#s6.act .m3{animation:kf-op .7s ease 9.5s both}
+#s6.act .m4{animation:kf-op .7s ease 13.5s both}
+#s6 svg.web{position:absolute; inset:0; width:100%; height:100%}
+#s6 .draad{fill:none; stroke:rgba(52,192,141,.4); stroke-width:2; stroke-dasharray:8 10}
+#s6.act .draad{animation:kf-stroom 3s linear infinite}
+#s6 .alert{color:var(--coral); font-weight:800}
+#s6 .dagjes{display:flex; gap:5px; margin-top:7px; justify-content:flex-start}
+#s6 .dagjes b{width:11px; height:11px; border-radius:50%; background:var(--yb)}
+#s6 .dagjes b.leeg{background:rgba(242,247,246,.18)}
+#s6.act .dagjes b{animation:kf-op .4s ease both}
+#s6.act .dagjes b:nth-child(2){animation-delay:14.6s}
+#s6.act .dagjes b:nth-child(3){animation-delay:15.2s}
+#s6.act .dagjes b:nth-child(1){animation-delay:14s}
+
+/* ══════════ SCÈNE 7 — het totaalbeeld ══════════ */
+#s7 .heelal{position:absolute; inset:0; display:flex; align-items:center; justify-content:center}
+#s7.act .heelal{animation:s7-uit 8s ease-out both}
+@keyframes s7-uit{from{transform:scale(1.7)}to{transform:scale(1)}}
+#s7 svg.constel{width:min(620px,80vw); height:auto}
+#s7 .traag{transform-origin:300px 300px}
+#s7.act .traag{animation:kf-draai 180s linear infinite}
+#s7 .cnode{fill:var(--paneel2); stroke:var(--rand)}
+#s7 .clijn{fill:none; stroke:rgba(52,192,141,.35); stroke-width:1.6; stroke-dasharray:6 9}
+#s7.act .clijn{animation:kf-stroom 4s linear infinite}
+#s7.act .clijn.v2{animation-duration:5.6s}
+#s7.act .clijn.v3{animation-duration:7s}
+#s7 text{font-family:inherit; font-size:13px; font-weight:700; fill:var(--on-dark)}
+#s7 text.sub{font-size:10.5px; font-weight:600; fill:rgba(242,247,246,.6)}
+#s7 .slotg{opacity:.9}
+#s7.act .slotg{animation:kf-gloei 3.6s ease-in-out infinite}
+
+/* ══════════ SCÈNE 8 — waarom wij ══════════ */
+#s8 .zuilen{position:absolute; inset:8% 2% auto 2%; display:flex; gap:18px}
+#s8 .zuil{flex:1; background:var(--paneel); border:1px solid var(--rand); border-top:4px solid var(--zk,var(--yb)); border-radius:16px; padding:16px; min-height:300px}
+#s8 .zuil h4{font-size:.92rem; margin-bottom:4px}
+#s8 .zuil small{display:block; color:var(--dim); font-size:.72rem; font-weight:600; line-height:1.5}
+#s8 .zuil svg{width:100%; height:130px; margin:10px 0 8px}
+#s8.act .zuil{opacity:0; animation:kf-op .8s ease both}
+#s8.act .zuil:nth-child(1){animation-delay:.4s}
+#s8.act .zuil:nth-child(2){animation-delay:5.5s}
+#s8.act .zuil:nth-child(3){animation-delay:9s}
+#s8 .stempel2{position:absolute; transform:rotate(-8deg); border:2px solid var(--coral); color:var(--coral); border-radius:8px; padding:3px 9px; font-size:.66rem; font-weight:800; letter-spacing:.06em; background:rgba(5,13,12,.7)}
+#s8.act .stempel2{animation:kf-op .5s ease 3.2s both}
+#s8 .fee{position:absolute; left:2%; right:2%; bottom:5%; display:flex; align-items:center; justify-content:center; gap:22px; font-size:.78rem; font-weight:700; color:var(--sun)}
+#s8.act .fee{opacity:0; animation:kf-op .8s ease 13s forwards}
+#s8 .fee .weg{position:relative; width:120px; height:4px; border-radius:99px; background:rgba(255,216,77,.2); overflow:visible}
+#s8 .fee .munt{position:absolute; top:-4px; left:0; width:12px; height:12px; border-radius:50%; background:var(--sun); box-shadow:0 0 10px rgba(255,216,77,.7)}
+#s8.act .fee .munt{animation:s8-munt 2.2s linear infinite}
+#s8.act .fee .weg:nth-of-type(2) .munt{animation-delay:.7s}
+@keyframes s8-munt{from{left:0; opacity:0}15%{opacity:1}85%{opacity:1}to{left:108px; opacity:0}}
+#s8 .schermtijd{color:var(--dim); text-decoration:line-through; font-weight:700; opacity:.6}
+
+/* ══════════ SCÈNE 9 — slot ══════════ */
+#s9 .kern{position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; gap:14px}
+#s9 .osring{position:static; width:150px; height:150px}
+#s9.act .osring{animation:kf-op 1.2s ease both, kf-draai 90s linear 1.2s infinite}
+#s9 h1{font-size:clamp(2.2rem,6vw,3.6rem); letter-spacing:-.02em}
+#s9 h1 em{font-style:normal; color:var(--yb)}
+#s9.act h1{animation:kf-op 1s ease 2.5s both}
+#s9 .onder{font-size:clamp(.95rem,2.2vw,1.15rem); color:var(--dim); font-weight:700}
+#s9.act .onder{animation:kf-op 1s ease 4s both}
+#s9 .kernzin{max-width:760px; font-size:clamp(1.05rem,2.6vw,1.5rem); font-weight:800; line-height:1.45; margin-top:8px}
+#s9 .kernzin i{font-style:normal; color:var(--yb)}
+#s9.act .kernzin{animation:kf-op 1.1s ease 7.5s both}
+#s9 .byoa{border:1.5px dashed var(--blauw); color:var(--blauw)}
+#s9.act .byoa{animation:kf-op .8s ease 11s both}
+#s9 #opnieuw{margin-top:10px; border:1.5px solid var(--yb); background:transparent; color:var(--yb); border-radius:99px; padding:11px 24px; font-size:.95rem; font-weight:800}
+#s9 #opnieuw:hover{background:var(--yb); color:#06231B}
+#s9.act #opnieuw{opacity:0; animation:kf-op .8s ease 14s forwards}
+#s9 .hublink{font-size:.75rem; color:var(--dim); text-decoration:none; font-weight:700}
+#s9.act .hublink{opacity:0; animation:kf-op .8s ease 15s forwards}
+
+/* ══════════ pauze + reduced motion — achteraan, wint de cascade ══════════ */
+#film.pauze .scene *, #film.pauze .scene::before, #film.pauze #podium::before, #film.pauze #podium::after{animation-play-state:paused !important}
+@media (prefers-reduced-motion: reduce){
+  *{animation:none !important; transition:none !important}
+  #subtxt{font-size:.92rem; line-height:1.7}
+  .rm #knop{width:auto; border-radius:99px; padding:0 18px; font-size:.85rem}
+}
+</style>
+</head>
+<body>
+<!-- CG-toegangspoort: eenvoudige wachtwoordlaag (client-side); bij nieuwe pagina's mee overnemen -->
+<script>
+(function(){
+  var KEY='cghealth-toegang', HASHES={'c77183344fbea935b7cfdde03c5b12b76c7007f1fbfa378078df9a8ffcebbc87':'alles','a355ecedc6e6590d5383b07b521a1a6cf566aad1fd2df14d050b0be04d23be10':'alles','ceb3fb22db509f33f1e1ecb12f5ebc54b4538344710d40ec550d8d918195f8fc':'volledig','57fed0095206f62cc7eafde849bae64daffe655133f1707e739fbda4408f7b04':'beperkt'};
+  function zetNiveau(nv){
+    try{
+      var RANG={beperkt:1, volledig:2, alles:3};
+      if((RANG[nv]||0) < (RANG['alles']||1)){ location.replace('health-cg-workshop.html'); return; }
+      document.documentElement.setAttribute('data-toegang', nv);
+      var vs=document.createElement('style');
+      if(nv==='beperkt'){ vs.textContent='.cg-afgeschermd,a[href^="health-cg-organisatie"],a[href^="health-cg-yoboo"],a[href^="health-cg-financieel"],a[href^="health-cg-sprint"],a[href^="health-cg-werkoverleg"],a[href^="health-cg-workshop-vervolg"],a[href^="yoboo-"],#opm,#opm-open,#opm-qknop,.opm-anker{display:none !important}'; }
+      else if(nv==='volledig'){ vs.textContent='a[href^="health-cg-organisatie"]{display:none !important}'; }
+      if(vs.textContent){ document.head.appendChild(vs); }
+      var lb=document.createElement('button'); lb.id='cg-afmeld'; lb.type='button'; lb.textContent='\ud83d\udd12 afmelden';
+      lb.title='Afmelden — de wachtwoordpoort komt terug';
+      lb.style.cssText='position:fixed;left:14px;bottom:14px;z-index:890;border:1px solid rgba(127,127,127,.4);background:rgba(127,127,127,.12);color:inherit;font-family:inherit;font-size:11px;border-radius:99px;padding:5px 11px;cursor:pointer;opacity:.55';
+      lb.onmouseenter=function(){ lb.style.opacity='1'; };
+      lb.onmouseleave=function(){ lb.style.opacity='.55'; };
+      lb.onclick=function(){ try{ localStorage.removeItem(KEY); }catch(e){} location.reload(); };
+      if(document.body){ document.body.appendChild(lb); } else { document.addEventListener('DOMContentLoaded', function(){ document.body.appendChild(lb); }); }
+    }catch(e){}
+  }
+  try{ var h0=localStorage.getItem(KEY); if(HASHES[h0]){ zetNiveau(HASHES[h0]); return; } }catch(e){}
+  function sha(t,cb){ crypto.subtle.digest('SHA-256', new TextEncoder().encode(t)).then(function(b){ cb(Array.prototype.map.call(new Uint8Array(b), function(x){return x.toString(16).padStart(2,'0');}).join('')); }); }
+  var st=document.createElement('style');
+  st.textContent='body>*:not(#cggate){display:none !important} #cggate{position:fixed; inset:0; display:flex; align-items:center; justify-content:center; background:#F5F5F0; z-index:99999; font-family:Calibri,\'Segoe UI\',sans-serif} #cggate .kaart{background:#fff; border:1px solid #DDD9CF; border-radius:16px; padding:34px 36px; max-width:380px; width:90%; box-shadow:0 12px 34px rgba(20,20,20,.12); text-align:center} #cggate h1{font-size:1.15rem; color:#1A1A1A; margin:0 0 4px} #cggate p{font-size:.85rem; color:#5A5A55; margin:0 0 16px} #cggate input{width:100%; border:1px solid #DDD9CF; border-radius:10px; padding:11px 13px; font:inherit; font-size:.95rem; margin-bottom:10px; box-sizing:border-box} #cggate button{width:100%; border:none; border-radius:10px; background:#00887B; color:#fff; font-weight:700; font-size:.95rem; padding:11px; cursor:pointer; font-family:inherit} #cggate .fout{color:#D95550; font-size:.8rem; min-height:18px; margin-top:8px} @media (prefers-color-scheme: dark){ #cggate{background:#141311} #cggate .kaart{background:#1E1C19; border-color:#3A3831} #cggate h1{color:#EDEBE6} #cggate p{color:#A5A19A} #cggate input{background:#141311; color:#EDEBE6; border-color:#3A3831} }';
+  document.head.appendChild(st);
+  function bouw(){
+    var d=document.createElement('div'); d.id='cggate';
+    d.innerHTML='<div class="kaart"><h1>Health CG</h1><p>Vertrouwelijk werkdocument \u2014 voer het wachtwoord in.</p><input type="password" placeholder="wachtwoord" autocomplete="current-password"><button>Open</button><div class="fout"></div></div>';
+    document.body.appendChild(d);
+    var inp=d.querySelector('input'), btn=d.querySelector('button'), fout=d.querySelector('.fout');
+    function probeer(){
+      sha(inp.value.trim().toLowerCase(), function(h){
+        if(HASHES[h]){ try{localStorage.setItem(KEY,h);}catch(e){} zetNiveau(HASHES[h]); d.remove(); st.remove(); }
+        else { fout.textContent='Dat is hem niet \u2014 probeer opnieuw.'; inp.select(); }
+      });
+    }
+    btn.addEventListener('click', probeer);
+    inp.addEventListener('keydown', function(e){ if(e.key==='Enter') probeer(); });
+    inp.focus();
+  }
+  if(document.body){ bouw(); } else { document.addEventListener('DOMContentLoaded', bouw); }
+})();
+</script>
+
+<div class="titelchip">Health CG · <b>moonshot</b> — vertrouwelijk werkmateriaal</div>
+
+<main id="film" class="pauze">
+  <div id="podium">
+
+    <!-- ═══ 1 · 2035, de zetel ═══ -->
+    <section class="scene" id="s1" aria-label="2035 — de zetel">
+      <div class="toneel">
+        <div class="kamer">
+          <div class="raam"><div class="maan"></div></div>
+          <div class="lamp"></div>
+          <div class="vloer"></div>
+          <svg class="zetelvrouw" viewBox="0 0 460 300" role="img" aria-label="Vrouw in een zetel praat met haar zwevende AI">
+            <ellipse cx="230" cy="286" rx="200" ry="12" fill="rgba(0,0,0,.45)"/>
+            <path d="M60 150 q0 -34 34 -34 h272 q34 0 34 34 v96 q0 22 -22 22 H82 q-22 0 -22 -22 z" fill="#12312C"/>
+            <rect x="60" y="196" width="340" height="46" rx="20" fill="#0E2823"/>
+            <rect x="42" y="150" width="34" height="112" rx="16" fill="#164039"/>
+            <rect x="384" y="150" width="34" height="112" rx="16" fill="#164039"/>
+            <rect x="196" y="252" width="14" height="34" rx="6" fill="#0A1D19"/>
+            <rect x="250" y="252" width="14" height="34" rx="6" fill="#0A1D19"/>
+            <rect x="176" y="196" width="42" height="52" rx="14" fill="#233"/>
+            <path d="M188 206 v-46 a26 26 0 0 1 52 0 v46 z" fill="#FF9A94"/>
+            <path d="M238 172 q26 -8 40 -24" stroke="#FF9A94" stroke-width="14" fill="none" stroke-linecap="round"/>
+            <circle cx="284" cy="142" r="8" fill="#E8B48E"/>
+            <circle cx="214" cy="118" r="22" fill="#E8B48E"/>
+            <path d="M194 112 a20 20 0 0 1 40 0 z" fill="#241A12"/>
+            <circle cx="214" cy="94" r="8" fill="#241A12"/>
+          </svg>
+          <div class="tel"><small>geen apps meer nodig</small></div>
+          <div class="orb"><small>haar eigen AI</small></div>
+          <svg class="bogen" viewBox="0 0 150 90" aria-hidden="true">
+            <path class="boog"    style="--dash:70"  d="M18 62 Q40 44 62 58"/>
+            <path class="boog b2" style="--dash:96"  d="M12 46 Q52 16 92 42"/>
+            <path class="boog b3" style="--dash:130" d="M8 30 Q64 -12 122 26"/>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ 2 · de vraag ═══ -->
+    <section class="scene" id="s2" aria-label="De vraag aan haar AI">
+      <div class="toneel">
+        <svg class="persoon" viewBox="0 0 300 300" role="img" aria-label="Zij stelt haar vraag">
+          <ellipse cx="150" cy="288" rx="120" ry="10" fill="rgba(0,0,0,.45)"/>
+          <rect x="118" y="212" width="20" height="72" rx="9" fill="#0A1D19"/>
+          <rect x="160" y="212" width="20" height="72" rx="9" fill="#0A1D19"/>
+          <path d="M112 224 v-84 a38 38 0 0 1 76 0 v84 z" fill="#FF9A94"/>
+          <path d="M182 158 q34 -12 48 -34" stroke="#FF9A94" stroke-width="17" fill="none" stroke-linecap="round"/>
+          <circle cx="236" cy="118" r="10" fill="#E8B48E"/>
+          <circle cx="150" cy="100" r="30" fill="#E8B48E"/>
+          <path d="M122 92 a28 28 0 0 1 56 0 z" fill="#241A12"/>
+          <circle cx="150" cy="66" r="10" fill="#241A12"/>
+        </svg>
+        <div class="ballon">
+          <span style="animation-delay:.8s">"Pa</span> <span style="animation-delay:1.1s">is</span> <span style="animation-delay:1.4s">net</span> <span style="animation-delay:1.7s">geopereerd.</span>
+          <span style="animation-delay:2.3s">Help</span> <span style="animation-delay:2.6s">ons</span> <span style="animation-delay:2.9s">gezond</span> <span style="animation-delay:3.2s">de</span> <span style="animation-delay:3.5s">winter</span> <span style="animation-delay:3.8s">door."</span>
+        </div>
+        <div class="orb"></div>
+        <div class="weet">
+          <div class="kaartje">🥗 Elk dieet ter wereld<small>ze kent het allemaal</small></div>
+          <div class="kaartje">📚 Elke studie<small>tot die van gisteren</small></div>
+          <div class="kaartje">💬 Elk advies, perfect verwoord<small>op maat van Marc</small></div>
+        </div>
+        <div class="doet">
+          <div class="doetkop">maar wie doet dit?</div>
+          <span class="kaartje">🛒 het mandje</span><span class="kaartje">📦 de levering</span><span class="kaartje">🧑‍⚕️ de coach</span><span class="kaartje">💊 de apotheek</span><span class="kaartje">📏 de meting</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ 3 · aankloppen + consent ═══ -->
+    <section class="scene" id="s3" aria-label="De AI klopt aan bij het Health OS; zij geeft toestemming">
+      <div class="toneel">
+        <div class="orb"><small>haar AI</small></div>
+        <svg class="lijn" viewBox="0 0 240 60" aria-hidden="true">
+          <path class="stroomlijn" d="M6 30 H234"/>
+        </svg>
+        <div class="osring"><i>Health<br>OS</i></div>
+        <div class="yobichip"><span class="yobikop"></span> of praat met Yobi — jouw keuze</div>
+        <div class="venster">
+          <div class="vkop"><i><b></b><b></b><b></b></i> toestemming — zij beslist</div>
+          <div class="vin">
+            <div class="cregel"><span>🩺 Gezondheidsfoto van Marc<small>waar hij vandaag staat</small></span><span class="schuif"></span></div>
+            <div class="cregel"><span>🎯 Het winterplan<small>doel &amp; stapjes delen</small></span><span class="schuif"></span></div>
+            <div class="cregel"><span>🛒 Aankoophistoriek<small>niet nodig — blijft dicht</small></span><span class="schuif uit"></span></div>
+            <span class="chip stempel">🔑 altijd intrekbaar</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ 4 · het OS bouwt het plan ═══ -->
+    <section class="scene" id="s4" aria-label="Het OS bouwt het plan: foto, doel, stapjes">
+      <div class="toneel">
+        <div class="osring" aria-hidden="true"><i></i></div>
+        <div class="lagen">
+          <div class="laag" style="--laagkleur:var(--yb)">Toestand<small>de gezondheidsfoto, het plan, de meetlat — betrouwbaar bijgehouden</small></div>
+          <div class="laag" style="--laagkleur:var(--sun)">Permissies<small>wie ziet wat — de klant houdt de sleutels</small></div>
+          <div class="laag" style="--laagkleur:var(--blauw)">Uitvoering<small>winkels, coaches, apothekers, artsen — de handen</small></div>
+        </div>
+        <div class="fotokaart">🩺 Gezondheidsfoto — Marc<small>na de operatie · bloeddruk hoog · conditie laag · slaap wisselend</small></div>
+        <div class="lat">
+          <div class="latvul"></div>
+          <span class="vlag">🚩</span>
+          <small>vandaag</small><small class="r">fit de lente in</small>
+        </div>
+        <div class="stapjes">
+          <div class="stapje"><i>⚡</i> Wandel 10 minuten na het middageten</div>
+          <div class="stapje"><i>⚡</i> Proef vóór je zout toevoegt</div>
+          <div class="stapje"><i>⚡</i> Om 22.30 u schermen uit</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ 5 · doen in de echte wereld ═══ -->
+    <section class="scene" id="s5" aria-label="Uitvoering: mandje, levering, coach-corner, meting">
+      <div class="toneel">
+        <div class="band">
+          <div class="vignet">
+            <svg viewBox="0 0 200 150" aria-hidden="true">
+              <path d="M40 52 h110 l-14 62 h-84 z" fill="none" stroke="#3BC878" stroke-width="5" stroke-linejoin="round"/>
+              <circle cx="72" cy="132" r="9" fill="#3BC878"/><circle cx="122" cy="132" r="9" fill="#3BC878"/>
+              <circle cx="70" cy="40" r="12" fill="#FF9A94"/><rect x="92" y="26" width="14" height="26" rx="5" fill="#E5C558"/><ellipse cx="126" cy="38" rx="14" ry="9" fill="#34C08D"/>
+            </svg>
+            <h4>🛒 Het mandje staat klaar</h4><small>zoutarm, op maat van het weekmenu</small>
+            <span class="pijl">→</span>
+          </div>
+          <div class="vignet">
+            <svg viewBox="0 0 200 150" aria-hidden="true">
+              <rect x="52" y="18" width="66" height="112" rx="8" fill="none" stroke="rgba(242,247,246,.4)" stroke-width="4"/>
+              <circle cx="106" cy="76" r="5" fill="rgba(242,247,246,.5)"/>
+              <rect x="126" y="84" width="52" height="42" rx="7" fill="#132A26" stroke="#34C08D" stroke-width="4"/>
+              <path d="M126 100 h52" stroke="#34C08D" stroke-width="4"/>
+            </svg>
+            <h4>📦 De box aan de deur</h4><small>geleverd, zonder één klik extra</small>
+            <span class="pijl">→</span>
+          </div>
+          <div class="vignet">
+            <svg viewBox="0 0 200 150" aria-hidden="true">
+              <rect x="24" y="22" width="152" height="26" rx="13" fill="#27A577"/>
+              <ellipse cx="74" cy="112" rx="26" ry="7" fill="rgba(0,0,0,.4)"/>
+              <path d="M60 108 v-26 a14 14 0 0 1 28 0 v26 z" fill="#F0955C"/><circle cx="74" cy="66" r="12" fill="#E8B48E"/>
+              <path d="M116 108 v-26 a14 14 0 0 1 28 0 v26 z" fill="#7AA9FF"/><circle cx="130" cy="66" r="12" fill="#8D5A3B"/>
+              <ellipse cx="102" cy="116" rx="34" ry="6" fill="#12312C"/>
+            </svg>
+            <h4>🏪 De coach om de hoek</h4><small>een mens, in de corner — geen wachtzaal</small>
+            <span class="pijl">→</span>
+          </div>
+          <div class="vignet">
+            <svg viewBox="0 0 200 150" aria-hidden="true">
+              <path d="M14 96 h34 l12 -28 14 52 12 -36 10 12 h30" fill="none" stroke="#34C08D" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="158" cy="52" r="24" fill="none" stroke="#7AA9FF" stroke-width="4"/>
+              <path d="M136 96 Q150 74 158 76" fill="none" stroke="#7AA9FF" stroke-width="3.5" stroke-dasharray="6 8"/>
+            </svg>
+            <h4>📏 De meting stroomt terug</h4><small>het plan wordt elke week slimmer</small>
+          </div>
+        </div>
+        <div class="terug">↺ praten → doen → meten → beter plan — de lus sluit vanzelf</div>
+      </div>
+    </section>
+
+    <!-- ═══ 6 · de mensen ═══ -->
+    <section class="scene" id="s6" aria-label="De mensen achter het OS rond één plan">
+      <div class="toneel">
+        <svg class="web" viewBox="0 0 1100 580" preserveAspectRatio="none" aria-hidden="true">
+          <path class="draad" d="M300 120 Q420 220 520 250"/>
+          <path class="draad" d="M800 120 Q680 220 580 250"/>
+          <path class="draad" d="M800 460 Q680 360 580 300"/>
+          <path class="draad" d="M300 460 Q420 360 520 300"/>
+        </svg>
+        <div class="plan">📋 Eén plan — Marc<small>iedereen schrijft in hetzelfde verhaal</small></div>
+        <div class="mens m1">🤝 Sam · hub-coach<small>ziet wat cijfers niet zeggen</small><small class="alert">signaal: week 3 — de slaap zakt weg</small></div>
+        <div class="mens m2">🥗 Els · diëtist<small>schrijft mee — precies binnen haar opdracht</small><span class="chip" style="border:1.5px solid var(--paars); color:var(--paars)">🔑 mandaat: voeding</span></div>
+        <div class="mens m3">🩺 De arts<small>schrijft leefstijl voor, als een recept</small><span class="chip" style="border:1.5px solid var(--coral); color:var(--coral)">🛡 diagnose blijft in de medische ring</span></div>
+        <div class="mens m4">👨‍👩‍👧 De kring<small>het gezin doet gewoon mee — samen gezond</small><span class="dagjes"><b></b><b></b><b></b><b class="leeg"></b><b class="leeg"></b></span></div>
+      </div>
+    </section>
+
+    <!-- ═══ 7 · het totaalbeeld ═══ -->
+    <section class="scene" id="s7" aria-label="Het hele ecosysteem hangt aan elkaar">
+      <div class="heelal">
+        <svg class="constel" viewBox="0 0 600 600" role="img" aria-label="Constellatie: de mens centraal, uitvoerders errond, met consent op elke lijn">
+          <g class="traag">
+            <path class="clijn"    d="M300 300 L300 96"/>
+            <path class="clijn v2" d="M300 300 L468 156"/>
+            <path class="clijn v3" d="M300 300 L510 300"/>
+            <path class="clijn"    d="M300 300 L468 444"/>
+            <path class="clijn v2" d="M300 300 L300 504"/>
+            <path class="clijn v3" d="M300 300 L132 444"/>
+            <path class="clijn"    d="M300 300 L90 300"/>
+            <path class="clijn v2" d="M300 300 L132 156"/>
+            <g class="slotg">
+              <circle cx="300" cy="198" r="7" fill="#0E1F1C" stroke="#34C08D" stroke-width="2"/><path class="slotje" d="M297 196 v-4 a3 3 0 0 1 6 0 v4"/>
+              <circle cx="384" cy="228" r="7" fill="#0E1F1C" stroke="#34C08D" stroke-width="2"/><path class="slotje" d="M381 226 v-4 a3 3 0 0 1 6 0 v4"/>
+              <circle cx="405" cy="300" r="7" fill="#0E1F1C" stroke="#34C08D" stroke-width="2"/><path class="slotje" d="M402 298 v-4 a3 3 0 0 1 6 0 v4"/>
+              <circle cx="384" cy="372" r="7" fill="#0E1F1C" stroke="#34C08D" stroke-width="2"/><path class="slotje" d="M381 370 v-4 a3 3 0 0 1 6 0 v4"/>
+              <circle cx="300" cy="402" r="7" fill="#0E1F1C" stroke="#34C08D" stroke-width="2"/><path class="slotje" d="M297 400 v-4 a3 3 0 0 1 6 0 v4"/>
+              <circle cx="216" cy="372" r="7" fill="#0E1F1C" stroke="#34C08D" stroke-width="2"/><path class="slotje" d="M213 370 v-4 a3 3 0 0 1 6 0 v4"/>
+              <circle cx="195" cy="300" r="7" fill="#0E1F1C" stroke="#34C08D" stroke-width="2"/><path class="slotje" d="M192 298 v-4 a3 3 0 0 1 6 0 v4"/>
+              <circle cx="216" cy="228" r="7" fill="#0E1F1C" stroke="#34C08D" stroke-width="2"/><path class="slotje" d="M213 226 v-4 a3 3 0 0 1 6 0 v4"/>
+            </g>
+            <g>
+              <circle class="cnode" cx="300" cy="96"  r="34" style="stroke:#3BC878"/><text x="300" y="92"  text-anchor="middle">🛒</text><text class="sub" x="300" y="108" text-anchor="middle">winkel</text>
+              <circle class="cnode" cx="468" cy="156" r="34" style="stroke:#3FB3A5"/><text x="468" y="152" text-anchor="middle">💊</text><text class="sub" x="468" y="168" text-anchor="middle">apotheek</text>
+              <circle class="cnode" cx="510" cy="300" r="34" style="stroke:#F0955C"/><text x="510" y="296" text-anchor="middle">🏪</text><text class="sub" x="510" y="312" text-anchor="middle">corner</text>
+              <circle class="cnode" cx="468" cy="444" r="34" style="stroke:#7E9BEB"/><text x="468" y="440" text-anchor="middle">🏋️</text><text class="sub" x="468" y="456" text-anchor="middle">fitness</text>
+              <circle class="cnode" cx="300" cy="504" r="34" style="stroke:#FF9A94"/><text x="300" y="500" text-anchor="middle">🩺</text><text class="sub" x="300" y="516" text-anchor="middle">arts</text>
+              <circle class="cnode" cx="132" cy="444" r="34" style="stroke:#7AA9FF"/><text x="132" y="440" text-anchor="middle">⌚</text><text class="sub" x="132" y="456" text-anchor="middle">meetpartner</text>
+              <circle class="cnode" cx="90"  cy="300" r="34" style="stroke:#C273E0"/><text x="90"  y="296" text-anchor="middle">🏢</text><text class="sub" x="90"  y="312" text-anchor="middle">werkgever</text>
+              <circle class="cnode" cx="132" cy="156" r="34" style="stroke:#E5C558"/><text x="132" y="152" text-anchor="middle">🎓</text><text class="sub" x="132" y="168" text-anchor="middle">academy</text>
+            </g>
+          </g>
+          <circle cx="300" cy="300" r="64" fill="#132A26" stroke="#34C08D" stroke-width="2.5" filter="drop-shadow(0 0 22px rgba(52,192,141,.45))"/>
+          <text x="300" y="290" text-anchor="middle">👨‍👩‍👧</text>
+          <text x="300" y="312" text-anchor="middle">jij &amp; je kring</text>
+        </svg>
+      </div>
+    </section>
+
+    <!-- ═══ 8 · waarom wij ═══ -->
+    <section class="scene" id="s8" aria-label="Waarom Colruyt Group: vertrouwen, netwerk, consent">
+      <div class="toneel">
+        <div class="zuilen">
+          <div class="zuil" style="--zk:var(--sun)">
+            <h4>🛡 Vertrouwen</h4>
+            <small>Bewijs, certificering en advies dat "nee" mag zeggen — ook tegen onze eigen kassa.</small>
+            <svg viewBox="0 0 220 130" aria-hidden="true">
+              <rect x="26" y="30" width="120" height="72" rx="10" fill="#132A26" stroke="rgba(242,247,246,.2)" stroke-width="2"/>
+              <text x="86" y="60" text-anchor="middle" font-size="26">🍬</text>
+              <text x="86" y="88" text-anchor="middle" font-size="11" fill="rgba(242,247,246,.6)" font-weight="700">in promotie</text>
+              <path d="M168 46 l14 16 24 -30" fill="none" stroke="#FFD84D" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span class="stempel2" style="left:30px; top:150px">NIET NODIG VOOR JOUW DOEL</span>
+          </div>
+          <div class="zuil" style="--zk:var(--yb)">
+            <h4>🏪 Het netwerk staat er al</h4>
+            <small>Winkels, apotheken, corners en coaches — in elke buurt. Een AI kan dat niet bouwen.</small>
+            <svg viewBox="0 0 220 130" aria-hidden="true">
+              <path d="M58 18 l30 -8 26 12 34 -6 22 16 8 24 16 10 -8 26 -20 8 -12 22 -26 -4 -18 8 -24 -14 -20 4 -14 -22 4 -24 -12 -18 10 -22 z" fill="#0E1F1C" stroke="rgba(52,192,141,.5)" stroke-width="2"/>
+              <g fill="#34C08D">
+                <circle cx="92" cy="42" r="4"/><circle cx="120" cy="34" r="4"/><circle cx="146" cy="52" r="4"/><circle cx="76" cy="66" r="4"/>
+                <circle cx="108" cy="72" r="4"/><circle cx="140" cy="82" r="4"/><circle cx="88" cy="94" r="4"/><circle cx="118" cy="100" r="4"/><circle cx="160" cy="66" r="4"/>
+              </g>
+            </svg>
+          </div>
+          <div class="zuil" style="--zk:var(--blauw)">
+            <h4>🔑 De klant houdt de sleutels</h4>
+            <small>Consent per bron, per persoon, per moment — en altijd weer in te trekken.</small>
+            <svg viewBox="0 0 220 130" aria-hidden="true">
+              <circle cx="80" cy="62" r="26" fill="none" stroke="#7AA9FF" stroke-width="6"/>
+              <path d="M104 62 h66 M148 62 v20 M166 62 v14" stroke="#7AA9FF" stroke-width="6" stroke-linecap="round"/>
+            </svg>
+          </div>
+        </div>
+        <div class="fee">
+          <span>we verdienen aan doen</span>
+          <span class="weg"><span class="munt"></span></span>
+          <span>mandje · box · consult</span>
+          <span class="weg"><span class="munt"></span></span>
+          <span class="schermtijd">schermtijd</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ 9 · slot ═══ -->
+    <section class="scene" id="s9" aria-label="Slot: Health OS">
+      <div class="kern">
+        <div class="osring"><i>Health<br>OS</i></div>
+        <h1><em>Health OS</em></h1>
+        <div class="onder">niet de app — het besturingssysteem van gezond leven</div>
+        <div class="kernzin">"Wij winnen niet het gesprek.<br>Wij winnen <i>wat er ná het gesprek moet gebeuren</i>."</div>
+        <span class="chip byoa">🤖 bring your own AI — Yobi standaard, nooit verplicht</span>
+        <button id="opnieuw" type="button">⟳ opnieuw afspelen</button>
+        <a class="hublink" href="health-cg-yoboo.html">← terug naar de POC-hub</a>
+      </div>
+    </section>
+
+  </div>
+
+  <div id="subs" aria-live="polite"><span id="subtxt"></span></div>
+
+  <div class="chrome">
+    <button id="knop" aria-label="afspelen of pauzeren">▶</button>
+    <div class="balk"><div id="vul"></div></div>
+    <span id="tijd">0:00 / 3:00</span>
+  </div>
+</main>
+
+<script>
+(function(){
+  var SCENES = [
+    {id:'s1', dur:20, titel:'2035 — de zetel', sub:[
+      [0,'2035. Niemand opent nog apps.'],
+      [7,'Iedereen praat gewoon met zijn eigen AI — thuis, onderweg, altijd.'],
+      [13,'Het scherm is verdwenen. Het gesprek is gebleven.']]},
+    {id:'s2', dur:20, titel:'De vraag', sub:[
+      [0,'"Pa is net geopereerd. Help ons gezond de winter door."'],
+      [7,'Haar AI weet álles: elk dieet, elke studie, elk advies.'],
+      [14,'Maar weten is niet doen. Een AI kan praten — niet dóén.']]},
+    {id:'s3', dur:20, titel:'Aankloppen + toestemming', sub:[
+      [0,'Haar AI klopt aan bij de plek die wél kan doen: het Health OS.'],
+      [7,'Eerst kiest zíj wat het mag zien. Niet alles — precies genoeg.'],
+      [14,'Elke toestemming blijft van haar. En is altijd weer in te trekken.']]},
+    {id:'s4', dur:20, titel:'Het plan', sub:[
+      [0,"Het OS kent de toestand: Marcs gezondheidsfoto — waar hij vandaag staat."],
+      [7,'Dat wordt één doel op de meetlat. Geen vijf — één.'],
+      [13,'En drie stapjes per dag. Klein genoeg om vol te houden.']]},
+    {id:'s5', dur:20, titel:'Doen', sub:[
+      [0,'Praten wordt doen: het mandje staat klaar, de box staat aan de deur.'],
+      [7,'En om de hoek zit een mens: de coach in de corner.'],
+      [14,'Elke meting vloeit terug. Het plan wordt elke week slimmer.']]},
+    {id:'s6', dur:20, titel:'De mensen', sub:[
+      [0,'Achter het OS staan mensen. De hub-coach ziet wat cijfers niet zeggen.'],
+      [7,'Specialisten schrijven mee, elk binnen hun mandaat. De arts schrijft leefstijl voor.'],
+      [14,'En de kring doet mee — gezond word je niet alleen.']]},
+    {id:'s7', dur:20, titel:'Het totaalbeeld', sub:[
+      [0,'Zoom uit, en je ziet het: alles hangt aan elkaar.'],
+      [6,'Winkel, apotheek, coach, arts, werkgever — iedereen kent jou.'],
+      [13,'Precies zoveel als jij toelaat. Geen datahonger — een verbond.']]},
+    {id:'s8', dur:20, titel:'Waarom wij', sub:[
+      [0,'Waarom wij? Omdat vertrouwen niet te downloaden valt.'],
+      [6,"Ons advies mag 'nee' zeggen. En ons netwerk staat er al — in elke buurt."],
+      [13,'We verdienen aan wat we dóén voor jou. Niet aan je aandacht.']]},
+    {id:'s9', dur:20, titel:'Health OS', sub:[
+      [0,'Yobi is er altijd. Maar jouw eigen AI is even welkom.'],
+      [7,'Health OS — het besturingssysteem van gezond leven.'],
+      [13,'Wij winnen niet het gesprek. Wij winnen wat er ná het gesprek gebeurt.']]}
+  ];
+  var OFF = [], TOT = 0;
+  for (var i = 0; i < SCENES.length; i++){ OFF.push(TOT); TOT += SCENES[i].dur; }
+
+  var RM = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var film = document.getElementById('film');
+  var knop = document.getElementById('knop');
+  var vul = document.getElementById('vul');
+  var tijdEl = document.getElementById('tijd');
+  var subtxt = document.getElementById('subtxt');
+  var balk = document.querySelector('.balk');
+  var speelt = false, basis = 0, t0 = 0, idx = -1, subKey = '', raf = null, klaar = false;
+
+  // stippen genereren
+  var stippen = [];
+  for (var s = 0; s < SCENES.length; s++){
+    var b = document.createElement('button');
+    b.className = 'stip'; b.type = 'button';
+    b.style.left = (OFF[s] / TOT * 100) + '%';
+    b.title = (s + 1) + ' · ' + SCENES[s].titel;
+    b.setAttribute('aria-label', 'Spring naar scène ' + (s + 1) + ': ' + SCENES[s].titel);
+    (function(i){ b.addEventListener('click', function(){ springNaar(i); }); })(s);
+    balk.appendChild(b); stippen.push(b);
+  }
+
+  function nu(){ return speelt ? basis + (performance.now() - t0) / 1000 : basis; }
+  function fmt(t){ t = Math.max(0, Math.round(t)); return Math.floor(t / 60) + ':' + ('0' + (t % 60)).slice(-2); }
+  function sceneBij(t){ var i = 0; for (var k = 0; k < OFF.length; k++){ if (t >= OFF[k]) i = k; } return i; }
+
+  function zetScene(i){
+    for (var k = 0; k < SCENES.length; k++){
+      document.getElementById(SCENES[k].id).classList.remove('act');
+    }
+    var doel = document.getElementById(SCENES[i].id);
+    void doel.offsetWidth; // reflow: keyframes herstarten op 0
+    doel.classList.add('act');
+    idx = i; subKey = '';
+    for (var m = 0; m < stippen.length; m++){
+      stippen[m].classList.toggle('was', m < i);
+      stippen[m].classList.toggle('nu', m === i);
+    }
+    if (RM){ zetSubRM(); teken(OFF[i]); }
+  }
+
+  function zetSub(t){
+    var lt = t - OFF[idx], regel = '', key = idx + ':-';
+    var subs = SCENES[idx].sub;
+    for (var k = 0; k < subs.length; k++){
+      if (lt >= subs[k][0]){ regel = subs[k][1]; key = idx + ':' + k; }
+    }
+    if (key !== subKey){
+      subKey = key;
+      subtxt.textContent = regel;
+      subtxt.classList.remove('wissel');
+      void subtxt.offsetWidth;
+      subtxt.classList.add('wissel');
+    }
+  }
+  function zetSubRM(){
+    var subs = SCENES[idx].sub, html = '';
+    for (var k = 0; k < subs.length; k++){ html += (k ? '<br>' : '') + subs[k][1]; }
+    subtxt.innerHTML = html;
+  }
+
+  function teken(t){
+    vul.style.width = (Math.min(t, TOT) / TOT * 100) + '%';
+    tijdEl.textContent = fmt(t) + ' / ' + fmt(TOT);
+  }
+
+  function tik(){
+    if (!speelt) return;
+    var t = nu();
+    if (t >= TOT){ einde(); return; }
+    var i = sceneBij(t);
+    if (i !== idx) zetScene(i);
+    zetSub(t); teken(t);
+    raf = requestAnimationFrame(tik);
+  }
+
+  function speel(){
+    if (RM) return;
+    if (klaar){ klaar = false; basis = 0; zetScene(0); }
+    speelt = true; t0 = performance.now();
+    film.classList.remove('pauze'); film.classList.remove('klaar');
+    knop.textContent = '⏸'; knop.setAttribute('aria-label', 'pauzeren');
+    raf = requestAnimationFrame(tik);
+  }
+  function pauzeer(){
+    if (!speelt) return;
+    basis = nu(); speelt = false;
+    if (raf) cancelAnimationFrame(raf);
+    film.classList.add('pauze');
+    knop.textContent = '▶'; knop.setAttribute('aria-label', 'afspelen');
+  }
+  function einde(){
+    basis = TOT; speelt = false; klaar = true;
+    if (raf) cancelAnimationFrame(raf);
+    teken(TOT);
+    film.classList.add('pauze'); film.classList.add('klaar');
+    knop.textContent = '⟳'; knop.setAttribute('aria-label', 'opnieuw afspelen');
+  }
+  function springNaar(i){
+    i = Math.max(0, Math.min(SCENES.length - 1, i));
+    klaar = false; basis = OFF[i];
+    if (speelt) t0 = performance.now();
+    zetScene(i);
+    if (RM){ teken(OFF[i]); return; }
+    zetSub(basis); teken(basis);
+  }
+
+  knop.addEventListener('click', function(){
+    if (RM){
+      if (idx >= SCENES.length - 1){ springNaar(0); } else { springNaar(idx + 1); }
+      knop.textContent = (idx >= SCENES.length - 1) ? '⟳ opnieuw' : 'volgende ▸';
+      return;
+    }
+    if (speelt) pauzeer(); else speel();
+  });
+  document.getElementById('opnieuw').addEventListener('click', function(){
+    springNaar(0);
+    if (RM){ knop.textContent = 'volgende ▸'; } else { speel(); }
+  });
+  window.addEventListener('keydown', function(e){
+    if (document.getElementById('cggate')) return;
+    var tag = (e.target && e.target.tagName) || '';
+    if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'BUTTON' || tag === 'A') return;
+    if (e.key === ' '){ e.preventDefault(); if (RM) return; if (speelt) pauzeer(); else speel(); }
+    else if (e.key === 'ArrowRight'){ springNaar(idx + 1); }
+    else if (e.key === 'ArrowLeft'){ springNaar(idx - 1); }
+  });
+  document.addEventListener('visibilitychange', function(){
+    if (document.hidden && speelt) pauzeer();
+  });
+
+  function start(){
+    if (RM){
+      document.body.classList.add('rm');
+      film.classList.add('pauze');
+      knop.textContent = 'volgende ▸'; knop.setAttribute('aria-label', 'volgende scène');
+      zetScene(0); teken(0);
+      return;
+    }
+    zetScene(0); zetSub(0); teken(0);
+    speel();
+  }
+  function wacht(){
+    if (document.getElementById('cggate')){ setTimeout(wacht, 250); return; }
+    start();
+  }
+  wacht();
+})();
+</script>
+</body>
+</html>
