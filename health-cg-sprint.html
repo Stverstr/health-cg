@@ -325,7 +325,7 @@ footer .wrap{display:flex; flex-wrap:wrap; gap:12px; justify-content:space-betwe
   function zetNiveau(nv){
     try{
       var RANG={beperkt:1, volledig:2, alles:3};
-      if((RANG[nv]||0) < (RANG['volledig']||1)){ location.replace('health-cg-workshop.html'); return; }
+      if((RANG[nv]||0) < (RANG['volledig']||1)){ return false; }
       document.documentElement.setAttribute('data-toegang', nv);
       var vs=document.createElement('style');
       if(nv==='beperkt'){ vs.textContent='.cg-afgeschermd,a[href^="health-cg-organisatie"],a[href^="health-cg-yoboo"],a[href^="health-cg-financieel"],a[href^="health-cg-sprint"],a[href^="health-cg-werkoverleg"],a[href^="health-cg-workshop-vervolg"],a[href^="yoboo-"],#opm,#opm-open,#opm-qknop,.opm-anker{display:none !important}'; }
@@ -338,9 +338,11 @@ footer .wrap{display:flex; flex-wrap:wrap; gap:12px; justify-content:space-betwe
       lb.onmouseleave=function(){ lb.style.opacity='.55'; };
       lb.onclick=function(){ try{ localStorage.removeItem(KEY); }catch(e){} location.reload(); };
       if(document.body){ document.body.appendChild(lb); } else { document.addEventListener('DOMContentLoaded', function(){ document.body.appendChild(lb); }); }
-    }catch(e){}
+      return true;
+    }catch(e){ return true; }
   }
-  try{ var h0=localStorage.getItem(KEY); if(HASHES[h0]){ zetNiveau(HASHES[h0]); return; } }catch(e){}
+  var tekort=false;
+  try{ var h0=localStorage.getItem(KEY); if(HASHES[h0]){ if(zetNiveau(HASHES[h0])){ return; } tekort=true; } }catch(e){}
   function sha(t,cb){ crypto.subtle.digest('SHA-256', new TextEncoder().encode(t)).then(function(b){ cb(Array.prototype.map.call(new Uint8Array(b), function(x){return x.toString(16).padStart(2,'0');}).join('')); }); }
   var st=document.createElement('style');
   st.textContent='body>*:not(#cggate){display:none !important} #cggate{position:fixed; inset:0; display:flex; align-items:center; justify-content:center; background:#F5F5F0; z-index:99999; font-family:Calibri,\'Segoe UI\',sans-serif} #cggate .kaart{background:#fff; border:1px solid #DDD9CF; border-radius:16px; padding:34px 36px; max-width:380px; width:90%; box-shadow:0 12px 34px rgba(20,20,20,.12); text-align:center} #cggate h1{font-size:1.15rem; color:#1A1A1A; margin:0 0 4px} #cggate p{font-size:.85rem; color:#5A5A55; margin:0 0 16px} #cggate input{width:100%; border:1px solid #DDD9CF; border-radius:10px; padding:11px 13px; font:inherit; font-size:.95rem; margin-bottom:10px; box-sizing:border-box} #cggate button{width:100%; border:none; border-radius:10px; background:#00887B; color:#fff; font-weight:700; font-size:.95rem; padding:11px; cursor:pointer; font-family:inherit} #cggate .fout{color:#D95550; font-size:.8rem; min-height:18px; margin-top:8px} @media (prefers-color-scheme: dark){ #cggate{background:#141311} #cggate .kaart{background:#1E1C19; border-color:#3A3831} #cggate h1{color:#EDEBE6} #cggate p{color:#A5A19A} #cggate input{background:#141311; color:#EDEBE6; border-color:#3A3831} }';
@@ -349,10 +351,12 @@ footer .wrap{display:flex; flex-wrap:wrap; gap:12px; justify-content:space-betwe
     var d=document.createElement('div'); d.id='cggate';
     d.innerHTML='<div class="kaart"><h1>Health CG</h1><p>Vertrouwelijk werkdocument \u2014 voer het wachtwoord in.</p><input type="password" placeholder="wachtwoord" autocomplete="current-password"><button>Open</button><div class="fout"></div></div>';
     document.body.appendChild(d);
+    function wslink(){ if(d.querySelector('a')) return; var wk=document.createElement('a'); wk.href='health-cg-workshop.html'; wk.textContent='\u2190 naar de workshop'; wk.style.cssText='display:block;margin-top:12px;font-size:.8rem;color:#00887B;font-weight:700;text-decoration:none'; d.querySelector('.kaart').appendChild(wk); }
+    if(tekort){ d.querySelector('p').textContent='Dit onderdeel vraagt een ander wachtwoord.'; wslink(); }
     var inp=d.querySelector('input'), btn=d.querySelector('button'), fout=d.querySelector('.fout');
     function probeer(){
       sha(inp.value.trim().toLowerCase(), function(h){
-        if(HASHES[h]){ try{localStorage.setItem(KEY,h);}catch(e){} zetNiveau(HASHES[h]); d.remove(); st.remove(); }
+        if(HASHES[h]){ if(!zetNiveau(HASHES[h])){ fout.textContent='Dit wachtwoord geeft hier geen toegang.'; wslink(); inp.select(); return; } try{localStorage.setItem(KEY,h);}catch(e){} d.remove(); st.remove(); }
         else { fout.textContent='Dat is hem niet \u2014 probeer opnieuw.'; inp.select(); }
       });
     }
