@@ -290,16 +290,41 @@ button{font-family:inherit; cursor:pointer}
 #s9 .kernzin i{font-style:normal; color:var(--yb)}
 #s9 .afz{font-size:.85rem; font-weight:800; color:var(--yb); letter-spacing:.06em}
 #s9.act .afz{animation:kf-op 1s ease 5s both}
-#s9 .brug{font-size:.75rem; color:var(--dim); font-weight:700}
-#s9.act .brug{opacity:0; animation:kf-op .8s ease 15.5s forwards}
+
 #s9.act .kernzin{animation:kf-op 1.1s ease 7.5s both}
 #s9 .byoa{border:1.5px dashed var(--blauw); color:var(--blauw)}
 #s9.act .byoa{animation:kf-op .8s ease 11s both}
-#s9 #opnieuw{margin-top:10px; border:1.5px solid var(--yb); background:transparent; color:var(--yb); border-radius:99px; padding:11px 24px; font-size:.95rem; font-weight:800}
-#s9 #opnieuw:hover{background:var(--yb); color:#06231B}
-#s9.act #opnieuw{opacity:0; animation:kf-op .8s ease 14s forwards}
-#s9 .hublink{font-size:.75rem; color:var(--dim); text-decoration:none; font-weight:700}
-#s9.act .hublink{opacity:0; animation:kf-op .8s ease 15s forwards}
+#s10 svg.archi{position:absolute; inset:0 0 12% 0; width:100%; height:88%}
+#s10 .kol{font-size:15px; font-weight:800; fill:rgba(242,247,246,.55); letter-spacing:.08em; text-transform:uppercase; font-family:inherit}
+#s10 .lbl{font-size:14px; font-weight:700; fill:#F2F7F6; font-family:inherit}
+#s10 .sublbl{font-size:12px; font-weight:700; fill:#7AA9FF; font-family:inherit}
+#s10.act .thuis{animation:kf-op .9s ease .4s both}
+#s10.act .kring{animation:kf-op .9s ease 2.6s both}
+#s10.act .osgroep{animation:kf-op .9s ease 5s both}
+#s10 .osdraai{transform-box:fill-box; transform-origin:center}
+#s10.act .osdraai{animation:kf-draai 120s linear infinite}
+#s10.act .uitvoer .un{opacity:0; animation:kf-op .7s ease both}
+#s10.act .uitvoer .n1{animation-delay:9s}
+#s10.act .uitvoer .n2{animation-delay:9.8s}
+#s10.act .uitvoer .n3{animation-delay:10.6s}
+#s10.act .uitvoer .n4{animation-delay:11.4s}
+#s10.act .uitvoer .n5{animation-delay:12.2s}
+#s10 .lijnen1 .dr, #s10 .lijnen2 .dr{opacity:0}
+#s10.act .lijnen1 .dr{opacity:1; animation:kf-stroom 2.6s linear infinite; transition:opacity .6s}
+#s10.act .lijnen1 .d1{transition-delay:6s}
+#s10.act .lijnen1 .d2{transition-delay:7s}
+#s10.act .lijnen1 .d3{transition-delay:7.6s}
+#s10.act .lijnen2 .dr{opacity:1; animation:kf-stroom 3.2s linear infinite; transition:opacity .6s; transition-delay:12.8s}
+#s10 .sloten{opacity:1}
+#s10.act .sloten{animation:kf-op .8s ease 8s both}
+#s10 .s10voet{position:absolute; left:0; right:0; bottom:0; display:flex; align-items:center; justify-content:center; gap:18px; flex-wrap:wrap}
+#s10 #opnieuw{border:1.5px solid var(--yb); background:transparent; color:var(--yb); border-radius:99px; padding:10px 22px; font-size:.92rem; font-weight:800}
+#s10 #opnieuw:hover{background:var(--yb); color:#06231B}
+#s10.act #opnieuw{opacity:0; animation:kf-op .8s ease 15s forwards}
+#s10 .brug{font-size:.75rem; color:var(--dim); font-weight:700}
+#s10.act .brug{opacity:0; animation:kf-op .8s ease 15.8s forwards}
+#s10 .hublink{font-size:.75rem; color:var(--dim); text-decoration:none; font-weight:700}
+#s10.act .hublink{opacity:0; animation:kf-op .8s ease 16.4s forwards}
 
 @media (max-width:760px){
   .toneel{height:min(560px,74vh)}
@@ -755,9 +780,106 @@ button{font-family:inherit; cursor:pointer}
         <div class="afz">een toekomstbeeld van Colruyt Group</div>
         <div class="kernzin">"Wij winnen niet het gesprek.<br>Wij winnen <i>wat er ná het gesprek moet gebeuren</i>."</div>
         <span class="chip byoa">🤖 breng je eigen AI mee — Yobi staat klaar, niets moet</span>
-        <button id="opnieuw" type="button">⟳ opnieuw afspelen</button>
-        <span class="brug">Dit is 2035 — de eerste stap ligt er vandaag al: het proefproject en het financieel model.</span>
-        <a class="hublink" href="health-cg-yoboo.html">← terug naar het proefproject</a>
+
+      </div>
+    </section>
+
+    <!-- ═══ 10 · de architectuur ═══ -->
+    <section class="scene" id="s10" aria-label="De architectuur: mensen met hun eigen AI, één Health OS, de uitvoerders">
+      <div class="toneel">
+        <svg class="archi" viewBox="0 0 1100 580" role="img" aria-label="Architectuurschema">
+          <text class="kol" x="185" y="46" text-anchor="middle">thuis — elk z\u2019n eigen AI</text>
+          <text class="kol" x="560" y="46" text-anchor="middle">\u00e9\u00e9n Health OS</text>
+          <text class="kol" x="885" y="46" text-anchor="middle">de mensen die doen</text>
+
+          <!-- lijnen: thuis → OS -->
+          <g class="lijnen1" fill="none" stroke="#7AA9FF" stroke-linecap="round">
+            <path class="dr d1" stroke-width="3.5" stroke-dasharray="9 11" d="M258 176 Q370 205 468 252"/>
+            <path class="dr d2" stroke-width="2" opacity=".55" stroke-dasharray="7 12" d="M240 396 Q360 360 466 306"/>
+            <path class="dr d3" stroke-width="2" opacity=".55" stroke-dasharray="7 12" d="M258 492 Q400 440 476 336"/>
+          </g>
+          <!-- lijnen: OS → uitvoerders -->
+          <g class="lijnen2" fill="none" stroke="#34C08D" stroke-linecap="round">
+            <path class="dr u1" stroke-width="2.6" stroke-dasharray="8 11" d="M636 246 Q720 190 792 138"/>
+            <path class="dr u2" stroke-width="2.6" stroke-dasharray="8 11" d="M652 276 Q730 250 800 228"/>
+            <path class="dr u3" stroke-width="2.6" stroke-dasharray="8 11" d="M656 300 Q735 306 802 314"/>
+            <path class="dr u4" stroke-width="2.6" stroke-dasharray="8 11" d="M648 326 Q728 362 798 400"/>
+            <path class="dr u5" stroke-width="2.6" stroke-dasharray="8 11" d="M632 350 Q715 420 788 482"/>
+          </g>
+          <!-- consent-slotjes op de thuis-lijnen -->
+          <g class="sloten">
+            <g transform="translate(368,214)"><circle r="10" fill="#0E1F1C" stroke="#34C08D" stroke-width="2.2"/><path d="M-4 -1 v-5 a4 4 0 0 1 8 0 v5" fill="none" stroke="#34C08D" stroke-width="2"/><rect x="-5" y="-1" width="10" height="7" rx="2" fill="#34C08D"/></g>
+            <g transform="translate(352,357)"><circle r="8" fill="#0E1F1C" stroke="#34C08D" stroke-width="2"/><path d="M-3 -1 v-4 a3 3 0 0 1 6 0 v4" fill="none" stroke="#34C08D" stroke-width="1.8"/><rect x="-4" y="-1" width="8" height="6" rx="2" fill="#34C08D"/></g>
+            <g transform="translate(384,432)"><circle r="8" fill="#0E1F1C" stroke="#34C08D" stroke-width="2"/><path d="M-3 -1 v-4 a3 3 0 0 1 6 0 v4" fill="none" stroke="#34C08D" stroke-width="1.8"/><rect x="-4" y="-1" width="8" height="6" rx="2" fill="#34C08D"/></g>
+          </g>
+
+          <!-- thuis: de klant + eigen AI -->
+          <g class="thuis">
+            <ellipse cx="150" cy="322" rx="70" ry="9" fill="rgba(0,0,0,.4)"/>
+            <path d="M116 318 v-70 a34 34 0 0 1 68 0 v70 z" fill="#FF9A94"/>
+            <circle cx="150" cy="216" r="26" fill="#E8B48E"/>
+            <path d="M126 210 a24 24 0 0 1 48 0 z" fill="#241A12"/>
+            <circle cx="150" cy="188" r="9" fill="#241A12"/>
+            <circle cx="238" cy="166" r="22" fill="#7AA9FF"/>
+            <circle cx="238" cy="166" r="30" fill="none" stroke="#7AA9FF" stroke-width="1.5" opacity=".5"/>
+            <ellipse cx="231" cy="158" rx="6" ry="4" fill="#FFFFFF" opacity=".6"/>
+            <path d="M186 206 Q206 190 214 178" fill="none" stroke="#7AA9FF" stroke-width="2.4" stroke-linecap="round" opacity=".8"/>
+            <text class="lbl" x="150" y="352" text-anchor="middle">de klant</text>
+            <text class="sublbl" x="238" y="132" text-anchor="middle">zijn AI</text>
+          </g>
+          <!-- de kring, kleiner -->
+          <g class="kring">
+            <ellipse cx="140" cy="432" rx="42" ry="6" fill="rgba(0,0,0,.35)"/>
+            <path d="M120 430 v-42 a20 20 0 0 1 40 0 v42 z" fill="#C273E0"/>
+            <circle cx="140" cy="368" r="16" fill="#8D5A3B"/>
+            <path d="M126 364 a14 14 0 0 1 28 0 z" fill="#241A12"/>
+            <circle cx="196" cy="356" r="13" fill="#7AA9FF" opacity=".9"/>
+            <ellipse cx="192" cy="352" rx="4" ry="2.6" fill="#FFFFFF" opacity=".55"/>
+            <ellipse cx="220" cy="516" rx="42" ry="6" fill="rgba(0,0,0,.35)"/>
+            <path d="M200 514 v-38 a20 20 0 0 1 40 0 v38 z" fill="#E5C558"/>
+            <circle cx="220" cy="456" r="15" fill="#E8B48E"/>
+            <path d="M207 452 a13 13 0 0 1 26 0 z" fill="#5A4632"/>
+            <circle cx="272" cy="446" r="12" fill="#7AA9FF" opacity=".85"/>
+            <text class="lbl" x="185" y="556" text-anchor="middle">de kring — elk met z\u2019n eigen AI, een kleine rol</text>
+          </g>
+
+          <!-- Health OS: ring uit zes bogen -->
+          <g class="osgroep">
+            <g class="osdraai">
+              <circle cx="560" cy="296" r="74" fill="none" stroke="#3BC878" stroke-width="13" stroke-dasharray="70 8 999" transform="rotate(-90 560 296)"/>
+              <circle cx="560" cy="296" r="74" fill="none" stroke="#7E9BEB" stroke-width="13" stroke-dasharray="70 8 999" transform="rotate(-30 560 296)"/>
+              <circle cx="560" cy="296" r="74" fill="none" stroke="#3FB3A5" stroke-width="13" stroke-dasharray="70 8 999" transform="rotate(30 560 296)"/>
+              <circle cx="560" cy="296" r="74" fill="none" stroke="#A9B6B2" stroke-width="13" stroke-dasharray="70 8 999" transform="rotate(90 560 296)"/>
+              <circle cx="560" cy="296" r="74" fill="none" stroke="#E5C558" stroke-dasharray="70 8 999" stroke-width="13" transform="rotate(150 560 296)"/>
+              <circle cx="560" cy="296" r="74" fill="none" stroke="#2BB3A3" stroke-dasharray="70 8 999" stroke-width="13" transform="rotate(210 560 296)"/>
+            </g>
+            <circle cx="560" cy="296" r="58" fill="#0E2420"/>
+            <text x="560" y="290" text-anchor="middle" font-size="19" font-weight="800" fill="#F2F7F6" font-family="inherit">Health</text>
+            <text x="560" y="312" text-anchor="middle" font-size="19" font-weight="800" fill="#F2F7F6" font-family="inherit">OS</text>
+            <g class="oschips" font-size="12" font-weight="700" font-family="inherit">
+              <rect x="452" y="398" width="94" height="26" rx="13" fill="#0E1F1C" stroke="#26443C"/>
+              <text x="499" y="415" text-anchor="middle" fill="#8FB5AC">wat we weten</text>
+              <rect x="554" y="398" width="70" height="26" rx="13" fill="#0E1F1C" stroke="#26443C"/>
+              <text x="589" y="415" text-anchor="middle" fill="#E5C558">wat mag</text>
+              <rect x="500" y="432" width="104" height="26" rx="13" fill="#0E1F1C" stroke="#26443C"/>
+              <text x="552" y="449" text-anchor="middle" fill="#7AA9FF">wie het doet</text>
+            </g>
+          </g>
+
+          <!-- uitvoerders -->
+          <g class="uitvoer">
+            <g class="un n1"><circle cx="830" cy="118" r="27" fill="#132A26" stroke="#F0955C" stroke-width="2.5"/><text x="830" y="126" text-anchor="middle" font-size="20">\ud83e\udd1d</text><text class="lbl" x="868" y="124" text-anchor="start">de vaste coach</text></g>
+            <g class="un n2"><circle cx="838" cy="222" r="27" fill="#132A26" stroke="#FF9A94" stroke-width="2.5"/><text x="838" y="230" text-anchor="middle" font-size="20">\ud83e\ude7a</text><text class="lbl" x="876" y="228" text-anchor="start">de arts</text></g>
+            <g class="un n3"><circle cx="840" cy="316" r="27" fill="#132A26" stroke="#C273E0" stroke-width="2.5"/><text x="840" y="324" text-anchor="middle" font-size="20">\ud83e\udd57</text><text class="lbl" x="878" y="322" text-anchor="start">de specialist</text></g>
+            <g class="un n4"><circle cx="836" cy="408" r="27" fill="#132A26" stroke="#3BC878" stroke-width="2.5"/><text x="836" y="416" text-anchor="middle" font-size="20">\ud83d\uded2</text><text class="lbl" x="874" y="414" text-anchor="start">winkel &amp; box</text></g>
+            <g class="un n5"><circle cx="826" cy="494" r="27" fill="#132A26" stroke="#2BB3A3" stroke-width="2.5"/><text x="826" y="502" text-anchor="middle" font-size="20">\ud83d\udc8a</text><text class="lbl" x="864" y="500" text-anchor="start">de apotheek</text></g>
+          </g>
+        </svg>
+        <div class="s10voet">
+          <button id="opnieuw" type="button">⟳ opnieuw afspelen</button>
+          <span class="brug">Dit is 2035 — de eerste stap ligt er vandaag al: het proefproject en het financieel model.</span>
+          <a class="hublink" href="health-cg-yoboo.html">← terug naar het proefproject</a>
+        </div>
       </div>
     </section>
 
@@ -771,7 +893,7 @@ button{font-family:inherit; cursor:pointer}
     <button id="volgend" class="pijlknop" aria-label="volgende scène">›</button>
     <div class="balk"><div id="vul"></div></div>
     <button id="snel" class="pijlknop snelknop" aria-label="afspeelsnelheid">1×</button>
-    <span id="tijd">0:00 / 3:00</span>
+    <span id="tijd">0:00 / 3:20</span>
   </div>
 </main>
 
@@ -813,7 +935,11 @@ button{font-family:inherit; cursor:pointer}
     {id:'s9', dur:20, titel:'Health OS', sub:[
       [0,'Yobi, onze eigen hulp, is er altijd. Maar jouw AI is even welkom.'],
       [7,'Health OS — het besturingssysteem van gezond leven.'],
-      [13,'Wij winnen niet het gesprek. Wij winnen wat er ná het gesprek moet gebeuren.']]}
+      [13,'Wij winnen niet het gesprek. Wij winnen wat er ná het gesprek moet gebeuren.']]},
+    {id:'s10', dur:20, titel:'De architectuur', sub:[
+      [0,'Zo hangt het aan elkaar: iedereen praat met zijn eigen AI.'],
+      [7,'Al die AI\u2019s kloppen aan bij \u00e9\u00e9n Health OS \u2014 elk met een eigen ja.'],
+      [14,'En het OS schakelt de mensen in: de coach, de arts, de winkel.']]}
   ];
   var OFF = [], TOT = 0;
   for (var i = 0; i < SCENES.length; i++){ OFF.push(TOT); TOT += SCENES[i].dur; }
