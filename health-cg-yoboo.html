@@ -598,8 +598,8 @@ button.instap .ii .pic{width:16px; height:16px}
       if((RANG[nv]||0) < (RANG['volledig']||1)){ return false; }
       document.documentElement.setAttribute('data-toegang', nv);
       var vs=document.createElement('style');
-      if(nv==='beperkt'){ vs.textContent='.cg-afgeschermd,a[href^="health-cg-organisatie"],a[href^="health-cg-yoboo"],a[href^="health-cg-financieel"],a[href^="health-cg-sprint"],a[href^="health-cg-werkoverleg"],a[href^="health-cg-workshop-vervolg"],a[href^="yoboo-"],#opm,#opm-open,#opm-qknop,.opm-anker{display:none !important}'; }
-      else if(nv==='volledig'){ vs.textContent='a[href^="health-cg-organisatie"]{display:none !important}'; }
+      if(nv==='beperkt'){ vs.textContent='.cg-afgeschermd,a[href^="health-cg-organisatie"],a[href^="health-cg-moonshot"],a[href^="health-cg-yoboo"],a[href^="health-cg-financieel"],a[href^="health-cg-sprint"],a[href^="health-cg-werkoverleg"],a[href^="health-cg-workshop-vervolg"],a[href^="yoboo-"],#opm,#opm-open,#opm-qknop,.opm-anker{display:none !important}'; }
+      else if(nv==='volledig'){ vs.textContent='a[href^="health-cg-organisatie"],a[href^="health-cg-moonshot"]{display:none !important}'; }
       if(vs.textContent){ document.head.appendChild(vs); }
       var lb=document.createElement('button'); lb.id='cg-afmeld'; lb.type='button'; lb.textContent='\ud83d\udd12 afmelden';
       lb.title='Afmelden — de wachtwoordpoort komt terug';
@@ -779,6 +779,7 @@ button.instap .ii .pic{width:16px; height:16px}
     <button id="themebtn" aria-label="Wissel licht/donker" title="Licht / donker" style="border:1px solid var(--hair); background:var(--card); color:var(--ink); border-radius:99px; width:34px; height:34px; cursor:pointer; font-size:1rem; line-height:1">🌙</button>
     <a class="backlink" style="color:var(--yb-deep); font-weight:700" href="health-cg-workshop.html">← Workshop</a>
     <a class="backlink" href="health-cg-organisatie.html">Organisatie &amp; Advisory</a>
+    <a class="backlink" href="health-cg-moonshot.html" style="color:var(--paars); font-weight:800">🔭 de heel verre toekomst</a>
   </div>
 </div>
 
