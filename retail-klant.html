@@ -278,7 +278,7 @@ var PERS = {
         {d:'DO', naam:'Visstick-wraps + sla', sub:'kindervriend', pr:'€ 12,60'},
         {d:'VR', naam:'Omelet + ovenpatatjes', sub:'restjesdag', pr:'€ 8,90'}
       ],
-      tot:'€ 49,80 — live herrekend met de promo’s van déze week, bij elke bestelling · komt het menu boven je € 60-grens, dan verwittigt de app vóór je bestelt én stelt ze de promo-variant van het duurste item voor',
+      tot:'€ 49,80 — live herrekend met de promo’s van déze week, bij elke bestelling · komt het menu boven je € 60-grens, dan verwittigt de app vóór je bestelt én stelt ze de promo-variant van het duurste item voor — en is er die week níets te ruilen, dan zegt ze dat eerlijk en toont ze de goedkoopste vervang-maaltijd',
       knop:'Zet alles in mijn mandje'
     }
   },
@@ -395,7 +395,7 @@ function renderMandje(p){
   } else {
     html += '<div class="gedaan">✓ Alle suggesties bekeken — jouw mandje, jouw keuze.</div>';
   }
-  html += '<p class="pklein" style="margin-top:8px">Suggesties gaan over producten, nooit over jou. Geen score, geen profiel — en "nee" is een volwaardig antwoord. Zwart op wit: de knop sorteert nooit op onze omzet of marge, en duurder is áltijd "jij kiest".</p>';
+  html += '<p class="pklein" style="margin-top:8px">Suggesties gaan over producten, nooit over jou. Geen score, geen profiel — en "nee" is een volwaardig antwoord. Zwart op wit: de knop sorteert nooit op onze omzet of marge, en duurder is áltijd "jij kiest" — en in de app zie je het bewijs: "vorig jaar was X% van onze voorstellen goedkoper of gelijk" (onafhankelijk geteld).</p>';
   return html;
 }
 function voegToe(p){ extra[p] = true; render(); }
