@@ -328,7 +328,7 @@ footer .wrap{display:flex; flex-wrap:wrap; gap:12px; justify-content:space-betwe
       if((RANG[nv]||0) < (RANG['volledig']||1)){ return false; }
       document.documentElement.setAttribute('data-toegang', nv);
       var vs=document.createElement('style');
-      if(nv==='beperkt'){ vs.textContent='.cg-afgeschermd,a[href^="health-cg-organisatie"],a[href^="health-cg-moonshot"],a[href^="health-cg-financieel"],a[href^="health-cg-sprint"],a[href^="health-cg-werkoverleg"],a[href^="health-cg-workshop-vervolg"],#opm,#opm-open,#opm-qknop,.opm-anker{display:none !important}'; }
+      if(nv==='beperkt'){ vs.textContent='.cg-afgeschermd,a[href^="health-cg-organisatie"],a[href^="health-cg-moonshot"],a[href^="health-cg-financieel"],a[href^="health-cg-sprint"],a[href^="health-cg-werkoverleg"],a[href^="health-cg-workshop-vervolg"],a[href^="health-cg-retail"],a[href^="retail-"],#opm,#opm-open,#opm-qknop,.opm-anker{display:none !important}'; }
       else if(nv==='volledig'){ vs.textContent='a[href^="health-cg-organisatie"],a[href^="health-cg-moonshot"]{display:none !important}'; }
       if(vs.textContent){ document.head.appendChild(vs); }
       var lb=document.createElement('button'); lb.id='cg-afmeld'; lb.type='button'; lb.textContent='\ud83d\udd12 afmelden';
@@ -378,6 +378,7 @@ footer .wrap{display:flex; flex-wrap:wrap; gap:12px; justify-content:space-betwe
       <a class="mainnav-btn" href="health-cg-workshop.html">Workshop</a>
       <a class="mainnav-btn" href="health-cg-redbox.html">Red box</a>
       <a class="mainnav-btn" href="health-cg-yoboo.html">Yoboo POC</a>
+      <a class="mainnav-btn" href="health-cg-retail.html">Retail POC</a>
       <a class="mainnav-btn" href="health-cg-financieel.html">Financieel model</a>
       <a class="mainnav-btn" href="health-cg-organisatie.html">Organisatie &amp; Advisory</a>
       <span class="mainnav-btn current">AI-Sprint</span>
