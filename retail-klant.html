@@ -236,7 +236,7 @@ a{color:var(--rt-deep)}
 
 <div class="uitleg">
   <div class="uk"><b>💶 Het prijsverschil staat er áltijd bij</b>Ook als de swap goedkoper is. Wordt het duurder, dan zegt de app dat eerlijk en mag je nee zeggen — budgetrespect is de eerste designregel.<br><span class="bron" style="--bc:var(--rtw)">Fatima</span> <span class="bron" style="--bc:var(--paars)">Jonas</span></div>
-  <div class="uk"><b>🔍 De criteria zijn open</b>Elke suggestie toont wáárom (minder suiker per 100 g, kortere ingrediëntenlijst) — en het alternatief mag een ander merk zijn dan het huismerk. Dat is de eerlijkheidstest.<br><span class="bron" style="--bc:var(--leren)">Elena</span></div>
+  <div class="uk"><b>🔍 De criteria zijn open — en de meetlat is benoemd</b>Elke suggestie toont wáárom, en de meetlat staat vast: Nutri-Score per 100 g binnen dezelfde categorie + het etiket-lexicon — exact dezelfde taal als op het schap. Het alternatief mag een ander merk zijn (binnen het assortiment van jouw kanaal). Dat is de eerlijkheidstest.<br><span class="bron" style="--bc:var(--leren)">Elena</span> <span class="bron" style="--bc:var(--paars)">Jonas</span></div>
   <div class="uk"><b>🫶 Rita gebruikt de app niet zelf</b>Haar dochter zet het lijstje klaar ("dochter kijkt mee"); Rita haalt af in de Okay en herkent in de winkel hetzelfde groene bolleke als in de app. Papier en rek blijven evenwaardig.<br><span class="bron" style="--bc:var(--coral)">Rita</span> <span class="bron" style="--bc:var(--blauw)">Luc</span></div>
   <div class="uk"><b>🚫 Wat hier bewust níet in zit</b>Geen gezondheidsscore, geen streak, geen "goed bezig!"-confetti, geen profielvragen. Eén knop die het mandje gezonder maakt — meer heeft visie B niet nodig.<br><span class="bron" style="--bc:var(--blauw)">Sofie</span> <span class="bron" style="--bc:var(--p6)">CEO</span></div>
 </div>
@@ -246,30 +246,31 @@ a{color:var(--rt-deep)}
 var PERS = {
   fatima: {
     wie: 'Fatima · boodschappen voor 3 · afhaalpunt Anderlecht',
-    intro: 'Fatima bestelt haar week bij Collect&Go. Eén knop toont per product een gezonder alternatief — mét het prijsverschil. De app respecteert haar budget: goedkoper mag, duurder alleen met haar ja.',
+    intro: 'Fatima bestelt haar week bij Collect&Go. Eén knop toont per product een gezonder alternatief — mét het prijsverschil. De app respecteert haar budget: goedkoper mag, duurder alleen met haar ja. Komt er geld vrij, dan mag de app één voorstel doen om het aan vers te besteden — jij kiest.',
     xtra: '⚡ 214 ptn',
+    comp: {trigger:1, em:'🍏', naam:'Vers fruit voor de week', sub:'€ 4,35 vrijgekomen — past bij je menu', prijs:3.20},
     mandje: [
       {em:'🍝', naam:'Spaghetti wit 1 kg', sub:'huismerk', prijs:1.09, swap:{naam:'Spaghetti volkoren 1 kg', delta:0.00, why:'meer vezels, zelfde prijs'}},
       {em:'🥤', naam:'Cola 6×1,5 l', sub:'promo', prijs:7.74, swap:{naam:'Spuitwater + siroop', delta:-4.35, why:'−96% suiker én € 4,35 goedkoper'}},
       {em:'🍗', naam:'Kipfilet 600 g', sub:'vers', prijs:6.85, swap:null},
       {em:'🍞', naam:'Wit brood gesneden', sub:'bakkerij', prijs:1.65, swap:{naam:'Grijs brood gesneden', delta:0.10, why:'volkoren · + € 0,10 — jij kiest'}},
-      {em:'🍪', naam:'Koekjes choco duo', sub:'promo', prijs:2.49, swap:{naam:'Rijstwafels + fruit', delta:-0.40, why:'minder suiker, € 0,40 goedkoper'}},
+      {em:'🍪', naam:'Koekjes choco duo', sub:'promo', prijs:2.49, swap:{naam:'Havermoutkoekjes + popcorn', delta:-0.40, why:'minder suiker — en dingen die kinderen écht eten'}},
       {em:'🥦', naam:'Diepvries broccoli 1 kg', sub:'diepvries', prijs:2.19, swap:null}
     ],
     wegwijzer: {
-      chips:['✓ gezonde keuze','€/portie','promo'],
+      chips:'sorteer',
       kop:'Groene folderpagina — deze week gezond goedkoop',
       prods:[
-        {gl:'✓', naam:'Linzen droog 500 g', sub:'9 porties', p:'€ 1,79', pp:'€ 0,20/portie'},
-        {gl:'✓', naam:'Appelen Jonagold 2 kg', sub:'promo deze week', p:'€ 2,99', pp:'rode prijs'},
-        {gl:'✓', naam:'Havermout 1 kg', sub:'ontbijt', p:'€ 1,45', pp:'€ 0,09/portie'},
-        {gl:'✓', naam:'Wortelen 1 kg', sub:'seizoen', p:'€ 1,29', pp:'€ 0,22/portie'},
-        {gl:'✓', naam:'Kikkererwten blik', sub:'4 porties', p:'€ 0,89', pp:'€ 0,22/portie'}
+        {gl:'✓', naam:'Linzen droog 500 g', sub:'9 porties', p:'€ 1,79', pp:'€ 0,20/portie', pw:0.20, pe:70},
+        {gl:'✓', naam:'Appelen Jonagold 2 kg', sub:'promo deze week', p:'€ 2,99', pp:'€ 0,25/stuk', pw:0.25, pe:1},
+        {gl:'✓', naam:'Havermout 1 kg', sub:'ontbijt', p:'€ 1,45', pp:'€ 0,09/portie', pw:0.09, pe:93},
+        {gl:'✓', naam:'Wortelen 1 kg', sub:'seizoen', p:'€ 1,29', pp:'€ 0,22/portie', pw:0.22, pe:7},
+        {gl:'✓', naam:'Kikkererwten blik', sub:'4 porties', p:'€ 0,89', pp:'€ 0,22/portie', pw:0.22, pe:32}
       ],
-      voet:'Zelfde groene label als aan het rek in de winkel — één taal, overal.'
+      voet:'Zelfde groene label als aan het rek in de winkel — één taal, overal. Sorteren op €/portie of gram eiwit per euro: gewoon wiskunde op het etiket, geen curator.'
     },
     planner: {
-      kop:'Weekmenu voor € 60 · 4 personen',
+      kop:'Weekmenu onder € 60 · 3 personen (porties instelbaar 2–5)',
       dagen:[
         {d:'MA', naam:'Spaghetti bolo vol groenten', sub:'volkoren · 35 min', pr:'€ 9,80'},
         {d:'DI', naam:'Wokschotel kip-broccoli', sub:'25 min', pr:'€ 11,40'},
@@ -277,13 +278,13 @@ var PERS = {
         {d:'DO', naam:'Visstick-wraps + sla', sub:'kindervriend', pr:'€ 12,60'},
         {d:'VR', naam:'Omelet + ovenpatatjes', sub:'restjesdag', pr:'€ 8,90'}
       ],
-      tot:'€ 59,80 — promo’s al meegerekend',
+      tot:'€ 49,80 — promo’s meegerekend · komt het menu boven je € 60-grens, dan verwittigt de app én toont ze waar je kan schrappen',
       knop:'Zet alles in mijn mandje'
     }
   },
   elena: {
     wie: 'Elena · gezin van 4 · levering Leuven',
-    intro: 'Elena wil snelheid én bewijs. De swaps tonen hun criteria open — per 100 g, zelfde categorie — en durven ook een duurder niet-huismerk voor te stellen. De planner kent haar gezin: één tiener eet geen vis.',
+    intro: 'Elena wil snelheid én bewijs. De swaps tonen hun criteria open — Nutri-Score per 100 g binnen dezelfde categorie, dezelfde meetlat als op het schap — en durven ook een duurder niet-huismerk voor te stellen. De planner draait op mandje-instellingen bij de bestelling, niet op een profiel.',
     xtra: '⚡ 861 ptn',
     mandje: [
       {em:'🥣', naam:'Ontbijtgranen choco', sub:'A-merk', prijs:4.29, swap:{naam:'Muesli ongezoet', delta:0.35, why:'−71% suiker/100 g · ander merk, + € 0,35'}},
@@ -304,7 +305,7 @@ var PERS = {
       voet:'Nutri-Score op álles, ook waar hij tegenzit — volledigheid is het bewijs tegen healthwashing.'
     },
     planner: {
-      kop:'Weekmenu · 4 pers. · 1× geen vis · max 30 min',
+      kop:'Weekmenu · mandje-instellingen: 4 pers. · 1× geen vis · max 30 min',
       dagen:[
         {d:'MA', naam:'Pasta pesto-spinazie', sub:'22 min · 610 kcal/p', pr:'€ 10,20'},
         {d:'DI', naam:'Zalm & krieltjes — alt: halloumi', sub:'tiener-variant zonder vis', pr:'€ 16,80'},
@@ -312,7 +313,7 @@ var PERS = {
         {d:'DO', naam:'Tortilla-avond, groenten vooraan', sub:'zelf samenstellen', pr:'€ 12,10'},
         {d:'VR', naam:'Noedels teriyaki-kip', sub:'25 min', pr:'€ 13,30'}
       ],
-      tot:'Voedingswaarde per portie berekend — geen "superfood"-taal',
+      tot:'Instellingen horen bij je bestelling, niet bij een profiel — niets wordt bewaard tenzij jij het bewaart, wissen kan met één tik, en het zijn kóópvoorkeuren, geen gezondheidsdata',
       knop:'Lijst naar Collect&Go'
     }
   },
@@ -353,7 +354,7 @@ var PERS = {
   }
 };
 
-var huidig = 'fatima', tab = 'mandje', geruild = {};
+var huidig = 'fatima', tab = 'mandje', geruild = {}, extra = {}, wsort = null;
 
 function euro(n){ return '€ ' + n.toFixed(2).replace('.', ','); }
 
@@ -367,8 +368,18 @@ function renderMandje(p){
     tot += prijs;
     html += '<div class="mi"><span class="em">' + it.em + '</span><span><b>' + (sw ? it.swap.naam : it.naam) + '</b><small>' + (sw ? '✓ geruild' : it.sub) + '</small></span><span class="pr">' + euro(prijs) + '</span></div>';
   });
+  var c = PERS[p].comp;
+  if (c && extra[p]){
+    tot += c.prijs;
+    html += '<div class="mi"><span class="em">' + c.em + '</span><span><b>' + c.naam + '</b><small>✓ zelf toegevoegd</small></span><span class="pr">' + euro(c.prijs) + '</span></div>';
+  }
   html += '<div class="totrij"><span>Totaal<small id="swapnoot"></small></span><span id="tot">' + euro(tot) + '</span></div>';
   html += '</div>';
+  if (c && geruild[p + '-' + c.trigger] && !extra[p]){
+    html += '<div class="swap" style="border-style:solid"><div class="rij"><span>' + c.em + '</span><b>' + c.naam + '</b><span class="delta plus">+ € ' + c.prijs.toFixed(2).replace('.',',') + '</span></div>'
+      + '<div class="why">' + c.sub + ' — jouw geld, jouw keuze</div>'
+      + '<div class="acts"><button class="ja" onclick="voegToe(\'' + p + '\')">Voeg toe</button><button class="nee" onclick="this.closest(\'.swap\').remove()">Nee, hou het verschil</button></div></div>';
+  }
   var openSwaps = items.filter(function(it, i){ return it.swap && !geruild[p + '-' + i]; });
   if (openSwaps.length){
     html += '<button class="pbtn" onclick="toonSwaps()">🪄 Maak mijn mandje gezonder (' + openSwaps.length + ')</button>';
@@ -384,20 +395,36 @@ function renderMandje(p){
   } else {
     html += '<div class="gedaan">✓ Alle suggesties bekeken — jouw mandje, jouw keuze.</div>';
   }
-  html += '<p class="pklein" style="margin-top:8px">Suggesties gaan over producten, nooit over jou. Geen score, geen profiel — en "nee" is een volwaardig antwoord.</p>';
+  html += '<p class="pklein" style="margin-top:8px">Suggesties gaan over producten, nooit over jou. Geen score, geen profiel — en "nee" is een volwaardig antwoord. Zwart op wit: de knop sorteert nooit op onze omzet of marge, en duurder is áltijd "jij kiest".</p>';
   return html;
 }
+function voegToe(p){ extra[p] = true; render(); }
 
 function renderWegwijzer(p){
-  var w = PERS[p].wegwijzer;
-  var html = '<div class="fchips">' + w.chips.map(function(c, i){ return '<button class="fchip' + (i === 0 ? ' act' : '') + '" onclick="this.classList.toggle(\'act\')">' + c + '</button>'; }).join('') + '</div>';
+  var w = PERS[p].wegwijzer, html;
+  if (w.chips === 'sorteer'){
+    html = '<div class="fchips">'
+      + '<button class="fchip act">✓ gezonde keuze</button>'
+      + '<button class="fchip' + (wsort==='pw' ? ' act' : '') + '" onclick="sortW(\'pw\')">€/portie ↕</button>'
+      + '<button class="fchip' + (wsort==='pe' ? ' act' : '') + '" onclick="sortW(\'pe\')">⚡ eiwit/€ ↕</button>'
+      + '</div>';
+  } else {
+    html = '<div class="fchips">' + w.chips.map(function(c, i){ return '<button class="fchip' + (i === 0 ? ' act' : '') + '" onclick="this.classList.toggle(\'act\')">' + c + '</button>'; }).join('') + '</div>';
+  }
   html += '<div class="pc" style="--ac:var(--rt)"><div class="h"><span class="ic">🧭</span>' + w.kop + '</div>';
-  w.prods.forEach(function(pr){
-    html += '<div class="prod"><span class="gl' + (pr.gl === '♥' ? ' hart' : '') + '">' + pr.gl + '</span><span><b>' + pr.naam + '</b><small>' + pr.sub + '</small></span><span class="pp">' + pr.p + '<small>' + (pr.pp ? '<br>' + pr.pp : '') + '</small></span></div>';
+  var lijst = w.prods.slice();
+  if (w.chips === 'sorteer' && wsort){
+    lijst.sort(function(a,b){ return wsort==='pw' ? a.pw - b.pw : b.pe - a.pe; });
+  }
+  lijst.forEach(function(pr){
+    var ppx = pr.pp || '';
+    if (PERS[p].wegwijzer.chips === 'sorteer' && wsort === 'pe'){ ppx = pr.pe + ' g eiwit/€'; }
+    html += '<div class="prod"><span class="gl' + (pr.gl === '♥' ? ' hart' : '') + '">' + pr.gl + '</span><span><b>' + pr.naam + '</b><small>' + pr.sub + '</small></span><span class="pp">' + pr.p + '<small>' + (ppx ? '<br>' + ppx : '') + '</small></span></div>';
   });
   html += '</div><p class="pklein">' + w.voet + '</p>';
   return html;
 }
+function sortW(k){ wsort = (wsort === k ? null : k); render(); }
 
 function renderPlanner(p){
   var pl = PERS[p].planner;

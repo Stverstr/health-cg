@@ -192,12 +192,12 @@ a{color:var(--rt-deep)}
     <div class="tablet"><div class="tscr">
       <div class="tkop">💪 Jims · coach Sam <span class="chip">lid: Driss · hersteldag</span></div>
       <div class="tc"><div class="h">📅 Vandaag getraind</div><p>Full body · 55 min · morgen = hersteldag volgens Driss' eigen schema.</p></div>
-      <div class="tc"><div class="h">🛒 Boodschappenlijstje "hersteldag"</div><p>Een standaardlijst basics (kwark, eieren, havermout, bananen, groenten) — samengesteld op vakkennis, zonder merkenpush. Sam stuurt alleen dóór; bestellen doet Driss zelf, of niet.</p>
-        <div class="optin" id="optin"><b>Opt-in van het lid:</b>&nbsp;Driss tikt zelf "ja, stuur maar" op zíjn telefoon — anders gebeurt er niets.</div>
-        <button class="tbtn" id="stuurbtn" onclick="stuur()">📲 Voorstel naar Driss' telefoon</button>
-        <div class="tnote" style="margin-top:6px">Sam ziet nooit óf en wát Driss bestelt. Geen commissie, geen terugkoppeling.</div>
+      <div class="tc"><div class="h">🛒 Boodschappenlijstje "hersteldag"</div><p>Drie roterende varianten (hersteldag · krachtdag · drukke week) met basics (kwark, eieren, havermout, bananen, groenten) — vakkennis, geen merkenpush, geen folder-gevoel. <b>Het lid initieert:</b> Sam toont alleen een QR; Driss scant hem zélf met zijn eigen telefoon. Er loopt géén koppeling tussen Sams tablet en Driss' toestel.</p>
+        <button class="tbtn" id="stuurbtn" onclick="stuur()">⬛ Toon de QR aan Driss</button>
+        <div class="tnote" style="margin-top:6px">Geen commissie, geen terugkoppeling — wat Sam daarna ziet, staat hieronder.</div>
+        <div class="optin" id="natoon" hidden><b>Sams scherm ná de scan:</b>&nbsp;leeg. Geen open-status, geen bestelstatus, nooit. Clubrapporten bestaan alleen als cohort van minstens 200 leden — kleiner cohort = geen rapport, want een cohort van drie ís een persoon.</div>
       </div>
-      <div class="tc"><div class="h">🩼 Kine-hoek</div><p>Laatste kine-sessie van een lid afgerond? De opbouwkaart (6 weken heropbouw, eerste maand inbegrepen) zit standaard in het afsluitgesprek — de kinesist verkoopt niets.</p></div>
+      <div class="tc"><div class="h">🩼 Kine-hoek</div><p>Laatste kine-sessie van een lid afgerond? De opbouwkaart (6 weken heropbouw, eerste maand inbegrepen) zit standaard in het afsluitgesprek — de kinesist verkoopt niets. De materiaallijst (brace, tape) is merk-neutraal: dit heb je nodig, koop het waar je wil, mét marktprijs ernaast — Newpharma levert thuis als je dat kiest.</p></div>
     </div></div>
   </div>
 
@@ -211,7 +211,7 @@ a{color:var(--rt-deep)}
         <button class="zvraag" onclick="zantw(this,'zout')">🫀 Ik zoek zoutarm voor mijn vrouw</button>
         <button class="zvraag" onclick="zantw(this,'budget')">💶 Gezond koken voor 4, klein budget</button>
         <button class="zvraag" onclick="zantw(this,'suiker')">🍬 Minder suiker, maar wel lekker</button>
-        <div class="zvoet">Geen camera, geen kaartlezer, geen vragen over u. De zuil kent alleen het rek — en de medewerker met het "vraag gerust"-schortje staat twee gangen verder.</div>
+        <div class="zvoet">Geen camera, geen kaartlezer, geen vragen over u. De zuil kent alleen het rek — en de méns is de hoofdroute: de medewerker met het "vraag gerust"-schortje helpt eerst; de zuil vangt op wanneer zij even bezet is. Dezelfde vier antwoorden hangen op papier aan de kassa.</div>
       </div>
     </div>
   </div>
@@ -223,7 +223,15 @@ a{color:var(--rt-deep)}
     <div class="fstep"><span class="n">1</span><b>Training bij Jims</b><p>Driss traint; zijn schema is van hém en van zijn coach. Geen data verlaat de club.</p></div>
     <div class="fstep"><span class="n">2</span><b>Opt-in op zijn telefoon</b><p>Sam stuurt een voorstel-lijstje; Driss tikt zelf "zet in mijn Collect&amp;Go-mandje" — of negeert het.</p></div>
     <div class="fstep"><span class="n">3</span><b>De Okay om de hoek</b><p>Check-in bij Jims = die dag drie basics aan voordeeltarief: kwark, bananen, chocomelk. Geen eiwitreep van € 2,50.</p></div>
-    <div class="fstep"><span class="n">4</span><b>Xtra meet het effect</b><p>Lidmaatschap × kassadata, als cohort — nooit per persoon richting de coach. Binnen zes maanden bewezen of begraven.</p></div>
+    <div class="fstep"><span class="n">4</span><b>Xtra meet het effect</b><p>Lidmaatschap × kassadata, als cohort van minstens 200 — nooit per persoon richting de coach. Binnen zes maanden bewezen of begraven; primaire KPI is retentie, kruisverkeer de tweede.</p></div>
+  </div>
+
+  <h3 style="margin:30px 0 20px">De route zonder pixels — voor wie nooit een app opent</h3>
+  <div class="flow">
+    <div class="fstep" style="--ac:var(--rtw)"><span class="n" style="background:var(--rtw)">1</span><b>De brievenbus</b><p>De folder met de vaste groene pagina: elke week gezond écht in promo. Luc plant er zijn donderdag mee.</p></div>
+    <div class="fstep" style="--ac:var(--rtw)"><span class="n" style="background:var(--rtw)">2</span><b>Het rek</b><p>Het groene bolleke en het hartje (weinig zout) — groot gedrukt, altijd hetzelfde teken, bij álle enseignes.</p></div>
+    <div class="fstep" style="--ac:var(--rtw)"><span class="n" style="background:var(--rtw)">3</span><b>De mens</b><p>Het "vraag gerust"-schortje: rek en etiket aanwijzen, nooit iets over de persoon. Receptkaartjes in grote letters, getest door 70-plussers.</p></div>
+    <div class="fstep" style="--ac:var(--rtw)"><span class="n" style="background:var(--rtw)">4</span><b>De kassa</b><p>Het weekfoldertje op vraag, de bon-ruilwissel (max één per bon, de kassierster zwijgt erover) — en gemeten via coupon-/kassacodes en pilot-vóór/na: ook wat nooit gescand wordt, telt mee.</p></div>
   </div>
   <div class="bronchips">
     <span class="bron" style="--bc:var(--paars)">🧑‍💼 Vicky</span><span class="bron" style="--bc:var(--paars)">💡 Jonas</span><span class="bron" style="--bc:var(--blauw)">💡 Luc · zuil ook op papier</span><span class="bron" style="--bc:var(--coral)">💡 Rita · de vraag-gerust-mens</span><span class="bron" style="--bc:var(--leren)">🏛️ CFO · cohortmeting</span>
@@ -233,9 +241,10 @@ a{color:var(--rt-deep)}
 <script>
 function stuur(){
   var b = document.getElementById('stuurbtn');
-  b.disabled = true; b.textContent = '⏳ wachten op Driss…';
+  b.disabled = true; b.textContent = '⏳ Driss scant…';
   setTimeout(function(){
-    b.outerHTML = '<div class="tgedaan">✓ Driss zei ja — het lijstje staat in zíjn mandje. Sam ziet hier niets meer van.</div>';
+    b.outerHTML = '<div class="tgedaan">✓ Driss scande de QR — het lijstje staat op zíjn telefoon. Dit scherm toont verder niets.</div>';
+    var n = document.getElementById('natoon'); if (n) n.hidden = false;
   }, 1100);
 }
 var ANT = {
