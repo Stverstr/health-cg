@@ -237,7 +237,7 @@ a{color:var(--rt-deep)}
 <div class="uitleg">
   <div class="uk"><b>💶 Het prijsverschil staat er áltijd bij</b>Ook als de swap goedkoper is. Wordt het duurder, dan zegt de app dat eerlijk en mag je nee zeggen — budgetrespect is de eerste designregel.<br><span class="bron" style="--bc:var(--rtw)">Fatima</span> <span class="bron" style="--bc:var(--paars)">Jonas</span></div>
   <div class="uk"><b>🔍 De criteria zijn open — en de meetlat is benoemd</b>Elke suggestie toont wáárom, en de meetlat staat vast: Nutri-Score per 100 g binnen dezelfde categorie + het etiket-lexicon — exact dezelfde taal als op het schap. Het alternatief mag een ander merk zijn (binnen het assortiment van jouw kanaal). Dat is de eerlijkheidstest.<br><span class="bron" style="--bc:var(--leren)">Elena</span> <span class="bron" style="--bc:var(--paars)">Jonas</span></div>
-  <div class="uk"><b>🫶 Rita gebruikt de app niet zelf</b>Haar dochter zet het lijstje klaar ("dochter kijkt mee"); Rita haalt af in de Okay en herkent in de winkel hetzelfde groene bolleke als in de app. Papier en rek blijven evenwaardig.<br><span class="bron" style="--bc:var(--coral)">Rita</span> <span class="bron" style="--bc:var(--blauw)">Luc</span></div>
+  <div class="uk"><b>🫶 Rita's hoofdroute is de wínkel</b>Folder, bolleke, hartje, kassa — Rita doet het zelf, zonder telefoon. De app is haar optionele hulplijn: Katrien zet het afhaal-lijstje klaar, alléén als Rita dat vraagt. Papier en rek zijn de hoofdroute, niet de voetnoot — en hun effect wordt apart gemeten, op trouw, niet op snelheid.<br><span class="bron" style="--bc:var(--coral)">Rita</span> <span class="bron" style="--bc:var(--blauw)">Luc</span></div>
   <div class="uk"><b>🚫 Wat hier bewust níet in zit</b>Geen gezondheidsscore, geen streak, geen "goed bezig!"-confetti, geen profielvragen. Eén knop die het mandje gezonder maakt — meer heeft visie B niet nodig.<br><span class="bron" style="--bc:var(--blauw)">Sofie</span> <span class="bron" style="--bc:var(--p6)">CEO</span></div>
 </div>
 
@@ -248,7 +248,7 @@ var PERS = {
     wie: 'Fatima · boodschappen voor 3 · afhaalpunt Anderlecht',
     intro: 'Fatima bestelt haar week bij Collect&Go. Eén knop toont per product een gezonder alternatief — mét het prijsverschil. De app respecteert haar budget: goedkoper mag, duurder alleen met haar ja. Komt er geld vrij, dan mag de app één voorstel doen om het aan vers te besteden — jij kiest.',
     xtra: '⚡ 214 ptn',
-    comp: {trigger:1, em:'🍏', naam:'Vers fruit voor de week', sub:'€ 4,35 vrijgekomen — past bij je menu', prijs:3.20},
+    comp: {trigger:1, em:'🍏', naam:'Appelen 2 kg — in promo', sub:'€ 4,35 vrijgekomen — goedkoopste passende vers-voorstel, één keer, dan zwijgt de app', prijs:1.80},
     mandje: [
       {em:'🍝', naam:'Spaghetti wit 1 kg', sub:'huismerk', prijs:1.09, swap:{naam:'Spaghetti volkoren 1 kg', delta:0.00, why:'meer vezels, zelfde prijs'}},
       {em:'🥤', naam:'Cola 6×1,5 l', sub:'promo', prijs:7.74, swap:{naam:'Spuitwater + siroop', delta:-4.35, why:'−96% suiker én € 4,35 goedkoper'}},
@@ -278,7 +278,7 @@ var PERS = {
         {d:'DO', naam:'Visstick-wraps + sla', sub:'kindervriend', pr:'€ 12,60'},
         {d:'VR', naam:'Omelet + ovenpatatjes', sub:'restjesdag', pr:'€ 8,90'}
       ],
-      tot:'€ 49,80 — promo’s meegerekend · komt het menu boven je € 60-grens, dan verwittigt de app én toont ze waar je kan schrappen',
+      tot:'€ 49,80 — live herrekend met de promo’s van déze week, bij elke bestelling · komt het menu boven je € 60-grens, dan verwittigt de app vóór je bestelt én stelt ze de promo-variant van het duurste item voor',
       knop:'Zet alles in mijn mandje'
     }
   },
@@ -318,11 +318,11 @@ var PERS = {
     }
   },
   rita: {
-    wie: 'Rita · Okay Aalst · dochter Katrien kijkt mee 👩‍💻',
-    intro: 'Rita gebruikt de app niet zelf — haar dochter zet het lijstje klaar en Rita haalt af in de Okay om de hoek. In de winkel herkent ze hetzelfde groene bolleke als in de app. Niets verwijst naar haar suiker; de app kent alleen boodschappen.',
+    wie: 'Rita · Okay Aalst · doet haar ronde zelf',
+    intro: 'Rita doet haar boodschappen zélf: folder in de bus, groen bolleke aan het rek, bon aan de kassa — nul telefoon. Deze schermen tonen de optionele hulplijn die ze zelf gevraagd heeft: dochter Katrien mag het afhaal-lijstje klaarzetten, en alleen dat. Niets verwijst naar haar suiker; de app kent alleen boodschappen.',
     xtra: '✓ spaart mee',
     mandje: [
-      {em:'🍞', naam:'Wit brood', sub:'vast lijstje', prijs:1.65, swap:{naam:'Grijs brood', delta:0.00, why:'zelfde prijs — Katrien stelt voor, Rita beslist'}},
+      {em:'🍞', naam:'Wit brood', sub:'vast lijstje', prijs:1.65, swap:{naam:'Grijs brood', delta:0.00, why:'zelfde prijs — Rita beslist, zoals altijd'}},
       {em:'🥫', naam:'Tomatensoep brik', sub:'vast lijstje', prijs:1.95, swap:{naam:'Soep minder zout', delta:0.00, why:'−30% zout, zelfde prijs'}},
       {em:'🧈', naam:'Choco-pasta', sub:'voor de kleinkinderen', prijs:3.19, swap:null},
       {em:'🍏', naam:'Appelen 1,5 kg', sub:'groen bolleke', prijs:2.49, swap:null},
