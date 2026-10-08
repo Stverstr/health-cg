@@ -230,6 +230,22 @@ a{color:var(--rt-deep)}
 /* merk-logolint */
 .merklint{display:flex; flex-wrap:wrap; gap:8px; margin-top:18px}
 .merklint span{font-size:.74rem; font-weight:800; border-radius:9px; padding:5px 12px; background:color-mix(in srgb, var(--mc,var(--muted)) 13%, transparent); color:var(--ink)}
+
+/* rode draad-band */
+.draadband{display:flex; flex-wrap:wrap; align-items:center; gap:12px; margin-top:16px; background:var(--card); border:1px solid var(--hair); border-radius:14px; padding:12px 16px; font-size:.82rem}
+.draadband .tk{display:inline-flex; align-items:center; gap:6px; font-weight:800; white-space:nowrap}
+.draadband .tk .b{width:20px; height:20px; border-radius:6px; display:inline-flex; align-items:center; justify-content:center; font-size:.68rem; font-weight:800; color:#fff}
+.draadband .tk .b.gr{background:var(--rt)}
+.draadband .tk .b.ht{background:var(--care)}
+.draadband .zin{color:var(--muted)}
+.draadband .zin b{color:var(--ink)}
+
+/* motorkap: orgaan-figuur */
+.orgfig{display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:12px; margin-top:26px}
+.orgblok{background:var(--card); border:1px solid var(--hair); border-radius:15px; padding:14px 16px; font-size:.8rem}
+.orgblok b{display:flex; align-items:center; gap:7px; font-size:.85rem; margin-bottom:5px}
+.orgblok p{color:var(--muted); font-size:.76rem}
+.orgblok .fte{display:inline-block; margin-top:7px; font-size:.64rem; font-weight:800; color:var(--leren); background:color-mix(in srgb, var(--leren) 13%, transparent); border-radius:99px; padding:2px 9px}
 </style>
 </head>
 <body>
@@ -332,6 +348,11 @@ a{color:var(--rt-deep)}
         <span style="--mc:var(--care)">Newpharma</span><span style="--mc:var(--paars)">Jims</span>
         <span style="--mc:var(--yb)">Yoboo</span><span style="--mc:var(--leren)">Xtra</span>
       </div>
+      <div class="draadband">
+        <span class="tk"><span class="b gr">✓</span>de slimme keuze</span>
+        <span class="tk"><span class="b ht">♥</span>past bij jouw dieet</span>
+        <span class="zin"><b>De rode draad:</b> twee tekens, één meetlat — overal dezelfde plek, dezelfde kleur, met het bewijs ernaast. <a href="#" onclick="setPers('model');return false" style="font-weight:700">⚙️ onder de motorkap →</a></span>
+      </div>
     </div>
   </div>
 </header>
@@ -339,6 +360,7 @@ a{color:var(--rt-deep)}
 <!-- ============ MERK-KIEZER ============ -->
 <div class="persnav">
   <div class="wrap mklinks">
+    <a class="mklink" data-pers="model" href="#" onclick="setPers('model');return false"><b>⚙️ onder de motorkap</b> — wat wél centraal moet →</a>
     <a class="mklink" data-pers="ideeen" href="#" onclick="setPers('ideeen');return false"><b>💡 het ideeënbord</b> — alle ideeën van het panel →</a>
     <a class="mklink" data-pers="visies" href="#" onclick="setPers('visies');return false"><b>⚖️ twee visies</b> — naast elkaar →</a>
   </div>
@@ -840,6 +862,134 @@ a{color:var(--rt-deep)}
 
     <div class="demorow rv">
       <a class="demolink" href="retail-box.html">📦 Demo: de health box-samensteller <small>· retail-box</small></a>
+    </div>
+  </div>
+</section>
+</div>
+
+<!-- ============ PANEL · ONDER DE MOTORKAP ============ -->
+<div class="panel" id="p-model">
+<section>
+  <div class="wrap">
+    <div class="rv">
+      <span class="sec-eyebrow">⚙️ Onder de motorkap</span>
+      <h2 class="sec-title">Wat wél centraal moet — en hoe klein dat kan</h2>
+      <p class="sec-lead">Visie B bouwt geen organisatie. Maar het panel van twaalf is unaniem: vijf dingen moeten uit één bron komen, of de klant krijgt elf dialecten en niemand gelooft nog één label. Dit panel bundelt hun antwoord op drie vragen: welke capabilities centraal, hoe organiseren, en wat is de rode draad die de klant ziet.</p>
+    </div>
+
+    <h3 class="rv" style="margin-top:34px">① Vijf centrale capabilities — en geen zesde</h3>
+    <div class="ideas stagger" style="--ac:var(--p6)">
+      <div class="idea">
+        <div class="h"><span class="ic">📖</span>De meetlat &amp; het lexicon-orgaan</div>
+        <p>Eén definitie van “gezonder” (Nutri-Score per 100 g + het etiket-lexicon), bewaakt door het orgaan van drie met individueel veto en een extern lid. Het beheert óók de swap-criteria en de claims-matrix — wie “gezond” mag zeggen, beslist nooit wie eraan verdient. Food- en pharma-claims zijn twee wetboeken; één orgaan dat beide kent voorkomt dat het ene merk op het rek zet waarvoor het andere een boete krijgt.</p>
+        <div class="zie" style="margin-top:6px">± € 0,2–0,3M/jaar · 3 deeltijdse rollen</div>
+        <div class="bronchips"><span class="bron bm" style="--bc:var(--food)">Thomas</span><span class="bron bm" style="--bc:var(--care)">Karim</span><span class="bron" style="--bc:var(--leren)">Elena</span><span class="bron top" style="--bc:var(--p6)">CEO</span></div>
+      </div>
+      <div class="idea">
+        <div class="h"><span class="ic">📏</span>De meetfabriek</div>
+        <p>Xtra-cohortmeting (nettingsregel, kannibalisatie-nulhypothese), de nulmeting en de jaarlijkse tellingen — uitgevoerd mét de onafhankelijke academische partner als vierde instituut. “Zeven dashboards zijn zeven waarheden”: wie zichzelf meet, meet zich rijk, en zonder één teller is geen enkele vergelijking met visie A eerlijk.</p>
+        <div class="zie" style="margin-top:6px">± € 0,6–0,8M/jaar · 3–4 FTE + extern meetcontract</div>
+        <div class="bronchips"><span class="bron bm" style="--bc:var(--oranje)">An</span><span class="bron" style="--bc:var(--paars)">Jonas</span><span class="bron top" style="--bc:var(--leren)">CFO</span><span class="bron top" style="--bc:var(--p6)">CEO</span></div>
+      </div>
+      <div class="idea">
+        <div class="h"><span class="ic">🪄</span>De swap- &amp; labelmotor</div>
+        <p>Eén rekenlogica als API waaruit álles leest: het groene hoekje op het schap (automatisch mee met de rode etiketten), de mandje-knop in elk kanaal, de post-workout-prijs bij Jims. Kanaal-verschillen zijn filterparameters, geen tweede motor — je kan geen “sorteert nooit op onze omzet” laten auditen over zeven zwarte dozen.</p>
+        <div class="zie" style="margin-top:6px">± € 0,4–0,6M/jaar · 2–3 FTE na de eenmalige sprints</div>
+        <div class="bronchips"><span class="bron bm" style="--bc:var(--blauw)">Sofie</span><span class="bron bm" style="--bc:var(--paars)">Vicky · prijs-sync</span><span class="bron" style="--bc:var(--paars)">Jonas</span></div>
+      </div>
+      <div class="idea">
+        <div class="h"><span class="ic">🔐</span>Xtra-identiteit &amp; de datagrens</div>
+        <p>Eén klant-ID over alle enseignes, de consent-flows (het lid scant zélf), cohortminimum 200, en de verwijderknop die dóórwerkt in alle cohorten. Identiteit centraal — inzicht niet: er komt géén centrale gezondheidsdatabank, want zodra koopgedrag een gezondheidsinterpretatie krijgt, is het artikel 9-data. Dat bepaalt de groeps-DPO, nooit een merk-marketeer.</p>
+        <div class="zie" style="margin-top:6px">bestaande Xtra-ploeg als huisdienst · groeps-DPO bewaakt</div>
+        <div class="bronchips"><span class="bron bm" style="--bc:var(--care)">Karim</span><span class="bron bm" style="--bc:var(--paars)">Vicky</span><span class="bron" style="--bc:var(--rtw)">Fatima</span><span class="bron" style="--bc:var(--leren)">Elena</span></div>
+      </div>
+      <div class="idea">
+        <div class="h"><span class="ic">🗂️</span>Taalbeheer &amp; portfolio-controlling</div>
+        <p>De zes-pijler-pictogrammen, het bolleke en het hartje als één ontwerpbibliotheek die de merken afnemen (identiek, of het is geen taal) — plus één controller op de B-som-tab, de vervaldata en de begrafenispagina. Publicaties zijn van de gróep: een merk dat zijn eigen falen publiceert, publiceert selectief.</p>
+        <div class="zie" style="margin-top:6px">± € 0,25M/jaar · 1,5 FTE</div>
+        <div class="bronchips"><span class="bron" style="--bc:var(--blauw)">Luc · één plek, één kleur</span><span class="bron" style="--bc:var(--leren)">Elena</span><span class="bron top" style="--bc:var(--leren)">CFO</span></div>
+      </div>
+      <div class="idea" style="--ac:var(--care)">
+        <div class="h"><span class="ic">🚫</span>Wat er uitdrukkelijk NIET bij hoort</div>
+        <p>Geen mandje-knop-ploeg die kanalen bouwt, geen box-samenstelling, geen folderritmes of promovoering, geen schortje-roosters — dat is commerce en commerce is van de merken. En geen “health programmamanagement”: zodra iemand centraal een roadmap voor de merken schrijft, is visie A binnen via de personeelsingang.</p>
+        <div class="bronchips"><span class="bron top" style="--bc:var(--p6)">CEO</span><span class="bron" style="--bc:var(--paars)">Jonas</span><span class="bron bm" style="--bc:var(--oranje)">An · prijszetting blijft van de merken</span></div>
+      </div>
+    </div>
+
+    <h3 class="rv" style="margin-top:40px">② De organisatievorm: een reglement met bewakers, geen afdeling</h3>
+    <div class="orgfig stagger">
+      <div class="orgblok"><b>⚖️ Het lexicon-orgaan</b><p>Drie mensen, individueel veto, minstens één extern (vaste termijn, niet afzetbaar door de merken). Rapporteert aan de raad — er bestaat géén health-directeur. Beheert meetlat, lexicon, swap-criteria, claims-matrix en de taaltekens; publiceert alles mét argumenten.</p><span class="fte">3 deeltijds</span></div>
+      <div class="orgblok"><b>🧰 De groepscel</b><p>Meetfabriek + swap-/labelmotor + taalbeheer + controlling: een werkbank, geen directie. De kanalen bouwen zélf hun UI tegen de API; de cel bouwt nooit klantgerichte dingen.</p><span class="fte">± 7–9 FTE · € 1,5–2M/j</span></div>
+      <div class="orgblok"><b>🔄 De roterende coördinator</b><p>Deeltijds, gedetacheerd uit een merk, wisselt elke twee jaar. Houdt de meetlat-kalender en de begrafenispagina bij en rapporteert aan de CFO — want meten is diens vak.</p><span class="fte">0,5 FTE, roteert</span></div>
+      <div class="orgblok"><b>🤝 Het virtuele gilde</b><p>Eén aangeduide mens per enseigne, die op de payroll van het eigen merk blíjft. Dáár gebeurt de alignment: categorie-volgorde, pilotkeuze, folderritme.</p><span class="fte">0 extra FTE</span></div>
+    </div>
+
+    <div class="spanning rv" style="border-left-color:var(--p6)">
+      <span class="k" style="color:var(--p6)">🧪 De toets van Jonas — wanneer wordt het tóch een afdeling?</span>
+      <p>“De test is simpel: kan de centrale laag een merk iets <b>verbieden</b>? Ja = geloofwaardig. Kan ze alleen dingen <b>lanceren</b>? Dan is het marketing.” Daarom de grendels: het orgaan mag niets bouwen en niets uitvoeren; geen eigen P&amp;L of initiatievenbudget; headcount-groei alleen via raadsbeslissing; een zesde capability krijgt pas budget als er één sterft; en de begrafenisregel geldt óók voor de motorkap zelf. Boekingsregel van de CFO: de cel is groepskost (méten is gratis — dat wil je aanmoedigen), de uitvoering wordt doorbelast per initiatief (lancéren kost het merk geld — dat moet het verdienen). Jaarlijkse vraag op de CEO-agenda: “wat is er centraal bijgekomen, en waarom mocht dat?”</p>
+    </div>
+
+    <h3 class="rv" style="margin-top:40px">③ Centraal vastpakken vs. alignment tussen de enseignes</h3>
+    <p class="sec-lead rv" style="margin-top:6px">Elena’s scheidslijn: <b>verschil in aanbod is retail; verschil in waarheid is bedrog.</b> Alles waar verschil de klant zou misleiden is bindend; waar verschil eerlijk is, volstaat een afspraak.</p>
+    <div class="ringen rv">
+      <div class="ring wel" style="border-color:color-mix(in srgb, var(--p6) 45%, transparent); background:color-mix(in srgb, var(--p6) 8%, transparent)">
+        <h4>Bindend centraal — één eigenaar</h4>
+        <ul>
+          <li>Het etiket-lexicon, de Nutri-regel en élke claim-formulering (lexicon-orgaan)</li>
+          <li>De swap-criteria &amp; sorteerlogica, extern geaudit (orgaan + academische partner)</li>
+          <li>De betekenis en vormgeving van bolleke, hartje en de zes pijlers (ontwerpbibliotheek)</li>
+          <li>De meetlat-methodiek: cohort, netting, nulhypothese, vervaldatum (coördinator/CFO)</li>
+          <li>Xtra-datadeontologie: consent, cohort ≥ 200, doorwerkende verwijderknop (groeps-DPO)</li>
+          <li>Het 55%-doel, de publicaties en de begrafenispagina (groep + academische partner)</li>
+          <li>De juridische rode lijnen: EFSA, MDR, reclame-KB, Orde (groepsjurist)</li>
+          <li>Prijs-waarheid: één live prijsbron voor etiket, deal en lijstje — of geen prijs</li>
+        </ul>
+      </div>
+      <div class="ring niet" style="border-color:color-mix(in srgb, var(--leren) 45%, transparent); background:color-mix(in srgb, var(--leren) 8%, transparent)">
+        <h4>Alignment volstaat — de merken beslissen</h4>
+        <ul style="--x:1">
+          <li>Welke categorieën eerst het schaplabel krijgen (categorieforum)</li>
+          <li>Folderritme, promokalender en de prijszétting zelf — die blijft van de merken, punt</li>
+          <li>UI en toon per kanaal (An’s euro-taal ≠ Thomas’ etiket-taal — dat verschil is eerlijk)</li>
+          <li>Schortje-invulling, receptkaartjes, kookavonden, wandelclubs, herstelhoek</li>
+          <li>Boxsamenstelling (de vijf-merken-werkbank), B2B-formules, pilotkeuze</li>
+          <li>Spar-franchisetempo — binnen het ene niet-onderhandelbare</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3 class="rv" style="margin-top:40px">④ De rode draad — bewijs vóór teken</h3>
+    <div class="ceoquote rv" style="margin-top:14px; border-left-color:var(--rt)">
+      <p>De draad is geen merk en geen campagne, maar <em>een bewijsstempel die overal terugkomt</em>: twee tekens uit één meetlat, op een vaste plek, in een vaste kleur, met het bewijs ernaast.</p>
+      <small>De synthese van twaalf stemmen — “de draad moet je kunnen zíen zonder dat iemand hem uitspreekt” (Fatima).</small>
+    </div>
+    <div class="ideas stagger" style="--ac:var(--rt)">
+      <div class="idea">
+        <div class="h"><span class="ic">✓</span>Het bolleke — “de slimme keuze”</div>
+        <p>Hét huisteken: staat uitsluitend op de goedkoopste gezonde variant volgens de meetlat. Op het rode etiket, op elke swap van de mandje-knop, op de folderpagina, op de zuil, op de box. Met twee woorden eronder, overal identiek: <b>“Slim gekozen.”</b> Geen logo, geen naam, geen app-vereiste.</p>
+        <div class="bronchips"><span class="bron bm" style="--bc:var(--oranje)">An</span><span class="bron bm" style="--bc:var(--blauw)">Sofie</span><span class="bron" style="--bc:var(--rtw)">Fatima · "slim kopen" zijn míjn woorden</span><span class="bron top" style="--bc:var(--p6)">CEO</span></div>
+      </div>
+      <div class="idea">
+        <div class="h"><span class="ic">♥</span>Het hartje — “past bij jouw dieet”</div>
+        <p>Het dieetteken (bv. weinig zout): altijd linksboven op het etiket, altijd hetzelfde groen-rood, in de Colruyt, de Bio-Planet én bij de apotheker. “Zet dat teken tien jaar consequent overal op, en de mensen geven er zélf een naam aan — volg het hartje, meer moet dat niet zijn.” Samen op één etiket vertellen bolleke en hartje het hele verhaal: gezond én goedkoopst.</p>
+        <div class="bronchips"><span class="bron" style="--bc:var(--blauw)">Luc</span><span class="bron" style="--bc:var(--coral)">Rita · op producten, nooit op mij</span><span class="bron bm" style="--bc:var(--paars)">Vicky</span></div>
+      </div>
+      <div class="idea">
+        <div class="h"><span class="ic">🔎</span>Het bewijs ernaast</div>
+        <p>Op elke plek waar het teken staat, één leesbare regel: <b>“onafhankelijk geteld: vorig jaar was X% van onze voorstellen goedkoper of gelijk — [naam universiteit].”</b> Teken vóór bewijs = merkplatform; bewijs vóór teken = draad. De draad is falsifieerbaar: Jonas kan hem natellen, Rita kan hem gewoon volgen.</p>
+        <div class="bronchips"><span class="bron" style="--bc:var(--paars)">Jonas</span><span class="bron" style="--bc:var(--leren)">Elena · een stempel kan je verliezen, een merk niet</span></div>
+      </div>
+      <div class="idea" style="--ac:var(--care)">
+        <div class="h"><span class="ic">🚫</span>De grenzen van de draad</div>
+        <p>Nooit een belofte over de persóón: geen score, geen niveau, geen “jouw bolleke-profiel” — dan is het een health-merk en staat visie A binnen (CEO-veto via het orgaan). Geen campagne, geen mascotte, geen “wij maken België gezonder” — “zodra jullie de draad harder roepen dan ik hem merk, is hij kapot” (Fatima). Op pharma-schappen geen teken op productniveau (claim-risico, Karim). En het teken hangt alleen waar de teller het haalt — anders gaat het eraf, ook bij Colruyt zelf.</p>
+        <div class="bronchips"><span class="bron top" style="--bc:var(--p6)">CEO</span><span class="bron" style="--bc:var(--rtw)">Fatima</span><span class="bron bm" style="--bc:var(--care)">Karim</span><span class="bron" style="--bc:var(--coral)">Rita</span></div>
+      </div>
+    </div>
+
+    <div class="omzet rv">
+      <span class="k">💶 Wat de draad kost — en wanneer hij sterft</span>
+      <p>Ontwerp eenmalig ± € 50k, daarna nul: de draad lift mee op dragers die er al zijn (etiket, folder, app, bon). Meting: twee vragen in de bestaande merkentracker (“waar zag u dit teken?” · “welke huizen horen bij elkaar?”) + de kassavraag van het schortje, ± € 30k/jaar. Stijgt de herkenning binnen 18 maanden niet boven de nulmeting, dan wordt óók de draad begraven — op dezelfde pagina als de rest. Geen meting, geen budget; ook niet voor de rode draad.</p>
+      <p class="cfo">Totaal motorkap: ± 7–9 FTE en € 1,5–2M/jaar — past bínnen de run-kost van € 1,5–3M die al in de B-som staat, mits schortje-uren en derving bij de merken blijven.</p>
     </div>
   </div>
 </section>
